@@ -1,0 +1,17 @@
+# Rust
+/target
+
+# Frontend
+node_modules/
+web/dist/
+
+# Kane CLI
+.testmuai/evidence/
+*.ndjson
+
+# Secrets
+secrets/
+.env
+
+# Local Kane run logs
+.kane-logs/
