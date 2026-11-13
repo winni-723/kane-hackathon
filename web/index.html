@@ -34,21 +34,31 @@
         min-height: 3rem;
         background: #f6f6f6;
       }
-      #error {
+      .error {
         color: #b00020;
+      }
+      [hidden] {
+        display: none !important;
       }
     </style>
   </head>
   <body>
     <h1>Medical Record De-identifier</h1>
 
-    <label for="input">Medical record text</label>
-    <textarea id="input" placeholder="Paste a medical record here"></textarea>
-    <button id="process" type="button">Process</button>
+    <!-- Only one panel is on screen at a time, so the original text and the
+         de-identified result never appear together. -->
+    <section id="input-panel" aria-labelledby="input-heading">
+      <h2 id="input-heading">Original record</h2>
+      <label for="input">Medical record text</label>
+      <textarea id="input" placeholder="Paste a medical record here"></textarea>
+      <button id="process" type="button">Process</button>
+    </section>
 
-    <h2>Result</h2>
-    <pre id="output" aria-live="polite"></pre>
-    <p id="error" role="alert"></p>
+    <section id="result-panel" aria-labelledby="result-heading" hidden>
+      <h2 id="result-heading">Result</h2>
+      <pre id="output" aria-label="De-identified result" aria-live="polite"></pre>
+      <button id="edit" type="button">Edit original</button>
+    </section>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

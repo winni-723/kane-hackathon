@@ -66,6 +66,17 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 - 單一 objective 控制在約 15 步內。
 - 不可寫需要中途輸入的步驟。
 
+### 檢查方法（步驟 0 實驗結論，2026-11-13）
+
+以下每一條都用對照組驗證過（故意讓不該出現的文字出現，確認 Kane 會判定失敗）。
+
+- **絕對不要同時平行執行多個 `kane-cli run`。** 它們會共用同一個瀏覽器，互相把文字打進對方的頁面，結果完全不可信。一次只跑一個；要平行就用 `kane-cli testrun run --parallel`。
+- **檢查一律限定在 Result 區**，寫成 `verify that the Result region contains the text '...'` 與 `verify that the Result region does not contain the text '...'`。這樣 Kane 會對 Result 區做精確的 DOM 字串比對（`innerText.includes(...)`）。
+- **每個流程至少要有一個「存在」檢查搭配「不存在」檢查。** 如果文字沒有成功輸入或 Kane 看錯區域，「存在」檢查會先失敗。
+- **病歷文字用變數檔傳入**（`--variables-file`，objective 裡寫 `{{record}}`），不要寫在 objective 字串裡。多行文字已驗證可原樣輸入。
+- **每次執行後用 `node scripts/kane-summary.mjs <log>` 看 Kane 實際檢查了哪個元素。** `locators` 應該是 Result 區；若是別的元素或 `analyzer=visual` 且沒有 locator，該次結果不可信，要重寫 objective。
+- 頁面設計配合檢查：輸入區與 Result 區同一時間只顯示一個，錯誤訊息元素只在出錯時才存在。不要加入空白的佔位元素，Kane 曾把空的錯誤訊息元素誤認為 Result 區。
+
 ### Credits
 
 - 第一次執行會「撰寫」每個步驟並扣 credits；之後未變動的步驟以錄製重播，不扣 credits。

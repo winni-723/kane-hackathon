@@ -8,10 +8,43 @@ function mustGet<T extends HTMLElement>(id: string): T {
   return el as T;
 }
 
+const inputPanel = mustGet<HTMLElement>("input-panel");
+const resultPanel = mustGet<HTMLElement>("result-panel");
 const input = mustGet<HTMLTextAreaElement>("input");
-const button = mustGet<HTMLButtonElement>("process");
+const processButton = mustGet<HTMLButtonElement>("process");
+const editButton = mustGet<HTMLButtonElement>("edit");
 const output = mustGet<HTMLPreElement>("output");
-const error = mustGet<HTMLParagraphElement>("error");
+
+// The error message exists in the page only while there is an error, so an
+// empty placeholder can never be mistaken for the result area.
+let errorEl: HTMLParagraphElement | null = null;
+
+function clearError(): void {
+  errorEl?.remove();
+  errorEl = null;
+}
+
+function showError(message: string): void {
+  clearError();
+  errorEl = document.createElement("p");
+  errorEl.className = "error";
+  errorEl.setAttribute("role", "alert");
+  errorEl.textContent = message;
+  inputPanel.append(errorEl);
+}
+
+function showResult(text: string): void {
+  output.textContent = text;
+  inputPanel.hidden = true;
+  resultPanel.hidden = false;
+}
+
+function showInput(): void {
+  output.textContent = "";
+  resultPanel.hidden = true;
+  inputPanel.hidden = false;
+  input.focus();
+}
 
 async function processText(text: string): Promise<string> {
   const res = await fetch("/api/process", {
@@ -24,15 +57,16 @@ async function processText(text: string): Promise<string> {
   return data.text;
 }
 
-button.addEventListener("click", async () => {
-  error.textContent = "";
-  button.disabled = true;
+processButton.addEventListener("click", async () => {
+  clearError();
+  processButton.disabled = true;
   try {
-    output.textContent = await processText(input.value);
+    showResult(await processText(input.value));
   } catch (e) {
-    output.textContent = "";
-    error.textContent = e instanceof Error ? e.message : "Request failed";
+    showError(e instanceof Error ? e.message : "Request failed");
   } finally {
-    button.disabled = false;
+    processButton.disabled = false;
   }
 });
+
+editButton.addEventListener("click", showInput);
