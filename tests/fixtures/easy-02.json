@@ -1,0 +1,50 @@
+{
+  "record_id": "easy-02",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nName: Marcus Delgado\nDate of Birth: 11/02/1971\nPhone: 415-555-0117\nEmail: marcus.delgado@example.com\nAddress: 1260 Juniper Court, Apt 4B, Alder Creek, CA 94016\nSSN: 987-65-4321\n\nReason for Visit: Routine follow-up for type 2 diabetes mellitus.\nLabs: HbA1c 7.8%, fasting glucose 152 mg/dL.\nMedications: Metformin 1000 mg twice daily.\nAssessment: Glycemic control suboptimal. Add Empagliflozin 10 mg daily.\nFollow-up: Repeat HbA1c in 3 months.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Marcus Delgado"
+    },
+    {
+      "type": "dob",
+      "text": "11/02/1971"
+    },
+    {
+      "type": "phone",
+      "text": "415-555-0117"
+    },
+    {
+      "type": "email",
+      "text": "marcus.delgado@example.com"
+    },
+    {
+      "type": "address",
+      "text": "1260 Juniper Court"
+    },
+    {
+      "type": "address",
+      "text": "Apt 4B"
+    },
+    {
+      "type": "address",
+      "text": "Alder Creek"
+    },
+    {
+      "type": "address",
+      "text": "94016"
+    },
+    {
+      "type": "ssn",
+      "text": "987-65-4321"
+    }
+  ],
+  "must_keep": [
+    "type 2 diabetes mellitus",
+    "HbA1c 7.8%",
+    "152 mg/dL",
+    "Metformin 1000 mg twice daily",
+    "Empagliflozin 10 mg daily"
+  ]
+}

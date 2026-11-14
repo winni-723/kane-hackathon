@@ -1,0 +1,48 @@
+{
+  "record_id": "medium-06",
+  "difficulty": "medium",
+  "text": "Pediatric Visit\n\nMother, Farah Haddad, brings in her 4-year-old son Zayd with fever of 102.4 F and right ear pain for two days. Zayd attends preschool and two classmates were recently sick. Father Karim is traveling but asked to be updated by text at 248-555-0163.\n\nExam shows a bulging, erythematous right tympanic membrane. Diagnosis: acute otitis media. Prescribed Amoxicillin 400 mg twice daily for 10 days and Acetaminophen 160 mg every 6 hours as needed. Return if fever persists beyond 48 hours. Zayd's birthday is 08/21/2021. The family lives at 56 Orchard Wren Circle, Halvorsen Mills, MI 48399.",
+  "planted_pii": [
+    {
+      "type": "relative_name",
+      "text": "Farah Haddad"
+    },
+    {
+      "type": "name",
+      "text": "Zayd"
+    },
+    {
+      "type": "relative_name",
+      "text": "Karim"
+    },
+    {
+      "type": "phone",
+      "text": "248-555-0163"
+    },
+    {
+      "type": "dob",
+      "text": "08/21/2021"
+    },
+    {
+      "type": "address",
+      "text": "56 Orchard Wren Circle"
+    },
+    {
+      "type": "address",
+      "text": "Halvorsen Mills"
+    },
+    {
+      "type": "address",
+      "text": "48399"
+    }
+  ],
+  "must_keep": [
+    "4-year-old son",
+    "fever of 102.4 F",
+    "right ear pain for two days",
+    "acute otitis media",
+    "Amoxicillin 400 mg twice daily for 10 days",
+    "Acetaminophen 160 mg every 6 hours as needed",
+    "beyond 48 hours"
+  ]
+}

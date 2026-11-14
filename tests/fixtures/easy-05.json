@@ -1,0 +1,43 @@
+{
+  "record_id": "easy-05",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nPatient: Amara Okafor\nDate of Birth: 09/18/2015\nParent/Guardian: Chinedu Okafor\nGuardian Phone: (713) 555-0176\nAddress: 3305 Pecan Grove Street, Marlow Springs, TX 77099\n\nChief Complaint: Wheezing and nighttime cough for 3 days.\nDiagnosis: Mild persistent asthma, acute exacerbation.\nMedications: Albuterol inhaler 2 puffs every 4 hours as needed; Fluticasone 44 mcg twice daily.\nVitals: SpO2 95% on room air, respiratory rate 28.\nPlan: Asthma action plan reviewed with family.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Amara Okafor"
+    },
+    {
+      "type": "dob",
+      "text": "09/18/2015"
+    },
+    {
+      "type": "relative_name",
+      "text": "Chinedu Okafor"
+    },
+    {
+      "type": "phone",
+      "text": "(713) 555-0176"
+    },
+    {
+      "type": "address",
+      "text": "3305 Pecan Grove Street"
+    },
+    {
+      "type": "address",
+      "text": "Marlow Springs"
+    },
+    {
+      "type": "address",
+      "text": "77099"
+    }
+  ],
+  "must_keep": [
+    "Wheezing and nighttime cough for 3 days",
+    "Mild persistent asthma",
+    "Albuterol inhaler 2 puffs every 4 hours as needed",
+    "Fluticasone 44 mcg twice daily",
+    "SpO2 95% on room air",
+    "respiratory rate 28"
+  ]
+}

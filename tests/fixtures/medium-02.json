@@ -1,0 +1,47 @@
+{
+  "record_id": "medium-02",
+  "difficulty": "medium",
+  "text": "ED Triage Note\n\nPatient is Hector Salazar, a 45-year-old man brought in by his brother Luis after two hours of crushing substernal chest pain radiating to the left arm. Luis can be reached at 213-555-0147 and says Hector lives with him at 902 Alameda Verde Avenue, Santa Rilla, CA.\n\nECG shows ST elevation in leads II, III and aVF. Troponin I is 3.2 ng/mL. Diagnosis: acute inferior myocardial infarction. Aspirin 325 mg chewed, Heparin bolus given, cardiology paged for emergent catheterization. Hector's date of birth is 06/17/1980 and his record number is 55801276.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Hector Salazar"
+    },
+    {
+      "type": "name",
+      "text": "Hector"
+    },
+    {
+      "type": "relative_name",
+      "text": "Luis"
+    },
+    {
+      "type": "phone",
+      "text": "213-555-0147"
+    },
+    {
+      "type": "address",
+      "text": "902 Alameda Verde Avenue"
+    },
+    {
+      "type": "address",
+      "text": "Santa Rilla"
+    },
+    {
+      "type": "dob",
+      "text": "06/17/1980"
+    },
+    {
+      "type": "mrn",
+      "text": "55801276"
+    }
+  ],
+  "must_keep": [
+    "45-year-old man",
+    "crushing substernal chest pain",
+    "ST elevation in leads II, III and aVF",
+    "Troponin I is 3.2 ng/mL",
+    "acute inferior myocardial infarction",
+    "Aspirin 325 mg chewed"
+  ]
+}

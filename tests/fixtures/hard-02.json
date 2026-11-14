@@ -1,0 +1,44 @@
+{
+  "record_id": "hard-02",
+  "difficulty": "hard",
+  "text": "Neurology Consult\n\nReferred by the family physician for evaluation of memory loss. The patient, a retired schoolteacher whom staff know as Dottie (legal name Dorothea M. Vance), scored 19 out of 30 on the Montreal Cognitive Assessment. D. Vance's son reports she got lost walking back to her apartment over the pharmacy on Kessler Street.\n\nImpression: probable Alzheimer's disease, mild stage. MRI shows hippocampal atrophy without evidence of Lewy body pathology. Start Donepezil 5 mg nightly. Discussed driving safety with the son, Mr. Vance, reachable at area code 617, 555-0156. DOB: the fourth of July, 1944.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Dottie"
+    },
+    {
+      "type": "name",
+      "text": "Dorothea M. Vance"
+    },
+    {
+      "type": "name",
+      "text": "D. Vance"
+    },
+    {
+      "type": "address",
+      "text": "apartment over the pharmacy on Kessler Street"
+    },
+    {
+      "type": "relative_name",
+      "text": "Mr. Vance"
+    },
+    {
+      "type": "phone",
+      "text": "area code 617, 555-0156"
+    },
+    {
+      "type": "dob",
+      "text": "the fourth of July, 1944"
+    }
+  ],
+  "must_keep": [
+    "evaluation of memory loss",
+    "19 out of 30",
+    "Montreal Cognitive Assessment",
+    "probable Alzheimer's disease",
+    "hippocampal atrophy",
+    "Lewy body pathology",
+    "Donepezil 5 mg nightly"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "record_id": "medium-04",
+  "difficulty": "medium",
+  "text": "Discharge Summary\n\nThis 81-year-old man, Bernard Kowalczyk, was admitted with community-acquired pneumonia. He was treated with Ceftriaxone 1 g IV daily and Azithromycin 500 mg daily, and oxygen was weaned to room air by day 3.\n\nBernard will be discharged to the home of his son, Peter Kowalczyk, at 740 Sycamore Hollow Road, Graniteville Park, PA 19199. Peter's phone is (215) 555-0186. Visiting nurse services should use the patient's social security number 987-65-4329 for enrollment. Continue Amoxicillin-Clavulanate 875 mg twice daily for 5 more days. Follow-up chest X-ray in 6 weeks.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Bernard Kowalczyk"
+    },
+    {
+      "type": "name",
+      "text": "Bernard"
+    },
+    {
+      "type": "relative_name",
+      "text": "Peter Kowalczyk"
+    },
+    {
+      "type": "relative_name",
+      "text": "Peter"
+    },
+    {
+      "type": "address",
+      "text": "740 Sycamore Hollow Road"
+    },
+    {
+      "type": "address",
+      "text": "Graniteville Park"
+    },
+    {
+      "type": "address",
+      "text": "19199"
+    },
+    {
+      "type": "phone",
+      "text": "(215) 555-0186"
+    },
+    {
+      "type": "ssn",
+      "text": "987-65-4329"
+    }
+  ],
+  "must_keep": [
+    "81-year-old man",
+    "community-acquired pneumonia",
+    "Ceftriaxone 1 g IV daily",
+    "Azithromycin 500 mg daily",
+    "Amoxicillin-Clavulanate 875 mg twice daily for 5 more days",
+    "Follow-up chest X-ray in 6 weeks"
+  ]
+}

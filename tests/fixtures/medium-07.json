@@ -1,0 +1,59 @@
+{
+  "record_id": "medium-07",
+  "difficulty": "medium",
+  "text": "Pre-operative Assessment\n\nSamuel Oyelaran, 58, is scheduled for laparoscopic cholecystectomy for symptomatic cholelithiasis. He confirmed his contact details at check-in: home phone (404) 555-0135, email s.oyelaran@example.net. His wife Bisi will drive him home and can be reached on 404-555-0172.\n\nPast history includes hypertension controlled on Amlodipine 5 mg daily. No known drug allergies. ASA class II. Hold Amlodipine on the morning of surgery; nothing by mouth after midnight. Samuel was born on 3/8/1967. Chart number 60917734. Post-operative instructions will be mailed to 1408 Peachtree Hollow Way, Dunlow Crossing, GA 30399.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Samuel Oyelaran"
+    },
+    {
+      "type": "name",
+      "text": "Samuel"
+    },
+    {
+      "type": "phone",
+      "text": "(404) 555-0135"
+    },
+    {
+      "type": "email",
+      "text": "s.oyelaran@example.net"
+    },
+    {
+      "type": "relative_name",
+      "text": "Bisi"
+    },
+    {
+      "type": "phone",
+      "text": "404-555-0172"
+    },
+    {
+      "type": "dob",
+      "text": "3/8/1967"
+    },
+    {
+      "type": "mrn",
+      "text": "60917734"
+    },
+    {
+      "type": "address",
+      "text": "1408 Peachtree Hollow Way"
+    },
+    {
+      "type": "address",
+      "text": "Dunlow Crossing"
+    },
+    {
+      "type": "address",
+      "text": "30399"
+    }
+  ],
+  "must_keep": [
+    "laparoscopic cholecystectomy",
+    "symptomatic cholelithiasis",
+    "Amlodipine 5 mg daily",
+    "No known drug allergies",
+    "ASA class II",
+    "nothing by mouth after midnight"
+  ]
+}

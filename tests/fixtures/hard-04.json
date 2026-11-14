@@ -1,0 +1,48 @@
+{
+  "record_id": "hard-04",
+  "difficulty": "hard",
+  "text": "Psychiatry Intake\n\nPt is a 34 y/o veteran, first name Malik, last name spelled O-S-E-I, self-referred for nightmares and hypervigilance since deployment. He prefers to be called Mal. Lives in the trailer park off Route 9 just past the Dunmore grain silo with his mother, Mrs. Osei.\n\nPCL-5 score is 52. Diagnosis: post-traumatic stress disorder. Start Sertraline 50 mg daily and Prazosin 1 mg at bedtime for nightmares. Columbia Suicide Severity Rating Scale negative for current ideation. Safety plan completed. Mother's landline: (518) 555 0118. He gave his birthday as March 3rd, '91 and his SSN as 000 12 3456.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Malik"
+    },
+    {
+      "type": "name",
+      "text": "O-S-E-I"
+    },
+    {
+      "type": "name",
+      "text": "Mal"
+    },
+    {
+      "type": "address",
+      "text": "trailer park off Route 9 just past the Dunmore grain silo"
+    },
+    {
+      "type": "relative_name",
+      "text": "Mrs. Osei"
+    },
+    {
+      "type": "phone",
+      "text": "(518) 555 0118"
+    },
+    {
+      "type": "dob",
+      "text": "March 3rd, '91"
+    },
+    {
+      "type": "ssn",
+      "text": "000 12 3456"
+    }
+  ],
+  "must_keep": [
+    "34 y/o veteran",
+    "nightmares and hypervigilance",
+    "PCL-5 score is 52",
+    "post-traumatic stress disorder",
+    "Sertraline 50 mg daily",
+    "Prazosin 1 mg at bedtime",
+    "Columbia Suicide Severity Rating Scale"
+  ]
+}

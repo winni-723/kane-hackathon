@@ -1,0 +1,46 @@
+{
+  "record_id": "easy-04",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nName: Walter Nakamura\nDOB: 01/05/1946\nPhone: 206.555.0108\nAddress: 9 Thistle Ridge Drive, Corwin Bay, WA 98199\nMRN: 77120345\nInsurance ID: HX-4490217\n\nChief Complaint: Resting tremor of the right hand and slowed gait.\nDiagnosis: Parkinson's disease, Hoehn and Yahr stage 2.\nMedications: Carbidopa-Levodopa 25-100 mg three times daily.\nPlan: Physical therapy referral, fall precautions.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Walter Nakamura"
+    },
+    {
+      "type": "dob",
+      "text": "01/05/1946"
+    },
+    {
+      "type": "phone",
+      "text": "206.555.0108"
+    },
+    {
+      "type": "address",
+      "text": "9 Thistle Ridge Drive"
+    },
+    {
+      "type": "address",
+      "text": "Corwin Bay"
+    },
+    {
+      "type": "address",
+      "text": "98199"
+    },
+    {
+      "type": "mrn",
+      "text": "77120345"
+    },
+    {
+      "type": "insurance_id",
+      "text": "HX-4490217"
+    }
+  ],
+  "must_keep": [
+    "Resting tremor of the right hand",
+    "Parkinson's disease",
+    "Hoehn and Yahr stage 2",
+    "Carbidopa-Levodopa 25-100 mg three times daily",
+    "fall precautions"
+  ]
+}

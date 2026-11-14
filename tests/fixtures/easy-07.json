@@ -1,0 +1,50 @@
+{
+  "record_id": "easy-07",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nName: Tobias Lindqvist\nDOB: 05/22/1980\nPhone: (612) 555-0129\nWork Phone: (612) 555-0181\nAddress: 204 Birchwater Trail, Ellery Falls, MN 55499\nEmergency Contact: Ingrid Lindqvist (wife) - (612) 555-0102\n\nChief Complaint: Right knee pain and swelling after a twisting injury.\nImaging: MRI shows a medial meniscus tear.\nDiagnosis: Medial meniscus tear, right knee.\nMedications: Ibuprofen 600 mg every 8 hours with food.\nPlan: Orthopedic referral for arthroscopy, crutches, ice 20 minutes three times daily.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Tobias Lindqvist"
+    },
+    {
+      "type": "dob",
+      "text": "05/22/1980"
+    },
+    {
+      "type": "phone",
+      "text": "(612) 555-0129"
+    },
+    {
+      "type": "phone",
+      "text": "(612) 555-0181"
+    },
+    {
+      "type": "address",
+      "text": "204 Birchwater Trail"
+    },
+    {
+      "type": "address",
+      "text": "Ellery Falls"
+    },
+    {
+      "type": "address",
+      "text": "55499"
+    },
+    {
+      "type": "relative_name",
+      "text": "Ingrid Lindqvist"
+    },
+    {
+      "type": "phone",
+      "text": "(612) 555-0102"
+    }
+  ],
+  "must_keep": [
+    "Right knee pain and swelling",
+    "MRI shows a medial meniscus tear",
+    "Ibuprofen 600 mg every 8 hours with food",
+    "arthroscopy",
+    "ice 20 minutes three times daily"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "record_id": "hard-03",
+  "difficulty": "hard",
+  "text": "Oncology Follow-up\n\nJ. R. Abernathy-Cole (goes by June) returns after cycle 3 of ABVD chemotherapy for Hodgkin lymphoma, stage IIA. She tolerated treatment well apart from grade 1 nausea managed with Ondansetron 8 mg as needed.\n\nPET scan shows a Deauville score of 2, consistent with complete metabolic response. Continue Doxorubicin-based regimen for one more cycle. June mentioned she has moved in with her partner Rhea in the blue duplex behind St. Brendan's church in Calloway Flats. Best contact is now Rhea's line: 5 5 5 - 0 1 0 9. Born 22 Nov 1991. Old chart no. was 4471-208-93.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "J. R. Abernathy-Cole"
+    },
+    {
+      "type": "name",
+      "text": "June"
+    },
+    {
+      "type": "relative_name",
+      "text": "Rhea"
+    },
+    {
+      "type": "address",
+      "text": "blue duplex behind St. Brendan's church"
+    },
+    {
+      "type": "address",
+      "text": "Calloway Flats"
+    },
+    {
+      "type": "phone",
+      "text": "5 5 5 - 0 1 0 9"
+    },
+    {
+      "type": "dob",
+      "text": "22 Nov 1991"
+    },
+    {
+      "type": "mrn",
+      "text": "4471-208-93"
+    }
+  ],
+  "must_keep": [
+    "cycle 3 of ABVD chemotherapy",
+    "Hodgkin lymphoma, stage IIA",
+    "Ondansetron 8 mg as needed",
+    "Deauville score of 2",
+    "complete metabolic response",
+    "Doxorubicin-based regimen"
+  ]
+}

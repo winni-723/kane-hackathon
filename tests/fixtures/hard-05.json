@@ -1,0 +1,45 @@
+{
+  "record_id": "hard-05",
+  "difficulty": "hard",
+  "text": "Nephrology Clinic\n\nSeen with interpreter. Patient's name is recorded two ways in our system: NGUYEN, Thi Lan and Lan T. Nguyen. Stage 4 chronic kidney disease secondary to IgA nephropathy; eGFR is 22 mL/min. Blood pressure 148/92 despite Losartan 100 mg daily.\n\nAdd Amlodipine 10 mg daily. Discussed dialysis access planning and referred for arteriovenous fistula evaluation. Kayexalate not required; potassium is 4.9. Her nephew Bao translates at home and asked for results by email at bao.ng88@example.com or on his cell, 555.0177 (same area code as the clinic). They live three doors down from the Lotus Garden restaurant on Ferrow Avenue. D.O.B. 1962-05-27.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "NGUYEN, Thi Lan"
+    },
+    {
+      "type": "name",
+      "text": "Lan T. Nguyen"
+    },
+    {
+      "type": "relative_name",
+      "text": "Bao"
+    },
+    {
+      "type": "email",
+      "text": "bao.ng88@example.com"
+    },
+    {
+      "type": "phone",
+      "text": "555.0177"
+    },
+    {
+      "type": "address",
+      "text": "three doors down from the Lotus Garden restaurant on Ferrow Avenue"
+    },
+    {
+      "type": "dob",
+      "text": "1962-05-27"
+    }
+  ],
+  "must_keep": [
+    "Stage 4 chronic kidney disease",
+    "IgA nephropathy",
+    "eGFR is 22 mL/min",
+    "Blood pressure 148/92",
+    "Losartan 100 mg daily",
+    "Amlodipine 10 mg daily",
+    "arteriovenous fistula evaluation",
+    "potassium is 4.9"
+  ]
+}

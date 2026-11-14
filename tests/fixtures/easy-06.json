@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-06",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nName: Rosalind Achterberg\nDOB: 12/30/1963\nPhone: +1 303 555 0154\nEmail: r.achterberg@example.org\nAddress: 615 Quarry Hill Avenue, Unit 12, Stonehaven Ridge, CO 80299\nSSN: 000-45-6789\nMRN: 31058862\n\nDiagnosis: Major depressive disorder, recurrent, moderate.\nMedications: Sertraline 100 mg daily.\nAssessment: PHQ-9 score 14, improved from 19.\nPlan: Continue current dose, cognitive behavioral therapy weekly.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Rosalind Achterberg"
+    },
+    {
+      "type": "dob",
+      "text": "12/30/1963"
+    },
+    {
+      "type": "phone",
+      "text": "+1 303 555 0154"
+    },
+    {
+      "type": "email",
+      "text": "r.achterberg@example.org"
+    },
+    {
+      "type": "address",
+      "text": "615 Quarry Hill Avenue"
+    },
+    {
+      "type": "address",
+      "text": "Unit 12"
+    },
+    {
+      "type": "address",
+      "text": "Stonehaven Ridge"
+    },
+    {
+      "type": "address",
+      "text": "80299"
+    },
+    {
+      "type": "ssn",
+      "text": "000-45-6789"
+    },
+    {
+      "type": "mrn",
+      "text": "31058862"
+    }
+  ],
+  "must_keep": [
+    "Major depressive disorder",
+    "Sertraline 100 mg daily",
+    "PHQ-9 score 14",
+    "improved from 19",
+    "cognitive behavioral therapy weekly"
+  ]
+}

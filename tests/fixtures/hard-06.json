@@ -1,0 +1,48 @@
+{
+  "record_id": "hard-06",
+  "difficulty": "hard",
+  "text": "Social Work Note\n\nMet with the patient known on the unit as \"Big Jim\" (James T. Holloway Jr.) and his daughter-in-law, Rosa. Mr. Holloway has end-stage COPD on 3 L/min home oxygen and was admitted for his third exacerbation this year. He uses Tiotropium 18 mcg daily and Albuterol nebulizers every 4 hours.\n\nJ.T. says he cannot manage stairs at his place, the room above Holloway's Hardware on the corner of Finch and Lowell. Rosa offered her ground-floor home instead. Hospice referral discussed; GOLD stage 4, mMRC dyspnea grade 4. Rosa's contact: text only, 9 1 7 5 5 5 0 1 3 1. Patient DOB per wristband: 09-06-48.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Big Jim"
+    },
+    {
+      "type": "name",
+      "text": "James T. Holloway Jr."
+    },
+    {
+      "type": "name",
+      "text": "Mr. Holloway"
+    },
+    {
+      "type": "name",
+      "text": "J.T."
+    },
+    {
+      "type": "relative_name",
+      "text": "Rosa"
+    },
+    {
+      "type": "address",
+      "text": "room above Holloway's Hardware on the corner of Finch and Lowell"
+    },
+    {
+      "type": "phone",
+      "text": "9 1 7 5 5 5 0 1 3 1"
+    },
+    {
+      "type": "dob",
+      "text": "09-06-48"
+    }
+  ],
+  "must_keep": [
+    "end-stage COPD",
+    "3 L/min home oxygen",
+    "Tiotropium 18 mcg daily",
+    "Albuterol nebulizers every 4 hours",
+    "Hospice referral discussed",
+    "GOLD stage 4",
+    "mMRC dyspnea grade 4"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "record_id": "medium-03",
+  "difficulty": "medium",
+  "text": "Telephone Encounter\n\nSpoke with Naomi Feldstein regarding her lab results. She asked that we send a copy to naomi.feldstein@example.com and confirmed that her mobile number is still 646-555-0159. Her husband Daniel was on the line and asked about dietary changes.\n\nLDL cholesterol is 172 mg/dL and HDL is 38 mg/dL. Started Atorvastatin 20 mg nightly. Advised a Mediterranean diet and 150 minutes of exercise per week. Naomi was born 02/11/1967 and has a family history of early coronary artery disease. Mail the lipid handout to 31 Tannery Row, Apt 9, Bexley Point, NY 10299.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Naomi Feldstein"
+    },
+    {
+      "type": "name",
+      "text": "Naomi"
+    },
+    {
+      "type": "email",
+      "text": "naomi.feldstein@example.com"
+    },
+    {
+      "type": "phone",
+      "text": "646-555-0159"
+    },
+    {
+      "type": "relative_name",
+      "text": "Daniel"
+    },
+    {
+      "type": "dob",
+      "text": "02/11/1967"
+    },
+    {
+      "type": "address",
+      "text": "31 Tannery Row"
+    },
+    {
+      "type": "address",
+      "text": "Apt 9"
+    },
+    {
+      "type": "address",
+      "text": "Bexley Point"
+    },
+    {
+      "type": "address",
+      "text": "10299"
+    }
+  ],
+  "must_keep": [
+    "LDL cholesterol is 172 mg/dL",
+    "HDL is 38 mg/dL",
+    "Atorvastatin 20 mg nightly",
+    "Mediterranean diet",
+    "150 minutes of exercise per week",
+    "early coronary artery disease"
+  ]
+}

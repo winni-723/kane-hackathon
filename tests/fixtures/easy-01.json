@@ -1,0 +1,42 @@
+{
+  "record_id": "easy-01",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nName: Eleanor Carter\nDOB: 03/14/1958\nPhone: (617) 555-0142\nAddress: 48 Willow Bend Road, Westmarch, MA 02199\nMRN: 00482917\n\nChief Complaint: Shortness of breath on exertion for two weeks.\nDiagnosis: Congestive heart failure, NYHA class II.\nMedications: Furosemide 40 mg daily; Lisinopril 10 mg daily.\nPlan: Low-sodium diet, daily weights, follow-up echocardiogram in 4 weeks.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Eleanor Carter"
+    },
+    {
+      "type": "dob",
+      "text": "03/14/1958"
+    },
+    {
+      "type": "phone",
+      "text": "(617) 555-0142"
+    },
+    {
+      "type": "address",
+      "text": "48 Willow Bend Road"
+    },
+    {
+      "type": "address",
+      "text": "Westmarch"
+    },
+    {
+      "type": "address",
+      "text": "02199"
+    },
+    {
+      "type": "mrn",
+      "text": "00482917"
+    }
+  ],
+  "must_keep": [
+    "Shortness of breath on exertion",
+    "Congestive heart failure",
+    "Furosemide 40 mg daily",
+    "Lisinopril 10 mg daily",
+    "echocardiogram in 4 weeks"
+  ]
+}

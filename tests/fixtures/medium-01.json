@@ -1,0 +1,47 @@
+{
+  "record_id": "medium-01",
+  "difficulty": "medium",
+  "text": "Progress Note\n\nGrace Whitfield is a 72-year-old woman seen today for follow-up of atrial fibrillation. She was born on April 9, 1953 and lives alone at 18 Larkspur Lane in Dunmore Heights. Her daughter Mary called the clinic from 555-0198 this morning to ask whether the Warfarin dose should change.\n\nINR today is 2.4, within the target range. Continue Warfarin 5 mg daily and Metoprolol 25 mg twice daily. No bleeding or bruising reported. Recheck INR in 4 weeks. If Grace cannot be reached, call her at (508) 555-0114.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Grace Whitfield"
+    },
+    {
+      "type": "name",
+      "text": "Grace"
+    },
+    {
+      "type": "dob",
+      "text": "April 9, 1953"
+    },
+    {
+      "type": "address",
+      "text": "18 Larkspur Lane"
+    },
+    {
+      "type": "address",
+      "text": "Dunmore Heights"
+    },
+    {
+      "type": "relative_name",
+      "text": "Mary"
+    },
+    {
+      "type": "phone",
+      "text": "555-0198"
+    },
+    {
+      "type": "phone",
+      "text": "(508) 555-0114"
+    }
+  ],
+  "must_keep": [
+    "72-year-old woman",
+    "atrial fibrillation",
+    "INR today is 2.4",
+    "Warfarin 5 mg daily",
+    "Metoprolol 25 mg twice daily",
+    "Recheck INR in 4 weeks"
+  ]
+}

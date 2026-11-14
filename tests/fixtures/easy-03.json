@@ -1,0 +1,51 @@
+{
+  "record_id": "easy-03",
+  "difficulty": "easy",
+  "text": "PATIENT RECORD\nPatient Name: Priya Raman\nDOB: 07/29/1989\nHome Phone: (312) 555-0165\nMobile: (312) 555-0190\nAddress: 77 Harbor Lane, Fenwick Hollow, IL 60699\nEmergency Contact: Anil Raman (husband), (312) 555-0133\n\nChief Complaint: Severe unilateral headache with nausea and photophobia.\nHistory: Episodes occur twice monthly, each lasting 6 to 12 hours.\nDiagnosis: Migraine without aura.\nMedications: Sumatriptan 50 mg as needed; Propranolol 40 mg twice daily for prophylaxis.\nPlan: Headache diary, avoid known triggers.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Priya Raman"
+    },
+    {
+      "type": "dob",
+      "text": "07/29/1989"
+    },
+    {
+      "type": "phone",
+      "text": "(312) 555-0165"
+    },
+    {
+      "type": "phone",
+      "text": "(312) 555-0190"
+    },
+    {
+      "type": "address",
+      "text": "77 Harbor Lane"
+    },
+    {
+      "type": "address",
+      "text": "Fenwick Hollow"
+    },
+    {
+      "type": "address",
+      "text": "60699"
+    },
+    {
+      "type": "relative_name",
+      "text": "Anil Raman"
+    },
+    {
+      "type": "phone",
+      "text": "(312) 555-0133"
+    }
+  ],
+  "must_keep": [
+    "Severe unilateral headache",
+    "photophobia",
+    "6 to 12 hours",
+    "Migraine without aura",
+    "Sumatriptan 50 mg as needed",
+    "Propranolol 40 mg twice daily"
+  ]
+}
