@@ -13,6 +13,7 @@ const resultPanel = mustGet<HTMLElement>("result-panel");
 const input = mustGet<HTMLTextAreaElement>("input");
 const processButton = mustGet<HTMLButtonElement>("process");
 const editButton = mustGet<HTMLButtonElement>("edit");
+const downloadButton = mustGet<HTMLButtonElement>("download");
 const output = mustGet<HTMLPreElement>("output");
 
 // The error message exists in the page only while there is an error, so an
@@ -69,4 +70,19 @@ processButton.addEventListener("click", async () => {
   }
 });
 
+// Saves exactly what the Result shows, so the file can never contain text
+// that was not on screen.
+function downloadResult(): void {
+  const blob = new Blob([output.textContent ?? ""], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "deidentified-record.txt";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+downloadButton.addEventListener("click", downloadResult);
 editButton.addEventListener("click", showInput);

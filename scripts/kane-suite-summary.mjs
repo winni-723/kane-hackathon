@@ -16,7 +16,12 @@ const events = readFileSync(process.argv[2], "utf8")
   })
   .filter(Boolean);
 
-for (const e of events.filter((e) => e.type === "testrun_member_end")) {
+// A test that replays reports testrun_member_end; one authored for the first
+// time reports testrun_authored_member_end.
+const memberEnds = events.filter(
+  (e) => e.type === "testrun_member_end" || e.type === "testrun_authored_member_end",
+);
+for (const e of memberEnds) {
   const name = basename(e.path);
   console.log(`  ${e.status === "passed" ? "pass" : "FAIL"}  ${name}  (${e.duration_s}s)`);
   if (e.status === "passed") continue;

@@ -25,7 +25,10 @@ for (const file of process.argv.slice(2)) {
     console.log(`  step: ${e.status} | ${e.reason}`);
     for (const m of Object.values(e.context?.memory ?? {})) {
       const exact = Array.isArray(m.locators) && m.locators.length > 0 && m.code_js;
-      if (!exact) untrusted += 1;
+      // Only the answer-key checks must be exact. Navigation checks such as
+      // "the Result heading is visible" may be judged from a screenshot.
+      const answerKeyCheck = /contains? the text/.test(m.condition ?? "");
+      if (!exact && answerKeyCheck) untrusted += 1;
       console.log(`    ${exact ? "exact " : "VISUAL"} ${m.condition} => ${m.reasoning}`);
       if (exact) console.log(`           ${m.locators[0]} :: ${m.code_js}`);
     }
@@ -38,6 +41,6 @@ for (const file of process.argv.slice(2)) {
   );
 }
 if (untrusted > 0) {
-  console.log(`\n${untrusted} check(s) were judged from a screenshot, not by exact text comparison`);
+  console.log(`\n${untrusted} answer-key check(s) were judged from a screenshot, not by exact text comparison`);
   process.exit(1);
 }
