@@ -1,0 +1,53 @@
+{
+  "record_id": "medium-101",
+  "difficulty": "medium",
+  "text": "S: Teresa Villanueva, 39, comes in with her mother-in-law Consuelo for a blood pressure check at 34 weeks gestation. She reports headaches and swelling of the hands since Sunday. Teresa can be reached on her work line, 915-555-0127, during the day.\nO: BP 162/104 on two readings. Urine protein 2+. Fetal heart rate 148.\nA: Preeclampsia with severe features.\nP: Admit to labor and delivery. Start Magnesium sulfate 4 g IV loading dose and Labetalol 20 mg IV. Betamethasone 12 mg IM for fetal lung maturity. Consuelo will bring the overnight bag from the apartment at 73 Mesa Dorada Court, Los Robles Viejos, TX 79999. Teresa's DOB is 11/30/1986; her chart is filed under 20994518.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Teresa Villanueva"
+    },
+    {
+      "type": "name",
+      "text": "Teresa"
+    },
+    {
+      "type": "relative_name",
+      "text": "Consuelo"
+    },
+    {
+      "type": "phone",
+      "text": "915-555-0127"
+    },
+    {
+      "type": "address",
+      "text": "73 Mesa Dorada Court"
+    },
+    {
+      "type": "address",
+      "text": "Los Robles Viejos"
+    },
+    {
+      "type": "address",
+      "text": "79999"
+    },
+    {
+      "type": "dob",
+      "text": "11/30/1986"
+    },
+    {
+      "type": "mrn",
+      "text": "20994518"
+    }
+  ],
+  "must_keep": [
+    "34 weeks gestation",
+    "BP 162/104",
+    "Urine protein 2+",
+    "Fetal heart rate 148",
+    "Preeclampsia with severe features",
+    "Magnesium sulfate 4 g IV loading dose",
+    "Labetalol 20 mg IV",
+    "Betamethasone 12 mg IM"
+  ]
+}

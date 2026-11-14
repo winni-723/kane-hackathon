@@ -1,0 +1,57 @@
+{
+  "record_id": "easy-101",
+  "difficulty": "easy",
+  "text": "REGISTRATION SHEET\nLast Name: Brennan\nFirst Name: Oliver\nBirthdate: 6/2/1975\nSex: M\nStreet: 512 Copperleaf Terrace\nCity/State/ZIP: Hartwell Glen, OR 97099\nCell: 503-555-0166\nE-mail: oliver.brennan@example.org\nSubscriber ID: QRT-88120457\nNext of Kin: Siobhan Brennan (spouse) 503-555-0119\n\nPresenting Problem: Burning epigastric pain after meals for one month.\nAssessment: Gastroesophageal reflux disease.\nRx: Omeprazole 20 mg daily before breakfast for 8 weeks.\nAdvice: Avoid late meals, elevate head of bed.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Brennan"
+    },
+    {
+      "type": "name",
+      "text": "Oliver"
+    },
+    {
+      "type": "dob",
+      "text": "6/2/1975"
+    },
+    {
+      "type": "address",
+      "text": "512 Copperleaf Terrace"
+    },
+    {
+      "type": "address",
+      "text": "Hartwell Glen"
+    },
+    {
+      "type": "address",
+      "text": "97099"
+    },
+    {
+      "type": "phone",
+      "text": "503-555-0166"
+    },
+    {
+      "type": "email",
+      "text": "oliver.brennan@example.org"
+    },
+    {
+      "type": "insurance_id",
+      "text": "QRT-88120457"
+    },
+    {
+      "type": "relative_name",
+      "text": "Siobhan Brennan"
+    },
+    {
+      "type": "phone",
+      "text": "503-555-0119"
+    }
+  ],
+  "must_keep": [
+    "Burning epigastric pain after meals",
+    "Gastroesophageal reflux disease",
+    "Omeprazole 20 mg daily before breakfast for 8 weeks",
+    "elevate head of bed"
+  ]
+}

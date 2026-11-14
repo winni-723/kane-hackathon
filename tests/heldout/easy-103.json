@@ -1,0 +1,43 @@
+{
+  "record_id": "easy-103",
+  "difficulty": "easy",
+  "text": "REFERRAL\nRe: Mr. Kwame Asante-Boateng\nDate of birth: 15 August 1952\nContact number: 614 555 0193\nResidence: 2040 Old Mill Pike, Wexley Township, OH 43099\nHealth plan no.: 7731-0092-6\n\nReason for referral: Progressive exertional dyspnea and bilateral leg swelling.\nFindings: Ejection fraction 35% on echocardiogram; BNP 880 pg/mL.\nCurrent treatment: Carvedilol 6.25 mg twice daily, Spironolactone 25 mg daily.\nRequest: Evaluation for implantable cardioverter-defibrillator.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Kwame Asante-Boateng"
+    },
+    {
+      "type": "dob",
+      "text": "15 August 1952"
+    },
+    {
+      "type": "phone",
+      "text": "614 555 0193"
+    },
+    {
+      "type": "address",
+      "text": "2040 Old Mill Pike"
+    },
+    {
+      "type": "address",
+      "text": "Wexley Township"
+    },
+    {
+      "type": "address",
+      "text": "43099"
+    },
+    {
+      "type": "insurance_id",
+      "text": "7731-0092-6"
+    }
+  ],
+  "must_keep": [
+    "Progressive exertional dyspnea",
+    "Ejection fraction 35%",
+    "BNP 880 pg/mL",
+    "Carvedilol 6.25 mg twice daily",
+    "Spironolactone 25 mg daily",
+    "implantable cardioverter-defibrillator"
+  ]
+}

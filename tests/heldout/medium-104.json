@@ -1,0 +1,59 @@
+{
+  "record_id": "medium-104",
+  "difficulty": "medium",
+  "text": "Physical Therapy Evaluation\n\nReferred after left total knee replacement three weeks ago. Patient, Margaret O'Sullivan, lives with her husband in a two-story home and wants to return to gardening. Knee flexion is 85 degrees, extension lacks 10 degrees. Quadriceps strength 3+/5. Timed Up and Go is 19 seconds.\n\nGoals: flexion to 120 degrees in 6 weeks; independent stair negotiation. Home exercise program reviewed with Margaret and with Declan, who will help with icing. Appointments should be confirmed with Declan O'Sullivan at 207.555.0171 or declan.os@example.net. Insurance requires her date of birth (March 21, 1957) and policy number MED-5540129 on each claim. Mailing address: 15 Lighthouse Cove Road, Port Elswick, ME 04099.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Margaret O'Sullivan"
+    },
+    {
+      "type": "name",
+      "text": "Margaret"
+    },
+    {
+      "type": "relative_name",
+      "text": "Declan"
+    },
+    {
+      "type": "relative_name",
+      "text": "Declan O'Sullivan"
+    },
+    {
+      "type": "phone",
+      "text": "207.555.0171"
+    },
+    {
+      "type": "email",
+      "text": "declan.os@example.net"
+    },
+    {
+      "type": "dob",
+      "text": "March 21, 1957"
+    },
+    {
+      "type": "insurance_id",
+      "text": "MED-5540129"
+    },
+    {
+      "type": "address",
+      "text": "15 Lighthouse Cove Road"
+    },
+    {
+      "type": "address",
+      "text": "Port Elswick"
+    },
+    {
+      "type": "address",
+      "text": "04099"
+    }
+  ],
+  "must_keep": [
+    "left total knee replacement",
+    "Knee flexion is 85 degrees",
+    "Quadriceps strength 3+/5",
+    "Timed Up and Go is 19 seconds",
+    "flexion to 120 degrees in 6 weeks",
+    "independent stair negotiation"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "record_id": "medium-102",
+  "difficulty": "medium",
+  "text": "Nursing Shift Note\n\nReceived report on Mr. Abdullahi at 0700. Ibrahim Abdullahi is post-op day 2 from a right hemicolectomy for adenocarcinoma of the ascending colon. Pain controlled on Hydromorphone PCA; tolerating clear liquids. Ambulated 200 feet with assistance.\n\nHis eldest, Fatima, phoned from 651-555-0104 asking about visiting hours, and his brother Yusuf Abdullahi is listed as the health care proxy (yusuf.abdullahi@example.com). Drain output 40 mL serosanguinous. Continue Cefazolin 2 g IV every 8 hours and Heparin 5000 units subcutaneously every 12 hours. Patient's birthday is January 4, 1949. Discharge planning: he lives at 1187 Sandpiper Row, North Tallis, MN.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Mr. Abdullahi"
+    },
+    {
+      "type": "name",
+      "text": "Ibrahim Abdullahi"
+    },
+    {
+      "type": "relative_name",
+      "text": "Fatima"
+    },
+    {
+      "type": "phone",
+      "text": "651-555-0104"
+    },
+    {
+      "type": "relative_name",
+      "text": "Yusuf Abdullahi"
+    },
+    {
+      "type": "email",
+      "text": "yusuf.abdullahi@example.com"
+    },
+    {
+      "type": "dob",
+      "text": "January 4, 1949"
+    },
+    {
+      "type": "address",
+      "text": "1187 Sandpiper Row"
+    },
+    {
+      "type": "address",
+      "text": "North Tallis"
+    }
+  ],
+  "must_keep": [
+    "post-op day 2",
+    "right hemicolectomy",
+    "adenocarcinoma of the ascending colon",
+    "Hydromorphone PCA",
+    "Ambulated 200 feet",
+    "Drain output 40 mL",
+    "Cefazolin 2 g IV every 8 hours",
+    "Heparin 5000 units subcutaneously every 12 hours"
+  ]
+}

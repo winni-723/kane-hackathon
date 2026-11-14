@@ -1,0 +1,51 @@
+{
+  "record_id": "easy-102",
+  "difficulty": "easy",
+  "text": "LAB REQUISITION\nPt: Delphine Moreau\nD.O.B.: 02-19-1990\nAcct #: 40077213\nTel: (504) 555-0148\nHome: 88 Rue Cypress Lane, Apt 3C, Bellefontaine Bayou, LA 70099\nSoc Sec: 900-31-4477\n\nTests Ordered: CBC with differential, ferritin, TSH.\nIndication: Fatigue and heavy menstrual bleeding for 3 months.\nResults: Hemoglobin 9.8 g/dL, ferritin 6 ng/mL, TSH 2.1 mIU/L.\nImpression: Iron deficiency anemia.\nPlan: Ferrous sulfate 325 mg twice daily; recheck in 6 weeks.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Delphine Moreau"
+    },
+    {
+      "type": "dob",
+      "text": "02-19-1990"
+    },
+    {
+      "type": "mrn",
+      "text": "40077213"
+    },
+    {
+      "type": "phone",
+      "text": "(504) 555-0148"
+    },
+    {
+      "type": "address",
+      "text": "88 Rue Cypress Lane"
+    },
+    {
+      "type": "address",
+      "text": "Apt 3C"
+    },
+    {
+      "type": "address",
+      "text": "Bellefontaine Bayou"
+    },
+    {
+      "type": "address",
+      "text": "70099"
+    },
+    {
+      "type": "ssn",
+      "text": "900-31-4477"
+    }
+  ],
+  "must_keep": [
+    "CBC with differential",
+    "Fatigue and heavy menstrual bleeding for 3 months",
+    "Hemoglobin 9.8 g/dL",
+    "ferritin 6 ng/mL",
+    "Iron deficiency anemia",
+    "Ferrous sulfate 325 mg twice daily"
+  ]
+}

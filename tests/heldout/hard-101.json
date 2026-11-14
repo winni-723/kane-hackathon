@@ -1,0 +1,43 @@
+{
+  "record_id": "hard-101",
+  "difficulty": "hard",
+  "text": "ED Provider Note\n\n47M BIBA after witnessed tonic-clonic seizure at work. Coworker states pt, who everyone calls Deke, has been off his meds for a week. Wallet ID reads DeKalb R. Whitmore III. Postictal on arrival, GCS 13 improving to 15.\n\nGlucose 96, sodium 138. CT head negative. Levetiracetam level undetectable. Loaded with Levetiracetam 1500 mg IV. Hx of traumatic brain injury per chart. Wife is out of state; reached his sister-in-law Marisol on her mobile, 4 1 2 - 5 5 5 - 0 1 6 2. She says the Whitmores rent the upstairs unit of the brick two-flat next to the Polish bakery on Carrow Street. Birth date on license: 12.07.1978.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Deke"
+    },
+    {
+      "type": "name",
+      "text": "DeKalb R. Whitmore III"
+    },
+    {
+      "type": "relative_name",
+      "text": "Marisol"
+    },
+    {
+      "type": "phone",
+      "text": "4 1 2 - 5 5 5 - 0 1 6 2"
+    },
+    {
+      "type": "name",
+      "text": "Whitmores"
+    },
+    {
+      "type": "address",
+      "text": "upstairs unit of the brick two-flat next to the Polish bakery on Carrow Street"
+    },
+    {
+      "type": "dob",
+      "text": "12.07.1978"
+    }
+  ],
+  "must_keep": [
+    "witnessed tonic-clonic seizure",
+    "GCS 13 improving to 15",
+    "Glucose 96, sodium 138",
+    "CT head negative",
+    "Levetiracetam 1500 mg IV",
+    "traumatic brain injury"
+  ]
+}

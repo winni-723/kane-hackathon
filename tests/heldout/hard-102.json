@@ -1,0 +1,38 @@
+{
+  "record_id": "hard-102",
+  "difficulty": "hard",
+  "text": "Patient Portal Message\n\nhi dr, its bao-tran again (Tran Thi Bao, you saw me tues). the rash came back after i stopped the prednisone taper. my husband minh thinks its the new detergent. pls call me not him - my number changed to five oh three, 555, zero one seven five.\n\nStaff note: Chart reviewed. Contact dermatitis, recurrent. Restart Prednisone 40 mg daily tapering over 12 days and add Triamcinolone 0.1% cream twice daily. Patch testing referral placed. Verified patient by birthday (tenth of October, 1983). She is staying with her cousin at the cousin's place above the nail salon across from Greeley Park until the 1st.",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "bao-tran"
+    },
+    {
+      "type": "name",
+      "text": "Tran Thi Bao"
+    },
+    {
+      "type": "relative_name",
+      "text": "minh"
+    },
+    {
+      "type": "phone",
+      "text": "five oh three, 555, zero one seven five"
+    },
+    {
+      "type": "dob",
+      "text": "tenth of October, 1983"
+    },
+    {
+      "type": "address",
+      "text": "above the nail salon across from Greeley Park"
+    }
+  ],
+  "must_keep": [
+    "prednisone taper",
+    "Contact dermatitis, recurrent",
+    "Prednisone 40 mg daily tapering over 12 days",
+    "Triamcinolone 0.1% cream twice daily",
+    "Patch testing referral placed"
+  ]
+}
