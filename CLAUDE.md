@@ -35,6 +35,28 @@ bash scripts/verify.sh
 - 遮蔽率統計表：`cargo test --test fixtures_test scoreboard -- --nocapture`
 - 第一層的答案卷測試在 `tests/fixtures_test.rs`。`medical_content_is_always_kept` 對全部 20 份病歷檢查 `must_keep`；`gated_pii_is_removed` 檢查 `GATES` 列出的（個資類型, 難度）必須 100% 遮蔽。**`GATES` 只增不減。**
 
+### 自動 hook
+
+`.claude/settings.json` 註冊了兩個 hook，閉環不需要手動觸發：
+
+- **PostToolUse（Write|Edit）** → `scripts/hooks/post-edit.mjs`：改到 `src/`、`tests/fixtures_test.rs`、`Cargo.toml` 時跑 `cargo test`；改到 `web/src/`、`web/index.html` 時跑 `tsc`。失敗會以錯誤回報失敗的測試；通過會回報三組資料的分數。用 `target-dev` 建置，不會動到執行中的伺服器。
+- **Stop** → `scripts/hooks/stop-verify.mjs`：引擎、頁面或 Kane 測試自上次完整驗證後有變動時，跑 `bash scripts/verify.sh`。測試失敗會擋下結束並回報 Kane 的說明；Kane 沒有啟動則放行並警告。狀態記在 `.kane-logs/verified.json`。
+
+hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要為了分數保留會誤遮醫療資訊的規則。
+
+### 三組資料
+
+| 資料夾 | 用途 | 是否把關 |
+|---|---|---|
+| `tests/fixtures`（20 份） | 開發集 | 是，`GATES` 要求 100% |
+| `tests/heldout`（10 份手寫） | 測驗卷，已用於調校 | 否，只量測 |
+| `tests/synthea`（58 份，Synthea v4.0.0） | s01–s29 可用於調校；**s30–s58 不可逐筆檢視**，只看總分 | 否，只量測 |
+
+- 測驗卷的答案卷在引擎第一次跑之前就由使用者定案，同樣不可修改。
+- 第一次未調校的分數（2026-11-14）：手寫 62/88、Synthea 151/537。這是泛化能力的誠實數字，寫在 README，不要覆蓋。
+- 看分數：`cargo test --test fixtures_test -- --nocapture scoreboard`
+- 已知且刻意不修的漏網：全小寫的姓名、只由一般介系詞引出的姓名（`for Leilani Kahananui`）。修它們會誤遮醫療用語。
+
 ### 新增一種個資的流程
 
 1. 改 `src/engine.rs`，在其單元測試加上該類型的格式與「不該誤遮」的案例。

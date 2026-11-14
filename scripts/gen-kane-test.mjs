@@ -18,7 +18,15 @@ if (!recordId || !piiType) {
   process.exit(2);
 }
 
-const fixture = JSON.parse(readFileSync(join("tests/fixtures", `${recordId}.json`), "utf8"));
+// The record may come from the development set or from a held-out set.
+const fixtureDir = ["tests/fixtures", "tests/heldout", "tests/synthea"].find((d) =>
+  existsSync(join(d, `${recordId}.json`)),
+);
+if (!fixtureDir) {
+  console.error(`no fixture named ${recordId}`);
+  process.exit(2);
+}
+const fixture = JSON.parse(readFileSync(join(fixtureDir, `${recordId}.json`), "utf8"));
 const planted = fixture.planted_pii.filter((p) => p.type === piiType).map((p) => p.text);
 if (planted.length === 0) {
   console.error(`${recordId} has no planted PII of type "${piiType}"`);
@@ -69,7 +77,7 @@ ${recordBlock}
 
 # ${recordId}: ${label} is removed, medical content is kept
 
-Generated from tests/fixtures/${recordId}.json by scripts/gen-kane-test.mjs.
+Generated from ${fixtureDir}/${recordId}.json by scripts/gen-kane-test.mjs.
 Do not edit: this test is part of the regression suite.
 
 ## Submit the record

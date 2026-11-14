@@ -13,6 +13,18 @@ PORT="${PORT:-3000}"
 LOG_DIR=".kane-logs"
 mkdir -p "$LOG_DIR"
 
+# Only one verification at a time. Two runs would restart the server under each
+# other and stop each other's browsers, and every test would fail for no reason.
+LOCK="$LOG_DIR/verify.lock"
+if [ -d "$LOCK" ] && [ -n "$(find "$LOCK" -maxdepth 0 -mmin -30 2>/dev/null)" ]; then
+  echo "ANOTHER VERIFICATION IS RUNNING (started $(cat "$LOCK/started" 2>/dev/null)); not starting a second one"
+  exit 3
+fi
+rm -rf "$LOCK"
+mkdir -p "$LOCK"
+date > "$LOCK/started"
+trap 'rm -rf "$LOCK"' EXIT
+
 step() {
   local name="$1"; shift
   if "$@" > "$LOG_DIR/layer1-$name.log" 2>&1; then

@@ -80,6 +80,56 @@ fails instead of the test being rewritten to fit.
 A commit is made only when both layers pass, and the commit message says what
 passed.
 
+### The loop is wired into the agent
+
+`.claude/settings.json` registers two Claude Code hooks, so the checks run
+without anyone asking for them:
+
+- **After every edit** to the engine or the page, `scripts/hooks/post-edit.mjs`
+  runs layer 1 and hands the result to the agent. A failure comes back as an
+  error naming the failed tests. A pass comes back with the current scores on
+  every record set, so each edit shows what it changed.
+- **Before the agent may finish a turn**, `scripts/hooks/stop-verify.mjs`
+  checks whether the engine, the page or the Kane tests changed since the last
+  full verification. If they did, it replays every Kane test. A failing test
+  blocks the agent from stopping and sends it Kane's explanation of what the
+  browser showed.
+
+One round of that loop, from this repo's history:
+
+1. Kane ran a test generated from a record the engine had never seen and
+   failed it: *"The de-identification result left the patient's name in the
+   displayed medical record"* (`Margaret O'Sullivan`).
+2. The agent changed the name rules. After each edit the hook reported the
+   scores moving, with the medical content kept at 100% throughout.
+3. One of the new rules masked `Referred for Physical Therapy` as if it were a
+   person. A unit test caught it through the hook; the rule was removed rather
+   than kept for the score.
+4. The Kane suite was replayed, including the test that had failed.
+
+### Records the engine was not written against
+
+A perfect score on the development set means little: the rules were tuned on
+it. Two more sets exist to measure, and their answer keys were fixed before
+the engine was run on them.
+
+| Set | Records | First run, untuned | After the loop |
+|---|---|---|---|
+| Development (`tests/fixtures`) | 20 | 165/165 | 165/165 |
+| Hand-written held-out (`tests/heldout`) | 10 | 62/88 (70%) | 84/88 (95%) |
+| Synthea, tuning half (`tests/synthea` s01-s29) | 29 | 74/266 (28%) | 266/266 |
+| Synthea, untouched half (s30-s58) | 29 | 77/271 (28%) | 269/271 (99%) |
+
+Medical content kept: 100% on every set, at every stage.
+
+The Synthea records come from [Synthea](https://github.com/synthetichealth/synthea)
+v4.0.0 with a fixed seed; `scripts/build-synthea-fixtures.mjs` builds the
+fixtures and derives the answer keys from Synthea's own CSV. The untouched half
+was never inspected record by record while changing the engine: only its totals
+are printed. It shares one layout with the tuning half, so its 99% shows that
+the rules carry over to new names, addresses and drugs in that layout, not to
+new kinds of documents. The first-run column is the honest measure of that.
+
 ### What Kane caught
 
 - An empty error placeholder in the page was being matched instead of the
@@ -94,10 +144,19 @@ passed.
 
 ## Limits
 
-The 20 records and the rules were written by the same author, and the rules
-were tuned against these records. A full score here means the engine handles
-this set. It does not show how it performs on notes it has never seen, and
-names and landmark descriptions written in unfamiliar ways will be missed.
+This is a rule-based engine, and the first-run scores above show what that
+means: on documents it was not written against it removed 70% of identifiers,
+and 28% when the layout was unfamiliar. Tuning brought those up, but the next
+unfamiliar document type will start low again. Known misses that are left
+unfixed because fixing them would mask medical text:
+
+- names written in lower case (`its bao-tran again`, `my husband minh`)
+- a name introduced only by an ordinary preposition (`an interaction for
+  Leilani Kahananui`)
+
+The hand-written records, held-out ones included, share an author with the
+rules. Only the Synthea values are independent of both.
+
 This is a hackathon project, not a tool to rely on for real patient data.
 
 All test data is fictional: phone numbers use the reserved `555-01xx` range,
@@ -111,15 +170,19 @@ src/engine.rs          rules for everything except names
 src/names.rs           finding and removing names
 src/main.rs            Axum server: POST /api/process, serves the page
 web/                   TypeScript + Vite front end
-tests/fixtures/        20 records with answer keys
-tests/fixtures_test.rs layer 1 answer-key tests and the scoreboard
+tests/fixtures/        20 development records with answer keys
+tests/heldout/         10 held-out records with answer keys
+tests/synthea/         58 Synthea records with answer keys
+tests/fixtures_test.rs layer 1 answer-key tests and the scoreboards
 tests/kane/            layer 2 Kane tests, generated from the answer keys
 scripts/verify.sh      runs both layers
+scripts/hooks/         the two Claude Code hooks
+.claude/settings.json  registers the hooks
 CLAUDE.md              the rules the coding agent works under
 ```
 
-Scoreboard of removed identifiers by kind and difficulty:
+Scoreboards of removed identifiers by kind and difficulty, for all three sets:
 
 ```bash
-cargo test --test fixtures_test scoreboard -- --nocapture
+cargo test --test fixtures_test -- --nocapture scoreboard
 ```

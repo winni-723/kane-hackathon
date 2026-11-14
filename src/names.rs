@@ -17,11 +17,15 @@
 use regex::Regex;
 use std::sync::LazyLock;
 
-/// One capitalized name word, optionally hyphenated: `Carter`, `Abernathy-Cole`.
-const WORD: &str = r"[A-Z][a-z]+(?:-[A-Z][a-z]+)*";
+/// One capitalized name word: `Carter`, `Abernathy-Cole`, `O'Sullivan`,
+/// `DeKalb`, `Adán`. Letters are matched by Unicode class, not just A-Z.
+const WORD: &str =
+    r"(?:\p{Lu}['’])?\p{Lu}\p{Ll}+(?:\p{Lu}\p{Ll}+)?(?:-\p{Lu}\p{Ll}+)*";
 /// An initial with its full stop: `T.`
 const INIT: &str = r"[A-Z]\.";
-const SUFFIX: &str = r"(?:[ ](?:Jr|Sr|II|III)\.?)?";
+/// `Jr.` and `Sr.` take their full stop; a Roman numeral does not, so the
+/// sentence's own full stop after `Whitmore III.` is left in place.
+const SUFFIX: &str = r"(?:[ ](?:(?:Jr|Sr)\b\.?|(?:III|II|IV)\b))?";
 
 /// One to three name words with optional initials: `Mary`, `Eleanor Carter`,
 /// `Dorothea M. Vance`, `James T. Holloway Jr.`
@@ -42,6 +46,19 @@ const KIN: &str = concat!(
     r"|granddaughter|grandson|grandmother|grandfather|stepmother|stepfather|stepson|stepdaughter",
     r"|daughter|son|wife|husband|brother|sister|mother|father|nephew|niece|uncle|aunt|cousin",
     r"|partner|fiancee|fiance|girlfriend|boyfriend|neighbor|roommate|caregiver|guardian",
+    r"|eldest|youngest|oldest|widow|widower|friend|coworker|landlord",
+);
+
+/// Courtesy and professional titles. A name after any of these is removed,
+/// including `Dr.`: a doctor named in a record may be a relative, and removing
+/// a clinician's name loses no medical content.
+const TITLE: &str = r"(?:Mr|Mrs|Ms|Miss|Mx|Dr|Judge|Rev|Fr|Prof|Capt|Sgt|Col|Lt)\.?";
+
+/// Labels of form fields whose value is a person's name.
+const NAME_LABEL: &str = concat!(
+    r"Patient Name|Full Name|Last Name|First Name|Middle Name|Given Name|Surname|Name|Patient|Pt",
+    r"|Client|Member|Subscriber|Insured|Guarantor|Parent/Guardian|Guardian|Emergency Contact",
+    r"|Next of Kin|Spouse|Re",
 );
 
 /// Patterns that introduce a person. Each captures the name as `n`.
@@ -50,17 +67,24 @@ static INTRODUCTIONS: LazyLock<Vec<Regex>> = LazyLock::new(|| {
     let strong = strong_name();
     [
         // Name: Eleanor Carter / Emergency Contact: Anil Raman (husband)
+        format!(r"(?m)^[ \t]*(?:{NAME_LABEL})[ \t]*:[ \t]*(?:{TITLE}[ ])?(?P<n>{name})"),
+        // A record headed by the person's name, underlined, then demographics:
+        //   Andy Howe
+        //   =========
+        //   Race: ...
         format!(
-            r"(?m)^[ \t]*(?:Patient Name|Name|Patient|Parent/Guardian|Guardian|Emergency Contact|Next of Kin|Spouse)[ \t]*:[ \t]*(?P<n>{name})"
+            r"(?m)^(?P<n>{strong})[ \t]*\r?\n={{2,}}[^\r\n]*\r?\n(?:Race|Ethnicity|Gender|Sex|Age|Birth|DOB)\b"
         ),
-        // Ms. Carter / Mr. Holloway
-        format!(r"\b(?:Mr|Mrs|Ms|Miss|Mx)\.?[ ](?P<n>{name})"),
+        // Ms. Carter / Mr. Holloway / Mrs. Judge Fenwick / Dr. Priscilla Fenwick-Araujo
+        format!(r"\b(?:{TITLE}[ ]){{1,2}}(?P<n>{name})"),
         // her daughter Mary / his son, Peter Kowalczyk / Mother, Farah Haddad
         format!(r"\b(?i:{KIN}),?[ ](?P<n>{name})"),
         // Spoke with Naomi Feldstein / goes by June / first name Malik
         format!(
-            r#"\b(?:Spoke with|Met with|Visited|first name|legal name|goes by|called|name is)[ ]"?(?P<n>{name})"#
+            r#"\b(?:Spoke with|Met with|Visited|first name|legal name|given name is|goes by|answers to|called|calls|nicknamed|name is|reads)[ ]"?(?P<n>{name})"#
         ),
+        // reviewed with Margaret and with Declan, who will help
+        format!(r"\bwith[ ](?P<n>{name}),[ ]who\b"),
         // whom staff know as Dottie / known on the unit as "Big Jim"
         format!(r#"\bknow[n]?(?:[ ][a-z]+){{0,4}}[ ]as[ ]"?(?P<n>{name})"#),
         // Patient is Hector Salazar
@@ -71,11 +95,11 @@ static INTRODUCTIONS: LazyLock<Vec<Regex>> = LazyLock::new(|| {
         format!(r"(?P<n>{strong}),[ ]\d{{1,3}},[ ]"),
         // This 81-year-old man, Bernard Kowalczyk, was admitted
         format!(
-            r"\b(?:man|woman|male|female|boy|girl|gentleman|lady|veteran|patient),[ ](?P<n>{strong}),"
+            r"\b(?i:man|woman|male|female|boy|girl|gentleman|lady|veteran|patient),[ ](?P<n>{strong}),"
         ),
-        // J. R. Abernathy-Cole (goes by June) / (James T. Holloway Jr.)
+        // J. R. Abernathy-Cole (goes by June) / (James T. Holloway Jr.) / (Tran Thi Bao, you saw me)
         format!(r"(?P<n>{strong})[ ]\((?:goes by|known as|aka|legal name)\b"),
-        format!(r"\((?P<n>{strong})\)"),
+        format!(r"\((?P<n>{strong})[,)]"),
     ]
     .iter()
     .map(|p| Regex::new(p).expect("introduction pattern is valid"))
@@ -99,7 +123,8 @@ static NAME_WORD: LazyLock<Regex> =
 /// Capitalized words that can follow an introducing phrase without being a name.
 const NOT_A_NAME: &[&str] = &[
     "The", "A", "An", "He", "She", "His", "Her", "Him", "They", "Their", "Patient", "Pt", "Mr",
-    "Mrs", "Ms", "Miss", "Mx", "Dr", "Mother", "Father", "Son", "Daughter", "Wife", "Husband",
+    "Mrs", "Ms", "Miss", "Mx", "Dr", "Judge", "Rev", "Fr", "Prof", "Capt", "Sgt", "Col", "Lt",
+    "Mother", "Father", "Son", "Daughter", "Wife", "Husband",
     "Brother", "Sister", "Emergency", "Contact", "Name", "Phone", "Address", "Date", "Birth",
     "No", "Yes", "Not", "None", "Unknown", "Jr", "Sr", "In", "On", "At", "Is", "Was", "Has",
     "And", "Or", "With", "Will", "Can",
@@ -113,8 +138,10 @@ fn title_case(upper: &str) -> String {
     }
 }
 
+/// Matches a name word on its own, and as a family plural (`the Whitmores`).
 fn whole_word(word: &str) -> Regex {
-    Regex::new(&format!(r"\b{}\b", regex::escape(word))).expect("escaped word is a valid pattern")
+    Regex::new(&format!(r"\b{}(?:e?s)?\b", regex::escape(word)))
+        .expect("escaped word is a valid pattern")
 }
 
 /// Everything in `text` that should be removed as a name: whole phrases first,
@@ -280,6 +307,58 @@ mod tests {
             mask("first name Malik, last name spelled O-S-E-I. Called Mal by Mrs. Osei."),
             "first name [NAME], last name spelled [NAME]. Called Mal by Mrs. [NAME]."
         );
+    }
+
+    #[test]
+    fn apostrophes_accents_and_inner_capitals() {
+        assert_eq!(
+            mask("Patient, Margaret O'Sullivan, lives with her husband. Reviewed with Margaret."),
+            "Patient, [NAME], lives with her husband. Reviewed with [NAME]."
+        );
+        assert_eq!(
+            mask("Adán Arroyo\n==á========\nRace:                White"),
+            "[NAME]\n==á========\nRace:                White"
+        );
+        assert_eq!(
+            mask("Wallet ID reads DeKalb R. Whitmore III. The Whitmores rent upstairs."),
+            "Wallet ID reads [NAME]. The [NAME] rent upstairs."
+        );
+    }
+
+    #[test]
+    fn more_ways_a_person_is_introduced() {
+        assert_eq!(
+            mask("Last Name: Brennan\nFirst Name: Oliver\nNext of Kin: Siobhan Brennan (spouse)"),
+            "Last Name: [NAME]\nFirst Name: [NAME]\nNext of Kin: [NAME] (spouse)"
+        );
+        assert_eq!(mask("His eldest, Fatima, phoned."), "His eldest, [NAME], phoned.");
+        assert_eq!(
+            mask("Her niece, Dr. Priscilla Fenwick-Araujo, holds power of attorney."),
+            "Her niece, Dr. [NAME], holds power of attorney."
+        );
+        assert_eq!(
+            mask("her given name is Wilhelmina, though she answers to Billie."),
+            "her given name is [NAME], though she answers to [NAME]."
+        );
+    }
+
+    #[test]
+    fn an_underlined_heading_is_not_a_name_without_demographics() {
+        let text = "Discharge Summary\n=================\nAdmitted with pneumonia.";
+        assert_eq!(mask(text), text);
+    }
+
+    #[test]
+    fn introducing_words_before_medical_terms_are_not_names() {
+        for text in [
+            "Referred for Physical Therapy after surgery.",
+            "prescribed for Childhood asthma (disorder)",
+            "Loaded with Levetiracetam 1500 mg IV.",
+            "Start Magnesium sulfate 4 g IV loading dose.",
+            "Evaluation for implantable cardioverter-defibrillator.",
+        ] {
+            assert_eq!(mask(text), text);
+        }
     }
 
     #[test]

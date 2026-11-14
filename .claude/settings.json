@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/post-edit.mjs\"",
+            "timeout": 240,
+            "statusMessage": "Layer 1: cargo test against the answer keys"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/stop-verify.mjs\"",
+            "timeout": 900,
+            "statusMessage": "Layer 2: replaying every Kane test"
+          }
+        ]
+      }
+    ]
+  }
+}

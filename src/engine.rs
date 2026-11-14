@@ -40,7 +40,7 @@ static SSN: LazyLock<Regex> = LazyLock::new(|| {
 /// `chart no. was 4471-208-93`. The label is kept; only the number goes.
 static MRN: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
-        r"(?P<label>\b(?i:MRN|medical record (?:number|no\.?)|record (?:number|no\.?)|chart (?:number|no\.?)))",
+        r"(?P<label>\b(?i:MRN|medical record (?:number|no\.?)|record (?:number|no\.?)|chart (?:number|no\.?)|filed under))",
         r"(?P<join>\s*(?:[:#]|(?i:is|was))?\s*)",
         r"(?P<id>[A-Z]{0,3}-?\d[\d-]{2,}\d)\b",
     ))
@@ -88,8 +88,14 @@ static DATE: LazyLock<Regex> = LazyLock::new(|| {
         format!(r"\b{MONTH}\s+\d{{1,2}}(?:st|nd|rd|th)?,?\s+{year}\b"),
         // 22 Nov 1991 / 22nd of November, 1991
         format!(r"\b\d{{1,2}}(?:st|nd|rd|th)?\s+(?:of\s+)?{MONTH},?\s+{year}\b"),
-        // the fourth of July, 1944
+        // the fourth of July, 1944 / tenth of October, 1983
         format!(r"\b(?:the\s+)?{ORDINAL_WORD}\s+of\s+{MONTH},?\s+{year}\b"),
+        // 12.07.1978
+        r"\b\d{1,2}\.\d{1,2}\.\d{4}\b".to_string(),
+        // Christmas Eve, 1936: a named day plus a year pins down a date
+        format!(
+            r"\b(?:Christmas(?: Eve| Day)?|New Year's (?:Eve|Day)|Valentine's Day|Halloween|Independence Day|Thanksgiving(?: Day)?),?\s+(?:of\s+)?{year}\b"
+        ),
     ]
     .join("|");
     Regex::new(&pattern).expect("date pattern is valid")
@@ -101,7 +107,15 @@ static STREET: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
         r"\b\d{1,6}\s+(?:[A-Z][A-Za-z']*\s+){1,4}",
         r"(?:Street|St|Avenue|Ave|Road|Rd|Lane|Ln|Drive|Dr|Court|Ct|Boulevard|Blvd|Way|Circle|Cir",
-        r"|Trail|Trl|Row|Place|Pl|Terrace|Ter|Parkway|Pkwy|Highway|Hwy|Square|Sq)\b\.?",
+        r"|Trail|Trl|Row|Place|Pl|Terrace|Ter|Parkway|Pkwy|Highway|Hwy|Square|Sq",
+        // further US Postal Service street suffixes
+        r"|Alley|Bend|Bluff|Bridge|Brook|Canyon|Cove|Creek|Crossing|Expressway|Extension|Falls",
+        r"|Ferry|Fields?|Flats?|Ford|Forest|Forge|Forks?|Fort|Gardens?|Gateway|Glen|Green|Grove",
+        r"|Harbor|Heights|Hills?|Hollow|Island|Junction|Knolls?|Lakes?|Landing|Loop|Manor|Meadows?",
+        r"|Mews|Mills?|Mission|Mount|Mountain|Orchard|Oval|Park|Pass|Passage|Path|Pike|Pines?",
+        r"|Plains?|Plaza|Point|Port|Prairie|Promenade|Ranch|Rapids|Ridge|Run|Shores?|Springs?",
+        r"|Spur|Station|Stream|Summit|Trace|Track|Tunnel|Turnpike|Vale|Valley|View|Village|Vista",
+        r"|Walk|Wells?)\b\.?",
     ))
     .expect("street pattern is valid")
 });
@@ -139,12 +153,14 @@ static CITY_AFTER_ADDRESS: LazyLock<Regex> = LazyLock::new(|| {
 static PHONE_SPACED: LazyLock<Regex> = LazyLock::new(|| {
     let digit_word = r"(?:zero|oh|one|two|three|four|five|six|seven|eight|nine)";
     let pattern = [
-        // ten single digits
-        r"\b\d(?:[ ]\d){9}\b".to_string(),
-        // seven single digits, optionally split 3 - 4
-        r"\b\d(?:[ ]\d){2}(?:[ ]-[ ]|[ ])\d(?:[ ]\d){3}\b".to_string(),
+        // ten single digits, with or without " - " between groups
+        r"\b\d(?:[ ](?:-[ ])?\d){9}\b".to_string(),
+        // seven single digits, with or without " - " between groups
+        r"\b\d(?:[ ](?:-[ ])?\d){6}\b".to_string(),
         // seven or more number words
         format!(r"(?i)\b{digit_word}(?:[ ,]+{digit_word}){{6,}}\b"),
+        // number words mixed with digit groups: five oh three, 555, zero one seven five
+        format!(r"(?i)\b{digit_word}(?:[ ,]+(?:{digit_word}|\d{{1,4}})){{5,}}\b"),
     ]
     .join("|");
     Regex::new(&pattern).expect("spaced phone pattern is valid")
@@ -164,13 +180,104 @@ static LANDMARK_HOME: LazyLock<Regex> = LazyLock::new(|| {
         // ordinary words before the dwelling ("back to her apartment") stay.
         r"(?:(?P<det>\b(?:the|a|an|her|his|their|my|our)[ ])(?:[a-z]+[ ]){0,2}",
         r"|\b(?:one|two|three|four|five|six|several)[ ])?",
-        r"\b(?:house|home|apartment|duplex|trailer park|trailer|room|flat|condo|cottage|cabin|farmhouse|doors?)[ ]",
+        r"\b(?:house|home|apartment|duplex|two-flat|three-flat|townhouse|bungalow|trailer park|trailer",
+        r"|room|flat|condo|cottage|cabin|farmhouse|doors?)[ ]",
         r"(?:[a-z]+[ ]){0,2}?",
-        r"(?:across from|over|behind|off|above|down from|next to|beside|opposite|near|past|on the corner of)[ ]",
+        r"(?:across from|over|behind|off|above|down from|next to|beside|opposite|near|past",
+        r"|on the corner of|at the end of)[ ]",
         r"(?:St\.|[^.;,\n])+",
     ))
     .expect("landmark pattern is valid")
 });
+
+/// Someone's "place" described by a landmark: `the cousin's place above the
+/// nail salon across from Greeley Park`. It needs an owner in front, so
+/// "left in place over the weekend" is not touched.
+static LANDMARK_PLACE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"\b(?P<det>(?:(?:the|a)[ ])?(?:[a-z]+'s|her|his|their|my|our)[ ])place[ ]",
+        r"(?:across from|over|behind|off|above|down from|next to|beside|opposite|near|past",
+        r"|on the corner of|at the end of)[ ]",
+        r"(?:St\.|[^.;,\n])+",
+    ))
+    .expect("landmark place pattern is valid")
+});
+
+/// A form line, `Label: value`. When the label names an identifier and nothing
+/// earlier recognized the value, the whole value is replaced. This is what
+/// catches an address with an unusual street word or an ID in an unknown
+/// format: the label says what it is even when the shape does not.
+static FIELD: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"(?m)^(?P<lead>[ \t]*(?P<label>[A-Za-z][A-Za-z0-9 .'/#-]{0,28}?)[ \t]*:[ \t]*)",
+        r"(?P<value>[^\r\n]*?[^ \t\r\n])(?P<tail>[ \t]*\r?)$",
+    ))
+    .expect("field pattern is valid")
+});
+
+fn field_placeholder(label: &str) -> Option<&'static str> {
+    let normalized: String = label
+        .to_lowercase()
+        .chars()
+        .filter(|c| !matches!(c, '.' | '#' | '\''))
+        .collect();
+    let normalized = normalized.split_whitespace().collect::<Vec<_>>().join(" ");
+    Some(match normalized.as_str() {
+        "address" | "street" | "street address" | "mailing address" | "home address"
+        | "residence" => "[ADDRESS]",
+        "city" | "town" => "[CITY]",
+        "zip" | "zip code" | "zipcode" | "postal code" => "[ZIP]",
+        "ssn" | "soc sec" | "social security" | "social security number"
+        | "social security no" => "[SSN]",
+        "drivers" | "drivers license" | "driver license" | "drivers license number" | "dl"
+        | "license" | "license number" | "passport" | "passport number" | "passport no" => {
+            "[ID_NUMBER]"
+        }
+        "mrn" | "acct" | "account" | "account number" | "account no" | "chart"
+        | "chart number" | "chart no" | "medical record number" | "record number" => "[MRN]",
+        "subscriber id" | "member id" | "policy number" | "policy no" | "insurance id"
+        | "health plan no" | "health plan number" | "health plan id" | "group number" => {
+            "[INSURANCE_ID]"
+        }
+        "phone" | "tel" | "telephone" | "cell" | "mobile" | "home phone" | "work phone" | "fax"
+        | "contact number" => "[PHONE]",
+        "email" | "e-mail" => "[EMAIL]",
+        "dob" | "birthdate" | "birth date" | "date of birth" => "[DATE]",
+        _ => return None,
+    })
+}
+
+/// A comma-separated piece of an address line that needs nothing more done:
+/// a placeholder, or a state with or without its masked ZIP.
+static ADDRESS_PIECE_DONE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"^(?:\[[A-Z_]+\]|[A-Z]{2}(?: \[ZIP\])?)$").expect("address piece pattern is valid")
+});
+
+fn mask_field(caps: &regex::Captures) -> String {
+    let value = &caps["value"];
+    match field_placeholder(&caps["label"]) {
+        // An address line that was only partly recognized, e.g. the unit but
+        // not a street with an unusual suffix: finish the remaining pieces.
+        Some("[ADDRESS]") if value.contains('[') => {
+            let pieces: Vec<&str> = value
+                .split(", ")
+                .map(|piece| {
+                    if ADDRESS_PIECE_DONE.is_match(piece.trim()) {
+                        piece
+                    } else {
+                        "[ADDRESS]"
+                    }
+                })
+                .collect();
+            format!("{}{}{}", &caps["lead"], pieces.join(", "), &caps["tail"])
+        }
+        // A value that already holds a placeholder was handled by a more precise rule.
+        Some(placeholder) if !value.contains('[') => {
+            format!("{}{placeholder}{}", &caps["lead"], &caps["tail"])
+        }
+        _ => caps[0].to_string(),
+    }
+}
 
 fn mask_city_state_zip(caps: &regex::Captures) -> String {
     let zip = if caps.name("zip").is_some() { " [ZIP]" } else { "" };
@@ -188,10 +295,12 @@ pub fn process(text: &str) -> String {
     let out = PHONE.replace_all(&out, "[PHONE]");
     let out = PHONE_SPACED.replace_all(&out, "[PHONE]");
     let out = LANDMARK_HOME.replace_all(&out, "${det}[LOCATION]");
+    let out = LANDMARK_PLACE.replace_all(&out, "${det}[LOCATION]");
     let out = STREET.replace_all(&out, "[ADDRESS]");
     let out = UNIT.replace_all(&out, "[ADDRESS]");
     let out = CITY_STATE_ZIP.replace_all(&out, mask_city_state_zip);
     let out = CITY_AFTER_ADDRESS.replace_all(&out, "${lead}[CITY]");
+    let out = FIELD.replace_all(&out, mask_field);
     crate::names::mask(&out)
 }
 
@@ -343,6 +452,70 @@ mod tests {
         ] {
             assert_eq!(process(text), text);
         }
+    }
+
+    #[test]
+    fn masks_labelled_fields_whatever_the_value_looks_like() {
+        for (input, expected) in [
+            ("Address:             139 Krajcik Promenade", "Address:             [ADDRESS]"),
+            ("Address: 549 Herman Underpass Unit 54", "Address: [ADDRESS]"),
+            ("City:                New Bedford", "City:                [CITY]"),
+            ("Zip:                 02746", "Zip:                 [ZIP]"),
+            ("Drivers:             S99998773", "Drivers:             [ID_NUMBER]"),
+            ("Passport:            X81836749X", "Passport:            [ID_NUMBER]"),
+            ("Acct #: 40077213", "Acct #: [MRN]"),
+            ("Subscriber ID: QRT-88120457", "Subscriber ID: [INSURANCE_ID]"),
+            ("Health plan no.: 7731-0092-6", "Health plan no.: [INSURANCE_ID]"),
+            ("Soc Sec: 900-31-4477", "Soc Sec: [SSN]"),
+        ] {
+            assert_eq!(process(input), expected);
+        }
+    }
+
+    #[test]
+    fn labelled_fields_keep_what_a_precise_rule_already_did() {
+        assert_eq!(
+            process("Address: 48 Willow Bend Road, Westmarch, MA 02199"),
+            "Address: [ADDRESS], [CITY], MA [ZIP]"
+        );
+        assert_eq!(process("State:               Massachusetts"), "State:               Massachusetts");
+    }
+
+    #[test]
+    fn medical_form_lines_are_not_identifier_fields() {
+        for text in [
+            "Diagnosis: Iron deficiency anemia.",
+            "Medications: Furosemide 40 mg daily; Lisinopril 10 mg daily.",
+            "Results: Hemoglobin 9.8 g/dL, ferritin 6 ng/mL, TSH 2.1 mIU/L.",
+            "O: BP 162/104 on two readings. Urine protein 2+. Fetal heart rate 148.",
+            "Gender:              M",
+        ] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn masks_more_date_and_phone_spellings() {
+        assert_eq!(process("Birth date on license: 12.07.1978."), "Birth date on license: [DATE].");
+        assert_eq!(process("Born on Christmas Eve, 1936."), "Born on [DATE].");
+        assert_eq!(
+            process("reached on her mobile, 4 1 2 - 5 5 5 - 0 1 6 2. She says"),
+            "reached on her mobile, [PHONE]. She says"
+        );
+        assert_eq!(
+            process("my number changed to five oh three, 555, zero one seven five."),
+            "my number changed to [PHONE]."
+        );
+    }
+
+    #[test]
+    fn a_place_needs_an_owner_to_count_as_a_home() {
+        assert_eq!(
+            process("at the cousin's place above the nail salon across from Greeley Park until the 1st."),
+            "at the cousin's [LOCATION]."
+        );
+        let text = "The catheter was left in place over the weekend.";
+        assert_eq!(process(text), text);
     }
 
     #[test]

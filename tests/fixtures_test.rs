@@ -147,7 +147,7 @@ fn gated_pii_is_removed() {
 /// Run with: cargo test --test fixtures_test scoreboard -- --nocapture
 #[test]
 fn scoreboard() {
-    print_scoreboard("tests/fixtures (development set)", &load_fixtures());
+    print_scoreboard("tests/fixtures (development set)", &load_fixtures(), true);
     println!("gated: {GATES:?}");
 }
 
@@ -156,14 +156,31 @@ fn scoreboard() {
 /// Run with: cargo test --test fixtures_test heldout_scoreboard -- --nocapture
 #[test]
 fn heldout_scoreboard() {
-    for dir in ["tests/heldout", "tests/synthea"] {
-        if Path::new(env!("CARGO_MANIFEST_DIR")).join(dir).is_dir() {
-            print_scoreboard(dir, &load_dir(dir));
-        }
+    let exists = |dir: &str| Path::new(env!("CARGO_MANIFEST_DIR")).join(dir).is_dir();
+    if exists("tests/heldout") {
+        print_scoreboard("tests/heldout", &load_dir("tests/heldout"), true);
+    }
+    if exists("tests/synthea") {
+        // The engine may be tuned against the first half. The second half is
+        // never inspected record by record: only its totals are printed, so it
+        // stays an honest measure of how the rules generalize.
+        let (tuning, untouched): (Vec<Fixture>, Vec<Fixture>) = load_dir("tests/synthea")
+            .into_iter()
+            .partition(|f| synthea_number(&f.id) <= SYNTHEA_TUNING_LAST);
+        print_scoreboard("tests/synthea tuning half", &tuning, true);
+        print_scoreboard("tests/synthea untouched half", &untouched, false);
     }
 }
 
-fn print_scoreboard(title: &str, fixtures: &[Fixture]) {
+/// Synthea records `easy-s01` to `easy-s29` may be used to tune the engine;
+/// `easy-s30` onward are the untouched half.
+const SYNTHEA_TUNING_LAST: u32 = 29;
+
+fn synthea_number(id: &str) -> u32 {
+    id.rsplit('s').next().and_then(|n| n.parse().ok()).unwrap_or(0)
+}
+
+fn print_scoreboard(title: &str, fixtures: &[Fixture], details: bool) {
     // (kind, difficulty) -> (removed, total)
     let mut table: BTreeMap<(String, String), (usize, usize)> = BTreeMap::new();
     let mut remaining = Vec::new();
@@ -218,7 +235,10 @@ fn print_scoreboard(title: &str, fixtures: &[Fixture]) {
             println!("  {line}");
         }
     }
-    if !remaining.is_empty() {
+    if !remaining.is_empty() && !details {
+        println!("\nstill present: {} (not listed for this set)", remaining.len());
+    }
+    if !remaining.is_empty() && details {
         println!("\nstill present ({}):", remaining.len());
         for line in &remaining {
             println!("  {line}");
