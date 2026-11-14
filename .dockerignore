@@ -1,0 +1,14 @@
+.git
+.github
+.claude
+.tools
+.kane-logs
+.testmuai
+target
+target-dev
+web/node_modules
+web/dist
+tests
+scripts
+examples
+*.md

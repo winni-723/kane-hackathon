@@ -1,0 +1,8 @@
+# Render blueprint: one web service built from the Dockerfile.
+services:
+  - type: web
+    name: medical-record-deidentifier
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    autoDeploy: true

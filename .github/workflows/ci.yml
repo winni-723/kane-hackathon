@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  layer1:
+    name: Layer 1 (answer keys, clippy, tests, tsc)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - name: Answer keys are well-formed
+        run: |
+          node scripts/validate-fixtures.mjs tests/fixtures
+          node scripts/validate-fixtures.mjs tests/heldout
+          node scripts/validate-fixtures.mjs tests/synthea
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Tests, including the answer-key tests
+        run: cargo test
+      - name: Scoreboards
+        run: cargo test --test fixtures_test -- --nocapture scoreboard
+      - name: Front end type-check and build
+        run: |
+          npm --prefix web ci
+          npm --prefix web run build
+
+  image:
+    name: Docker image builds and de-identifies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t deid .
+      - name: Start it and send one record through
+        run: |
+          docker run -d --name deid -p 8080:8080 deid
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:8080/ > /dev/null && break; sleep 1; done
+          curl -fs http://127.0.0.1:8080/ | grep -q "Medical Record De-identifier"
+          out=$(curl -fs -X POST -H 'Content-Type: application/json' \
+            -d '{"text":"Name: Eleanor Carter\nPhone: (617) 555-0142\nDiagnosis: Migraine without aura."}' \
+            http://127.0.0.1:8080/api/process)
+          echo "$out"
+          echo "$out" | grep -q '\[NAME\]'
+          echo "$out" | grep -q '\[PHONE\]'
+          echo "$out" | grep -q 'Migraine without aura'
+          if echo "$out" | grep -q 'Eleanor'; then echo "name leaked"; exit 1; fi
+      - name: Server log
+        if: always()
+        run: docker logs deid || true
