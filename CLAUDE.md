@@ -23,6 +23,27 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 3. **任何一層失敗**：讀取錯誤訊息，修正程式，再**從第一層重跑**。
 4. **兩層都通過才 commit**。commit 訊息要寫明通過了哪些測試。
 
+### 怎麼跑
+
+```bash
+bash scripts/verify.sh
+```
+
+一次跑完兩層，第一層失敗就停。exit 0 才代表兩層都通過；exit 2 代表 Kane 沒有啟動（多半是登入過期），不算測試失敗。腳本會自己關掉、重編、重啟本機伺服器（Windows 上執行中的執行檔會擋住重編）。
+
+- 遮蔽率統計表：`cargo test --test fixtures_test scoreboard -- --nocapture`
+- 第一層的答案卷測試在 `tests/fixtures_test.rs`。`medical_content_is_always_kept` 對全部 20 份病歷檢查 `must_keep`；`gated_pii_is_removed` 檢查 `GATES` 列出的（個資類型, 難度）必須 100% 遮蔽。**`GATES` 只增不減。**
+
+### 新增一種個資的流程
+
+1. 改 `src/engine.rs`，在其單元測試加上該類型的格式與「不該誤遮」的案例。
+2. 看統計表，把達到 100% 的（類型, 難度）加進 `GATES`。
+3. 用 `node scripts/gen-kane-test.mjs <record_id> <pii_type>` 由答案卷產生 Kane 測試（每個 gate 至少兩份病歷）。腳本拒絕覆寫既有測試。
+4. 逐一用 `kane-cli testmd run <file> --agent --headless` 建立錄製（一次一個，不可平行），再用 `node scripts/kane-testmd-summary.mjs <log>` 確認每個檢查都是 `exact`。出現 `VISUAL` 就不可信。
+5. `bash scripts/verify.sh` 全過後才 commit。
+
+Kane 測試在 commit 之後即凍結。尚未 commit 的新測試若檢查方式不可信（例如出現 `VISUAL`），可以刪掉重新產生；已 commit 的不行。
+
 ## 絕對規則
 
 - **不可以為了讓測試通過而修改或刪除答案卷、既有的 Kane 測試。**
@@ -75,6 +96,9 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 - **每個流程至少要有一個「存在」檢查搭配「不存在」檢查。** 如果文字沒有成功輸入或 Kane 看錯區域，「存在」檢查會先失敗。
 - **病歷文字用變數檔傳入**（`--variables-file`，objective 裡寫 `{{record}}`），不要寫在 objective 字串裡。多行文字已驗證可原樣輸入。
 - **每次執行後用 `node scripts/kane-summary.mjs <log>` 看 Kane 實際檢查了哪個元素。** `locators` 應該是 Result 區；若是別的元素或 `analyzer=visual` 且沒有 locator，該次結果不可信，要重寫 objective。
+- **「包含」與「不包含」的檢查要放在同一個步驟裡。** 步驟裡只有「不包含」檢查時，Kane 會改用截圖判讀；和「包含」檢查放一起時，兩者都是精確比對。`gen-kane-test.mjs` 已照此產生。
+- **存檔測試的重播已驗證**（2026-11-14）：3 個測試重播約 40 秒、不扣 credits；暫時關掉電話遮蔽後，三個測試在 `--no-adaptive-heal` 下全部失敗。重播抓得到退步。
+- `tests/kane/output-*/.internal/` 是本機的重播錄製，內含 TestMu 帳號與專案 id，已列入 `.gitignore`。遺失的話重新建立錄製即可，每個測試約 20 credits。
 - 頁面設計配合檢查：輸入區與 Result 區同一時間只顯示一個，錯誤訊息元素只在出錯時才存在。不要加入空白的佔位元素，Kane 曾把空的錯誤訊息元素誤認為 Result 區。
 
 ### Credits

@@ -1,4 +1,4 @@
-mod engine;
+use deid_server::engine;
 
 use axum::{Json, Router, routing::post};
 use serde::{Deserialize, Serialize};

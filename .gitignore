@@ -15,3 +15,6 @@ secrets/
 
 # Local Kane run logs
 .kane-logs/
+
+# Kane recordings: local replay cache; contains TestMu account and project ids
+tests/kane/output-*/.internal/
