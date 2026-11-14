@@ -1,5 +1,7 @@
 # Medical Record De-identifier
 
+[![CI](https://github.com/winni-723/kane-hackathon/actions/workflows/ci.yml/badge.svg)](https://github.com/winni-723/kane-hackathon/actions/workflows/ci.yml)
+
 Paste a medical record, get it back with the personal identifiers removed and
 the medical content intact, then download the result.
 
@@ -29,6 +31,15 @@ npm --prefix web install && npm --prefix web run build && cargo run
 
 Then open http://127.0.0.1:3000, paste a record, and press **Process**.
 Sample records are in `tests/fixtures/` (the `text` field of each file).
+
+Or with Docker, no Rust or Node needed:
+
+```bash
+docker build -t deid . && docker run --rm -p 8080:8080 deid
+```
+
+Then open http://127.0.0.1:8080. CI builds this image on every push and sends
+a record through it.
 
 ## What it removes
 
