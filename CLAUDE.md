@@ -44,6 +44,14 @@ bash scripts/verify.sh
 4. 建立錄製：多個新測試用 `kane-cli testrun run <files> --agent --headless --parallel 3`（官方支援的平行方式，已驗證不會互相污染）；單一測試用 `kane-cli testmd run <file> --agent --headless`。之後確認答案卷的檢查（contains / does not contain the text）都是 `exact`。出現 `VISUAL` 的測試要刪掉 `output-<stem>/` 重新錄製。「Result heading is visible」這類導覽檢查用截圖判讀沒關係。
 5. `bash scripts/verify.sh` 全過後才 commit。
 
+常用腳本：
+
+- `bash scripts/author-kane-tests.sh <record>:<type> ...`（或 `--from <清單檔>`）：產生並錄製新測試，結束時列出需要重錄的（`REDO`）。超過約 15 個測試要用背景執行，前景上限 10 分鐘。
+- `bash scripts/redo-kane-recordings.sh <file> ...`：重錄尚未 commit 的測試；已 commit 的會被拒絕。實測約每 8 個新測試有 1 個需要重錄。
+- `node scripts/cleanup-kane-chrome.mjs`：清掉 Kane 殘留的背景 Chrome。症狀是測試在 0 秒內結束、錯誤訊息為 `All CDP ports 9222-9230 are in use`。只清 `kane-clean-*` 設定檔的程序，不動使用者自己的 Chrome。
+- `cargo run --example show -- <record_id>`：印出某份病歷的去識別化結果，用來肉眼檢查。
+- 伺服器執行中（例如背景正在錄製 Kane 測試）時要跑測試，用 `CARGO_TARGET_DIR=target-dev cargo test`，避免去動被鎖住的執行檔。
+
 Kane 測試在 commit 之後即凍結。尚未 commit 的新測試若檢查方式不可信（例如出現 `VISUAL`），可以刪掉重新產生；已 commit 的不行。
 
 ## 絕對規則
