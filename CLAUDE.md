@@ -12,7 +12,8 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 - **前端**：TypeScript + Vite，build 後由 Axum 直接提供靜態檔案。整個專案只部署一個服務。
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
-- **Kane 測試**：`*_test.md` 檔案，連同旁邊的 `output-<stem>/` 錄製資料夾一起 commit。
+- **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
+- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
 
 ## 雙層驗證閉環
 
@@ -38,8 +39,9 @@ bash scripts/verify.sh
 
 1. 改 `src/engine.rs`，在其單元測試加上該類型的格式與「不該誤遮」的案例。
 2. 看統計表，把達到 100% 的（類型, 難度）加進 `GATES`。
-3. 用 `node scripts/gen-kane-test.mjs <record_id> <pii_type>` 由答案卷產生 Kane 測試（每個 gate 至少兩份病歷）。腳本拒絕覆寫既有測試。
-4. 逐一用 `kane-cli testmd run <file> --agent --headless` 建立錄製（一次一個，不可平行），再用 `node scripts/kane-testmd-summary.mjs <log>` 確認每個檢查都是 `exact`。出現 `VISUAL` 就不可信。
+3. 用 `node scripts/gen-kane-test.mjs <record_id> <pii_type>` 由答案卷產生 Kane 測試。**全部涵蓋**（使用者 2026-11-14 決定）：已進 `GATES` 的（類型, 難度）底下，每一份含該類個資的病歷都要有一個 Kane 測試。腳本拒絕覆寫既有測試。
+   - 還沒進 `GATES` 的組合（引擎還抓不到的困難題）不建立 Kane 測試，否則一建立就失敗，會擋住所有 commit。
+4. 建立錄製：多個新測試用 `kane-cli testrun run <files> --agent --headless --parallel 3`（官方支援的平行方式，已驗證不會互相污染）；單一測試用 `kane-cli testmd run <file> --agent --headless`。之後確認答案卷的檢查（contains / does not contain the text）都是 `exact`。出現 `VISUAL` 的測試要刪掉 `output-<stem>/` 重新錄製。「Result heading is visible」這類導覽檢查用截圖判讀沒關係。
 5. `bash scripts/verify.sh` 全過後才 commit。
 
 Kane 測試在 commit 之後即凍結。尚未 commit 的新測試若檢查方式不可信（例如出現 `VISUAL`），可以刪掉重新產生；已 commit 的不行。
@@ -98,7 +100,7 @@ Kane 測試在 commit 之後即凍結。尚未 commit 的新測試若檢查方�
 - **每次執行後用 `node scripts/kane-summary.mjs <log>` 看 Kane 實際檢查了哪個元素。** `locators` 應該是 Result 區；若是別的元素或 `analyzer=visual` 且沒有 locator，該次結果不可信，要重寫 objective。
 - **「包含」與「不包含」的檢查要放在同一個步驟裡。** 步驟裡只有「不包含」檢查時，Kane 會改用截圖判讀；和「包含」檢查放一起時，兩者都是精確比對。`gen-kane-test.mjs` 已照此產生。
 - **存檔測試的重播已驗證**（2026-11-14）：3 個測試重播約 40 秒、不扣 credits；暫時關掉電話遮蔽後，三個測試在 `--no-adaptive-heal` 下全部失敗。重播抓得到退步。
-- `tests/kane/output-*/.internal/` 是本機的重播錄製，內含 TestMu 帳號與專案 id，已列入 `.gitignore`。遺失的話重新建立錄製即可，每個測試約 20 credits。
+- `tests/kane/output-*/.internal/` 是本機的重播錄製，內含 TestMu 帳號與專案 id，已列入 `.gitignore`。遺失的話重新建立錄製即可，建立一個測試實際約 25–35 credits（2026-11-14 以 12 個測試量得平均 34）。
 - 頁面設計配合檢查：輸入區與 Result 區同一時間只顯示一個，錯誤訊息元素只在出錯時才存在。不要加入空白的佔位元素，Kane 曾把空的錯誤訊息元素誤認為 Result 區。
 
 ### Credits

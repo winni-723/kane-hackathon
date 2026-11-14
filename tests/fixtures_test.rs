@@ -15,7 +15,20 @@ use std::path::Path;
 ///
 /// This list only ever grows. Add a pair when the engine handles it; never
 /// remove one.
-const GATES: &[(&str, &str)] = &[("phone", "easy"), ("phone", "medium")];
+const GATES: &[(&str, &str)] = &[
+    ("phone", "easy"),
+    ("phone", "medium"),
+    ("email", "easy"),
+    ("email", "medium"),
+    ("email", "hard"),
+    ("ssn", "easy"),
+    ("ssn", "medium"),
+    ("ssn", "hard"),
+    ("mrn", "easy"),
+    ("mrn", "medium"),
+    ("mrn", "hard"),
+    ("insurance_id", "easy"),
+];
 
 struct Pii {
     kind: String,

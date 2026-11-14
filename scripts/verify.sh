@@ -37,6 +37,8 @@ step web      npm --prefix web run build
 grep -h "test result" "$LOG_DIR/layer1-test.log" | sed 's/^/        /'
 
 echo "== Layer 2"
+# Leftover Kane browsers hold its ports and make new runs fail before they start.
+node scripts/cleanup-kane-chrome.mjs | sed 's/^/  /'
 nohup ./target/debug/deid-server > "$LOG_DIR/server.log" 2>&1 &
 disown
 for _ in $(seq 1 20); do
@@ -57,11 +59,16 @@ if [ ${#tests[@]} -eq 0 ]; then
 fi
 
 KANE_CLI_USER_AGENT=claude-code kane-cli testrun run "${tests[@]}" \
-  --agent --headless --no-adaptive-heal \
+  --agent --headless --no-adaptive-heal --parallel "${KANE_PARALLEL:-3}" \
   > "$LOG_DIR/layer2-suite.ndjson" 2> "$LOG_DIR/layer2-suite.err"
 kane_exit=$?
 
 node scripts/kane-suite-summary.mjs "$LOG_DIR/layer2-suite.ndjson"
+# A member that could not get a browser is "broken", not a test failure.
+if grep -q "chrome slot failed" "$LOG_DIR/layer2-suite.err"; then
+  echo "LAYER 2 DID NOT RUN CLEANLY: some tests could not start a browser (see $LOG_DIR/layer2-suite.err)"
+  exit 2
+fi
 case $kane_exit in
   0) echo "BOTH LAYERS PASSED (${#tests[@]} Kane tests)"; exit 0 ;;
   2) echo "LAYER 2 DID NOT START (sign-in, Chrome or config; see $LOG_DIR/layer2-suite.err)"; exit 2 ;;
