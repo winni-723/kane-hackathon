@@ -1,0 +1,44 @@
+{
+  "record_id": "easy-s18",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Florinda Reynolds\n=================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 11\nBirth Date:          2015-07-28\nMarital Status:      S\nSSN:                 999-47-4927\nAddress:             906 Sauer Neck\nCity:                Haverhill\nState:               Massachusetts\nZip:                 01835\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2020-09-02[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2020-07-14[STOPPED] : Acetaminophen 160 MG Chewable Tablet\n  2020-07-14[STOPPED] : Amoxicillin 500 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-08-11 - 2026-08-11 : Medication review due (situation)\n  2025-11-25 - 2025-11-25 : Dental caries\n  2025-08-05 - 2025-08-05 : Medication review due (situation)\n  2023-07-25 - 2024-07-30 : Medication review due (situation)\n  2023-05-08 - 2023-07-18 : Concussion with loss of consciousness (disorder)\n  2023-05-08 - 2023-07-18 : Concussion injury of brain (disorder)\n  2022-07-19 - 2022-07-19 : Medication review due (situation)\n  2021-07-13 - 2021-07-13 : Medication review due (situation)\n  2020-09-02 - 2020-09-20 : Acute bronchitis (disorder)\n  2020-07-14 - 2021-07-13 : Otitis media (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Florinda"
+    },
+    {
+      "type": "name",
+      "text": "Reynolds"
+    },
+    {
+      "type": "dob",
+      "text": "2015-07-28"
+    },
+    {
+      "type": "ssn",
+      "text": "999-47-4927"
+    },
+    {
+      "type": "address",
+      "text": "906 Sauer Neck"
+    },
+    {
+      "type": "address",
+      "text": "Haverhill"
+    },
+    {
+      "type": "address",
+      "text": "01835"
+    }
+  ],
+  "must_keep": [
+    "Acetaminophen 325 MG Oral Tablet",
+    "Acetaminophen 160 MG Chewable Tablet",
+    "Amoxicillin 500 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Dental caries",
+    "Concussion with loss of consciousness (disorder)"
+  ]
+}

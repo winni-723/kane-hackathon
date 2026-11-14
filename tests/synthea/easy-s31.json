@@ -1,0 +1,44 @@
+{
+  "record_id": "easy-s31",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Lucretia Kuhic\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 9\nBirth Date:          2017-04-10\nMarital Status:      S\nSSN:                 999-75-5416\nAddress:             964 Wunsch Lodge\nCity:                Huntington\nState:               Massachusetts\nZip:                 01050\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2024-03-18[STOPPED] : Penicillin V Potassium 250 MG Oral Tablet for Streptococcal sore throat (disorder)\n  2020-06-10[STOPPED] : Ibuprofen 100 MG Oral Tablet\n  2020-06-10[STOPPED] : Cefuroxime 250 MG Oral Tablet\n  2018-12-30[STOPPED] : Acetaminophen 160 MG Chewable Tablet\n  2018-12-30[STOPPED] : Amoxicillin 500 MG Oral Tablet\n  2017-08-10[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2024-03-18 - 2024-03-29 : Streptococcal sore throat (disorder)\n  2022-03-21 -            : Medication review due (situation)\n  2021-03-15 - 2021-03-15 : Medication review due (situation)\n  2020-06-10 - 2020-09-14 : Otitis media (disorder)\n  2020-03-16 - 2020-09-14 : Medication review due (situation)\n  2019-09-16 - 2019-09-16 : Medication review due (situation)\n  2018-12-30 - 2019-03-18 : Otitis media (disorder)\n  2017-09-18 - 2019-03-18 : Medication review due (situation)\n  2017-08-10 - 2017-08-22 : Acute bronchitis (disorder)\n  2017-04-10 - 2017-08-21 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Lucretia"
+    },
+    {
+      "type": "name",
+      "text": "Kuhic"
+    },
+    {
+      "type": "dob",
+      "text": "2017-04-10"
+    },
+    {
+      "type": "ssn",
+      "text": "999-75-5416"
+    },
+    {
+      "type": "address",
+      "text": "964 Wunsch Lodge"
+    },
+    {
+      "type": "address",
+      "text": "Huntington"
+    },
+    {
+      "type": "address",
+      "text": "01050"
+    }
+  ],
+  "must_keep": [
+    "Penicillin V Potassium 250 MG Oral Tablet",
+    "Ibuprofen 100 MG Oral Tablet",
+    "Cefuroxime 250 MG Oral Tablet",
+    "Streptococcal sore throat (disorder)",
+    "Medication review due (situation)",
+    "Otitis media (disorder)"
+  ]
+}

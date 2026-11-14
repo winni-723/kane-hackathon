@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s34",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Masako Mueller\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 24\nBirth Date:          2001-11-19\nMarital Status:      S\nSSN:                 999-62-9255\nDrivers:             S99918208\nPassport:            X58452080X\nAddress:             384 Lubowitz Neck Apt 70\nCity:                Lincoln\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-02-28[CURRENT] : {21 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Levora 0.15/30 28 Day]\n  2026-02-16[CURRENT] : tramadol hydrochloride 50 MG Oral Tablet\n  2025-02-10[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2024-09-28[STOPPED] : Ibuprofen 200 MG Oral Tablet\n  2024-02-05[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2023-02-06[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2023-01-30[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2022-03-16[STOPPED] : levonorgestrel 0.000729 MG/HR Intrauterine System [Kyleena]\n  2022-01-24[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2021-01-18[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-02-16 - 2026-03-02 : Gingivitis (disorder)\n  2026-02-16 -            : Misuses drugs (finding)\n  2026-02-16 -            : Social isolation (finding)\n  2025-02-10 -            : Limited social contact (finding)\n  2025-02-10 -            : Full-time employment (finding)\n  2024-09-28 - 2024-10-13 : Laceration of forearm (disorder)\n  2024-09-28 - 2024-10-13 : Laceration - injury (disorder)\n  2024-02-05 - 2025-02-10 : Part-time employment (finding)\n  2023-02-13 - 2023-02-23 : Acute viral pharyngitis (disorder)\n  2023-01-30 - 2024-02-05 : Limited social contact (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Masako"
+    },
+    {
+      "type": "name",
+      "text": "Mueller"
+    },
+    {
+      "type": "dob",
+      "text": "2001-11-19"
+    },
+    {
+      "type": "ssn",
+      "text": "999-62-9255"
+    },
+    {
+      "type": "id_number",
+      "text": "S99918208"
+    },
+    {
+      "type": "id_number",
+      "text": "X58452080X"
+    },
+    {
+      "type": "address",
+      "text": "384 Lubowitz Neck"
+    },
+    {
+      "type": "address",
+      "text": "Apt 70"
+    },
+    {
+      "type": "address",
+      "text": "Lincoln"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "{21 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Levora 0.15/30 28 Day]",
+    "tramadol hydrochloride 50 MG Oral Tablet",
+    "Ibuprofen 200 MG Oral Tablet",
+    "Gingivitis (disorder)",
+    "Misuses drugs (finding)",
+    "Social isolation (finding)"
+  ]
+}

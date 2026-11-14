@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s49",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Sandy Parker\n============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 DECEASED\nBirth Date:          1952-07-06\nMarital Status:      D\nSSN:                 999-65-2059\nDrivers:             S99966616\nPassport:            X34290222X\nAddress:             861 Dibbert Quay Apt 42\nCity:                Barnstable\nState:               Massachusetts\nZip:                 02630\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  1992-09-06[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-05[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-05[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-04[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-04[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-03[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-03[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-02[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-02[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  1992-09-01[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  1991-10-06 -            : Medication review due (situation)\n  1991-08-11 - 1991-10-06 : Victim of intimate partner abuse (finding)\n  1991-08-11 - 1991-10-06 : Social isolation (finding)\n  1991-08-01 - 1991-08-19 : Acute bronchitis (disorder)\n  1990-09-30 -            : Anemia (disorder)\n  1990-09-30 - 1991-08-11 : Medication review due (situation)\n  1990-02-10 -            : Chronic congestive heart failure (disorder)\n  1989-09-24 - 1991-08-11 : Stress (finding)\n  1989-09-24 -            : Prediabetes (finding)\n  1988-11-21 - 1988-12-17 : Viral sinusitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Sandy"
+    },
+    {
+      "type": "name",
+      "text": "Parker"
+    },
+    {
+      "type": "dob",
+      "text": "1952-07-06"
+    },
+    {
+      "type": "ssn",
+      "text": "999-65-2059"
+    },
+    {
+      "type": "id_number",
+      "text": "S99966616"
+    },
+    {
+      "type": "id_number",
+      "text": "X34290222X"
+    },
+    {
+      "type": "address",
+      "text": "861 Dibbert Quay"
+    },
+    {
+      "type": "address",
+      "text": "Apt 42"
+    },
+    {
+      "type": "address",
+      "text": "Barnstable"
+    },
+    {
+      "type": "address",
+      "text": "02630"
+    }
+  ],
+  "must_keep": [
+    "10 ML Furosemide 10 MG/ML Injection",
+    "Medication review due (situation)",
+    "Victim of intimate partner abuse (finding)",
+    "Social isolation (finding)"
+  ]
+}

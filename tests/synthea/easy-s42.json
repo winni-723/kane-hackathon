@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s42",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Rickie Rowe\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 66\nBirth Date:          1960-08-03\nMarital Status:      D\nSSN:                 999-30-9570\nDrivers:             S99926132\nPassport:            X72997039X\nAddress:             566 Rolfson Forge Suite 1\nCity:                Braintree\nState:               Massachusetts\nZip:                 02184\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-08-26[CURRENT] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2026-08-26[CURRENT] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2026-08-26[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2026-01-13[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2026-01-13[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2026-01-13[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2025-05-07[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2025-05-07[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2025-05-07[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2025-02-22[STOPPED] : aspirin 325 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-09-09 - 2026-09-09 : Dental caries, unspecified\n  2026-08-26 -            : Victim of intimate partner abuse (finding)\n  2026-01-13 - 2026-08-26 : Stress (finding)\n  2026-01-13 - 2026-08-26 : Medication review due (situation)\n  2025-05-07 -            : Limited social contact (finding)\n  2025-03-04 -            : History of myocardial infarction (situation)\n  2025-02-22 -            : Acute ST segment elevation myocardial infarction (disorder)\n  2025-02-22 - 2025-03-04 : Myocardial infarction (disorder)\n  2024-01-02 -            : Part-time employment (finding)\n  2023-04-19 - 2024-01-02 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Rickie"
+    },
+    {
+      "type": "name",
+      "text": "Rowe"
+    },
+    {
+      "type": "dob",
+      "text": "1960-08-03"
+    },
+    {
+      "type": "ssn",
+      "text": "999-30-9570"
+    },
+    {
+      "type": "id_number",
+      "text": "S99926132"
+    },
+    {
+      "type": "id_number",
+      "text": "X72997039X"
+    },
+    {
+      "type": "address",
+      "text": "566 Rolfson Forge"
+    },
+    {
+      "type": "address",
+      "text": "Suite 1"
+    },
+    {
+      "type": "address",
+      "text": "Braintree"
+    },
+    {
+      "type": "address",
+      "text": "02184"
+    }
+  ],
+  "must_keep": [
+    "amLODIPine 2.5 MG Oral Tablet",
+    "lisinopril 10 MG Oral Tablet",
+    "Hydrochlorothiazide 25 MG Oral Tablet",
+    "Dental caries, unspecified",
+    "Victim of intimate partner abuse (finding)",
+    "Stress (finding)"
+  ]
+}

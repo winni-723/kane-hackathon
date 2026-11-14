@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s06",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Antonietta Schulist\n===================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 74\nBirth Date:          1952-01-29\nMarital Status:      S\nSSN:                 999-59-1210\nDrivers:             S99915409\nPassport:            X16463511X\nAddress:             754 Senger Walk Apt 38\nCity:                Easton\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-01-20[CURRENT] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2026-01-20[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2026-01-20[CURRENT] : insulin isophane, human 70 UNT/ML / insulin, regular, human 30 UNT/ML Injectable Suspension [Humulin] for Prediabetes (finding)\n  2025-11-18[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2025-11-18[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2025-11-18[STOPPED] : insulin isophane, human 70 UNT/ML / insulin, regular, human 30 UNT/ML Injectable Suspension [Humulin] for Prediabetes (finding)\n  2024-11-12[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2024-11-12[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2024-11-12[STOPPED] : insulin isophane, human 70 UNT/ML / insulin, regular, human 30 UNT/ML Injectable Suspension [Humulin] for Prediabetes (finding)\n  2024-03-05[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-01-20 - 2026-01-20 : Medication review due (situation)\n  2024-11-12 - 2025-11-18 : Limited social contact (finding)\n  2024-03-05 -            : Full-time employment (finding)\n  2024-03-05 - 2025-11-18 : Medication review due (situation)\n  2023-11-07 - 2024-03-05 : Social isolation (finding)\n  2023-11-07 - 2024-03-05 : Part-time employment (finding)\n  2023-11-07 - 2023-11-07 : Medication review due (situation)\n  2022-11-01 - 2023-11-07 : Reports of violence in the environment (finding)\n  2022-11-01 - 2024-11-12 : Stress (finding)\n  2022-04-12 - 2022-11-01 : Limited social contact (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Antonietta"
+    },
+    {
+      "type": "name",
+      "text": "Schulist"
+    },
+    {
+      "type": "dob",
+      "text": "1952-01-29"
+    },
+    {
+      "type": "ssn",
+      "text": "999-59-1210"
+    },
+    {
+      "type": "id_number",
+      "text": "S99915409"
+    },
+    {
+      "type": "id_number",
+      "text": "X16463511X"
+    },
+    {
+      "type": "address",
+      "text": "754 Senger Walk"
+    },
+    {
+      "type": "address",
+      "text": "Apt 38"
+    },
+    {
+      "type": "address",
+      "text": "Easton"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "lisinopril 10 MG Oral Tablet",
+    "Hydrochlorothiazide 25 MG Oral Tablet",
+    "insulin isophane, human 70 UNT/ML / insulin, regular, human 30 UNT/ML Injectable Suspension [Humulin]",
+    "Medication review due (situation)",
+    "Limited social contact (finding)",
+    "Full-time employment (finding)"
+  ]
+}

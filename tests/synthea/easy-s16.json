@@ -1,0 +1,39 @@
+{
+  "record_id": "easy-s16",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Elsa Solís\n========í=\nRace:                White\nEthnicity:           Hispanic\nGender:              F\nAge:                 1\nBirth Date:          2025-01-06\nMarital Status:      S\nSSN:                 999-66-6592\nAddress:             491 Ondricka Neck\nCity:                Haverhill\nState:               Massachusetts\nZip:                 01832\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-12-15 -            : Medication review due (situation)\n  2025-06-16 - 2025-09-15 : Medication review due (situation)\n  2025-04-14 - 2025-04-14 : Medication review due (situation)\n  2025-01-06 - 2025-02-10 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Elsa"
+    },
+    {
+      "type": "name",
+      "text": "Solís"
+    },
+    {
+      "type": "dob",
+      "text": "2025-01-06"
+    },
+    {
+      "type": "ssn",
+      "text": "999-66-6592"
+    },
+    {
+      "type": "address",
+      "text": "491 Ondricka Neck"
+    },
+    {
+      "type": "address",
+      "text": "Haverhill"
+    },
+    {
+      "type": "address",
+      "text": "01832"
+    }
+  ],
+  "must_keep": [
+    "Medication review due (situation)"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s37",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Nia Celesta O'Conner\n============='======\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 49\nBirth Date:          1977-10-23\nMarital Status:      M\nSSN:                 999-43-1697\nDrivers:             S99996603\nPassport:            X63516631X\nAddress:             754 Bernier Hollow\nCity:                Boston\nState:               Massachusetts\nZip:                 02136\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2021-11-11[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2018-06-07[STOPPED] : Acetaminophen 325 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-11-16 -            : Not in labor force (finding)\n  2025-11-16 -            : Medication review due (situation)\n  2023-11-12 - 2023-11-12 : Medication review due (situation)\n  2021-11-21 -            : Stress (finding)\n  2021-11-21 - 2025-11-16 : Full-time employment (finding)\n  2021-11-11 - 2021-11-21 : Acute bronchitis (disorder)\n  2021-11-07 - 2021-11-28 : Gingivitis (disorder)\n  2021-11-07 - 2025-11-16 : Victim of intimate partner abuse (finding)\n  2021-11-07 - 2021-11-21 : Not in labor force (finding)\n  2021-11-07 - 2021-11-21 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Nia"
+    },
+    {
+      "type": "name",
+      "text": "Celesta"
+    },
+    {
+      "type": "name",
+      "text": "O'Conner"
+    },
+    {
+      "type": "dob",
+      "text": "1977-10-23"
+    },
+    {
+      "type": "ssn",
+      "text": "999-43-1697"
+    },
+    {
+      "type": "id_number",
+      "text": "S99996603"
+    },
+    {
+      "type": "id_number",
+      "text": "X63516631X"
+    },
+    {
+      "type": "address",
+      "text": "754 Bernier Hollow"
+    },
+    {
+      "type": "address",
+      "text": "Boston"
+    },
+    {
+      "type": "address",
+      "text": "02136"
+    }
+  ],
+  "must_keep": [
+    "Acetaminophen 325 MG Oral Tablet",
+    "Not in labor force (finding)",
+    "Medication review due (situation)",
+    "Stress (finding)"
+  ]
+}

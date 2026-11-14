@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s20",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Homer Keebler\n=============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 37\nBirth Date:          1989-04-26\nMarital Status:      M\nSSN:                 999-17-6344\nDrivers:             S99951259\nPassport:            X5513588X\nAddress:             652 McCullough Neck Apt 55\nCity:                Dudley\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-07-30[STOPPED] : Ibuprofen 200 MG Oral Tablet\n  2025-07-30[STOPPED] : Acetaminophen 325 MG / oxyCODONE Hydrochloride 5 MG Oral Tablet\n  2025-07-30[STOPPED] : Amoxicillin 250 MG Oral Capsule\n  2022-03-25[STOPPED] : sulfamethoxazole 800 MG / trimethoprim 160 MG Oral Tablet for Acute infective cystitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-08-04 - 2026-08-17 : Acute viral pharyngitis (disorder)\n  2026-07-15 - 2026-07-15 : Medication review due (situation)\n  2025-07-30 - 2025-09-28 : Partial thickness burn (disorder)\n  2025-07-30 - 2025-09-28 : Burn injury (morphologic abnormality)\n  2023-07-12 - 2023-07-26 : Gingivitis (disorder)\n  2023-07-12 - 2026-07-15 : Social isolation (finding)\n  2023-07-12 -            : Unemployed (finding)\n  2022-03-25 - 2022-03-27 : Acute infective cystitis (disorder)\n  2020-07-08 -            : Limited social contact (finding)\n  2020-07-08 - 2023-07-12 : Full-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Homer"
+    },
+    {
+      "type": "name",
+      "text": "Keebler"
+    },
+    {
+      "type": "dob",
+      "text": "1989-04-26"
+    },
+    {
+      "type": "ssn",
+      "text": "999-17-6344"
+    },
+    {
+      "type": "id_number",
+      "text": "S99951259"
+    },
+    {
+      "type": "id_number",
+      "text": "X5513588X"
+    },
+    {
+      "type": "address",
+      "text": "652 McCullough Neck"
+    },
+    {
+      "type": "address",
+      "text": "Apt 55"
+    },
+    {
+      "type": "address",
+      "text": "Dudley"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Ibuprofen 200 MG Oral Tablet",
+    "Acetaminophen 325 MG / oxyCODONE Hydrochloride 5 MG Oral Tablet",
+    "Amoxicillin 250 MG Oral Capsule",
+    "Acute viral pharyngitis (disorder)",
+    "Medication review due (situation)",
+    "Partial thickness burn (disorder)"
+  ]
+}

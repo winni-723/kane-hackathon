@@ -8,6 +8,7 @@ const dir = process.argv[2] ?? "tests/fixtures";
 const DIFFICULTIES = ["easy", "medium", "hard"];
 const PII_TYPES = [
   "name", "relative_name", "phone", "dob", "address", "ssn", "mrn", "email", "insurance_id",
+  "id_number",
 ];
 
 const errors = [];

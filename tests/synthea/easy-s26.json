@@ -1,0 +1,46 @@
+{
+  "record_id": "easy-s26",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Lavonia Von\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 1\nBirth Date:          2025-06-29\nMarital Status:      S\nSSN:                 999-44-1733\nAddress:             306 McDermott Approach\nCity:                Raynham\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\n  2026-11-04 -            : Shellfish (substance)\n  2026-11-04 -            : Lisinopril\n  2026-11-04 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-11-04[CURRENT] : NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector\n  2026-11-04[CURRENT] : Loratadine 5 MG Chewable Tablet\n  2025-11-26[STOPPED] : Ibuprofen 100 MG Oral Tablet\n  2025-11-26[STOPPED] : Amoxicillin 500 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-09-06 -            : Medication review due (situation)\n  2026-03-08 - 2026-06-07 : Medication review due (situation)\n  2025-11-26 - 2026-03-08 : Otitis media (disorder)\n  2025-08-03 - 2025-12-07 : Medication review due (situation)\n  2025-06-29 - 2025-06-29 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Lavonia"
+    },
+    {
+      "type": "name",
+      "text": "Von"
+    },
+    {
+      "type": "dob",
+      "text": "2025-06-29"
+    },
+    {
+      "type": "ssn",
+      "text": "999-44-1733"
+    },
+    {
+      "type": "address",
+      "text": "306 McDermott Approach"
+    },
+    {
+      "type": "address",
+      "text": "Raynham"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Shellfish (substance)",
+    "Lisinopril",
+    "Allergic disposition (finding)",
+    "NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector",
+    "Loratadine 5 MG Chewable Tablet",
+    "Ibuprofen 100 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Otitis media (disorder)"
+  ]
+}

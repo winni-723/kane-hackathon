@@ -1,0 +1,48 @@
+{
+  "record_id": "easy-s36",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Mitzi Willms\n============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 DECEASED\nBirth Date:          2006-07-03\nMarital Status:      S\nSSN:                 999-17-4783\nAddress:             585 Cartwright Drive Apt 55\nCity:                Lynn\nState:               Massachusetts\nZip:                 01905\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2014-09-01[STOPPED] : Ibuprofen 100 MG Oral Tablet\n  2014-09-01[STOPPED] : Cefuroxime 250 MG Oral Tablet\n  2014-07-14[CURRENT] : clonazePAM 0.25 MG Oral Tablet for Seizure disorder (disorder)\n  2014-05-27[CURRENT] : Diazepam 5 MG Oral Tablet for Seizure disorder (disorder)\n  2014-02-09[CURRENT] : carbamazepine 20 MG/ML Oral Suspension [Tegretol] for Seizure disorder (disorder)\n  2011-02-07[STOPPED] : Acetaminophen 160 MG Chewable Tablet\n  2011-02-07[STOPPED] : Amoxicillin 500 MG Oral Tablet\n  2010-03-29[STOPPED] : Acetaminophen 21.7 MG/ML / Dextromethorphan Hydrobromide 1 MG/ML / doxylamine succinate 0.417 MG/ML Oral Solution for Acute bronchitis (disorder)\n  2008-05-18[STOPPED] : Ibuprofen 100 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2014-09-01 - 2014-10-09 : Partial thickness burn (disorder)\n  2014-09-01 - 2014-10-09 : Burn injury (morphologic abnormality)\n  2014-06-30 -            : Gingivitis (disorder)\n  2014-06-30 - 2015-07-06 : Medication review due (situation)\n  2014-02-09 -            : Epilepsy (disorder)\n  2014-02-09 -            : History of seizure (situation)\n  2014-02-09 -            : Seizure disorder (disorder)\n  2011-06-13 - 2013-06-24 : Medication review due (situation)\n  2011-02-07 - 2011-06-13 : Otitis media (disorder)\n  2010-03-29 - 2010-04-09 : Acute bronchitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Mitzi"
+    },
+    {
+      "type": "name",
+      "text": "Willms"
+    },
+    {
+      "type": "dob",
+      "text": "2006-07-03"
+    },
+    {
+      "type": "ssn",
+      "text": "999-17-4783"
+    },
+    {
+      "type": "address",
+      "text": "585 Cartwright Drive"
+    },
+    {
+      "type": "address",
+      "text": "Apt 55"
+    },
+    {
+      "type": "address",
+      "text": "Lynn"
+    },
+    {
+      "type": "address",
+      "text": "01905"
+    }
+  ],
+  "must_keep": [
+    "Ibuprofen 100 MG Oral Tablet",
+    "Cefuroxime 250 MG Oral Tablet",
+    "clonazePAM 0.25 MG Oral Tablet",
+    "Partial thickness burn (disorder)",
+    "Burn injury (morphologic abnormality)",
+    "Gingivitis (disorder)"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "record_id": "easy-s24",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Latrisha Renee Cummerata\n========================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 82\nBirth Date:          1944-02-17\nMarital Status:      M\nSSN:                 999-22-3263\nDrivers:             S99925525\nPassport:            X60114090X\nAddress:             169 Shanahan Trace Suite 23\nCity:                Belmont\nState:               Massachusetts\nZip:                 02478\n--------------------------------------------------------------------------------\nALLERGIES:\n  1948-04-26 -            : Latex (substance)\n  1948-04-26 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-29[CURRENT] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2026-10-29[CURRENT] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2026-10-29[CURRENT] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2026-10-29[CURRENT] : 24 HR tacrolimus 1 MG Extended Release Oral Tablet [Envarsus] for History of renal transplant (situation)\n  2026-10-29[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2026-10-29[CURRENT] : insulin isophane, human 70 UNT/ML / insulin, regular, human 30 UNT/ML Injectable Suspension [Humulin] for Prediabetes (finding)\n  2025-10-23[STOPPED] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2025-10-23[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2025-10-23[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2025-10-23[STOPPED] : 24 HR tacrolimus 1 MG Extended Release Oral Tablet [Envarsus] for History of renal transplant (situation)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-10-29 -            : Social isolation (finding)\n  2026-10-29 -            : Part-time employment (finding)\n  2025-10-23 - 2026-10-29 : Full-time employment (finding)\n  2025-07-22 - 2025-08-14 : Laceration of foot (disorder)\n  2025-07-22 - 2025-08-14 : Laceration - injury (disorder)\n  2024-10-17 - 2025-10-23 : Unemployed (finding)\n  2024-10-17 - 2026-10-29 : Medication review due (situation)\n  2023-10-12 - 2024-10-17 : Part-time employment (finding)\n  2022-10-06 - 2023-10-12 : Medication review due (situation)\n  2021-09-30 - 2024-10-17 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Latrisha"
+    },
+    {
+      "type": "name",
+      "text": "Renee"
+    },
+    {
+      "type": "name",
+      "text": "Cummerata"
+    },
+    {
+      "type": "dob",
+      "text": "1944-02-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-22-3263"
+    },
+    {
+      "type": "id_number",
+      "text": "S99925525"
+    },
+    {
+      "type": "id_number",
+      "text": "X60114090X"
+    },
+    {
+      "type": "address",
+      "text": "169 Shanahan Trace"
+    },
+    {
+      "type": "address",
+      "text": "Suite 23"
+    },
+    {
+      "type": "address",
+      "text": "Belmont"
+    },
+    {
+      "type": "address",
+      "text": "02478"
+    }
+  ],
+  "must_keep": [
+    "Latex (substance)",
+    "Allergic disposition (finding)",
+    "Alendronic acid 10 MG Oral Tablet",
+    "amLODIPine 2.5 MG Oral Tablet",
+    "lisinopril 10 MG Oral Tablet",
+    "Social isolation (finding)",
+    "Part-time employment (finding)",
+    "Full-time employment (finding)"
+  ]
+}

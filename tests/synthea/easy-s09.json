@@ -1,0 +1,55 @@
+{
+  "record_id": "easy-s09",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Armanda Danyelle Waelchi\n========================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 56\nBirth Date:          1970-03-27\nMarital Status:      M\nSSN:                 999-85-4118\nDrivers:             S99910976\nPassport:            X85128512X\nAddress:             771 Corkery Lock\nCity:                Cambridge\nState:               Massachusetts\nZip:                 02140\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-05-01[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2025-04-25[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2024-04-19[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2023-04-14[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2022-04-08[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2021-04-02[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2020-03-27[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2020-03-27[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2019-11-01[STOPPED] : Etonogestrel 68 MG Drug Implant\n  2018-11-06[STOPPED] : Etonogestrel 68 MG Drug Implant\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-05-01 -            : Medication review due (situation)\n  2025-04-25 - 2026-05-01 : Stress (finding)\n  2024-04-19 -            : Refugee (person)\n  2024-04-19 -            : Full-time employment (finding)\n  2023-05-01 - 2023-05-27 : Laceration of forearm (disorder)\n  2023-05-01 - 2023-05-27 : Laceration - injury (disorder)\n  2023-04-14 - 2023-04-28 : Gingivitis (disorder)\n  2023-04-14 - 2024-04-19 : Unemployed (finding)\n  2022-04-22 - 2024-05-03 : Dental caries\n  2022-04-08 - 2022-04-22 : Gingivitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Armanda"
+    },
+    {
+      "type": "name",
+      "text": "Danyelle"
+    },
+    {
+      "type": "name",
+      "text": "Waelchi"
+    },
+    {
+      "type": "dob",
+      "text": "1970-03-27"
+    },
+    {
+      "type": "ssn",
+      "text": "999-85-4118"
+    },
+    {
+      "type": "id_number",
+      "text": "S99910976"
+    },
+    {
+      "type": "id_number",
+      "text": "X85128512X"
+    },
+    {
+      "type": "address",
+      "text": "771 Corkery Lock"
+    },
+    {
+      "type": "address",
+      "text": "Cambridge"
+    },
+    {
+      "type": "address",
+      "text": "02140"
+    }
+  ],
+  "must_keep": [
+    "Hydrochlorothiazide 25 MG Oral Tablet",
+    "Etonogestrel 68 MG Drug Implant",
+    "Medication review due (situation)",
+    "Stress (finding)",
+    "Refugee (person)"
+  ]
+}

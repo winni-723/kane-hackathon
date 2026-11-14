@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s01",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Adán Arroyo\n==á========\nRace:                White\nEthnicity:           Hispanic\nGender:              M\nAge:                 55\nBirth Date:          1971-01-24\nMarital Status:      M\nSSN:                 999-33-6514\nDrivers:             S99954805\nPassport:            X89957600X\nAddress:             260 Lehner Fort\nCity:                Northborough\nState:               Massachusetts\nZip:                 01532\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-02-22[CURRENT] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2025-02-16[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2025-02-16[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2024-05-05[STOPPED] : Acetaminophen 21.7 MG/ML / Dextromethorphan Hydrobromide 1 MG/ML / doxylamine succinate 0.417 MG/ML Oral Solution for Acute bronchitis (disorder)\n  2018-08-02[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-09-19 - 2026-09-26 : Viral sinusitis (disorder)\n  2026-02-22 -            : Unhealthy alcohol drinking behavior (finding)\n  2026-02-22 - 2026-02-22 : Medication review due (situation)\n  2025-09-03 - 2025-09-17 : Viral sinusitis (disorder)\n  2025-05-31 - 2025-06-30 : Concussion with loss of consciousness (disorder)\n  2025-05-31 - 2025-06-30 : Concussion injury of brain (disorder)\n  2025-02-16 - 2025-03-02 : Gingivitis (disorder)\n  2025-02-16 - 2026-02-22 : Social isolation (finding)\n  2025-02-16 -            : Full-time employment (finding)\n  2025-02-16 -            : Metabolic syndrome X (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Adán"
+    },
+    {
+      "type": "name",
+      "text": "Arroyo"
+    },
+    {
+      "type": "dob",
+      "text": "1971-01-24"
+    },
+    {
+      "type": "ssn",
+      "text": "999-33-6514"
+    },
+    {
+      "type": "id_number",
+      "text": "S99954805"
+    },
+    {
+      "type": "id_number",
+      "text": "X89957600X"
+    },
+    {
+      "type": "address",
+      "text": "260 Lehner Fort"
+    },
+    {
+      "type": "address",
+      "text": "Northborough"
+    },
+    {
+      "type": "address",
+      "text": "01532"
+    }
+  ],
+  "must_keep": [
+    "amLODIPine 2.5 MG Oral Tablet",
+    "Acetaminophen 21.7 MG/ML / Dextromethorphan Hydrobromide 1 MG/ML / doxylamine succinate 0.417 MG/ML Oral Solution",
+    "Acetaminophen 325 MG Oral Tablet",
+    "Viral sinusitis (disorder)",
+    "Unhealthy alcohol drinking behavior (finding)",
+    "Medication review due (situation)"
+  ]
+}

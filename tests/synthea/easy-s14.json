@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s14",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Crystle Aracelis Schultz\n========================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 47\nBirth Date:          1978-12-16\nMarital Status:      M\nSSN:                 999-67-1122\nDrivers:             S99930876\nPassport:            X48669049X\nAddress:             717 Orn Passage\nCity:                Lynn\nState:               Massachusetts\nZip:                 01901\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2024-05-28[STOPPED] : Etonogestrel 68 MG Drug Implant\n  2023-06-03[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Errin 28 Day]\n  2021-02-28[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Jolivette 28 Day]\n  2020-03-05[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Camila 28 Day]\n  2019-03-11[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Jolivette 28 Day]\n  2019-02-02[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2016-03-23[STOPPED] : {7 (ethinyl estradiol 0.01 MG Oral Tablet) / 84 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) } Pack [Seasonique]\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-08-02 - 2025-08-15 : Blighted ovum (disorder)\n  2025-08-02 - 2025-08-15 : Miscarriage in first trimester (disorder)\n  2025-08-02 - 2025-08-15 : Normal pregnancy (finding)\n  2023-01-05 - 2023-01-17 : Acute viral pharyngitis (disorder)\n  2022-12-31 - 2023-01-14 : Gingivitis (disorder)\n  2022-12-31 -            : Medication review due (situation)\n  2022-09-23 - 2022-10-03 : Acute viral pharyngitis (disorder)\n  2022-09-03 - 2023-04-15 : Normal pregnancy (finding)\n  2020-12-26 - 2020-12-26 : Medication review due (situation)\n  2019-11-30 - 2023-01-14 : Dental caries",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Crystle"
+    },
+    {
+      "type": "name",
+      "text": "Aracelis"
+    },
+    {
+      "type": "name",
+      "text": "Schultz"
+    },
+    {
+      "type": "dob",
+      "text": "1978-12-16"
+    },
+    {
+      "type": "ssn",
+      "text": "999-67-1122"
+    },
+    {
+      "type": "id_number",
+      "text": "S99930876"
+    },
+    {
+      "type": "id_number",
+      "text": "X48669049X"
+    },
+    {
+      "type": "address",
+      "text": "717 Orn Passage"
+    },
+    {
+      "type": "address",
+      "text": "Lynn"
+    },
+    {
+      "type": "address",
+      "text": "01901"
+    }
+  ],
+  "must_keep": [
+    "Etonogestrel 68 MG Drug Implant",
+    "{28 (norethindrone 0.35 MG Oral Tablet) } Pack [Errin 28 Day]",
+    "{28 (norethindrone 0.35 MG Oral Tablet) } Pack [Jolivette 28 Day]",
+    "Blighted ovum (disorder)",
+    "Miscarriage in first trimester (disorder)",
+    "Normal pregnancy (finding)"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "record_id": "easy-s40",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Prince Kozey\n============\nRace:                Black\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 8\nBirth Date:          2018-03-15\nMarital Status:      S\nSSN:                 999-41-1579\nAddress:             808 Weissnat Meadow\nCity:                Oak Bluffs\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2023-05-05[STOPPED] : Ibuprofen 100 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-03-12 -            : Medication review due (situation)\n  2025-03-05 - 2025-03-05 : Medication review due (situation)\n  2024-03-06 - 2024-05-09 : Dental caries\n  2024-03-06 - 2024-05-09 : Tooth eruption disorder\n  2024-02-28 - 2024-02-28 : Medication review due (situation)\n  2023-05-05 - 2023-05-20 : Sprain of ankle (disorder)\n  2023-05-05 - 2023-05-20 : Sprain (morphologic abnormality)\n  2023-02-24 - 2023-03-03 : Viral sinusitis (disorder)\n  2020-08-20 - 2023-02-22 : Medication review due (situation)\n  2020-02-19 - 2020-02-19 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Prince"
+    },
+    {
+      "type": "name",
+      "text": "Kozey"
+    },
+    {
+      "type": "dob",
+      "text": "2018-03-15"
+    },
+    {
+      "type": "ssn",
+      "text": "999-41-1579"
+    },
+    {
+      "type": "address",
+      "text": "808 Weissnat Meadow"
+    },
+    {
+      "type": "address",
+      "text": "Oak Bluffs"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Ibuprofen 100 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Dental caries",
+    "Tooth eruption disorder"
+  ]
+}

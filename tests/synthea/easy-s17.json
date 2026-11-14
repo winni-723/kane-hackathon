@@ -1,0 +1,39 @@
+{
+  "record_id": "easy-s17",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Evia Ernser\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 2\nBirth Date:          2024-03-17\nMarital Status:      S\nSSN:                 999-35-7133\nAddress:             517 Bogan Passage\nCity:                Quincy\nState:               Massachusetts\nZip:                 02169\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-08-23 - 2026-08-23 : Medication review due (situation)\n  2026-02-22 - 2026-02-22 : Medication review due (situation)\n  2025-08-24 - 2025-08-24 : Medication review due (situation)\n  2025-05-25 - 2025-05-25 : Medication review due (situation)\n  2024-11-24 - 2025-02-23 : Medication review due (situation)\n  2024-03-17 - 2024-08-25 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Evia"
+    },
+    {
+      "type": "name",
+      "text": "Ernser"
+    },
+    {
+      "type": "dob",
+      "text": "2024-03-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-35-7133"
+    },
+    {
+      "type": "address",
+      "text": "517 Bogan Passage"
+    },
+    {
+      "type": "address",
+      "text": "Quincy"
+    },
+    {
+      "type": "address",
+      "text": "02169"
+    }
+  ],
+  "must_keep": [
+    "Medication review due (situation)"
+  ]
+}

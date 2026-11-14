@@ -1,0 +1,55 @@
+{
+  "record_id": "easy-s38",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Nicolás Mota\n=====á======\nRace:                White\nEthnicity:           Hispanic\nGender:              M\nAge:                 65\nBirth Date:          1961-02-11\nMarital Status:      D\nSSN:                 999-63-8087\nDrivers:             S99989169\nPassport:            X47396526X\nAddress:             937 Turner Plaza Apt 6\nCity:                Concord\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2023-01-05[STOPPED] : Ibuprofen 200 MG Oral Tablet\n  2017-05-16[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-05-09 -            : Social isolation (finding)\n  2026-05-09 -            : Part-time employment (finding)\n  2026-05-09 -            : Medication review due (situation)\n  2025-05-03 - 2026-05-09 : Stress (finding)\n  2025-05-03 - 2026-05-09 : Full-time employment (finding)\n  2024-04-27 - 2025-05-03 : Part-time employment (finding)\n  2023-04-22 - 2023-05-06 : Gingivitis (disorder)\n  2023-04-22 - 2024-04-27 : Stress (finding)\n  2023-04-22 - 2024-04-27 : Full-time employment (finding)\n  2023-04-22 - 2025-05-03 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Nicolás"
+    },
+    {
+      "type": "name",
+      "text": "Mota"
+    },
+    {
+      "type": "dob",
+      "text": "1961-02-11"
+    },
+    {
+      "type": "ssn",
+      "text": "999-63-8087"
+    },
+    {
+      "type": "id_number",
+      "text": "S99989169"
+    },
+    {
+      "type": "id_number",
+      "text": "X47396526X"
+    },
+    {
+      "type": "address",
+      "text": "937 Turner Plaza"
+    },
+    {
+      "type": "address",
+      "text": "Apt 6"
+    },
+    {
+      "type": "address",
+      "text": "Concord"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Ibuprofen 200 MG Oral Tablet",
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "Social isolation (finding)",
+    "Part-time employment (finding)",
+    "Medication review due (situation)"
+  ]
+}

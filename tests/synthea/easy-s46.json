@@ -1,0 +1,51 @@
+{
+  "record_id": "easy-s46",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Rusty Champlin\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 74\nBirth Date:          1952-07-06\nMarital Status:      W\nSSN:                 999-90-1418\nDrivers:             S99979093\nPassport:            X47976291X\nAddress:             961 Kihn Trafficway\nCity:                Barnstable\nState:               Massachusetts\nZip:                 02637\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-12[CURRENT] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2025-10-12[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2024-10-12[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-10-13[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2022-10-13[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2021-10-13[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2020-10-13[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2020-09-02[STOPPED] : Ibuprofen 200 MG Oral Tablet\n  2019-10-14[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2018-10-14[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-11-23 -            : Medication review due (situation)\n  2025-08-17 - 2025-08-18 : Dental caries, unspecified\n  2024-12-08 - 2024-12-15 : Viral sinusitis (disorder)\n  2024-11-17 -            : Limited social contact (finding)\n  2023-11-12 -            : Gingivitis (disorder)\n  2023-11-12 -            : Full-time employment (finding)\n  2023-11-12 - 2024-11-17 : Medication review due (situation)\n  2022-11-06 - 2023-11-12 : Not in labor force (finding)\n  2022-11-06 - 2022-11-06 : Medication review due (situation)\n  2021-10-31 - 2022-11-06 : Reports of violence in the environment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Rusty"
+    },
+    {
+      "type": "name",
+      "text": "Champlin"
+    },
+    {
+      "type": "dob",
+      "text": "1952-07-06"
+    },
+    {
+      "type": "ssn",
+      "text": "999-90-1418"
+    },
+    {
+      "type": "id_number",
+      "text": "S99979093"
+    },
+    {
+      "type": "id_number",
+      "text": "X47976291X"
+    },
+    {
+      "type": "address",
+      "text": "961 Kihn Trafficway"
+    },
+    {
+      "type": "address",
+      "text": "Barnstable"
+    },
+    {
+      "type": "address",
+      "text": "02637"
+    }
+  ],
+  "must_keep": [
+    "Simvastatin 10 MG Oral Tablet",
+    "Ibuprofen 200 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Dental caries, unspecified",
+    "Viral sinusitis (disorder)"
+  ]
+}

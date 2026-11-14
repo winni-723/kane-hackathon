@@ -1,0 +1,58 @@
+{
+  "record_id": "easy-s07",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Arlen McCullough\n================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 29\nBirth Date:          1997-03-05\nMarital Status:      S\nSSN:                 999-58-3640\nDrivers:             S99955427\nPassport:            X42977884X\nAddress:             874 Osinski Heights Apt 97\nCity:                Belchertown\nState:               Massachusetts\nZip:                 01007\n--------------------------------------------------------------------------------\nALLERGIES:\n  1998-01-05 -            : Shellfish (substance)\n  1998-01-05 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-02-21[STOPPED] : Penicillin V Potassium 500 MG Oral Tablet for Streptococcal sore throat (disorder)\n  2021-12-30[STOPPED] : Penicillin V Potassium 500 MG Oral Tablet for Streptococcal sore throat (disorder)\n  1998-01-05[CURRENT] : NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector\n  1998-01-05[CURRENT] : Loratadine 5 MG Chewable Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-02-21 - 2026-03-01 : Streptococcal sore throat (disorder)\n  2025-05-14 -            : Part-time employment (finding)\n  2025-05-14 - 2025-05-14 : Medication review due (situation)\n  2021-12-30 - 2022-01-11 : Streptococcal sore throat (disorder)\n  2021-01-14 - 2021-02-07 : Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)\n  2021-01-14 - 2021-02-07 : Fever (finding)\n  2021-01-14 - 2021-02-07 : Fatigue (finding)\n  2021-01-14 - 2021-02-07 : Sputum finding (finding)\n  2021-01-14 - 2021-02-07 : Headache (finding)\n  2021-01-14 - 2021-01-14 : Suspected disease caused by Severe acute respiratory coronavirus 2 (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Arlen"
+    },
+    {
+      "type": "name",
+      "text": "McCullough"
+    },
+    {
+      "type": "dob",
+      "text": "1997-03-05"
+    },
+    {
+      "type": "ssn",
+      "text": "999-58-3640"
+    },
+    {
+      "type": "id_number",
+      "text": "S99955427"
+    },
+    {
+      "type": "id_number",
+      "text": "X42977884X"
+    },
+    {
+      "type": "address",
+      "text": "874 Osinski Heights"
+    },
+    {
+      "type": "address",
+      "text": "Apt 97"
+    },
+    {
+      "type": "address",
+      "text": "Belchertown"
+    },
+    {
+      "type": "address",
+      "text": "01007"
+    }
+  ],
+  "must_keep": [
+    "Shellfish (substance)",
+    "Allergic disposition (finding)",
+    "Penicillin V Potassium 500 MG Oral Tablet",
+    "NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector",
+    "Loratadine 5 MG Chewable Tablet",
+    "Streptococcal sore throat (disorder)",
+    "Part-time employment (finding)",
+    "Medication review due (situation)"
+  ]
+}

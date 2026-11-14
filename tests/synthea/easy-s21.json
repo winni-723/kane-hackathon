@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s21",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Irena Green\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 20\nBirth Date:          2006-07-03\nMarital Status:      S\nSSN:                 999-71-3378\nDrivers:             S99954327\nPassport:            X32698534X\nAddress:             440 Kunde Loaf Suite 83\nCity:                Lynn\nState:               Massachusetts\nZip:                 01906\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-06-06[STOPPED] : levonorgestrel 0.000729 MG/HR Intrauterine System [Kyleena]\n  2022-08-29[STOPPED] : sulfamethoxazole 800 MG / trimethoprim 160 MG Oral Tablet for Acute infective cystitis (disorder)\n  2021-06-27[STOPPED] : {7 (ethinyl estradiol 0.035 MG / norgestimate 0.18 MG Oral Tablet) / 7 (ethinyl estradiol 0.035 MG / norgestimate 0.215 MG Oral Tablet) / 7 (ethinyl estradiol 0.035 MG / norgestimate 0.25 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Trinessa 28 Day]\n  2020-10-02[STOPPED] : Acetaminophen 325 MG Oral Tablet\n  2020-10-02[STOPPED] : Cefuroxime 250 MG Oral Tablet\n  2020-07-02[STOPPED] : {21 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Levora 0.15/30 28 Day]\n  2019-02-18[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-08-03 - 2026-09-03 : Normal pregnancy (finding)\n  2025-09-01 -            : Medication review due (situation)\n  2024-08-26 -            : Stress (finding)\n  2024-08-26 -            : Full-time employment (finding)\n  2024-08-26 -            : Received higher education (finding)\n  2022-08-29 - 2022-08-29 : Acute infective cystitis (disorder)\n  2022-08-15 - 2024-08-26 : Medication review due (situation)\n  2021-10-30 -            : Chronic sinusitis (disorder)\n  2021-09-18 - 2021-12-04 : Sinusitis (disorder)\n  2021-08-09 - 2021-08-23 : Gingivitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Irena"
+    },
+    {
+      "type": "name",
+      "text": "Green"
+    },
+    {
+      "type": "dob",
+      "text": "2006-07-03"
+    },
+    {
+      "type": "ssn",
+      "text": "999-71-3378"
+    },
+    {
+      "type": "id_number",
+      "text": "S99954327"
+    },
+    {
+      "type": "id_number",
+      "text": "X32698534X"
+    },
+    {
+      "type": "address",
+      "text": "440 Kunde Loaf"
+    },
+    {
+      "type": "address",
+      "text": "Suite 83"
+    },
+    {
+      "type": "address",
+      "text": "Lynn"
+    },
+    {
+      "type": "address",
+      "text": "01906"
+    }
+  ],
+  "must_keep": [
+    "levonorgestrel 0.000729 MG/HR Intrauterine System [Kyleena]",
+    "sulfamethoxazole 800 MG / trimethoprim 160 MG Oral Tablet",
+    "{7 (ethinyl estradiol 0.035 MG / norgestimate 0.18 MG Oral Tablet) / 7 (ethinyl estradiol 0.035 MG / norgestimate 0.215 MG Oral Tablet) / 7 (ethinyl estradiol 0.035 MG / norgestimate 0.25 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Trinessa 28 Day]",
+    "Normal pregnancy (finding)",
+    "Medication review due (situation)",
+    "Stress (finding)"
+  ]
+}

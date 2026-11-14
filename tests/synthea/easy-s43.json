@@ -1,0 +1,53 @@
+{
+  "record_id": "easy-s43",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Ronald Welch\n============\nRace:                Black\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 37\nBirth Date:          1989-03-26\nMarital Status:      M\nSSN:                 999-63-3866\nDrivers:             S99977719\nPassport:            X51364561X\nAddress:             912 Osinski Byway Unit 6\nCity:                Plymouth\nState:               Massachusetts\nZip:                 02360\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-05-02 - 2026-05-10 : Viral sinusitis (disorder)\n  2023-06-18 - 2026-06-21 : Reports of violence in the environment (finding)\n  2023-06-18 -            : Part-time employment (finding)\n  2022-12-11 - 2022-12-19 : Acute viral pharyngitis (disorder)\n  2022-11-27 - 2023-06-18 : Full-time employment (finding)\n  2022-11-27 -            : Anemia (disorder)\n  2022-11-27 - 2026-06-21 : Medication review due (situation)\n  2021-09-01 - 2021-09-18 : Viral sinusitis (disorder)\n  2020-06-14 - 2022-11-27 : Victim of intimate partner abuse (finding)\n  2020-06-14 - 2022-11-27 : Not in labor force (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Ronald"
+    },
+    {
+      "type": "name",
+      "text": "Welch"
+    },
+    {
+      "type": "dob",
+      "text": "1989-03-26"
+    },
+    {
+      "type": "ssn",
+      "text": "999-63-3866"
+    },
+    {
+      "type": "id_number",
+      "text": "S99977719"
+    },
+    {
+      "type": "id_number",
+      "text": "X51364561X"
+    },
+    {
+      "type": "address",
+      "text": "912 Osinski Byway"
+    },
+    {
+      "type": "address",
+      "text": "Unit 6"
+    },
+    {
+      "type": "address",
+      "text": "Plymouth"
+    },
+    {
+      "type": "address",
+      "text": "02360"
+    }
+  ],
+  "must_keep": [
+    "Viral sinusitis (disorder)",
+    "Reports of violence in the environment (finding)",
+    "Part-time employment (finding)"
+  ]
+}

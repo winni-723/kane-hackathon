@@ -1,0 +1,53 @@
+{
+  "record_id": "easy-s22",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Jack Wisozk\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 21\nBirth Date:          2005-10-09\nMarital Status:      S\nSSN:                 999-86-1441\nDrivers:             S99913362\nPassport:            X65093286X\nAddress:             106 Corkery Stravenue Unit 7\nCity:                Salem\nState:               Massachusetts\nZip:                 01907\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-02-26 - 2026-05-15 : Concussion with no loss of consciousness (disorder)\n  2026-02-26 - 2026-05-15 : Concussion injury of brain (disorder)\n  2024-12-15 -            : Stress (finding)\n  2024-12-15 -            : Social isolation (finding)\n  2024-12-15 -            : Not in labor force (finding)\n  2023-12-10 -            : Victim of intimate partner abuse (finding)\n  2023-12-10 -            : Lack of access to transportation (finding)\n  2023-12-10 - 2024-12-15 : Full-time employment (finding)\n  2023-12-10 -            : Received higher education (finding)\n  2023-05-04 - 2023-05-18 : Acute viral pharyngitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Jack"
+    },
+    {
+      "type": "name",
+      "text": "Wisozk"
+    },
+    {
+      "type": "dob",
+      "text": "2005-10-09"
+    },
+    {
+      "type": "ssn",
+      "text": "999-86-1441"
+    },
+    {
+      "type": "id_number",
+      "text": "S99913362"
+    },
+    {
+      "type": "id_number",
+      "text": "X65093286X"
+    },
+    {
+      "type": "address",
+      "text": "106 Corkery Stravenue"
+    },
+    {
+      "type": "address",
+      "text": "Unit 7"
+    },
+    {
+      "type": "address",
+      "text": "Salem"
+    },
+    {
+      "type": "address",
+      "text": "01907"
+    }
+  ],
+  "must_keep": [
+    "Concussion with no loss of consciousness (disorder)",
+    "Concussion injury of brain (disorder)",
+    "Stress (finding)"
+  ]
+}

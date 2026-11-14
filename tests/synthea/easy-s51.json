@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s51",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Timoteo Otero\n=============\nRace:                White\nEthnicity:           Hispanic\nGender:              M\nAge:                 DECEASED\nBirth Date:          1961-02-11\nMarital Status:      M\nSSN:                 999-75-2463\nDrivers:             S99938406\nPassport:            X59193846X\nAddress:             640 Harber Boulevard Apt 27\nCity:                Concord\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2009-10-16[CURRENT] : Naproxen sodium 220 MG Oral Tablet for Osteoarthritis of knee (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2016-03-12 -            : Reports of violence in the environment (finding)\n  2015-03-21 - 2015-03-21 : Dental caries on smooth surface penetrating into dentin\n  2015-03-07 -            : Stress (finding)\n  2014-03-01 -            : Full-time employment (finding)\n  2012-07-07 -            : Overlapping malignant neoplasm of colon (disorder)\n  2012-07-01 -            : Recurrent rectal polyp (disorder)\n  2012-02-18 -            : Victim of intimate partner abuse (finding)\n  2011-02-19 -            : Polyp of colon (disorder)\n  2011-02-12 - 2013-02-23 : Stress (finding)\n  2011-02-12 - 2014-03-01 : Part-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Timoteo"
+    },
+    {
+      "type": "name",
+      "text": "Otero"
+    },
+    {
+      "type": "dob",
+      "text": "1961-02-11"
+    },
+    {
+      "type": "ssn",
+      "text": "999-75-2463"
+    },
+    {
+      "type": "id_number",
+      "text": "S99938406"
+    },
+    {
+      "type": "id_number",
+      "text": "X59193846X"
+    },
+    {
+      "type": "address",
+      "text": "640 Harber Boulevard"
+    },
+    {
+      "type": "address",
+      "text": "Apt 27"
+    },
+    {
+      "type": "address",
+      "text": "Concord"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Naproxen sodium 220 MG Oral Tablet",
+    "Reports of violence in the environment (finding)",
+    "Dental caries on smooth surface penetrating into dentin",
+    "Stress (finding)"
+  ]
+}

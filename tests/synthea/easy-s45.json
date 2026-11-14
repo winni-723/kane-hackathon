@@ -1,0 +1,53 @@
+{
+  "record_id": "easy-s45",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Rupert Bosco\n============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 45\nBirth Date:          1981-01-04\nMarital Status:      D\nSSN:                 999-59-9113\nDrivers:             S99922764\nPassport:            X58445482X\nAddress:             735 Marks Grove\nCity:                Boston\nState:               Massachusetts\nZip:                 02111\n--------------------------------------------------------------------------------\nALLERGIES:\n  1983-12-25 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2022-02-13[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2016-12-23[STOPPED] : Ibuprofen 200 MG Oral Tablet\n  1983-12-18[CURRENT] : Chlorpheniramine Maleate 2 MG/ML Oral Solution\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-01-19 -            : Stress (finding)\n  2023-01-15 -            : Severe anxiety (panic) (finding)\n  2022-02-13 - 2022-02-20 : Acute bronchitis (disorder)\n  2022-02-06 - 2023-01-15 : Stress (finding)\n  2022-02-06 -            : Social isolation (finding)\n  2021-01-10 -            : Anemia (disorder)\n  2018-03-25 - 2018-04-08 : Gingivitis (disorder)\n  2018-03-25 - 2025-01-19 : Medication review due (situation)\n  2016-12-23 - 2017-01-15 : Laceration of hand (disorder)\n  2016-12-23 - 2017-01-15 : Laceration - injury (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Rupert"
+    },
+    {
+      "type": "name",
+      "text": "Bosco"
+    },
+    {
+      "type": "dob",
+      "text": "1981-01-04"
+    },
+    {
+      "type": "ssn",
+      "text": "999-59-9113"
+    },
+    {
+      "type": "id_number",
+      "text": "S99922764"
+    },
+    {
+      "type": "id_number",
+      "text": "X58445482X"
+    },
+    {
+      "type": "address",
+      "text": "735 Marks Grove"
+    },
+    {
+      "type": "address",
+      "text": "Boston"
+    },
+    {
+      "type": "address",
+      "text": "02111"
+    }
+  ],
+  "must_keep": [
+    "Allergic disposition (finding)",
+    "Acetaminophen 325 MG Oral Tablet",
+    "Ibuprofen 200 MG Oral Tablet",
+    "Chlorpheniramine Maleate 2 MG/ML Oral Solution",
+    "Stress (finding)",
+    "Severe anxiety (panic) (finding)",
+    "Acute bronchitis (disorder)"
+  ]
+}

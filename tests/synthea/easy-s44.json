@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s44",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Rudolph Donnelly\n================\nRace:                Asian\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 21\nBirth Date:          2004-11-26\nMarital Status:      S\nSSN:                 999-33-1040\nDrivers:             S99993672\nPassport:            X29063790X\nAddress:             546 Brakus Bridge Suite 27\nCity:                Shirley\nState:               Massachusetts\nZip:                 01464\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-02-06[CURRENT] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2025-09-19[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2025-09-12[STOPPED] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2025-01-31[STOPPED] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2024-01-26[STOPPED] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2023-01-20[STOPPED] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2023-01-01[STOPPED] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2019-10-11[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2008-10-31[CURRENT] : carbamazepine 20 MG/ML Oral Suspension [Tegretol] for Seizure disorder (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-03-20 - 2026-03-29 : Viral sinusitis (disorder)\n  2026-02-06 -            : Victim of intimate partner abuse (finding)\n  2026-02-06 -            : Social isolation (finding)\n  2026-02-06 -            : Not in labor force (finding)\n  2025-09-19 - 2025-10-09 : Acute bronchitis (disorder)\n  2025-09-12 - 2026-02-06 : Full-time employment (finding)\n  2025-01-31 -            : Stress (finding)\n  2025-01-31 -            : Medication review due (situation)\n  2024-01-26 -            : Refugee (person)\n  2024-01-26 - 2025-09-12 : Part-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Rudolph"
+    },
+    {
+      "type": "name",
+      "text": "Donnelly"
+    },
+    {
+      "type": "dob",
+      "text": "2004-11-26"
+    },
+    {
+      "type": "ssn",
+      "text": "999-33-1040"
+    },
+    {
+      "type": "id_number",
+      "text": "S99993672"
+    },
+    {
+      "type": "id_number",
+      "text": "X29063790X"
+    },
+    {
+      "type": "address",
+      "text": "546 Brakus Bridge"
+    },
+    {
+      "type": "address",
+      "text": "Suite 27"
+    },
+    {
+      "type": "address",
+      "text": "Shirley"
+    },
+    {
+      "type": "address",
+      "text": "01464"
+    }
+  ],
+  "must_keep": [
+    "Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet",
+    "Acetaminophen 325 MG Oral Tablet",
+    "carbamazepine 20 MG/ML Oral Suspension [Tegretol]",
+    "Viral sinusitis (disorder)",
+    "Victim of intimate partner abuse (finding)",
+    "Social isolation (finding)"
+  ]
+}

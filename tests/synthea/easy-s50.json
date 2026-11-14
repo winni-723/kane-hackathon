@@ -1,0 +1,51 @@
+{
+  "record_id": "easy-s50",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Tanisha Christiansen\n====================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 2\nBirth Date:          2024-06-13\nMarital Status:      S\nSSN:                 999-44-3989\nAddress:             462 Dickens Viaduct Unit 68\nCity:                Everett\nState:               Massachusetts\nZip:                 02149\n--------------------------------------------------------------------------------\nALLERGIES:\n  2025-10-07 -            : Peanut (substance)\n  2025-10-07 -            : Shellfish (substance)\n  2025-10-07 -            : Tree pollen (substance)\n  2025-10-07 -            : Grass pollen (substance)\n  2025-10-07 -            : Animal dander (substance)\n  2025-10-07 -            : House dust mite (organism)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-10-07[CURRENT] : NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector\n  2025-10-07[CURRENT] : Fexofenadine hydrochloride 30 MG Oral Tablet\n  2024-08-12[STOPPED] : Ibuprofen 100 MG Oral Tablet\n  2024-08-12[STOPPED] : Amoxicillin 500 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-05-21 -            : Medication review due (situation)\n  2026-04-10 - 2026-04-17 : Viral sinusitis (disorder)\n  2025-11-20 - 2025-11-20 : Medication review due (situation)\n  2025-08-21 - 2025-08-21 : Medication review due (situation)\n  2024-09-19 - 2025-05-22 : Medication review due (situation)\n  2024-08-12 - 2024-09-19 : Otitis media (disorder)\n  2024-06-13 - 2024-07-18 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Tanisha"
+    },
+    {
+      "type": "name",
+      "text": "Christiansen"
+    },
+    {
+      "type": "dob",
+      "text": "2024-06-13"
+    },
+    {
+      "type": "ssn",
+      "text": "999-44-3989"
+    },
+    {
+      "type": "address",
+      "text": "462 Dickens Viaduct"
+    },
+    {
+      "type": "address",
+      "text": "Unit 68"
+    },
+    {
+      "type": "address",
+      "text": "Everett"
+    },
+    {
+      "type": "address",
+      "text": "02149"
+    }
+  ],
+  "must_keep": [
+    "Peanut (substance)",
+    "Shellfish (substance)",
+    "Tree pollen (substance)",
+    "NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector",
+    "Fexofenadine hydrochloride 30 MG Oral Tablet",
+    "Ibuprofen 100 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Viral sinusitis (disorder)",
+    "Otitis media (disorder)"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "record_id": "easy-s39",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Norma Jennell Mosciski\n======================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 74\nBirth Date:          1952-08-18\nMarital Status:      D\nSSN:                 999-65-6736\nDrivers:             S99970385\nPassport:            X75538990X\nAddress:             864 Witting Heights Suite 82\nCity:                Andover\nState:               Massachusetts\nZip:                 01810\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-12-30[CURRENT] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2024-12-30[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-12-19[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-05-04[STOPPED] : Naproxen sodium 220 MG Oral Tablet\n  2022-12-19[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2021-12-07[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2020-12-07[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2020-05-12[STOPPED] : Meperidine Hydrochloride 50 MG Oral Tablet\n  2020-05-11[STOPPED] : 10 ML Fentanyl 0.05 MG/ML Injection\n  2020-05-11[STOPPED] : sevoflurane 1000 MG/ML Inhalation Solution\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-12-29 -            : Full-time employment (finding)\n  2024-12-23 - 2025-12-29 : Not in labor force (finding)\n  2023-12-18 -            : Medication review due (situation)\n  2023-05-04 - 2023-08-21 : Fracture of forearm (disorder)\n  2023-05-04 - 2023-08-21 : Fracture of bone (disorder)\n  2023-02-06 - 2025-01-06 : Unspecified lesions of oral mucosa\n  2023-01-02 - 2023-01-19 : Viral sinusitis (disorder)\n  2022-12-12 - 2024-12-23 : Full-time employment (finding)\n  2021-12-06 - 2022-12-12 : Not in labor force (finding)\n  2020-11-30 -            : Gingivitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Norma"
+    },
+    {
+      "type": "name",
+      "text": "Jennell"
+    },
+    {
+      "type": "name",
+      "text": "Mosciski"
+    },
+    {
+      "type": "dob",
+      "text": "1952-08-18"
+    },
+    {
+      "type": "ssn",
+      "text": "999-65-6736"
+    },
+    {
+      "type": "id_number",
+      "text": "S99970385"
+    },
+    {
+      "type": "id_number",
+      "text": "X75538990X"
+    },
+    {
+      "type": "address",
+      "text": "864 Witting Heights"
+    },
+    {
+      "type": "address",
+      "text": "Suite 82"
+    },
+    {
+      "type": "address",
+      "text": "Andover"
+    },
+    {
+      "type": "address",
+      "text": "01810"
+    }
+  ],
+  "must_keep": [
+    "Simvastatin 10 MG Oral Tablet",
+    "Naproxen sodium 220 MG Oral Tablet",
+    "Meperidine Hydrochloride 50 MG Oral Tablet",
+    "Full-time employment (finding)",
+    "Not in labor force (finding)",
+    "Medication review due (situation)"
+  ]
+}

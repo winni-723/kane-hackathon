@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s52",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Toccara Kilback\n===============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 27\nBirth Date:          1999-05-11\nMarital Status:      S\nSSN:                 999-31-9570\nDrivers:             S99944488\nPassport:            X84365053X\nAddress:             177 McDermott Overpass\nCity:                Arlington\nState:               Massachusetts\nZip:                 02474\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2024-09-06[STOPPED] : Etonogestrel 68 MG Drug Implant\n  2023-09-25[STOPPED] : sulfamethoxazole 800 MG / trimethoprim 160 MG Oral Tablet for Acute infective cystitis (disorder)\n  2023-09-23[STOPPED] : nitrofurantoin, macrocrystals 25 MG / nitrofurantoin, monohydrate 75 MG Oral Capsule for Acute infective cystitis (disorder)\n  2022-08-15[STOPPED] : {21 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Levora 0.15/30 28 Day]\n  2021-08-20[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Errin 28 Day]\n  2019-04-09[STOPPED] : {7 (ethinyl estradiol 0.01 MG Oral Tablet) / 84 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) } Pack [Seasonique]\n  2018-04-14[STOPPED] : {7 (ethinyl estradiol 0.035 MG / norgestimate 0.18 MG Oral Tablet) / 7 (ethinyl estradiol 0.035 MG / norgestimate 0.215 MG Oral Tablet) / 7 (ethinyl estradiol 0.035 MG / norgestimate 0.25 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Trinessa 28 Day]\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-04-21 -            : Normal pregnancy (finding)\n  2025-06-29 - 2025-07-24 : Acute bacterial sinusitis (disorder)\n  2024-11-03 - 2024-11-17 : Acute viral pharyngitis (disorder)\n  2024-07-30 - 2024-07-30 : Dental caries\n  2024-07-16 - 2024-07-30 : Gingivitis (disorder)\n  2024-07-16 -            : Victim of intimate partner abuse (finding)\n  2024-07-16 -            : Limited social contact (finding)\n  2024-07-16 -            : Part-time employment (finding)\n  2024-07-16 - 2024-07-16 : Medication review due (situation)\n  2023-09-23 - 2023-09-25 : Acute infective cystitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Toccara"
+    },
+    {
+      "type": "name",
+      "text": "Kilback"
+    },
+    {
+      "type": "dob",
+      "text": "1999-05-11"
+    },
+    {
+      "type": "ssn",
+      "text": "999-31-9570"
+    },
+    {
+      "type": "id_number",
+      "text": "S99944488"
+    },
+    {
+      "type": "id_number",
+      "text": "X84365053X"
+    },
+    {
+      "type": "address",
+      "text": "177 McDermott Overpass"
+    },
+    {
+      "type": "address",
+      "text": "Arlington"
+    },
+    {
+      "type": "address",
+      "text": "02474"
+    }
+  ],
+  "must_keep": [
+    "Etonogestrel 68 MG Drug Implant",
+    "sulfamethoxazole 800 MG / trimethoprim 160 MG Oral Tablet",
+    "nitrofurantoin, macrocrystals 25 MG / nitrofurantoin, monohydrate 75 MG Oral Capsule",
+    "Normal pregnancy (finding)",
+    "Acute bacterial sinusitis (disorder)",
+    "Acute viral pharyngitis (disorder)"
+  ]
+}

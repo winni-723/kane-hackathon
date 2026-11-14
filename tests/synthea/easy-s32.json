@@ -1,0 +1,42 @@
+{
+  "record_id": "easy-s32",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Marty Corkery\n=============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 1\nBirth Date:          2025-06-19\nMarital Status:      S\nSSN:                 999-74-3647\nAddress:             966 Wilderman Trailer\nCity:                Milford\nState:               Massachusetts\nZip:                 01757\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-08-18[STOPPED] : Ibuprofen 100 MG Oral Tablet\n  2025-08-18[STOPPED] : Amoxicillin 500 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-05-28 - 2026-08-27 : Medication review due (situation)\n  2025-11-27 - 2026-02-26 : Medication review due (situation)\n  2025-09-25 - 2025-09-25 : Medication review due (situation)\n  2025-08-18 - 2025-09-25 : Otitis media (disorder)\n  2025-06-19 - 2025-07-24 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Marty"
+    },
+    {
+      "type": "name",
+      "text": "Corkery"
+    },
+    {
+      "type": "dob",
+      "text": "2025-06-19"
+    },
+    {
+      "type": "ssn",
+      "text": "999-74-3647"
+    },
+    {
+      "type": "address",
+      "text": "966 Wilderman Trailer"
+    },
+    {
+      "type": "address",
+      "text": "Milford"
+    },
+    {
+      "type": "address",
+      "text": "01757"
+    }
+  ],
+  "must_keep": [
+    "Ibuprofen 100 MG Oral Tablet",
+    "Amoxicillin 500 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Otitis media (disorder)"
+  ]
+}

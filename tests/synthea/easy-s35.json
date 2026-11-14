@@ -1,0 +1,55 @@
+{
+  "record_id": "easy-s35",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Meryl Sheryll Fritsch\n=====================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 55\nBirth Date:          1971-02-02\nMarital Status:      D\nSSN:                 999-55-6248\nDrivers:             S99913188\nPassport:            X58527539X\nAddress:             805 Jacobs Rapid\nCity:                Malden\nState:               Massachusetts\nZip:                 02148\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2024-10-19[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Sinusitis (disorder)\n  2016-07-04[STOPPED] : 21 DAY ethinyl estradiol 0.000625 MG/HR / etonogestrel 0.005 MG/HR Vaginal System [NuvaRing]\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-08-20 - 2026-08-28 : Viral sinusitis (disorder)\n  2026-03-03 -            : Unemployed (finding)\n  2026-03-03 -            : Medication review due (situation)\n  2025-02-25 - 2026-03-03 : Part-time employment (finding)\n  2025-02-25 - 2025-02-25 : Medication review due (situation)\n  2024-10-19 - 2024-11-23 : Sinusitis (disorder)\n  2024-02-20 - 2025-02-25 : Unemployed (finding)\n  2023-02-14 - 2025-02-25 : Limited social contact (finding)\n  2022-02-08 - 2022-02-22 : Gingivitis (disorder)\n  2022-02-08 - 2024-02-20 : Full-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Meryl"
+    },
+    {
+      "type": "name",
+      "text": "Sheryll"
+    },
+    {
+      "type": "name",
+      "text": "Fritsch"
+    },
+    {
+      "type": "dob",
+      "text": "1971-02-02"
+    },
+    {
+      "type": "ssn",
+      "text": "999-55-6248"
+    },
+    {
+      "type": "id_number",
+      "text": "S99913188"
+    },
+    {
+      "type": "id_number",
+      "text": "X58527539X"
+    },
+    {
+      "type": "address",
+      "text": "805 Jacobs Rapid"
+    },
+    {
+      "type": "address",
+      "text": "Malden"
+    },
+    {
+      "type": "address",
+      "text": "02148"
+    }
+  ],
+  "must_keep": [
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "21 DAY ethinyl estradiol 0.000625 MG/HR / etonogestrel 0.005 MG/HR Vaginal System [NuvaRing]",
+    "Viral sinusitis (disorder)",
+    "Unemployed (finding)",
+    "Medication review due (situation)"
+  ]
+}

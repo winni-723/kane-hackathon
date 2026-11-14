@@ -1,0 +1,58 @@
+{
+  "record_id": "easy-s55",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Tyrone Farrell\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 DECEASED\nBirth Date:          1962-07-20\nMarital Status:      M\nSSN:                 999-78-1411\nDrivers:             S99927783\nPassport:            X6022216X\nAddress:             184 Stoltenberg Vista Suite 67\nCity:                Stow\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\n  1964-09-04 -            : Penicillin V\n  1964-09-04 -            : Aspirin\n  1964-09-04 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2002-02-01[STOPPED] : 10 ML oxaliplatin 5 MG/ML Injection for Metastatic malignant neoplasm to colon (disorder)\n  2002-02-01[STOPPED] : Leucovorin 100 MG Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-12-31[STOPPED] : 10 ML oxaliplatin 5 MG/ML Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-12-31[STOPPED] : Leucovorin 100 MG Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-11-28[STOPPED] : 10 ML oxaliplatin 5 MG/ML Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-11-28[STOPPED] : Leucovorin 100 MG Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-10-28[STOPPED] : 10 ML oxaliplatin 5 MG/ML Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-10-28[STOPPED] : Leucovorin 100 MG Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-09-28[STOPPED] : 10 ML oxaliplatin 5 MG/ML Injection for Metastatic malignant neoplasm to colon (disorder)\n  2001-09-28[STOPPED] : Leucovorin 100 MG Injection for Metastatic malignant neoplasm to colon (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2004-07-30 -            : Unhealthy alcohol drinking behavior (finding)\n  2004-07-30 -            : Full-time employment (finding)\n  2004-07-30 -            : Medication review due (situation)\n  2002-08-09 - 2004-08-13 : Contour of existing restoration of tooth biologically incompatible with oral health\n  2002-07-26 -            : Gingivitis (disorder)\n  2002-07-26 - 2004-07-30 : Unemployed (finding)\n  2002-07-26 - 2002-07-26 : Medication review due (situation)\n  2001-06-22 - 2001-10-11 : Whiplash injury to neck (disorder)\n  2001-06-22 - 2001-10-11 : Injury of neck (disorder)\n  2001-06-08 -            : Metastatic malignant neoplasm to colon (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Tyrone"
+    },
+    {
+      "type": "name",
+      "text": "Farrell"
+    },
+    {
+      "type": "dob",
+      "text": "1962-07-20"
+    },
+    {
+      "type": "ssn",
+      "text": "999-78-1411"
+    },
+    {
+      "type": "id_number",
+      "text": "S99927783"
+    },
+    {
+      "type": "id_number",
+      "text": "X6022216X"
+    },
+    {
+      "type": "address",
+      "text": "184 Stoltenberg Vista"
+    },
+    {
+      "type": "address",
+      "text": "Suite 67"
+    },
+    {
+      "type": "address",
+      "text": "Stow"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Penicillin V",
+    "Aspirin",
+    "Allergic disposition (finding)",
+    "10 ML oxaliplatin 5 MG/ML Injection",
+    "Leucovorin 100 MG Injection",
+    "Unhealthy alcohol drinking behavior (finding)",
+    "Full-time employment (finding)",
+    "Medication review due (situation)"
+  ]
+}

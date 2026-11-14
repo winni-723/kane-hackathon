@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s13",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Cruz Auer\n=========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 19\nBirth Date:          2006-12-17\nMarital Status:      S\nSSN:                 999-83-2610\nDrivers:             S99983284\nAddress:             1054 Turcotte Mill Unit 77\nCity:                Everett\nState:               Massachusetts\nZip:                 02148\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2022-12-14[STOPPED] : nitrofurantoin, macrocrystals 25 MG / nitrofurantoin, monohydrate 75 MG Oral Capsule for Acute infective cystitis (disorder)\n  2022-12-06[STOPPED] : {24 (drospirenone 3 MG / ethinyl estradiol 0.02 MG Oral Tablet) / 4 (inert ingredients 1 MG Oral Tablet) } Pack [Yaz 28 Day]\n  2021-12-11[STOPPED] : {7 (ethinyl estradiol 0.01 MG Oral Tablet) / 84 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) } Pack [Seasonique]\n  2020-04-12[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2017-08-25[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-09-06 - 2026-10-04 : Eclampsia in pregnancy (disorder)\n  2026-02-22 - 2026-10-04 : Normal pregnancy (finding)\n  2026-02-15 - 2026-02-15 : Medication review due (situation)\n  2025-02-09 -            : Stress (finding)\n  2025-02-09 - 2026-02-15 : Social isolation (finding)\n  2025-02-09 -            : Not in labor force (finding)\n  2025-02-09 -            : Received higher education (finding)\n  2023-01-29 - 2023-02-12 : Gingivitis (disorder)\n  2022-12-14 - 2022-12-15 : Acute infective cystitis (disorder)\n  2022-12-11 - 2026-03-01 : Dental caries",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Cruz"
+    },
+    {
+      "type": "name",
+      "text": "Auer"
+    },
+    {
+      "type": "dob",
+      "text": "2006-12-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-83-2610"
+    },
+    {
+      "type": "id_number",
+      "text": "S99983284"
+    },
+    {
+      "type": "address",
+      "text": "1054 Turcotte Mill"
+    },
+    {
+      "type": "address",
+      "text": "Unit 77"
+    },
+    {
+      "type": "address",
+      "text": "Everett"
+    },
+    {
+      "type": "address",
+      "text": "02148"
+    }
+  ],
+  "must_keep": [
+    "nitrofurantoin, macrocrystals 25 MG / nitrofurantoin, monohydrate 75 MG Oral Capsule",
+    "{24 (drospirenone 3 MG / ethinyl estradiol 0.02 MG Oral Tablet) / 4 (inert ingredients 1 MG Oral Tablet) } Pack [Yaz 28 Day]",
+    "{7 (ethinyl estradiol 0.01 MG Oral Tablet) / 84 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) } Pack [Seasonique]",
+    "Eclampsia in pregnancy (disorder)",
+    "Normal pregnancy (finding)",
+    "Medication review due (situation)"
+  ]
+}

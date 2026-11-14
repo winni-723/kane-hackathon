@@ -1,0 +1,60 @@
+{
+  "record_id": "easy-s27",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Layne Jade Kreiger\n==================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 DECEASED\nBirth Date:          1944-02-17\nMarital Status:      M\nSSN:                 999-98-5982\nDrivers:             S99934351\nPassport:            X33971855X\nAddress:             300 Rath Extension Unit 77\nCity:                Belmont\nState:               Massachusetts\nZip:                 02138\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2012-09-25[CURRENT] : lisinopril 20 MG Oral Tablet for Chronic congestive heart failure (disorder)\n  2012-06-01[CURRENT] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2012-05-31[CURRENT] : losartan potassium 50 MG Oral Tablet for Chronic congestive heart failure (disorder)\n  2012-05-31[CURRENT] : Furosemide 40 MG Oral Tablet for Chronic congestive heart failure (disorder)\n  2012-05-31[CURRENT] : carvedilol 25 MG Oral Tablet for Chronic congestive heart failure (disorder)\n  2012-04-25[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  2012-04-25[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  2012-04-24[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  2012-04-24[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n  2012-04-23[STOPPED] : 10 ML Furosemide 10 MG/ML Injection for Chronic congestive heart failure (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2012-05-31 -            : Not in labor force (finding)\n  2011-10-08 -            : Chronic congestive heart failure (disorder)\n  2011-06-09 - 2011-06-09 : Arthralgia of temporomandibular joint\n  2010-05-20 -            : Stress (finding)\n  2010-05-20 - 2012-05-31 : Part-time employment (finding)\n  2009-05-14 - 2010-05-20 : Reports of violence in the environment (finding)\n  2009-05-14 - 2010-05-20 : Limited social contact (finding)\n  2009-05-14 - 2010-05-20 : Full-time employment (finding)\n  2008-09-28 - 2008-10-10 : Acute viral pharyngitis (disorder)\n  2008-05-08 - 2009-05-14 : Part-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Layne"
+    },
+    {
+      "type": "name",
+      "text": "Jade"
+    },
+    {
+      "type": "name",
+      "text": "Kreiger"
+    },
+    {
+      "type": "dob",
+      "text": "1944-02-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-98-5982"
+    },
+    {
+      "type": "id_number",
+      "text": "S99934351"
+    },
+    {
+      "type": "id_number",
+      "text": "X33971855X"
+    },
+    {
+      "type": "address",
+      "text": "300 Rath Extension"
+    },
+    {
+      "type": "address",
+      "text": "Unit 77"
+    },
+    {
+      "type": "address",
+      "text": "Belmont"
+    },
+    {
+      "type": "address",
+      "text": "02138"
+    }
+  ],
+  "must_keep": [
+    "lisinopril 20 MG Oral Tablet",
+    "Simvastatin 10 MG Oral Tablet",
+    "losartan potassium 50 MG Oral Tablet",
+    "Not in labor force (finding)",
+    "Chronic congestive heart failure (disorder)",
+    "Arthralgia of temporomandibular joint"
+  ]
+}

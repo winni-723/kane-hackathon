@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s11",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Clifton Klocko\n==============\nRace:                Asian\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 74\nBirth Date:          1952-08-07\nMarital Status:      M\nSSN:                 999-30-8971\nDrivers:             S99934261\nPassport:            X25295770X\nAddress:             549 Herman Underpass Unit 54\nCity:                Marshfield\nState:               Massachusetts\nZip:                 02050\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-12-28[CURRENT] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2025-12-25[CURRENT] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2024-12-28[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2024-12-19[STOPPED] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2024-10-04[STOPPED] : Naproxen sodium 220 MG Oral Tablet\n  2024-10-04[STOPPED] : Meperidine Hydrochloride 50 MG Oral Tablet\n  2023-12-29[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-12-21[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2023-12-14[STOPPED] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2023-12-07[STOPPED] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-12-25 - 2025-12-25 : Medication review due (situation)\n  2024-12-19 - 2025-12-25 : Stress (finding)\n  2024-10-04 - 2024-12-26 : Osteoporotic fracture of bone (disorder)\n  2024-10-04 - 2024-12-26 : Fracture of forearm (disorder)\n  2024-10-04 - 2024-12-26 : Fracture of bone (disorder)\n  2023-12-21 - 2024-01-07 : Acute bronchitis (disorder)\n  2023-12-14 - 2024-12-19 : Medication review due (situation)\n  2023-12-07 -            : Full-time employment (finding)\n  2023-12-07 - 2023-12-07 : Medication review due (situation)\n  2022-12-08 - 2023-12-07 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Clifton"
+    },
+    {
+      "type": "name",
+      "text": "Klocko"
+    },
+    {
+      "type": "dob",
+      "text": "1952-08-07"
+    },
+    {
+      "type": "ssn",
+      "text": "999-30-8971"
+    },
+    {
+      "type": "id_number",
+      "text": "S99934261"
+    },
+    {
+      "type": "id_number",
+      "text": "X25295770X"
+    },
+    {
+      "type": "address",
+      "text": "549 Herman Underpass"
+    },
+    {
+      "type": "address",
+      "text": "Unit 54"
+    },
+    {
+      "type": "address",
+      "text": "Marshfield"
+    },
+    {
+      "type": "address",
+      "text": "02050"
+    }
+  ],
+  "must_keep": [
+    "Simvastatin 10 MG Oral Tablet",
+    "Alendronic acid 10 MG Oral Tablet",
+    "Naproxen sodium 220 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Stress (finding)",
+    "Osteoporotic fracture of bone (disorder)"
+  ]
+}

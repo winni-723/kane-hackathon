@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s54",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Truman Connelly\n===============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 29\nBirth Date:          1997-10-20\nMarital Status:      S\nSSN:                 999-75-6906\nDrivers:             S99952242\nPassport:            X17697628X\nAddress:             774 Brekke Orchard\nCity:                Springfield\nState:               Massachusetts\nZip:                 01106\n--------------------------------------------------------------------------------\nALLERGIES:\n  1999-04-14 -            : Tree nut (substance)\n  1999-04-14 -            : Shellfish (substance)\n  1999-04-14 -            : Tree pollen (substance)\n  1999-04-14 -            : Grass pollen (substance)\n  1999-04-14 -            : Animal dander (substance)\n  1999-04-14 -            : House dust mite (organism)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-02-09[CURRENT] : albuterol 0.21 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2026-02-09[CURRENT] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2025-02-03[STOPPED] : albuterol 0.21 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2025-02-03[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2024-01-29[STOPPED] : albuterol 0.21 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2024-01-29[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2023-01-23[STOPPED] : albuterol 0.21 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2023-01-23[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2022-01-17[STOPPED] : albuterol 0.21 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2022-01-17[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-02-09 -            : Has a criminal record (finding)\n  2026-02-09 -            : Social isolation (finding)\n  2026-02-09 -            : Full-time employment (finding)\n  2024-01-29 -            : Stress (finding)\n  2024-01-29 - 2026-02-09 : Not in labor force (finding)\n  2023-01-23 -            : Unhealthy alcohol drinking behavior (finding)\n  2023-01-23 - 2024-01-29 : Limited social contact (finding)\n  2023-01-23 - 2024-01-29 : Full-time employment (finding)\n  2023-01-23 -            : Medication review due (situation)\n  2022-01-17 - 2023-01-23 : Not in labor force (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Truman"
+    },
+    {
+      "type": "name",
+      "text": "Connelly"
+    },
+    {
+      "type": "dob",
+      "text": "1997-10-20"
+    },
+    {
+      "type": "ssn",
+      "text": "999-75-6906"
+    },
+    {
+      "type": "id_number",
+      "text": "S99952242"
+    },
+    {
+      "type": "id_number",
+      "text": "X17697628X"
+    },
+    {
+      "type": "address",
+      "text": "774 Brekke Orchard"
+    },
+    {
+      "type": "address",
+      "text": "Springfield"
+    },
+    {
+      "type": "address",
+      "text": "01106"
+    }
+  ],
+  "must_keep": [
+    "Tree nut (substance)",
+    "Shellfish (substance)",
+    "Tree pollen (substance)",
+    "albuterol 0.21 MG/ML Inhalation Solution",
+    "budesonide 0.25 MG/ML Inhalation Suspension",
+    "Has a criminal record (finding)",
+    "Social isolation (finding)",
+    "Full-time employment (finding)"
+  ]
+}

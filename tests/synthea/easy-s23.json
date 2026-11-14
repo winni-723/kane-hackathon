@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s23",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Jordan Quitzon\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 18\nBirth Date:          2008-01-30\nMarital Status:      S\nSSN:                 999-13-2045\nDrivers:             S99949915\nAddress:             457 Bashirian Manor Apt 21\nCity:                Ludlow\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-04-18[CURRENT] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n  2026-03-25[CURRENT] : Acetaminophen 325 MG / Oxycodone Hydrochloride 10 MG Oral Tablet [Percocet]\n  2026-03-06[STOPPED] : Acetaminophen 325 MG / Oxycodone Hydrochloride 10 MG Oral Tablet [Percocet]\n  2020-04-17[STOPPED] : Ibuprofen 200 MG Oral Tablet\n  2020-04-17[STOPPED] : Cefuroxime 250 MG Oral Tablet\n  2020-03-11[STOPPED] : Methylphenidate Hydrochloride 20 MG Oral Tablet for Child attention deficit disorder (disorder)\n  2019-04-09[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-03-25 -            : Stress (finding)\n  2026-03-25 -            : Transport problem (finding)\n  2026-03-25 -            : Full-time employment (finding)\n  2026-03-25 -            : Educated to high school level (finding)\n  2026-03-25 -            : Housing unsatisfactory (finding)\n  2026-03-06 -            : Fibromyalgia (disorder)\n  2026-03-06 -            : Chronic low back pain (finding)\n  2026-03-06 -            : Chronic pain (finding)\n  2025-03-19 - 2025-04-02 : Gingivitis (disorder)\n  2025-03-19 - 2026-03-25 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Jordan"
+    },
+    {
+      "type": "name",
+      "text": "Quitzon"
+    },
+    {
+      "type": "dob",
+      "text": "2008-01-30"
+    },
+    {
+      "type": "ssn",
+      "text": "999-13-2045"
+    },
+    {
+      "type": "id_number",
+      "text": "S99949915"
+    },
+    {
+      "type": "address",
+      "text": "457 Bashirian Manor"
+    },
+    {
+      "type": "address",
+      "text": "Apt 21"
+    },
+    {
+      "type": "address",
+      "text": "Ludlow"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "72 HR Fentanyl 0.025 MG/HR Transdermal System",
+    "Acetaminophen 325 MG / Oxycodone Hydrochloride 10 MG Oral Tablet [Percocet]",
+    "Ibuprofen 200 MG Oral Tablet",
+    "Stress (finding)",
+    "Transport problem (finding)",
+    "Full-time employment (finding)"
+  ]
+}

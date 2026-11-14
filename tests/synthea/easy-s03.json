@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s03",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Andy Howe\n=========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 49\nBirth Date:          1977-02-21\nMarital Status:      M\nSSN:                 999-13-1874\nDrivers:             S99998773\nPassport:            X81836749X\nAddress:             139 Krajcik Promenade\nCity:                New Bedford\nState:               Massachusetts\nZip:                 02746\n--------------------------------------------------------------------------------\nALLERGIES:\n  1978-03-03 -            : Peanut (substance)\n  1978-03-03 -            : Shellfish (substance)\n  1978-03-03 -            : Eggs (edible) (substance)\n  1978-03-03 -            : Cow's milk (substance)\n  1978-03-03 -            : Tree pollen (substance)\n  1978-03-03 -            : Grass pollen (substance)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-19[CURRENT] : albuterol 0.83 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2026-10-19[CURRENT] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2025-10-13[STOPPED] : albuterol 0.83 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2025-10-13[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2024-10-07[STOPPED] : albuterol 0.83 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2024-10-07[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2023-10-02[STOPPED] : albuterol 0.83 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2023-10-02[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n  2022-09-26[STOPPED] : albuterol 0.83 MG/ML Inhalation Solution for Childhood asthma (disorder)\n  2022-09-26[STOPPED] : budesonide 0.25 MG/ML Inhalation Suspension for Childhood asthma (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-10-19 -            : Part-time employment (finding)\n  2026-10-19 - 2026-10-19 : Medication review due (situation)\n  2025-10-13 -            : Stress (finding)\n  2025-10-13 - 2025-10-13 : Medication review due (situation)\n  2024-10-07 - 2026-10-19 : Full-time employment (finding)\n  2024-10-07 - 2024-10-07 : Medication review due (situation)\n  2023-10-02 - 2023-10-16 : Gingivitis (disorder)\n  2023-10-02 - 2024-10-07 : Stress (finding)\n  2023-10-02 - 2024-10-07 : Unemployed (finding)\n  2022-09-26 - 2023-10-02 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Andy"
+    },
+    {
+      "type": "name",
+      "text": "Howe"
+    },
+    {
+      "type": "dob",
+      "text": "1977-02-21"
+    },
+    {
+      "type": "ssn",
+      "text": "999-13-1874"
+    },
+    {
+      "type": "id_number",
+      "text": "S99998773"
+    },
+    {
+      "type": "id_number",
+      "text": "X81836749X"
+    },
+    {
+      "type": "address",
+      "text": "139 Krajcik Promenade"
+    },
+    {
+      "type": "address",
+      "text": "New Bedford"
+    },
+    {
+      "type": "address",
+      "text": "02746"
+    }
+  ],
+  "must_keep": [
+    "Peanut (substance)",
+    "Shellfish (substance)",
+    "Eggs (edible) (substance)",
+    "albuterol 0.83 MG/ML Inhalation Solution",
+    "budesonide 0.25 MG/ML Inhalation Suspension",
+    "Part-time employment (finding)",
+    "Medication review due (situation)",
+    "Stress (finding)"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s57",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Zane Thiel\n==========\nRace:                Asian\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 DECEASED\nBirth Date:          1952-08-07\nMarital Status:      S\nSSN:                 999-39-7456\nDrivers:             S99940548\nPassport:            X54735318X\nAddress:             667 Schoen Highlands\nCity:                Marshfield\nState:               Massachusetts\nZip:                 02050\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2014-09-12[CURRENT] : prasugrel 10 MG Oral Tablet\n  2014-09-12[CURRENT] : lisinopril 20 MG Oral Tablet\n  2014-09-12[CURRENT] : atorvastatin 20 MG Oral Tablet\n  2014-09-12[CURRENT] : 24 HR metoprolol succinate 50 MG Extended Release Oral Tablet\n  2014-09-12[CURRENT] : aspirin 81 MG Oral Tablet\n  2014-09-12[STOPPED] : ticagrelor 90 MG Oral Tablet\n  2014-09-11[STOPPED] : enoxaparin sodium 100 MG/ML Injectable Solution\n  2014-09-11[STOPPED] : nitroglycerin 0.4 MG Sublingual Tablet\n  2014-09-11[STOPPED] : aspirin 325 MG Oral Tablet\n  2012-12-11[STOPPED] : nitrofurantoin, macrocrystals 25 MG / nitrofurantoin, monohydrate 75 MG [Macrobid] for Acute infective cystitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2014-09-12 -            : History of myocardial infarction (situation)\n  2014-09-11 -            : Acute non-ST segment elevation myocardial infarction (disorder)\n  2014-09-11 - 2014-09-12 : Myocardial infarction (disorder)\n  2012-12-11 - 2012-12-12 : Acute infective cystitis (disorder)\n  2012-10-04 - 2013-10-10 : Limited social contact (finding)\n  2011-09-29 - 2011-10-13 : Gingivitis (disorder)\n  2011-09-29 - 2013-10-10 : Stress (finding)\n  2010-09-23 -            : Medication review due (situation)\n  2009-09-17 -            : Full-time employment (finding)\n  2009-09-17 - 2009-09-17 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Zane"
+    },
+    {
+      "type": "name",
+      "text": "Thiel"
+    },
+    {
+      "type": "dob",
+      "text": "1952-08-07"
+    },
+    {
+      "type": "ssn",
+      "text": "999-39-7456"
+    },
+    {
+      "type": "id_number",
+      "text": "S99940548"
+    },
+    {
+      "type": "id_number",
+      "text": "X54735318X"
+    },
+    {
+      "type": "address",
+      "text": "667 Schoen Highlands"
+    },
+    {
+      "type": "address",
+      "text": "Marshfield"
+    },
+    {
+      "type": "address",
+      "text": "02050"
+    }
+  ],
+  "must_keep": [
+    "prasugrel 10 MG Oral Tablet",
+    "lisinopril 20 MG Oral Tablet",
+    "atorvastatin 20 MG Oral Tablet",
+    "History of myocardial infarction (situation)",
+    "Acute non-ST segment elevation myocardial infarction (disorder)",
+    "Myocardial infarction (disorder)"
+  ]
+}

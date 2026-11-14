@@ -1,0 +1,43 @@
+{
+  "record_id": "easy-s12",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Consuela Koss\n=============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 8\nBirth Date:          2018-09-07\nMarital Status:      S\nSSN:                 999-53-4783\nAddress:             798 Stiedemann Rue\nCity:                Lowell\nState:               Massachusetts\nZip:                 01854\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-28[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2024-07-15[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-11-06 -            : Medication review due (situation)\n  2026-10-28 - 2026-11-09 : Acute bronchitis (disorder)\n  2024-08-23 - 2026-09-04 : Medication review due (situation)\n  2024-07-15 - 2024-07-28 : Viral sinusitis (disorder)\n  2023-04-18 - 2023-04-30 : Acute viral pharyngitis (disorder)\n  2022-08-12 - 2023-08-18 : Medication review due (situation)\n  2022-02-11 - 2022-02-11 : Medication review due (situation)\n  2021-08-13 - 2021-08-13 : Medication review due (situation)\n  2021-02-12 - 2021-02-12 : Medication review due (situation)\n  2020-08-14 - 2020-08-14 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Consuela"
+    },
+    {
+      "type": "name",
+      "text": "Koss"
+    },
+    {
+      "type": "dob",
+      "text": "2018-09-07"
+    },
+    {
+      "type": "ssn",
+      "text": "999-53-4783"
+    },
+    {
+      "type": "address",
+      "text": "798 Stiedemann Rue"
+    },
+    {
+      "type": "address",
+      "text": "Lowell"
+    },
+    {
+      "type": "address",
+      "text": "01854"
+    }
+  ],
+  "must_keep": [
+    "Acetaminophen 325 MG Oral Tablet",
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Acute bronchitis (disorder)",
+    "Viral sinusitis (disorder)"
+  ]
+}

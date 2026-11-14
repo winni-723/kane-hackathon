@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s56",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Wilber Buckridge\n================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 64\nBirth Date:          1962-07-20\nMarital Status:      S\nSSN:                 999-62-5100\nDrivers:             S99955874\nPassport:            X65241374X\nAddress:             224 Weissnat Haven Unit 48\nCity:                Stow\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-19[CURRENT] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2025-10-19[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2025-09-14[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n  2024-10-19[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-10-20[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-09-29[CURRENT] : Nitroglycerin 0.4 MG/ACTUAT Mucosal Spray\n  2023-09-29[CURRENT] : 24 HR metoprolol succinate 100 MG Extended Release Oral Tablet\n  2023-09-29[CURRENT] : Simvastatin 20 MG Oral Tablet\n  2023-09-29[CURRENT] : Clopidogrel 75 MG Oral Tablet\n  2022-10-08[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-10-09 -            : Full-time employment (finding)\n  2026-10-09 - 2026-10-09 : Medication review due (situation)\n  2026-03-18 - 2026-03-30 : Acute viral pharyngitis (disorder)\n  2025-10-03 - 2026-10-09 : Reports of violence in the environment (finding)\n  2025-10-03 - 2026-10-09 : Not in labor force (finding)\n  2025-09-14 - 2025-10-05 : Viral sinusitis (disorder)\n  2023-10-19 -            : Abnormal findings diagnostic imaging heart+coronary circulat (finding)\n  2023-09-29 - 2023-09-29 : Suspected prostate cancer (situation)\n  2023-09-22 - 2026-10-09 : Stress (finding)\n  2023-09-22 -            : Ischemic heart disease (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Wilber"
+    },
+    {
+      "type": "name",
+      "text": "Buckridge"
+    },
+    {
+      "type": "dob",
+      "text": "1962-07-20"
+    },
+    {
+      "type": "ssn",
+      "text": "999-62-5100"
+    },
+    {
+      "type": "id_number",
+      "text": "S99955874"
+    },
+    {
+      "type": "id_number",
+      "text": "X65241374X"
+    },
+    {
+      "type": "address",
+      "text": "224 Weissnat Haven"
+    },
+    {
+      "type": "address",
+      "text": "Unit 48"
+    },
+    {
+      "type": "address",
+      "text": "Stow"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Simvastatin 10 MG Oral Tablet",
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "Nitroglycerin 0.4 MG/ACTUAT Mucosal Spray",
+    "Full-time employment (finding)",
+    "Medication review due (situation)",
+    "Acute viral pharyngitis (disorder)"
+  ]
+}

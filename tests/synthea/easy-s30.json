@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s30",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Lilli Auer\n==========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 33\nBirth Date:          1993-03-30\nMarital Status:      S\nSSN:                 999-22-1988\nDrivers:             S99982125\nPassport:            X59037521X\nAddress:             138 Block Grove\nCity:                Forestdale\nState:               Massachusetts\nZip:                 02644\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-07-01[STOPPED] : levonorgestrel 0.000729 MG/HR Intrauterine System [Kyleena]\n  2026-04-22[CURRENT] : tramadol hydrochloride 50 MG Oral Tablet\n  2026-04-22[CURRENT] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n  2026-04-22[CURRENT] : Acetaminophen 325 MG / Oxycodone Hydrochloride 10 MG Oral Tablet [Percocet]\n  2025-04-16[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2025-04-16[STOPPED] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n  2025-04-16[STOPPED] : Acetaminophen 325 MG / Oxycodone Hydrochloride 10 MG Oral Tablet [Percocet]\n  2024-07-31[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2024-07-24[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2024-07-24[STOPPED] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-04-22 -            : Reports of violence in the environment (finding)\n  2026-04-22 -            : Social isolation (finding)\n  2026-04-22 - 2026-04-22 : Medication review due (situation)\n  2025-10-29 - 2026-05-13 : Normal pregnancy (finding)\n  2025-04-16 - 2026-04-22 : Victim of intimate partner abuse (finding)\n  2025-04-16 -            : Body mass index 30+ - obesity (finding)\n  2025-01-14 - 2025-02-09 : Normal pregnancy (finding)\n  2024-07-31 - 2024-08-12 : Acute bronchitis (disorder)\n  2024-04-10 -            : Full-time employment (finding)\n  2023-05-10 - 2023-11-21 : Normal pregnancy (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Lilli"
+    },
+    {
+      "type": "name",
+      "text": "Auer"
+    },
+    {
+      "type": "dob",
+      "text": "1993-03-30"
+    },
+    {
+      "type": "ssn",
+      "text": "999-22-1988"
+    },
+    {
+      "type": "id_number",
+      "text": "S99982125"
+    },
+    {
+      "type": "id_number",
+      "text": "X59037521X"
+    },
+    {
+      "type": "address",
+      "text": "138 Block Grove"
+    },
+    {
+      "type": "address",
+      "text": "Forestdale"
+    },
+    {
+      "type": "address",
+      "text": "02644"
+    }
+  ],
+  "must_keep": [
+    "levonorgestrel 0.000729 MG/HR Intrauterine System [Kyleena]",
+    "tramadol hydrochloride 50 MG Oral Tablet",
+    "72 HR Fentanyl 0.025 MG/HR Transdermal System",
+    "Reports of violence in the environment (finding)",
+    "Social isolation (finding)",
+    "Medication review due (situation)"
+  ]
+}

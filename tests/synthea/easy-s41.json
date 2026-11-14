@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s41",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Quintin Flatley\n===============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 55\nBirth Date:          1971-06-03\nMarital Status:      M\nSSN:                 999-73-8688\nDrivers:             S99954172\nPassport:            X68607396X\nAddress:             530 Nikolaus Trace\nCity:                Lowell\nState:               Massachusetts\nZip:                 01851\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-09-03[CURRENT] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2026-09-03[CURRENT] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2026-09-03[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2025-08-28[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2025-08-28[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2025-08-28[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2024-08-22[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2024-08-22[STOPPED] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2024-08-22[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2023-08-17[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-09-03 -            : Full-time employment (finding)\n  2026-09-03 -            : Medication review due (situation)\n  2025-08-28 - 2026-09-03 : Limited social contact (finding)\n  2025-08-28 - 2026-09-03 : Unemployed (finding)\n  2025-08-28 - 2025-08-28 : Medication review due (situation)\n  2023-08-17 - 2025-08-28 : Full-time employment (finding)\n  2022-08-12 - 2022-08-25 : Gingivitis (disorder)\n  2022-08-11 - 2025-08-28 : Stress (finding)\n  2022-08-11 - 2024-08-22 : Medication review due (situation)\n  2021-08-05 - 2023-08-17 : Part-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Quintin"
+    },
+    {
+      "type": "name",
+      "text": "Flatley"
+    },
+    {
+      "type": "dob",
+      "text": "1971-06-03"
+    },
+    {
+      "type": "ssn",
+      "text": "999-73-8688"
+    },
+    {
+      "type": "id_number",
+      "text": "S99954172"
+    },
+    {
+      "type": "id_number",
+      "text": "X68607396X"
+    },
+    {
+      "type": "address",
+      "text": "530 Nikolaus Trace"
+    },
+    {
+      "type": "address",
+      "text": "Lowell"
+    },
+    {
+      "type": "address",
+      "text": "01851"
+    }
+  ],
+  "must_keep": [
+    "amLODIPine 2.5 MG Oral Tablet",
+    "lisinopril 10 MG Oral Tablet",
+    "Hydrochlorothiazide 25 MG Oral Tablet",
+    "Full-time employment (finding)",
+    "Medication review due (situation)",
+    "Limited social contact (finding)"
+  ]
+}

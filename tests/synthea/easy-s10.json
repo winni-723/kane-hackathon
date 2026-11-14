@@ -1,0 +1,58 @@
+{
+  "record_id": "easy-s10",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Arron Breitenberg\n=================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 DECEASED\nBirth Date:          1962-07-20\nMarital Status:      W\nSSN:                 999-82-1299\nDrivers:             S99917779\nPassport:            X59683649X\nAddress:             624 Lang Way Apt 59\nCity:                Stow\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\n  1965-09-19 -            : Penicillin V\n  1965-09-19 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2024-04-19[CURRENT] : lisinopril 10 MG Oral Tablet for Essential hypertension (disorder)\n  2024-04-19[CURRENT] : 24 HR tacrolimus 1 MG Extended Release Oral Tablet [Envarsus] for History of renal transplant (situation)\n  2024-04-19[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2024-04-19[CURRENT] : insulin isophane, human 70 UNT/ML / insulin, regular, human 30 UNT/ML Injectable Suspension [Humulin] for Prediabetes (finding)\n  2024-01-12[STOPPED] : 1 ML tacrolimus 5 MG/ML Injection [Prograf] for History of renal transplant (situation)\n  2024-01-05[STOPPED] : 1 ML tacrolimus 5 MG/ML Injection [Prograf] for History of renal transplant (situation)\n  2023-12-29[STOPPED] : 1 ML tacrolimus 5 MG/ML Injection [Prograf] for History of renal transplant (situation)\n  2023-12-22[STOPPED] : 1 ML tacrolimus 5 MG/ML Injection [Prograf] for History of renal transplant (situation)\n  2023-12-15[STOPPED] : 1 ML tacrolimus 5 MG/ML Injection [Prograf] for History of renal transplant (situation)\n  2023-12-08[STOPPED] : 1 ML Epoetin Alfa 4000 UNT/ML Injection [Epogen] for Anemia (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2024-04-19 -            : Full-time employment (finding)\n  2023-12-01 - 2024-04-19 : Not in labor force (finding)\n  2023-12-01 -            : Medication review due (situation)\n  2023-11-10 -            : History of renal transplant (situation)\n  2023-07-07 - 2023-09-29 : Medication review due (situation)\n  2023-05-05 - 2023-12-01 : Stress (finding)\n  2023-05-05 -            : Limited social contact (finding)\n  2023-05-05 - 2023-12-01 : Full-time employment (finding)\n  2023-04-14 - 2023-05-05 : Not in labor force (finding)\n  2022-12-09 - 2023-04-14 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Arron"
+    },
+    {
+      "type": "name",
+      "text": "Breitenberg"
+    },
+    {
+      "type": "dob",
+      "text": "1962-07-20"
+    },
+    {
+      "type": "ssn",
+      "text": "999-82-1299"
+    },
+    {
+      "type": "id_number",
+      "text": "S99917779"
+    },
+    {
+      "type": "id_number",
+      "text": "X59683649X"
+    },
+    {
+      "type": "address",
+      "text": "624 Lang Way"
+    },
+    {
+      "type": "address",
+      "text": "Apt 59"
+    },
+    {
+      "type": "address",
+      "text": "Stow"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Penicillin V",
+    "Allergic disposition (finding)",
+    "lisinopril 10 MG Oral Tablet",
+    "24 HR tacrolimus 1 MG Extended Release Oral Tablet [Envarsus]",
+    "Hydrochlorothiazide 25 MG Oral Tablet",
+    "Full-time employment (finding)",
+    "Not in labor force (finding)",
+    "Medication review due (situation)"
+  ]
+}

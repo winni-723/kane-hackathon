@@ -1,0 +1,52 @@
+{
+  "record_id": "easy-s02",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Amada Klein\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 30\nBirth Date:          1996-09-09\nMarital Status:      S\nSSN:                 999-64-5744\nDrivers:             S99946061\nPassport:            X61993744X\nAddress:             560 Rath Flat\nCity:                Stoneham\nState:               Massachusetts\nZip:                 02180\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2025-11-29[STOPPED] : levonorgestrel 0.000813 MG/HR Intrauterine System [Liletta]\n  2023-12-10[STOPPED] : {5 (dienogest 2 MG / estradiol valerate 2 MG Oral Tablet) / 17 (dienogest 3 MG / estradiol valerate 2 MG Oral Tablet) / 2 (estradiol valerate 1 MG Oral Tablet) / 2 (estradiol valerate 3 MG Oral Tablet) / 2 (inert ingredients 1 MG Oral Tablet) } Pack [Natazia 28 Day]\n  2023-02-25[STOPPED] : Penicillin V Potassium 500 MG Oral Tablet for Streptococcal sore throat (disorder)\n  2021-12-18[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Jolivette 28 Day]\n  2020-07-12[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2019-01-03[STOPPED] : {5 (dienogest 2 MG / estradiol valerate 2 MG Oral Tablet) / 17 (dienogest 3 MG / estradiol valerate 2 MG Oral Tablet) / 2 (estradiol valerate 1 MG Oral Tablet) / 2 (estradiol valerate 3 MG Oral Tablet) / 2 (inert ingredients 1 MG Oral Tablet) } Pack [Natazia 28 Day]\n  2017-12-16[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-07-28 - 2025-09-15 : Pre-eclampsia (disorder)\n  2025-02-10 - 2025-09-15 : Anemia (disorder)\n  2025-02-10 - 2025-09-15 : Normal pregnancy (finding)\n  2024-12-30 - 2025-01-10 : Viral sinusitis (disorder)\n  2024-11-18 -            : Full-time employment (finding)\n  2024-11-18 -            : Prediabetes (finding)\n  2024-11-18 -            : Medication review due (situation)\n  2023-02-25 - 2023-03-04 : Streptococcal sore throat (disorder)\n  2021-11-15 -            : Stress (finding)\n  2021-11-15 - 2024-11-18 : Limited social contact (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Amada"
+    },
+    {
+      "type": "name",
+      "text": "Klein"
+    },
+    {
+      "type": "dob",
+      "text": "1996-09-09"
+    },
+    {
+      "type": "ssn",
+      "text": "999-64-5744"
+    },
+    {
+      "type": "id_number",
+      "text": "S99946061"
+    },
+    {
+      "type": "id_number",
+      "text": "X61993744X"
+    },
+    {
+      "type": "address",
+      "text": "560 Rath Flat"
+    },
+    {
+      "type": "address",
+      "text": "Stoneham"
+    },
+    {
+      "type": "address",
+      "text": "02180"
+    }
+  ],
+  "must_keep": [
+    "levonorgestrel 0.000813 MG/HR Intrauterine System [Liletta]",
+    "{5 (dienogest 2 MG / estradiol valerate 2 MG Oral Tablet) / 17 (dienogest 3 MG / estradiol valerate 2 MG Oral Tablet) / 2 (estradiol valerate 1 MG Oral Tablet) / 2 (estradiol valerate 3 MG Oral Tablet) / 2 (inert ingredients 1 MG Oral Tablet) } Pack [Natazia 28 Day]",
+    "Penicillin V Potassium 500 MG Oral Tablet",
+    "Pre-eclampsia (disorder)",
+    "Anemia (disorder)",
+    "Normal pregnancy (finding)"
+  ]
+}

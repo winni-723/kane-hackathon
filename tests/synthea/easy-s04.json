@@ -1,0 +1,55 @@
+{
+  "record_id": "easy-s04",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Anitra Krajcik\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 DECEASED\nBirth Date:          1944-02-17\nMarital Status:      M\nSSN:                 999-35-5193\nDrivers:             S99947363\nPassport:            X68751308X\nAddress:             223 Thiel Green Apt 18\nCity:                Belmont\nState:               Massachusetts\nZip:                 02472\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  1999-11-09[STOPPED] : PACLitaxel 100 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-09[STOPPED] : Cisplatin 50 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-08[STOPPED] : PACLitaxel 100 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-08[STOPPED] : Cisplatin 50 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-07[STOPPED] : PACLitaxel 100 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-07[STOPPED] : Cisplatin 50 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-06[STOPPED] : PACLitaxel 100 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-06[STOPPED] : Cisplatin 50 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-05[STOPPED] : PACLitaxel 100 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n  1999-11-05[STOPPED] : Cisplatin 50 MG Injection for Non-small cell carcinoma of lung, TNM stage 1 (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  1999-09-28 -            : Rupture of patellar tendon (disorder)\n  1999-09-28 -            : Injury of knee (disorder)\n  1999-04-08 -            : Unhealthy alcohol drinking behavior (finding)\n  1999-04-08 - 1999-04-08 : Medication review due (situation)\n  1998-12-24 - 1999-01-01 : Viral sinusitis (disorder)\n  1998-12-17 - 1998-12-17 : Medication review due (situation)\n  1998-04-02 - 1999-04-08 : Stress (finding)\n  1997-03-27 - 1999-04-08 : Social isolation (finding)\n  1996-09-05 - 1996-09-15 : Viral sinusitis (disorder)\n  1996-08-15 - 1997-03-27 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Anitra"
+    },
+    {
+      "type": "name",
+      "text": "Krajcik"
+    },
+    {
+      "type": "dob",
+      "text": "1944-02-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-35-5193"
+    },
+    {
+      "type": "id_number",
+      "text": "S99947363"
+    },
+    {
+      "type": "id_number",
+      "text": "X68751308X"
+    },
+    {
+      "type": "address",
+      "text": "223 Thiel Green"
+    },
+    {
+      "type": "address",
+      "text": "Apt 18"
+    },
+    {
+      "type": "address",
+      "text": "Belmont"
+    },
+    {
+      "type": "address",
+      "text": "02472"
+    }
+  ],
+  "must_keep": [
+    "PACLitaxel 100 MG Injection",
+    "Cisplatin 50 MG Injection",
+    "Rupture of patellar tendon (disorder)",
+    "Injury of knee (disorder)",
+    "Unhealthy alcohol drinking behavior (finding)"
+  ]
+}

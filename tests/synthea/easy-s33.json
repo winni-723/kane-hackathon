@@ -1,0 +1,48 @@
+{
+  "record_id": "easy-s33",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "María del Carmen Ureña\n===í================ñ=\nRace:                White\nEthnicity:           Hispanic\nGender:              F\nAge:                 15\nBirth Date:          2010-12-17\nMarital Status:      S\nSSN:                 999-83-4959\nAddress:             950 Rodriguez Mews Unit 3\nCity:                Boston\nState:               Massachusetts\nZip:                 02118\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-03-15[STOPPED] : Naproxen sodium 220 MG Oral Tablet\n  2026-03-15[STOPPED] : Amoxicillin 250 MG Oral Capsule\n  2023-06-23[STOPPED] : Penicillin V Potassium 250 MG Oral Tablet for Streptococcal sore throat (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-03-15 -            : Otitis media (disorder)\n  2026-01-23 -            : Medication review due (situation)\n  2025-01-31 - 2025-01-31 : Dental caries\n  2023-06-23 - 2023-07-02 : Streptococcal sore throat (disorder)\n  2023-01-13 - 2023-01-21 : Acute viral pharyngitis (disorder)\n  2023-01-06 - 2023-01-20 : Gingivitis (disorder)\n  2023-01-06 - 2025-01-17 : Medication review due (situation)\n  2021-12-31 - 2021-12-31 : Medication review due (situation)\n  2020-12-25 - 2020-12-25 : Medication review due (situation)\n  2019-12-20 - 2019-12-27 : Gingivitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "María del Carmen"
+    },
+    {
+      "type": "name",
+      "text": "Ureña"
+    },
+    {
+      "type": "dob",
+      "text": "2010-12-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-83-4959"
+    },
+    {
+      "type": "address",
+      "text": "950 Rodriguez Mews"
+    },
+    {
+      "type": "address",
+      "text": "Unit 3"
+    },
+    {
+      "type": "address",
+      "text": "Boston"
+    },
+    {
+      "type": "address",
+      "text": "02118"
+    }
+  ],
+  "must_keep": [
+    "Naproxen sodium 220 MG Oral Tablet",
+    "Amoxicillin 250 MG Oral Capsule",
+    "Penicillin V Potassium 250 MG Oral Tablet",
+    "Otitis media (disorder)",
+    "Medication review due (situation)",
+    "Dental caries"
+  ]
+}

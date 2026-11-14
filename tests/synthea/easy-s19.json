@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s19",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Gregory Terry\n=============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 40\nBirth Date:          1986-05-26\nMarital Status:      S\nSSN:                 999-74-2141\nDrivers:             S99949757\nPassport:            X26689078X\nAddress:             460 Treutel Byway Unit 86\nCity:                Ashland\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-04-27[CURRENT] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2026-04-27[CURRENT] : tramadol hydrochloride 50 MG Oral Tablet\n  2026-04-27[CURRENT] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n  2025-04-21[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2025-04-21[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2025-04-21[STOPPED] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n  2024-04-15[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n  2024-04-15[STOPPED] : tramadol hydrochloride 50 MG Oral Tablet\n  2024-04-15[STOPPED] : 72 HR Fentanyl 0.025 MG/HR Transdermal System\n  2023-04-10[STOPPED] : amLODIPine 2.5 MG Oral Tablet for Essential hypertension (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-04-27 -            : Social isolation (finding)\n  2024-04-15 - 2024-05-06 : Gingivitis (disorder)\n  2024-04-15 -            : Full-time employment (finding)\n  2024-04-15 -            : Anemia (disorder)\n  2023-04-10 - 2023-04-24 : Gingivitis (disorder)\n  2023-04-10 - 2024-04-15 : Reports of violence in the environment (finding)\n  2023-04-10 - 2025-04-21 : Stress (finding)\n  2023-04-10 - 2024-04-15 : Social isolation (finding)\n  2023-04-10 - 2024-04-15 : Not in labor force (finding)\n  2023-04-10 -            : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Gregory"
+    },
+    {
+      "type": "name",
+      "text": "Terry"
+    },
+    {
+      "type": "dob",
+      "text": "1986-05-26"
+    },
+    {
+      "type": "ssn",
+      "text": "999-74-2141"
+    },
+    {
+      "type": "id_number",
+      "text": "S99949757"
+    },
+    {
+      "type": "id_number",
+      "text": "X26689078X"
+    },
+    {
+      "type": "address",
+      "text": "460 Treutel Byway"
+    },
+    {
+      "type": "address",
+      "text": "Unit 86"
+    },
+    {
+      "type": "address",
+      "text": "Ashland"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "amLODIPine 2.5 MG Oral Tablet",
+    "tramadol hydrochloride 50 MG Oral Tablet",
+    "72 HR Fentanyl 0.025 MG/HR Transdermal System",
+    "Social isolation (finding)",
+    "Gingivitis (disorder)",
+    "Full-time employment (finding)"
+  ]
+}

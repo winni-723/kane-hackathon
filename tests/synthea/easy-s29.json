@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s29",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Leo Friesen\n===========\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 41\nBirth Date:          1985-10-26\nMarital Status:      M\nSSN:                 999-87-8294\nDrivers:             S99967452\nPassport:            X47302265X\nAddress:             509 Walker Esplanade\nCity:                Lynn\nState:               Massachusetts\nZip:                 01940\n--------------------------------------------------------------------------------\nALLERGIES:\n  2010-11-19 -            : Aspirin\n  2010-11-19 -            : Allergic disposition (finding)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2014-04-09[CURRENT] : Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet\n  2010-11-19[CURRENT] : NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector\n  2010-11-19[CURRENT] : Fexofenadine hydrochloride 60 MG Oral Tablet\n  2010-11-05[CURRENT] : Hydrocortisone 10 MG/ML Topical Cream for Contact dermatitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-11-01 - 2025-11-15 : Gingivitis (disorder)\n  2025-11-01 -            : Social isolation (finding)\n  2023-01-14 - 2025-11-01 : Stress (finding)\n  2023-01-14 -            : Full-time employment (finding)\n  2022-01-21 - 2022-01-31 : Acute viral pharyngitis (disorder)\n  2020-01-25 - 2025-11-15 : Chronic periodontitis\n  2020-01-11 - 2020-01-25 : Gingivitis (disorder)\n  2020-01-11 - 2023-01-14 : Part-time employment (finding)\n  2017-01-07 - 2020-01-11 : Reports of violence in the environment (finding)\n  2017-01-07 - 2020-01-11 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Leo"
+    },
+    {
+      "type": "name",
+      "text": "Friesen"
+    },
+    {
+      "type": "dob",
+      "text": "1985-10-26"
+    },
+    {
+      "type": "ssn",
+      "text": "999-87-8294"
+    },
+    {
+      "type": "id_number",
+      "text": "S99967452"
+    },
+    {
+      "type": "id_number",
+      "text": "X47302265X"
+    },
+    {
+      "type": "address",
+      "text": "509 Walker Esplanade"
+    },
+    {
+      "type": "address",
+      "text": "Lynn"
+    },
+    {
+      "type": "address",
+      "text": "01940"
+    }
+  ],
+  "must_keep": [
+    "Aspirin",
+    "Allergic disposition (finding)",
+    "Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet",
+    "NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector",
+    "Fexofenadine hydrochloride 60 MG Oral Tablet",
+    "Gingivitis (disorder)",
+    "Social isolation (finding)",
+    "Stress (finding)"
+  ]
+}

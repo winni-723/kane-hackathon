@@ -1,0 +1,54 @@
+{
+  "record_id": "easy-s05",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Antonia Rutherford\n==================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 20\nBirth Date:          2005-12-17\nMarital Status:      S\nSSN:                 999-79-8766\nDrivers:             S99954839\nPassport:            X78162818X\nAddress:             970 Runte Vale Suite 78\nCity:                Lynn\nState:               Massachusetts\nZip:                 01901\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2019-02-12[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-02-15 -            : Not in labor force (finding)\n  2025-02-15 -            : Prediabetes (finding)\n  2024-02-10 - 2024-02-24 : Gingivitis (disorder)\n  2024-02-10 - 2025-02-15 : Stress (finding)\n  2024-02-10 - 2025-02-15 : Full-time employment (finding)\n  2024-02-10 -            : Educated to high school level (finding)\n  2023-12-04 - 2023-12-14 : Viral sinusitis (disorder)\n  2023-06-21 - 2023-07-03 : Acute viral pharyngitis (disorder)\n  2023-04-23 - 2023-05-26 : Concussion with loss of consciousness (disorder)\n  2023-04-23 - 2023-05-26 : Concussion injury of brain (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Antonia"
+    },
+    {
+      "type": "name",
+      "text": "Rutherford"
+    },
+    {
+      "type": "dob",
+      "text": "2005-12-17"
+    },
+    {
+      "type": "ssn",
+      "text": "999-79-8766"
+    },
+    {
+      "type": "id_number",
+      "text": "S99954839"
+    },
+    {
+      "type": "id_number",
+      "text": "X78162818X"
+    },
+    {
+      "type": "address",
+      "text": "970 Runte Vale"
+    },
+    {
+      "type": "address",
+      "text": "Suite 78"
+    },
+    {
+      "type": "address",
+      "text": "Lynn"
+    },
+    {
+      "type": "address",
+      "text": "01901"
+    }
+  ],
+  "must_keep": [
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "Not in labor force (finding)",
+    "Prediabetes (finding)",
+    "Gingivitis (disorder)"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "record_id": "easy-s48",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Sammy Phebe Nikolaus\n====================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 52\nBirth Date:          1974-09-21\nMarital Status:      D\nSSN:                 999-52-5997\nDrivers:             S99946434\nPassport:            X21932283X\nAddress:             157 Marvin Bypass Suite 13\nCity:                Methuen\nState:               Massachusetts\nZip:                 01844\n--------------------------------------------------------------------------------\nALLERGIES:\n  1975-09-05 -            : Lisinopril\n  1975-09-05 -            : Grass pollen (substance)\n  1975-09-05 -            : Animal dander (substance)\n  1975-09-05 -            : House dust mite (organism)\n  1975-09-05 -            : Mold (organism)\n  1975-09-05 -            : Bee venom (substance)\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-01-17[CURRENT] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2026-01-10[CURRENT] : 60 ACTUAT Fluticasone propionate 0.25 MG/ACTUAT / salmeterol 0.05 MG/ACTUAT Dry Powder Inhaler for Pulmonary emphysema (disorder)\n  2026-01-10[CURRENT] : albuterol 5 MG/ML Inhalation Solution for Pulmonary emphysema (disorder)\n  2025-01-05[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2025-01-04[STOPPED] : 60 ACTUAT Fluticasone propionate 0.25 MG/ACTUAT / salmeterol 0.05 MG/ACTUAT Dry Powder Inhaler for Pulmonary emphysema (disorder)\n  2025-01-04[STOPPED] : albuterol 5 MG/ML Inhalation Solution for Pulmonary emphysema (disorder)\n  2024-07-20[STOPPED] : {21 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Levora 0.15/30 28 Day]\n  2024-01-06[STOPPED] : Simvastatin 10 MG Oral Tablet for Hyperlipidemia (disorder)\n  2023-12-30[STOPPED] : 60 ACTUAT Fluticasone propionate 0.25 MG/ACTUAT / salmeterol 0.05 MG/ACTUAT Dry Powder Inhaler for Pulmonary emphysema (disorder)\n  2023-12-30[STOPPED] : albuterol 5 MG/ML Inhalation Solution for Pulmonary emphysema (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-01-10 -            : Stress (finding)\n  2026-01-10 -            : Limited social contact (finding)\n  2026-01-10 -            : Not in labor force (finding)\n  2025-01-04 - 2026-01-10 : Part-time employment (finding)\n  2025-01-04 -            : Medication review due (situation)\n  2024-09-21 - 2025-10-13 : Polyp of colon (disorder)\n  2023-12-30 - 2025-01-04 : Victim of intimate partner abuse (finding)\n  2023-12-30 - 2025-01-04 : Not in labor force (finding)\n  2022-12-24 - 2025-01-04 : Limited social contact (finding)\n  2022-11-26 - 2022-12-31 : Normal pregnancy (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Sammy"
+    },
+    {
+      "type": "name",
+      "text": "Phebe"
+    },
+    {
+      "type": "name",
+      "text": "Nikolaus"
+    },
+    {
+      "type": "dob",
+      "text": "1974-09-21"
+    },
+    {
+      "type": "ssn",
+      "text": "999-52-5997"
+    },
+    {
+      "type": "id_number",
+      "text": "S99946434"
+    },
+    {
+      "type": "id_number",
+      "text": "X21932283X"
+    },
+    {
+      "type": "address",
+      "text": "157 Marvin Bypass"
+    },
+    {
+      "type": "address",
+      "text": "Suite 13"
+    },
+    {
+      "type": "address",
+      "text": "Methuen"
+    },
+    {
+      "type": "address",
+      "text": "01844"
+    }
+  ],
+  "must_keep": [
+    "Lisinopril",
+    "Grass pollen (substance)",
+    "Animal dander (substance)",
+    "Simvastatin 10 MG Oral Tablet",
+    "60 ACTUAT Fluticasone propionate 0.25 MG/ACTUAT / salmeterol 0.05 MG/ACTUAT Dry Powder Inhaler",
+    "albuterol 5 MG/ML Inhalation Solution",
+    "Stress (finding)",
+    "Limited social contact (finding)",
+    "Not in labor force (finding)"
+  ]
+}

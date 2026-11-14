@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s53",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Trevor Kemmer\n=============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 38\nBirth Date:          1988-06-29\nMarital Status:      M\nSSN:                 999-81-2916\nDrivers:             S99968489\nPassport:            X21994171X\nAddress:             298 Lesch Lock Apt 51\nCity:                Plymouth\nState:               Massachusetts\nZip:                 02360\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-07[CURRENT] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-07-16[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2025-10-01[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2025-07-21[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2025-01-08[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Viral sinusitis (disorder)\n  2024-09-25[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2024-08-25[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2023-09-30[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2023-09-20[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2022-10-05[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-10-07 -            : Stress (finding)\n  2026-10-07 -            : Full-time employment (finding)\n  2026-10-07 -            : Medication review due (situation)\n  2025-10-01 - 2026-10-07 : Not in labor force (finding)\n  2025-10-01 - 2025-10-01 : Medication review due (situation)\n  2025-01-08 - 2025-01-22 : Viral sinusitis (disorder)\n  2024-09-25 - 2024-09-25 : Medication review due (situation)\n  2024-04-04 - 2024-04-18 : Acute viral pharyngitis (disorder)\n  2023-09-20 - 2024-09-25 : Stress (finding)\n  2023-09-20 - 2025-10-01 : Full-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Trevor"
+    },
+    {
+      "type": "name",
+      "text": "Kemmer"
+    },
+    {
+      "type": "dob",
+      "text": "1988-06-29"
+    },
+    {
+      "type": "ssn",
+      "text": "999-81-2916"
+    },
+    {
+      "type": "id_number",
+      "text": "S99968489"
+    },
+    {
+      "type": "id_number",
+      "text": "X21994171X"
+    },
+    {
+      "type": "address",
+      "text": "298 Lesch Lock"
+    },
+    {
+      "type": "address",
+      "text": "Apt 51"
+    },
+    {
+      "type": "address",
+      "text": "Plymouth"
+    },
+    {
+      "type": "address",
+      "text": "02360"
+    }
+  ],
+  "must_keep": [
+    "24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet",
+    "tropicamide 5 MG/ML Ophthalmic Solution",
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "Stress (finding)",
+    "Full-time employment (finding)",
+    "Medication review due (situation)"
+  ]
+}

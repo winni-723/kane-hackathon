@@ -21,3 +21,6 @@ tests/kane/output-*/.internal/
 
 # Second build directory, so tests can run while the server binary is in use
 /target-dev
+
+# Local tools (Synthea jar)
+.tools/

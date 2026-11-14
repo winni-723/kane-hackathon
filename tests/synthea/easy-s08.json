@@ -1,0 +1,48 @@
+{
+  "record_id": "easy-s08",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Armand Padberg\n==============\nRace:                Native\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 16\nBirth Date:          2010-09-24\nMarital Status:      S\nSSN:                 999-58-8645\nDrivers:             S99935867\nAddress:             672 Fadel Passage\nCity:                Ashland\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2022-02-11[STOPPED] : Acetaminophen 160 MG Chewable Tablet\n  2017-12-23[STOPPED] : Acetaminophen 160 MG Chewable Tablet\n  2017-06-21[STOPPED] : Acetaminophen 325 MG Oral Tablet for Acute bronchitis (disorder)\n  2016-10-26[STOPPED] : Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet for Sinusitis (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-11-06 - 2026-11-06 : Medication review due (situation)\n  2025-10-31 - 2025-10-31 : Medication review due (situation)\n  2023-10-20 - 2024-10-25 : Medication review due (situation)\n  2022-10-14 - 2022-10-28 : Gingivitis (disorder)\n  2022-10-14 - 2022-10-14 : Medication review due (situation)\n  2022-02-11 - 2022-03-20 : Sprain of ankle (disorder)\n  2022-02-11 - 2022-03-20 : Sprain (morphologic abnormality)\n  2021-10-08 - 2021-10-15 : Gingivitis (disorder)\n  2020-10-02 - 2020-10-09 : Gingivitis (disorder)\n  2020-10-02 - 2021-10-08 : Medication review due (situation)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Armand"
+    },
+    {
+      "type": "name",
+      "text": "Padberg"
+    },
+    {
+      "type": "dob",
+      "text": "2010-09-24"
+    },
+    {
+      "type": "ssn",
+      "text": "999-58-8645"
+    },
+    {
+      "type": "id_number",
+      "text": "S99935867"
+    },
+    {
+      "type": "address",
+      "text": "672 Fadel Passage"
+    },
+    {
+      "type": "address",
+      "text": "Ashland"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "Acetaminophen 160 MG Chewable Tablet",
+    "Acetaminophen 325 MG Oral Tablet",
+    "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+    "Medication review due (situation)",
+    "Gingivitis (disorder)",
+    "Sprain of ankle (disorder)"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "record_id": "easy-s47",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Salina Elaine Bogan\n===================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 98\nBirth Date:          1928-04-18\nMarital Status:      M\nSSN:                 999-73-7033\nDrivers:             S99923174\nPassport:            X14241141X\nAddress:             493 Hermiston Lane\nCity:                Ashland\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-04-26[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2026-01-21[CURRENT] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2026-01-21[CURRENT] : Warfarin Sodium 5 MG Oral Tablet for Atrial fibrillation (disorder)\n  2026-01-21[CURRENT] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n  2026-01-21[CURRENT] : Digoxin 0.125 MG Oral Tablet for Atrial fibrillation (disorder)\n  2026-01-21[CURRENT] : verapamil hydrochloride 80 MG Oral Tablet [Calan] for Atrial fibrillation (disorder)\n  2025-05-31[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2025-01-15[STOPPED] : Alendronic acid 10 MG Oral Tablet for Osteoporosis (disorder)\n  2025-01-15[STOPPED] : Warfarin Sodium 5 MG Oral Tablet for Atrial fibrillation (disorder)\n  2025-01-15[STOPPED] : Hydrochlorothiazide 25 MG Oral Tablet for Essential hypertension (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-01-21 -            : Full-time employment (finding)\n  2026-01-21 - 2026-01-21 : Medication review due (situation)\n  2025-01-15 -            : Stress (finding)\n  2025-01-15 - 2026-01-21 : Part-time employment (finding)\n  2025-01-15 - 2025-01-15 : Medication review due (situation)\n  2024-01-24 - 2024-01-25 : Dental caries, unspecified\n  2023-08-24 - 2024-01-10 : Stress (finding)\n  2023-08-24 - 2025-01-15 : Full-time employment (finding)\n  2023-08-24 - 2024-01-10 : Medication review due (situation)\n  2023-08-17 - 2023-08-28 : Viral sinusitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Salina"
+    },
+    {
+      "type": "name",
+      "text": "Elaine"
+    },
+    {
+      "type": "name",
+      "text": "Bogan"
+    },
+    {
+      "type": "dob",
+      "text": "1928-04-18"
+    },
+    {
+      "type": "ssn",
+      "text": "999-73-7033"
+    },
+    {
+      "type": "id_number",
+      "text": "S99923174"
+    },
+    {
+      "type": "id_number",
+      "text": "X14241141X"
+    },
+    {
+      "type": "address",
+      "text": "493 Hermiston Lane"
+    },
+    {
+      "type": "address",
+      "text": "Ashland"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "tropicamide 5 MG/ML Ophthalmic Solution",
+    "Alendronic acid 10 MG Oral Tablet",
+    "Warfarin Sodium 5 MG Oral Tablet",
+    "Full-time employment (finding)",
+    "Medication review due (situation)",
+    "Stress (finding)"
+  ]
+}

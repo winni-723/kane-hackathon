@@ -1,0 +1,60 @@
+{
+  "record_id": "easy-s28",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Lelia Lashaunda Walker\n======================\nRace:                Hawaiian\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 67\nBirth Date:          1959-06-14\nMarital Status:      M\nSSN:                 999-57-2226\nDrivers:             S99916343\nPassport:            X81630774X\nAddress:             222 Dooley Union Suite 24\nCity:                Northampton\nState:               Massachusetts\nZip:                 01053\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2026-10-25[CURRENT] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-10-18[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-10-04[STOPPED] : 4 ML bevacizumab 25 MG/ML Injection\n  2026-10-04[STOPPED] : proparacaine hydrochloride 5 MG/ML Ophthalmic Solution\n  2026-10-04[STOPPED] : tropicamide 5 MG/ML Ophthalmic Solution\n  2026-09-20[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-09-13[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-09-06[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-08-30[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n  2026-08-23[STOPPED] : 24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet for Diabetes mellitus type 2 (disorder)\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-10-19 -            : Stress (finding)\n  2026-10-18 - 2026-10-25 : Medication review due (situation)\n  2026-10-11 - 2026-10-20 : Viral sinusitis (disorder)\n  2026-09-14 - 2026-10-19 : Reports of violence in the environment (finding)\n  2026-09-14 - 2026-10-19 : Social isolation (finding)\n  2026-09-13 - 2026-09-20 : Medication review due (situation)\n  2026-08-31 - 2026-09-14 : Stress (finding)\n  2026-08-31 -            : Full-time employment (finding)\n  2026-08-30 - 2026-09-06 : Medication review due (situation)\n  2026-08-17 - 2026-08-31 : Part-time employment (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Lelia"
+    },
+    {
+      "type": "name",
+      "text": "Lashaunda"
+    },
+    {
+      "type": "name",
+      "text": "Walker"
+    },
+    {
+      "type": "dob",
+      "text": "1959-06-14"
+    },
+    {
+      "type": "ssn",
+      "text": "999-57-2226"
+    },
+    {
+      "type": "id_number",
+      "text": "S99916343"
+    },
+    {
+      "type": "id_number",
+      "text": "X81630774X"
+    },
+    {
+      "type": "address",
+      "text": "222 Dooley Union"
+    },
+    {
+      "type": "address",
+      "text": "Suite 24"
+    },
+    {
+      "type": "address",
+      "text": "Northampton"
+    },
+    {
+      "type": "address",
+      "text": "01053"
+    }
+  ],
+  "must_keep": [
+    "24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet",
+    "4 ML bevacizumab 25 MG/ML Injection",
+    "proparacaine hydrochloride 5 MG/ML Ophthalmic Solution",
+    "Stress (finding)",
+    "Medication review due (situation)",
+    "Viral sinusitis (disorder)"
+  ]
+}

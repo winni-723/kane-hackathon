@@ -1,0 +1,43 @@
+{
+  "record_id": "easy-s25",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Lavern Wiegand\n==============\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              M\nAge:                 14\nBirth Date:          2012-02-16\nMarital Status:      S\nSSN:                 999-72-1774\nAddress:             129 Kohler Tunnel\nCity:                New Bedford\nState:               Massachusetts\nZip:                 02748\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2018-01-04[STOPPED] : Acetaminophen 160 MG Chewable Tablet\n  2018-01-04[STOPPED] : Amoxicillin 500 MG Oral Tablet\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2026-05-07 - 2026-05-08 : Dental caries\n  2025-10-22 - 2025-10-30 : Acute viral pharyngitis (disorder)\n  2025-03-27 - 2026-04-02 : Dental caries\n  2025-03-27 - 2026-05-08 : Generalised chronic periodontitis\n  2025-03-13 - 2025-03-27 : Gingivitis (disorder)\n  2025-03-13 -            : Risk activity involvement (finding)\n  2022-08-18 - 2022-09-02 : Viral sinusitis (disorder)\n  2022-02-24 -            : Medication review due (situation)\n  2021-05-09 - 2021-05-19 : Viral sinusitis (disorder)\n  2019-07-20 - 2019-08-08 : Viral sinusitis (disorder)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Lavern"
+    },
+    {
+      "type": "name",
+      "text": "Wiegand"
+    },
+    {
+      "type": "dob",
+      "text": "2012-02-16"
+    },
+    {
+      "type": "ssn",
+      "text": "999-72-1774"
+    },
+    {
+      "type": "address",
+      "text": "129 Kohler Tunnel"
+    },
+    {
+      "type": "address",
+      "text": "New Bedford"
+    },
+    {
+      "type": "address",
+      "text": "02748"
+    }
+  ],
+  "must_keep": [
+    "Acetaminophen 160 MG Chewable Tablet",
+    "Amoxicillin 500 MG Oral Tablet",
+    "Dental caries",
+    "Acute viral pharyngitis (disorder)",
+    "Generalised chronic periodontitis"
+  ]
+}

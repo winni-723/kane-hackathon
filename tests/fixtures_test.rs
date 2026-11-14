@@ -62,10 +62,10 @@ fn field<'a>(v: &'a Value, key: &str, file: &Path) -> &'a str {
         .unwrap_or_else(|| panic!("{}: missing string field {key}", file.display()))
 }
 
-fn load_fixtures() -> Vec<Fixture> {
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
+fn load_dir(relative: &str) -> Vec<Fixture> {
+    let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join(relative);
     let mut paths: Vec<_> = fs::read_dir(&dir)
-        .expect("tests/fixtures exists")
+        .unwrap_or_else(|e| panic!("{relative}: {e}"))
         .map(|e| e.expect("readable entry").path())
         .filter(|p| p.extension().is_some_and(|e| e == "json"))
         .collect();
@@ -100,6 +100,12 @@ fn load_fixtures() -> Vec<Fixture> {
         })
         .collect();
 
+    fixtures
+}
+
+/// The 20 records the engine is developed against and gated on.
+fn load_fixtures() -> Vec<Fixture> {
+    let fixtures = load_dir("tests/fixtures");
     assert_eq!(fixtures.len(), 20, "expected 20 fixtures");
     fixtures
 }
@@ -141,11 +147,36 @@ fn gated_pii_is_removed() {
 /// Run with: cargo test --test fixtures_test scoreboard -- --nocapture
 #[test]
 fn scoreboard() {
+    print_scoreboard("tests/fixtures (development set)", &load_fixtures());
+    println!("gated: {GATES:?}");
+}
+
+/// Prints the same table for records the engine was NOT developed against.
+/// Nothing here is asserted: these sets measure, they do not gate.
+/// Run with: cargo test --test fixtures_test heldout_scoreboard -- --nocapture
+#[test]
+fn heldout_scoreboard() {
+    for dir in ["tests/heldout", "tests/synthea"] {
+        if Path::new(env!("CARGO_MANIFEST_DIR")).join(dir).is_dir() {
+            print_scoreboard(dir, &load_dir(dir));
+        }
+    }
+}
+
+fn print_scoreboard(title: &str, fixtures: &[Fixture]) {
     // (kind, difficulty) -> (removed, total)
     let mut table: BTreeMap<(String, String), (usize, usize)> = BTreeMap::new();
     let mut remaining = Vec::new();
-    for f in load_fixtures() {
+    let mut lost = Vec::new();
+    let mut keep_total = 0;
+    for f in fixtures {
         let out = engine::process(&f.text);
+        for keep in &f.must_keep {
+            keep_total += 1;
+            if !out.contains(keep.as_str()) {
+                lost.push(format!("{} \"{keep}\"", f.id));
+            }
+        }
         for pii in &f.planted_pii {
             let cell = table
                 .entry((pii.kind.clone(), f.difficulty.clone()))
@@ -159,7 +190,8 @@ fn scoreboard() {
         }
     }
 
-    println!("\nPII removed, by kind and difficulty (removed/total):");
+    println!("\n== {title}: {} records", fixtures.len());
+    println!("PII removed, by kind and difficulty (removed/total):");
     println!("{:<14} {:>8} {:>8} {:>8}", "kind", "easy", "medium", "hard");
     let kinds: Vec<String> = {
         let mut k: Vec<String> = table.keys().map(|(kind, _)| kind.clone()).collect();
@@ -178,8 +210,14 @@ fn scoreboard() {
         removed_all += r;
         total_all += t;
     }
-    println!("total: {removed_all}/{total_all}");
-    println!("gated: {GATES:?}");
+    println!("total removed: {removed_all}/{total_all}");
+    println!("medical content kept: {}/{keep_total}", keep_total - lost.len());
+    if !lost.is_empty() {
+        println!("\nmedical content LOST ({}):", lost.len());
+        for line in &lost {
+            println!("  {line}");
+        }
+    }
     if !remaining.is_empty() {
         println!("\nstill present ({}):", remaining.len());
         for line in &remaining {

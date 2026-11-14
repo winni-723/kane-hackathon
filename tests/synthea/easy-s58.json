@@ -1,0 +1,59 @@
+{
+  "record_id": "easy-s58",
+  "difficulty": "easy",
+  "source": "synthea",
+  "text": "Zona Chana Tremblay\n===================\nRace:                White\nEthnicity:           Non-Hispanic\nGender:              F\nAge:                 41\nBirth Date:          1985-03-07\nMarital Status:      M\nSSN:                 999-66-6108\nDrivers:             S99953952\nPassport:            X48341879X\nAddress:             401 Wisoky Corner Suite 39\nCity:                Georgetown\nState:               Massachusetts\nZip:                 00000\n--------------------------------------------------------------------------------\nALLERGIES:\nNo Known Allergies\n--------------------------------------------------------------------------------\nMEDICATIONS:\n  2018-08-30[STOPPED] : levonorgestrel 0.000813 MG/HR Intrauterine System [Liletta]\n  2017-09-04[STOPPED] : {28 (norethindrone 0.35 MG Oral Tablet) } Pack [Camila 28 Day]\n--------------------------------------------------------------------------------\nCONDITIONS:\n  2025-03-14 - 2025-03-28 : Gingivitis (disorder)\n  2025-03-14 -            : Full-time employment (finding)\n  2025-03-14 -            : Medication review due (situation)\n  2022-05-27 - 2025-03-14 : Part-time employment (finding)\n  2022-05-27 - 2022-05-27 : Medication review due (situation)\n  2021-02-26 -            : Mitral valve stenosis (disorder)\n  2020-09-02 -            : History of tubal ligation (situation)\n  2020-08-22 - 2020-09-02 : Sterilization requested (situation)\n  2016-05-20 - 2019-05-24 : Victim of intimate partner abuse (finding)\n  2016-05-20 - 2022-05-27 : Stress (finding)",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Zona"
+    },
+    {
+      "type": "name",
+      "text": "Chana"
+    },
+    {
+      "type": "name",
+      "text": "Tremblay"
+    },
+    {
+      "type": "dob",
+      "text": "1985-03-07"
+    },
+    {
+      "type": "ssn",
+      "text": "999-66-6108"
+    },
+    {
+      "type": "id_number",
+      "text": "S99953952"
+    },
+    {
+      "type": "id_number",
+      "text": "X48341879X"
+    },
+    {
+      "type": "address",
+      "text": "401 Wisoky Corner"
+    },
+    {
+      "type": "address",
+      "text": "Suite 39"
+    },
+    {
+      "type": "address",
+      "text": "Georgetown"
+    },
+    {
+      "type": "address",
+      "text": "00000"
+    }
+  ],
+  "must_keep": [
+    "levonorgestrel 0.000813 MG/HR Intrauterine System [Liletta]",
+    "{28 (norethindrone 0.35 MG Oral Tablet) } Pack [Camila 28 Day]",
+    "Gingivitis (disorder)",
+    "Full-time employment (finding)",
+    "Medication review due (situation)"
+  ]
+}
