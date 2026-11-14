@@ -133,6 +133,45 @@ static CITY_AFTER_ADDRESS: LazyLock<Regex> = LazyLock::new(|| {
         .expect("city-after-address pattern is valid")
 });
 
+/// Phone numbers written to dodge a pattern: one digit at a time
+/// (`5 5 5 - 0 1 0 9`, `9 1 7 5 5 5 0 1 3 1`) or spelled out
+/// (`five five five, zero one four four`). Seven or ten digits only.
+static PHONE_SPACED: LazyLock<Regex> = LazyLock::new(|| {
+    let digit_word = r"(?:zero|oh|one|two|three|four|five|six|seven|eight|nine)";
+    let pattern = [
+        // ten single digits
+        r"\b\d(?:[ ]\d){9}\b".to_string(),
+        // seven single digits, optionally split 3 - 4
+        r"\b\d(?:[ ]\d){2}(?:[ ]-[ ]|[ ])\d(?:[ ]\d){3}\b".to_string(),
+        // seven or more number words
+        format!(r"(?i)\b{digit_word}(?:[ ,]+{digit_word}){{6,}}\b"),
+    ]
+    .join("|");
+    Regex::new(&pattern).expect("spaced phone pattern is valid")
+});
+
+/// A home described by a landmark instead of an address:
+/// `the yellow house across from the old Fairmont cannery`,
+/// `her apartment over the pharmacy on Kessler Street`,
+/// `three doors down from the Lotus Garden restaurant on Ferrow Avenue`.
+///
+/// It needs a dwelling word followed, in the same clause, by a word that
+/// places it relative to something else. "On room air" has the first but not
+/// the second, so it is left alone. The whole rest of the clause is removed.
+static LANDMARK_HOME: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        // Adjectives are only taken after a determiner ("the yellow house"), so
+        // ordinary words before the dwelling ("back to her apartment") stay.
+        r"(?:(?P<det>\b(?:the|a|an|her|his|their|my|our)[ ])(?:[a-z]+[ ]){0,2}",
+        r"|\b(?:one|two|three|four|five|six|several)[ ])?",
+        r"\b(?:house|home|apartment|duplex|trailer park|trailer|room|flat|condo|cottage|cabin|farmhouse|doors?)[ ]",
+        r"(?:[a-z]+[ ]){0,2}?",
+        r"(?:across from|over|behind|off|above|down from|next to|beside|opposite|near|past|on the corner of)[ ]",
+        r"(?:St\.|[^.;,\n])+",
+    ))
+    .expect("landmark pattern is valid")
+});
+
 fn mask_city_state_zip(caps: &regex::Captures) -> String {
     let zip = if caps.name("zip").is_some() { " [ZIP]" } else { "" };
     format!("[CITY], {}{zip}", &caps["state"])
@@ -147,11 +186,13 @@ pub fn process(text: &str) -> String {
     let out = INSURANCE_ID.replace_all(&out, "${label}${join}[INSURANCE_ID]");
     let out = DATE.replace_all(&out, "[DATE]");
     let out = PHONE.replace_all(&out, "[PHONE]");
+    let out = PHONE_SPACED.replace_all(&out, "[PHONE]");
+    let out = LANDMARK_HOME.replace_all(&out, "${det}[LOCATION]");
     let out = STREET.replace_all(&out, "[ADDRESS]");
     let out = UNIT.replace_all(&out, "[ADDRESS]");
     let out = CITY_STATE_ZIP.replace_all(&out, mask_city_state_zip);
     let out = CITY_AFTER_ADDRESS.replace_all(&out, "${lead}[CITY]");
-    out.into_owned()
+    crate::names::mask(&out)
 }
 
 #[cfg(test)]
@@ -238,6 +279,67 @@ mod tests {
             "MRN is not on file.",
             "The chart number was requested from the referring clinic.",
             "Insurance ID pending verification.",
+        ] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn masks_phones_written_digit_by_digit_or_in_words() {
+        assert_eq!(
+            process("Rhea's line: 5 5 5 - 0 1 0 9. Born later."),
+            "Rhea's line: [PHONE]. Born later."
+        );
+        assert_eq!(
+            process("text only, 9 1 7 5 5 5 0 1 3 1."),
+            "text only, [PHONE]."
+        );
+        assert_eq!(
+            process("ring his cell, five five five, zero one four four, if anything changes"),
+            "ring his cell, [PHONE], if anything changes"
+        );
+    }
+
+    #[test]
+    fn leaves_ordinary_number_words_and_spaced_digits_alone() {
+        for text in [
+            "Pain is 3 out of 10 on Oxycodone 5 mg every 6 hours as needed.",
+            "two classmates were recently sick",
+            "one or two episodes, three to four times a week",
+            "GOLD stage 4, mMRC dyspnea grade 4.",
+        ] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn masks_homes_described_by_a_landmark() {
+        assert_eq!(
+            process("the patient lives in the yellow house across from the old Fairmont cannery, second floor."),
+            "the patient lives in the [LOCATION], second floor."
+        );
+        assert_eq!(
+            process("walking back to her apartment over the pharmacy on Kessler Street."),
+            "walking back to her [LOCATION]."
+        );
+        assert_eq!(
+            process("in the blue duplex behind St. Brendan's church in Calloway Flats. Best contact"),
+            "in the [LOCATION]. Best contact"
+        );
+        assert_eq!(
+            process("They live three doors down from the Lotus Garden restaurant on Ferrow Avenue. Next."),
+            "They live [LOCATION]. Next."
+        );
+    }
+
+    #[test]
+    fn leaves_dwelling_words_in_medical_text_alone() {
+        for text in [
+            "SpO2 95% on room air, respiratory rate 28.",
+            "oxygen was weaned to room air by day 3.",
+            "3 L/min home oxygen",
+            "Rosa offered her ground-floor home instead.",
+            "discharged to the home of his son",
         ] {
             assert_eq!(process(text), text);
         }

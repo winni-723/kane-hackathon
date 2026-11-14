@@ -28,6 +28,11 @@ const GATES: &[(&str, &str)] = &[
     ("mrn", "medium"),
     ("mrn", "hard"),
     ("insurance_id", "easy"),
+    ("dob", "easy"),
+    ("dob", "medium"),
+    ("dob", "hard"),
+    ("address", "easy"),
+    ("address", "medium"),
 ];
 
 struct Pii {
