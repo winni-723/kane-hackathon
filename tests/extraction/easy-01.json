@@ -1,0 +1,14 @@
+{
+  "record_id": "easy-01",
+  "age": "68",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Congestive heart failure"
+  ],
+  "medications": [
+    "Furosemide 40 mg daily",
+    "Lisinopril 10 mg daily"
+  ],
+  "must_not_list": []
+}

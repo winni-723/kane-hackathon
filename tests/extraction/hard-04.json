@@ -1,0 +1,14 @@
+{
+  "record_id": "hard-04",
+  "age": "34",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "post-traumatic stress disorder"
+  ],
+  "medications": [
+    "Sertraline 50 mg daily",
+    "Prazosin 1 mg at bedtime"
+  ],
+  "must_not_list": []
+}

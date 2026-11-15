@@ -27,7 +27,19 @@ Medications: Furosemide 40 mg daily     Medications: Furosemide 40 mg daily
 
 Press **Load sample record**, then **Process**. You can also paste a record or
 choose a `.txt` file; more sample records are in `tests/fixtures/` (the `text`
-field of each file). The site runs on a free instance, so the
+field of each file).
+
+For several records at once, press **Load sample batch** (or choose more than
+one `.txt` file), then **Process**: you get a research table, one row per
+record, that downloads as CSV.
+
+| Record | Age | Sex | Diagnoses | Medications |
+|---|---|---|---|---|
+| Record 1 | 72 | F | atrial fibrillation | Warfarin 5 mg daily; Metoprolol 25 mg twice daily |
+| Record 2 | 81 | M | community-acquired pneumonia | Ceftriaxone 1 g IV daily; Azithromycin 500 mg daily; Amoxicillin-Clavulanate 875 mg twice daily |
+| Record 3 | 34 | M | post-traumatic stress disorder | Sertraline 50 mg daily; Prazosin 1 mg at bedtime |
+
+The site runs on a free instance, so the
 first request after a quiet spell can take up to a minute.
 
 ## Run it
@@ -69,6 +81,41 @@ only look like identifiers are kept too: `Parkinson's disease`,
 
 The engine is rule-based Rust (`src/engine.rs`, `src/names.rs`). Nothing is
 sent anywhere: the record goes to the local server and comes back.
+
+## The research table
+
+`src/extract.rs` reads four columns from each record: age, sex, diagnoses and
+medications.
+
+- The columns are read from the **de-identified** text, so a cell cannot hold
+  anything the engine masked. A layer 1 test checks that no planted identifier
+  is in any cell. Rows are numbered `Record 1, 2, 3`; file names are not shown,
+  because a file name is often the patient's name.
+- The one thing read from the original is the date of birth. When a record
+  does not state the age, the age is worked out from the date of birth and the
+  date itself is dropped. Such ages are marked `*` and are as of today, not as
+  of the visit.
+- Ages of 90 and over are shown as `90+`, as HIPAA Safe Harbor requires.
+- A cell is left empty rather than guessed. Sex is never guessed from a name.
+- Things a record mentions that are not the patient's (a ruled-out finding, a
+  drug that was not needed, family history) must not reach the table.
+
+`tests/extraction/` holds an answer key for each of the 20 development
+records. Whole columns right, by difficulty:
+
+| Column | Easy | Medium | Hard |
+|---|---|---|---|
+| Age | 7/7 | 7/7 | 6/6 |
+| Sex | 7/7 | 7/7 | 5/6 |
+| Diagnoses | 7/7 | 7/7 | 5/6 |
+| Medications | 7/7 | 7/7 | 6/6 |
+
+The two misses are left as they are: a record whose only pronouns are one
+`her` and one `his`, and a diagnosis introduced by nothing but `has`.
+
+These numbers are from the records the rules were written against. There are
+no extraction answer keys for the held-out sets yet, so there is no honest
+score for unseen records; see Limits for what a look at them showed.
 
 ## How it is verified
 
@@ -183,6 +230,15 @@ unfixed because fixing them would mask medical text:
 - a name introduced only by an ordinary preposition (`an interaction for
   Leilani Kahananui`)
 
+The research table is weaker than the de-identification. Run by hand on the
+10 hand-written held-out records, it filled age on 9, medications on 8, and
+diagnoses on only 1: a diagnosis is found when a field or a set phrase
+introduces it, and most of those records word it differently. The Synthea
+layout (`MEDICATIONS:` and `CONDITIONS:` sections) is not read at all. Empty
+cells are the designed failure: the table should be missing a value rather
+than holding a wrong one. There is no PDF, scan or batch larger than 200
+files, and identifiers are replaced with tags, not with realistic surrogates.
+
 The hand-written records, held-out ones included, share an author with the
 rules. Only the Synthea values are independent of both.
 
@@ -197,7 +253,11 @@ town names are made up.
 ```text
 src/engine.rs          rules for everything except names
 src/names.rs           finding and removing names
+src/extract.rs         the research columns: age, sex, diagnoses, medications
 src/main.rs            Axum server: POST /api/process, serves the page
+tests/extraction/      answer keys for the research table
+tests/extraction_test.rs layer 1 tests of the research table
+tests/kane-live/       Kane test against the deployed site
 web/                   TypeScript + Vite front end
 tests/fixtures/        20 development records with answer keys
 tests/heldout/         10 held-out records with answer keys

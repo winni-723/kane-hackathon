@@ -1,0 +1,14 @@
+{
+  "record_id": "easy-03",
+  "age": "37",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Migraine without aura"
+  ],
+  "medications": [
+    "Sumatriptan 50 mg as needed",
+    "Propranolol 40 mg twice daily"
+  ],
+  "must_not_list": []
+}

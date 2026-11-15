@@ -1,0 +1,14 @@
+{
+  "record_id": "medium-02",
+  "age": "45",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "acute inferior myocardial infarction"
+  ],
+  "medications": [
+    "Aspirin 325 mg",
+    "Heparin"
+  ],
+  "must_not_list": []
+}

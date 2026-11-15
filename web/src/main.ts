@@ -1,5 +1,16 @@
+import { SAMPLE_BATCH, SAMPLE_RECORD } from "./samples";
+
+interface Extracted {
+  age: string | null;
+  age_source: "stated" | "dob" | null;
+  sex: "F" | "M" | null;
+  diagnoses: string[];
+  medications: string[];
+}
+
 interface ProcessResponse {
   text: string;
+  extracted: Extracted;
 }
 
 function mustGet<T extends HTMLElement>(id: string): T {
@@ -10,13 +21,22 @@ function mustGet<T extends HTMLElement>(id: string): T {
 
 const inputPanel = mustGet<HTMLElement>("input-panel");
 const resultPanel = mustGet<HTMLElement>("result-panel");
+const detailsPanel = mustGet<HTMLElement>("details-panel");
+const batchPanel = mustGet<HTMLElement>("batch-panel");
 const input = mustGet<HTMLTextAreaElement>("input");
 const processButton = mustGet<HTMLButtonElement>("process");
 const editButton = mustGet<HTMLButtonElement>("edit");
 const downloadButton = mustGet<HTMLButtonElement>("download");
 const output = mustGet<HTMLPreElement>("output");
 const sampleButton = mustGet<HTMLButtonElement>("sample");
+const sampleBatchButton = mustGet<HTMLButtonElement>("sample-batch");
 const fileInput = mustGet<HTMLInputElement>("file");
+const summary = mustGet<HTMLParagraphElement>("summary");
+const detailsBody = mustGet<HTMLTableSectionElement>("details-body");
+const backButton = mustGet<HTMLButtonElement>("back");
+const batchBody = mustGet<HTMLTableSectionElement>("batch-body");
+const csvButton = mustGet<HTMLButtonElement>("csv");
+const restartButton = mustGet<HTMLButtonElement>("restart");
 
 // The error message exists in the page only while there is an error, so an
 // empty placeholder can never be mistaken for the result area.
@@ -36,35 +56,151 @@ function showError(message: string): void {
   inputPanel.append(errorEl);
 }
 
-function showResult(text: string): void {
-  output.textContent = text;
-  inputPanel.hidden = true;
-  resultPanel.hidden = false;
+// Records waiting to be processed together. While this is set, Process
+// builds the research table instead of reading the text box.
+let pendingBatch: string[] | null = null;
+let batchNote: HTMLParagraphElement | null = null;
+// The processed batch, kept so a record can be opened from the table.
+let batchResults: ProcessResponse[] = [];
+
+function setPendingBatch(records: string[] | null): void {
+  pendingBatch = records;
+  batchNote?.remove();
+  batchNote = null;
+  if (records) {
+    batchNote = document.createElement("p");
+    batchNote.className = "batch-note";
+    batchNote.setAttribute("role", "status");
+    batchNote.textContent = `${records.length} records loaded. Press Process to build the research table.`;
+    processButton.before(batchNote);
+    input.value = "";
+  }
+}
+
+// --- the placeholders the engine writes ---------------------------------------
+
+const CATEGORIES: Record<string, { css: string; one: string; many: string }> = {
+  NAME: { css: "name", one: "name", many: "names" },
+  PHONE: { css: "contact", one: "phone number", many: "phone numbers" },
+  EMAIL: { css: "contact", one: "email address", many: "email addresses" },
+  DATE: { css: "date", one: "date", many: "dates" },
+  ADDRESS: { css: "place", one: "street address", many: "street addresses" },
+  CITY: { css: "place", one: "town", many: "towns" },
+  ZIP: { css: "place", one: "ZIP code", many: "ZIP codes" },
+  LOCATION: { css: "place", one: "described location", many: "described locations" },
+  SSN: { css: "id", one: "Social Security number", many: "Social Security numbers" },
+  MRN: { css: "id", one: "record number", many: "record numbers" },
+  INSURANCE_ID: { css: "id", one: "insurance ID", many: "insurance IDs" },
+  ID_NUMBER: { css: "id", one: "ID number", many: "ID numbers" },
+};
+
+const PLACEHOLDER = new RegExp(`\\[(${Object.keys(CATEGORIES).join("|")})\\]`, "g");
+
+// Fills the Result with the same characters as `text`; placeholders are
+// wrapped in a coloured span, which changes how they look and nothing else.
+function renderResult(text: string): void {
+  output.replaceChildren();
+  let last = 0;
+  for (const match of text.matchAll(PLACEHOLDER)) {
+    output.append(text.slice(last, match.index));
+    const tag = document.createElement("span");
+    tag.className = `tag tag-${CATEGORIES[match[1]].css}`;
+    tag.textContent = match[0];
+    output.append(tag);
+    last = match.index + match[0].length;
+  }
+  output.append(text.slice(last));
+}
+
+function removedSummary(text: string): string {
+  const counts = new Map<string, number>();
+  for (const match of text.matchAll(PLACEHOLDER)) {
+    counts.set(match[1], (counts.get(match[1]) ?? 0) + 1);
+  }
+  const total = [...counts.values()].reduce((a, b) => a + b, 0);
+  if (total === 0) return "No identifiers were found in this record.";
+  const parts = [...counts].map(([kind, n]) => `${n} ${n === 1 ? CATEGORIES[kind].one : CATEGORIES[kind].many}`);
+  return `${total} ${total === 1 ? "identifier" : "identifiers"} removed: ${parts.join(", ")}.`;
+}
+
+// --- the research columns ------------------------------------------------------
+
+function ageCell(e: Extracted): string {
+  if (!e.age) return "";
+  return e.age_source === "dob" ? `${e.age}*` : e.age;
+}
+
+function columns(e: Extracted): string[] {
+  return [ageCell(e), e.sex ?? "", e.diagnoses.join("; "), e.medications.join("; ")];
+}
+
+function addCells(row: HTMLTableRowElement, values: string[]): void {
+  for (const value of values) {
+    const cell = row.insertCell();
+    cell.textContent = value;
+  }
+}
+
+// --- panels: only one of input, single result and table is on screen ----------
+
+function showOnly(...panels: HTMLElement[]): void {
+  for (const panel of [inputPanel, resultPanel, detailsPanel, batchPanel]) {
+    panel.hidden = !panels.includes(panel);
+  }
+}
+
+function showResult(result: ProcessResponse, fromTable: boolean): void {
+  renderResult(result.text);
+  summary.textContent = removedSummary(result.text);
+  detailsBody.replaceChildren();
+  addCells(detailsBody.insertRow(), columns(result.extracted));
+  backButton.hidden = !fromTable;
+  showOnly(resultPanel, detailsPanel);
+}
+
+function showTable(): void {
+  batchBody.replaceChildren();
+  batchResults.forEach((result, index) => {
+    const row = batchBody.insertRow();
+    addCells(row, [`Record ${index + 1}`, ...columns(result.extracted)]);
+    const view = document.createElement("button");
+    view.type = "button";
+    view.textContent = "View";
+    view.setAttribute("aria-label", `View record ${index + 1}`);
+    view.addEventListener("click", () => showResult(result, true));
+    row.insertCell().append(view);
+  });
+  showOnly(batchPanel);
 }
 
 function showInput(): void {
-  output.textContent = "";
-  resultPanel.hidden = true;
-  inputPanel.hidden = false;
+  output.replaceChildren();
+  batchResults = [];
+  showOnly(inputPanel);
   input.focus();
 }
 
-async function processText(text: string): Promise<string> {
+async function processText(text: string): Promise<ProcessResponse> {
   const res = await fetch("/api/process", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
   });
   if (!res.ok) throw new Error(`Server returned ${res.status}`);
-  const data = (await res.json()) as ProcessResponse;
-  return data.text;
+  return (await res.json()) as ProcessResponse;
 }
 
 processButton.addEventListener("click", async () => {
   clearError();
   processButton.disabled = true;
   try {
-    showResult(await processText(input.value));
+    if (pendingBatch) {
+      batchResults = await Promise.all(pendingBatch.map(processText));
+      setPendingBatch(null);
+      showTable();
+    } else {
+      showResult(await processText(input.value), false);
+    }
   } catch (e) {
     showError(e instanceof Error ? e.message : "Request failed");
   } finally {
@@ -72,59 +208,105 @@ processButton.addEventListener("click", async () => {
   }
 });
 
-// An invented record (the same text as tests/fixtures/medium-01.json), so a
-// visitor can try the page without having a record of their own.
-const SAMPLE_RECORD = `Progress Note
-
-Grace Whitfield is a 72-year-old woman seen today for follow-up of atrial fibrillation. She was born on April 9, 1953 and lives alone at 18 Larkspur Lane in Dunmore Heights. Her daughter Mary called the clinic from 555-0198 this morning to ask whether the Warfarin dose should change.
-
-INR today is 2.4, within the target range. Continue Warfarin 5 mg daily and Metoprolol 25 mg twice daily. No bleeding or bruising reported. Recheck INR in 4 weeks. If Grace cannot be reached, call her at (508) 555-0114.`;
+// --- starting points ------------------------------------------------------------
 
 const MAX_FILE_BYTES = 1_000_000;
+const MAX_FILES = 200;
 
 sampleButton.addEventListener("click", () => {
   clearError();
+  setPendingBatch(null);
   input.value = SAMPLE_RECORD;
   input.focus();
 });
 
-// The file is read in the browser and only fills the text box; nothing is
-// sent until Process is pressed.
+sampleBatchButton.addEventListener("click", () => {
+  clearError();
+  setPendingBatch(SAMPLE_BATCH);
+});
+
+input.addEventListener("input", () => setPendingBatch(null));
+
+// Files are read in the browser and only fill the text box or the waiting
+// batch; nothing is sent until Process is pressed.
 fileInput.addEventListener("change", async () => {
   clearError();
-  const file = fileInput.files?.[0];
+  const files = [...(fileInput.files ?? [])];
   fileInput.value = "";
-  if (!file) return;
-  const isText = file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name));
-  if (!isText) {
-    showError("Only plain text (.txt) files can be loaded.");
+  if (files.length === 0) return;
+  if (files.length > MAX_FILES) {
+    showError(`Choose at most ${MAX_FILES} files at a time.`);
     return;
   }
-  if (file.size > MAX_FILE_BYTES) {
-    showError("That file is larger than 1 MB.");
-    return;
+  for (const file of files) {
+    const isText = file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name));
+    if (!isText) {
+      showError("Only plain text (.txt) files can be loaded.");
+      return;
+    }
+    if (file.size > MAX_FILE_BYTES) {
+      showError("A file is larger than 1 MB.");
+      return;
+    }
   }
   try {
-    input.value = await file.text();
-    input.focus();
+    const texts = await Promise.all(files.map((file) => file.text()));
+    if (texts.length === 1) {
+      setPendingBatch(null);
+      input.value = texts[0];
+      input.focus();
+    } else {
+      setPendingBatch(texts);
+    }
   } catch {
-    showError("The file could not be read.");
+    showError("A file could not be read.");
   }
 });
 
-// Saves exactly what the Result shows, so the file can never contain text
-// that was not on screen.
-function downloadResult(): void {
-  const blob = new Blob([output.textContent ?? ""], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
+// --- downloads ------------------------------------------------------------------
+
+function save(content: string, type: string, name: string): void {
+  const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = "deidentified-record.txt";
+  link.download = name;
   document.body.append(link);
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
 }
 
-downloadButton.addEventListener("click", downloadResult);
+// Saves exactly what the Result shows, so the file can never contain text
+// that was not on screen.
+downloadButton.addEventListener("click", () => {
+  save(output.textContent ?? "", "text/plain;charset=utf-8", "deidentified-record.txt");
+});
+
+function csvField(value: string): string {
+  // A leading =, +, - or @ would be run as a formula by a spreadsheet.
+  const safe = /^[=+\-@]/.test(value) ? `'${value}` : value;
+  return `"${safe.replaceAll('"', '""')}"`;
+}
+
+csvButton.addEventListener("click", () => {
+  const header = ["record", "age", "age_source", "sex", "diagnoses", "medications", "deidentified_text"];
+  const rows = batchResults.map((result, index) => {
+    const e = result.extracted;
+    return [
+      `Record ${index + 1}`,
+      e.age ?? "",
+      e.age_source ?? "",
+      e.sex ?? "",
+      e.diagnoses.join("; "),
+      e.medications.join("; "),
+      result.text,
+    ];
+  });
+  const csv = [header, ...rows].map((row) => row.map(csvField).join(",")).join("\r\n");
+  // The byte-order mark makes spreadsheets read the file as UTF-8.
+  save(`﻿${csv}\r\n`, "text/csv;charset=utf-8", "research-table.csv");
+});
+
 editButton.addEventListener("click", showInput);
+restartButton.addEventListener("click", showInput);
+backButton.addEventListener("click", showTable);

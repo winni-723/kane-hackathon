@@ -1,0 +1,15 @@
+{
+  "record_id": "hard-02",
+  "age": "82",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "Alzheimer's disease"
+  ],
+  "medications": [
+    "Donepezil 5 mg nightly"
+  ],
+  "must_not_list": [
+    "Lewy body"
+  ]
+}

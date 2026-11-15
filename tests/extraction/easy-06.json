@@ -1,0 +1,13 @@
+{
+  "record_id": "easy-06",
+  "age": "62",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Major depressive disorder"
+  ],
+  "medications": [
+    "Sertraline 100 mg daily"
+  ],
+  "must_not_list": []
+}

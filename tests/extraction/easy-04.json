@@ -1,0 +1,13 @@
+{
+  "record_id": "easy-04",
+  "age": "80",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Parkinson's disease"
+  ],
+  "medications": [
+    "Carbidopa-Levodopa 25-100 mg three times daily"
+  ],
+  "must_not_list": []
+}

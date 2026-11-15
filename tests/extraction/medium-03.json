@@ -1,0 +1,13 @@
+{
+  "record_id": "medium-03",
+  "age": "59",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [],
+  "medications": [
+    "Atorvastatin 20 mg nightly"
+  ],
+  "must_not_list": [
+    "coronary artery disease"
+  ]
+}

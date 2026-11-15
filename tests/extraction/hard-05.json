@@ -1,0 +1,17 @@
+{
+  "record_id": "hard-05",
+  "age": "64",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "chronic kidney disease",
+    "IgA nephropathy"
+  ],
+  "medications": [
+    "Losartan 100 mg daily",
+    "Amlodipine 10 mg daily"
+  ],
+  "must_not_list": [
+    "Kayexalate"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "record_id": "easy-05",
+  "age": "11",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Mild persistent asthma"
+  ],
+  "medications": [
+    "Albuterol inhaler 2 puffs every 4 hours as needed",
+    "Fluticasone 44 mcg twice daily"
+  ],
+  "must_not_list": []
+}

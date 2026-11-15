@@ -1,0 +1,14 @@
+{
+  "record_id": "hard-03",
+  "age": "34",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "Hodgkin lymphoma"
+  ],
+  "medications": [
+    "Ondansetron 8 mg as needed",
+    "ABVD chemotherapy"
+  ],
+  "must_not_list": []
+}

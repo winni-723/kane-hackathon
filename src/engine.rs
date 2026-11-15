@@ -75,7 +75,7 @@ const ORDINAL_WORD: &str = concat!(
 /// A year, or a month and day without a year, is left alone. Recognized shapes:
 /// `03/14/1958`, `3/8/1967`, `1962-05-27`, `09-06-48`, `April 9, 1953`,
 /// `March 3rd, '91`, `22 Nov 1991`, `the fourth of July, 1944`.
-static DATE: LazyLock<Regex> = LazyLock::new(|| {
+pub(crate) static DATE: LazyLock<Regex> = LazyLock::new(|| {
     let year = r"(?:\d{4}|'\d{2})";
     let pattern = [
         // 03/14/1958, 3/8/1967

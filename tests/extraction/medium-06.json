@@ -1,0 +1,14 @@
+{
+  "record_id": "medium-06",
+  "age": "4",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "acute otitis media"
+  ],
+  "medications": [
+    "Amoxicillin 400 mg twice daily",
+    "Acetaminophen 160 mg every 6 hours as needed"
+  ],
+  "must_not_list": []
+}

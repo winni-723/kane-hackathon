@@ -1,4 +1,5 @@
 use deid_server::engine;
+use deid_server::extract::{self, Day, Extracted};
 
 use axum::{Json, Router, routing::post};
 use serde::{Deserialize, Serialize};
@@ -11,13 +12,16 @@ struct ProcessRequest {
 
 #[derive(Serialize)]
 struct ProcessResponse {
+    /// The de-identified record.
     text: String,
+    /// The research columns read from it.
+    extracted: Extracted,
 }
 
 async fn process(Json(req): Json<ProcessRequest>) -> Json<ProcessResponse> {
-    Json(ProcessResponse {
-        text: engine::process(&req.text),
-    })
+    let text = engine::process(&req.text);
+    let extracted = extract::extract(&req.text, &text, Day::today());
+    Json(ProcessResponse { text, extracted })
 }
 
 #[tokio::main]

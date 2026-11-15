@@ -46,6 +46,67 @@
       .starters label {
         margin: 0 0.5rem;
       }
+      .batch-hint button,
+      td button {
+        margin-top: 0;
+        padding: 0.2rem 0.6rem;
+      }
+      .batch-note {
+        margin: 0.75rem 0 0;
+        padding: 0.5rem 0.75rem;
+        background: #eef4fb;
+        border: 1px solid #b5d4f4;
+      }
+      .tag {
+        border-radius: 3px;
+        padding: 0 2px;
+      }
+      .tag-name {
+        background: #e4e1fb;
+        color: #3c3489;
+      }
+      .tag-contact {
+        background: #fbe6d9;
+        color: #712b13;
+      }
+      .tag-date {
+        background: #d9f1e8;
+        color: #085041;
+      }
+      .tag-place {
+        background: #f9e0ea;
+        color: #72243e;
+      }
+      .tag-id {
+        background: #f6e7c8;
+        color: #633806;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0.4rem 0.5rem;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        border-bottom-color: #999;
+      }
+      .footnote {
+        font-size: 0.85rem;
+        color: #555;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
       .error {
         color: #b00020;
       }
@@ -71,7 +132,12 @@
         <p>No record to hand? Start from one of these:</p>
         <button id="sample" type="button">Load sample record</button>
         <label for="file">or choose a .txt file</label>
-        <input id="file" type="file" accept=".txt,text/plain" />
+        <input id="file" type="file" accept=".txt,text/plain" multiple />
+        <p class="batch-hint">
+          Several records at once become a research table, one row per record:
+          choose more than one file, or
+          <button id="sample-batch" type="button">Load sample batch</button>
+        </p>
       </div>
     </section>
 
@@ -80,6 +146,37 @@
       <pre id="output" aria-label="De-identified result" aria-live="polite"></pre>
       <button id="download" type="button">Download result</button>
       <button id="edit" type="button">Edit original</button>
+    </section>
+
+    <!-- Shown with the Result but kept outside it, so the Result region holds
+         the de-identified record and nothing else. -->
+    <section id="details-panel" aria-labelledby="details-heading" hidden>
+      <h2 id="details-heading">Record details</h2>
+      <p id="summary"></p>
+      <table>
+        <thead>
+          <tr><th>Age</th><th>Sex</th><th>Diagnoses</th><th>Medications</th></tr>
+        </thead>
+        <tbody id="details-body"></tbody>
+      </table>
+      <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
+      <button id="back" type="button">Back to table</button>
+    </section>
+
+    <section id="batch-panel" aria-labelledby="batch-heading" hidden>
+      <h2 id="batch-heading">Research table</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Record</th><th>Age</th><th>Sex</th><th>Diagnoses</th><th>Medications</th>
+            <th><span class="visually-hidden">Open</span></th>
+          </tr>
+        </thead>
+        <tbody id="batch-body"></tbody>
+      </table>
+      <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
+      <button id="csv" type="button">Download CSV</button>
+      <button id="restart" type="button">Start over</button>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

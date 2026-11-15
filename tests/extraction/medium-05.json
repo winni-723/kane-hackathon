@@ -1,0 +1,15 @@
+{
+  "record_id": "medium-05",
+  "age": "52",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "rheumatoid arthritis"
+  ],
+  "medications": [
+    "Methotrexate 15 mg weekly",
+    "Folic acid 1 mg daily",
+    "Hydroxychloroquine 200 mg twice daily"
+  ],
+  "must_not_list": []
+}

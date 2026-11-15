@@ -1,0 +1,12 @@
+{
+  "record_id": "hard-01",
+  "age": null,
+  "age_source": null,
+  "sex": "F",
+  "diagnoses": [],
+  "medications": [
+    "Oxycodone 5 mg every 6 hours as needed",
+    "Enoxaparin 40 mg subcutaneously daily"
+  ],
+  "must_not_list": []
+}

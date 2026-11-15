@@ -1,0 +1,14 @@
+{
+  "record_id": "medium-01",
+  "age": "72",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "atrial fibrillation"
+  ],
+  "medications": [
+    "Warfarin 5 mg daily",
+    "Metoprolol 25 mg twice daily"
+  ],
+  "must_not_list": []
+}

@@ -1,0 +1,13 @@
+{
+  "record_id": "easy-07",
+  "age": "46",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Medial meniscus tear"
+  ],
+  "medications": [
+    "Ibuprofen 600 mg every 8 hours"
+  ],
+  "must_not_list": []
+}

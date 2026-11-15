@@ -13,7 +13,7 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
 - **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
-- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
+- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original；Load sample record、`.txt` 上傳；Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）；多份病歷（Load sample batch 或多選 `.txt`）產生 Research table，可 Download CSV。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
 
 ## 雙層驗證閉環
 
@@ -56,6 +56,16 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - 第一次未調校的分數（2026-11-14）：手寫 62/88、Synthea 151/537。這是泛化能力的誠實數字，寫在 README，不要覆蓋。
 - 看分數：`cargo test --test fixtures_test -- --nocapture scoreboard`
 - 已知且刻意不修的漏網：全小寫的姓名、只由一般介系詞引出的姓名（`for Leilani Kahananui`）。修它們會誤遮醫療用語。
+
+### 研究數據表（擷取）
+
+- `src/extract.rs` 從每份病歷擷取年齡、性別、疾病、用藥。除了「由生日算年齡」之外，一律從**去識別化後的文字**擷取，表格裡不可能出現被遮蔽的個資。
+- 擷取答案卷在 `tests/extraction/`（20 份，使用者 2026-11-14 定案，規則見該資料夾的 README）。同樣不可為了讓測試通過而修改。
+- 第一層測試在 `tests/extraction_test.rs`：`GATES` 列出必須全對的（欄位, 難度），只增不減；`must_not_list` 的字串與任何應遮蔽的個資都不得出現在表格裡。看分數：`cargo test --test extraction_test -- --nocapture`。
+- 由生日算的年齡以測試中的 `REFERENCE_DAY`（2026-11-14）為基準，不要改這個日期。
+- 抓不到就留空，不要為了分數去猜（例如由姓名猜性別）。
+- 已知且刻意不修的漏網：hard-05 的性別（代名詞一比一）、hard-06 的 `COPD`（只由 `has` 引出）。
+- 測驗卷與 Synthea 沒有擷取答案卷，目前沒有量測。
 
 ### 新增一種個資的流程
 

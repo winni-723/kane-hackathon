@@ -1,0 +1,14 @@
+{
+  "record_id": "easy-02",
+  "age": "55",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "type 2 diabetes mellitus"
+  ],
+  "medications": [
+    "Metformin 1000 mg twice daily",
+    "Empagliflozin 10 mg daily"
+  ],
+  "must_not_list": []
+}

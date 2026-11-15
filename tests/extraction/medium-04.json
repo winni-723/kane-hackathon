@@ -1,0 +1,15 @@
+{
+  "record_id": "medium-04",
+  "age": "81",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "community-acquired pneumonia"
+  ],
+  "medications": [
+    "Ceftriaxone 1 g IV daily",
+    "Azithromycin 500 mg daily",
+    "Amoxicillin-Clavulanate 875 mg twice daily"
+  ],
+  "must_not_list": []
+}

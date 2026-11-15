@@ -1,0 +1,14 @@
+{
+  "record_id": "hard-06",
+  "age": "78",
+  "age_source": "dob",
+  "sex": "M",
+  "diagnoses": [
+    "COPD"
+  ],
+  "medications": [
+    "Tiotropium 18 mcg daily",
+    "Albuterol nebulizers every 4 hours"
+  ],
+  "must_not_list": []
+}

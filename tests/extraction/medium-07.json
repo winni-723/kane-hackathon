@@ -1,0 +1,14 @@
+{
+  "record_id": "medium-07",
+  "age": "58",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "cholelithiasis",
+    "hypertension"
+  ],
+  "medications": [
+    "Amlodipine 5 mg daily"
+  ],
+  "must_not_list": []
+}

@@ -27,7 +27,9 @@ jobs:
       - name: Tests, including the answer-key tests
         run: cargo test
       - name: Scoreboards
-        run: cargo test --test fixtures_test -- --nocapture scoreboard
+        run: |
+          cargo test --test fixtures_test -- --nocapture scoreboard
+          cargo test --test extraction_test -- --nocapture scoreboard
       - name: Front end type-check and build
         run: |
           npm --prefix web ci
