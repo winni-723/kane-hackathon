@@ -25,8 +25,9 @@ Medications: Furosemide 40 mg daily     Medications: Furosemide 40 mg daily
 
 **Live: https://medical-record-deidentifier.onrender.com**
 
-Paste a record and press **Process**. Sample records are in `tests/fixtures/`
-(the `text` field of each file). The site runs on a free instance, so the
+Press **Load sample record**, then **Process**. You can also paste a record or
+choose a `.txt` file; more sample records are in `tests/fixtures/` (the `text`
+field of each file). The site runs on a free instance, so the
 first request after a quiet spell can take up to a minute.
 
 ## Run it

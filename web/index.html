@@ -34,6 +34,18 @@
         min-height: 3rem;
         background: #f6f6f6;
       }
+      .starters {
+        margin-top: 1.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid #ddd;
+        font-size: 0.95rem;
+      }
+      .starters p {
+        margin: 0;
+      }
+      .starters label {
+        margin: 0 0.5rem;
+      }
       .error {
         color: #b00020;
       }
@@ -52,6 +64,15 @@
       <label for="input">Medical record text</label>
       <textarea id="input" placeholder="Paste a medical record here"></textarea>
       <button id="process" type="button">Process</button>
+
+      <!-- Kept after the Process button so the text box and Process stay the
+           first controls in this panel. -->
+      <div class="starters">
+        <p>No record to hand? Start from one of these:</p>
+        <button id="sample" type="button">Load sample record</button>
+        <label for="file">or choose a .txt file</label>
+        <input id="file" type="file" accept=".txt,text/plain" />
+      </div>
     </section>
 
     <section id="result-panel" aria-labelledby="result-heading" hidden>

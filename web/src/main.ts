@@ -15,6 +15,8 @@ const processButton = mustGet<HTMLButtonElement>("process");
 const editButton = mustGet<HTMLButtonElement>("edit");
 const downloadButton = mustGet<HTMLButtonElement>("download");
 const output = mustGet<HTMLPreElement>("output");
+const sampleButton = mustGet<HTMLButtonElement>("sample");
+const fileInput = mustGet<HTMLInputElement>("file");
 
 // The error message exists in the page only while there is an error, so an
 // empty placeholder can never be mistaken for the result area.
@@ -67,6 +69,46 @@ processButton.addEventListener("click", async () => {
     showError(e instanceof Error ? e.message : "Request failed");
   } finally {
     processButton.disabled = false;
+  }
+});
+
+// An invented record (the same text as tests/fixtures/medium-01.json), so a
+// visitor can try the page without having a record of their own.
+const SAMPLE_RECORD = `Progress Note
+
+Grace Whitfield is a 72-year-old woman seen today for follow-up of atrial fibrillation. She was born on April 9, 1953 and lives alone at 18 Larkspur Lane in Dunmore Heights. Her daughter Mary called the clinic from 555-0198 this morning to ask whether the Warfarin dose should change.
+
+INR today is 2.4, within the target range. Continue Warfarin 5 mg daily and Metoprolol 25 mg twice daily. No bleeding or bruising reported. Recheck INR in 4 weeks. If Grace cannot be reached, call her at (508) 555-0114.`;
+
+const MAX_FILE_BYTES = 1_000_000;
+
+sampleButton.addEventListener("click", () => {
+  clearError();
+  input.value = SAMPLE_RECORD;
+  input.focus();
+});
+
+// The file is read in the browser and only fills the text box; nothing is
+// sent until Process is pressed.
+fileInput.addEventListener("change", async () => {
+  clearError();
+  const file = fileInput.files?.[0];
+  fileInput.value = "";
+  if (!file) return;
+  const isText = file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name));
+  if (!isText) {
+    showError("Only plain text (.txt) files can be loaded.");
+    return;
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    showError("That file is larger than 1 MB.");
+    return;
+  }
+  try {
+    input.value = await file.text();
+    input.focus();
+  } catch {
+    showError("The file could not be read.");
   }
 });
 
