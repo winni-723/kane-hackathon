@@ -144,6 +144,13 @@ presses Process, and checks the Result region against the answer key. The
 whole suite is replayed on every run with `--no-adaptive-heal`, so a regression
 fails instead of the test being rewritten to fit.
 
+The suite holds 183 tests: every record and identifier kind in the
+development set (110), every held-out hand-written record (56), three of the
+Synthea records (13), and four tests of the page itself. A held-out record
+gets no Kane test for an identifier the engine is known to miss (three such
+pairs, listed under Limits), because a test that fails by design would block
+every commit.
+
 A commit is made only when both layers pass, and the commit message says what
 passed.
 

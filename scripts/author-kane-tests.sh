@@ -38,6 +38,7 @@ if [ ${#new[@]} -eq 0 ]; then
   exit 0
 fi
 echo "recording ${#new[@]} new test(s)"
+. scripts/kane-lock.sh
 
 node scripts/cleanup-kane-chrome.mjs | sed 's/^/  /'
 stamp="$(date +%Y%m%d-%H%M%S)"

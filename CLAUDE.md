@@ -76,6 +76,12 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 4. 建立錄製：多個新測試用 `kane-cli testrun run <files> --agent --headless --parallel 3`（官方支援的平行方式，已驗證不會互相污染）；單一測試用 `kane-cli testmd run <file> --agent --headless`。之後確認答案卷的檢查（contains / does not contain the text）都是 `exact`。出現 `VISUAL` 的測試要刪掉 `output-<stem>/` 重新錄製。「Result heading is visible」這類導覽檢查用截圖判讀沒關係。
 5. `bash scripts/verify.sh` 全過後才 commit。
 
+**錄製期間不可同時跑驗證**（2026-11-15 的教訓，多花約 630 credits）：Stop hook 在 Kane 測試檔變動時會自動跑 `verify.sh`；當時錄製腳本沒有上鎖，驗證與錄製同時進行，驗證把還沒有錄製檔的 64 個新測試又錄了一遍，並重啟伺服器讓 14 個錄製失敗。現在的保護：
+
+- `scripts/kane-lock.sh`：錄製腳本與 `verify.sh` 共用 `.kane-logs/verify.lock`，同一時間只有一個在跑。
+- `verify.sh` 遇到沒有錄製檔（`output-<stem>/.internal`）的測試會以 exit 2 停下，不會自己錄製。驗證永遠不該花 credits。
+- 不要繞過腳本直接用 `kane-cli testrun run` 錄製新測試。
+
 常用腳本：
 
 - `bash scripts/author-kane-tests.sh <record>:<type> ...`（或 `--from <清單檔>`）：產生並錄製新測試，結束時列出需要重錄的（`REDO`）。超過約 15 個測試要用背景執行，前景上限 10 分鐘。

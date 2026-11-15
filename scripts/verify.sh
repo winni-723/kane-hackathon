@@ -49,6 +49,19 @@ step web      npm --prefix web run build
 grep -h "test result" "$LOG_DIR/layer1-test.log" | sed 's/^/        /'
 
 echo "== Layer 2"
+# A verification replays recordings; it never makes them. A test with no
+# recording would be recorded here, at about 30 credits each, and possibly
+# while scripts/author-kane-tests.sh is recording the same test.
+unrecorded=()
+for test_file in tests/kane/*_test.md; do
+  [ -d "tests/kane/output-$(basename "$test_file" _test.md)/.internal" ] || unrecorded+=("$test_file")
+done
+if [ ${#unrecorded[@]} -gt 0 ]; then
+  echo "  ${#unrecorded[@]} Kane test(s) have no recording yet:"
+  printf '    %s\n' "${unrecorded[@]}" | head -10
+  echo "KANE DID NOT RUN: record them first with scripts/redo-kane-recordings.sh"
+  exit 2
+fi
 # Leftover Kane browsers hold its ports and make new runs fail before they start.
 node scripts/cleanup-kane-chrome.mjs | sed 's/^/  /'
 nohup ./target/debug/deid-server > "$LOG_DIR/server.log" 2>&1 &

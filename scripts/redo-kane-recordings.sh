@@ -20,6 +20,7 @@ for file in "$@"; do
   files+=("$file")
 done
 [ ${#files[@]} -eq 0 ] && { echo "nothing to redo"; exit 0; }
+. scripts/kane-lock.sh
 
 node scripts/cleanup-kane-chrome.mjs | sed 's/^/  /'
 stamp="$(date +%Y%m%d-%H%M%S)"
