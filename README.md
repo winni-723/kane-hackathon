@@ -21,6 +21,14 @@ Diagnosis: Congestive heart failure     Diagnosis: Congestive heart failure
 Medications: Furosemide 40 mg daily     Medications: Furosemide 40 mg daily
 ```
 
+## Try it
+
+**Live: https://medical-record-deidentifier.onrender.com**
+
+Paste a record and press **Process**. Sample records are in `tests/fixtures/`
+(the `text` field of each file). The site runs on a free instance, so the
+first request after a quiet spell can take up to a minute.
+
 ## Run it
 
 Requirements: Rust (stable) and Node.js 18+.
