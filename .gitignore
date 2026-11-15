@@ -18,6 +18,7 @@ secrets/
 
 # Kane recordings: local replay cache; contains TestMu account and project ids
 tests/kane/output-*/.internal/
+tests/kane-live/output-*/.internal/
 
 # Second build directory, so tests can run while the server binary is in use
 /target-dev
