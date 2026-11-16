@@ -1,0 +1,43 @@
+{
+  "id": "docx-01",
+  "kind": "Hospital discharge summary",
+  "header": [
+    "Harlow Valley Medical Center",
+    "400 Brookside Avenue, Harlow Valley, OH 43755 | Tel (740) 555-0142 | Fax (740) 555-0143"
+  ],
+  "footer": [
+    "Patient: Dorothy Kessler | MRN: 00482917 | DOB: 03/07/1948",
+    "Page {PAGE}"
+  ],
+  "body": [
+    { "title": "DISCHARGE SUMMARY" },
+    {
+      "table": [
+        ["Patient Name", "Dorothy Kessler", "MRN", "00482917"],
+        ["Date of Birth", "03/07/1948", "Sex", "Female"],
+        ["Address", "212 Wren Street, Millbrook, OH 43760", "Phone", "(740) 555-0177"],
+        ["Admission Date", "10/02/2026", "Discharge Date", "10/06/2026"],
+        ["Attending Physician", "Samuel Ortega, MD", "Emergency Contact", "Alan Kessler (son), (740) 555-0126"]
+      ]
+    },
+    { "h": "Principal Diagnosis" },
+    { "p": "Community-acquired pneumonia, right lower lobe." },
+    { "h": "Secondary Diagnoses" },
+    { "p": "Type 2 diabetes mellitus. Hypertension." },
+    { "h": "Hospital Course" },
+    { "p": "Mrs. Kessler is a 78-year-old woman who presented with three days of fever, productive cough and shortness of breath. Chest X-ray showed a right lower lobe infiltrate. Oxygen saturation was 89% on room air on arrival. She was treated with intravenous Ceftriaxone and Azithromycin and was weaned off oxygen by hospital day 3. Blood cultures were negative. Her son Alan was updated by phone each day." },
+    { "h": "Discharge Medications" },
+    {
+      "header_row": true,
+      "table": [
+        ["Medication", "Dose", "Frequency", "Notes"],
+        ["Amoxicillin-clavulanate", "875 mg", "twice daily", "for 5 more days"],
+        ["Metformin", "1000 mg", "twice daily", "continue"],
+        ["Lisinopril", "20 mg", "daily", "continue"]
+      ]
+    },
+    { "h": "Follow-up" },
+    { "p": "Follow up with Dr. Helen Park, primary care, within 1 week. Repeat chest X-ray in 6 weeks. Return to the emergency department for fever above 101 F, worsening shortness of breath or chest pain. Questions: call the discharge nurse line at (740) 555-0150." },
+    { "p": "Electronically signed by Samuel Ortega, MD on 10/06/2026 at 14:32" }
+  ]
+}

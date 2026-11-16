@@ -1,0 +1,34 @@
+{
+  "record_id": "docx-04",
+  "format": "docx",
+  "difficulty": "easy",
+  "planted_pii": [
+    { "type": "name", "text": "Miguel Garza" },
+    { "type": "name", "text": "Garza" },
+    { "type": "name", "text": "Miguel" },
+    { "type": "dob", "text": "08/30/1975" },
+    { "type": "mrn", "text": "3384102" },
+    { "type": "service_date", "text": "11/09/2026" },
+    { "type": "provider_name", "text": "Anita Kowalski" },
+    { "type": "provider_name", "text": "Kowalski" },
+    { "type": "provider_name", "text": "Owen Bradshaw" },
+    { "type": "facility_name", "text": "Lakeshore Imaging Associates" },
+    { "type": "facility_address", "text": "3310 Harbor Drive" },
+    { "type": "facility_address", "text": "Port Ellery" },
+    { "type": "facility_address", "text": "49417" },
+    { "type": "facility_phone", "text": "616-555-0181" },
+    { "type": "facility_phone", "text": "616-555-0172" },
+    { "type": "other_id", "text": "RA-20261109-0457" }
+  ],
+  "must_keep": [
+    "CT abdomen and pelvis with contrast",
+    "51-year-old man",
+    "right lower quadrant pain for 2 days",
+    "lung bases to the pubic symphysis",
+    "100 mL",
+    "Omnipaque 350",
+    "dilated to 12 mm",
+    "Acute uncomplicated appendicitis",
+    "4 mm left renal stone"
+  ]
+}

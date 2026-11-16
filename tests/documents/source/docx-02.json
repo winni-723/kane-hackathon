@@ -1,0 +1,30 @@
+{
+  "id": "docx-02",
+  "kind": "Referral letter from a family practice to a cardiologist",
+  "header": [
+    "Pine Hollow Family Practice",
+    "27 Station Road, Pine Hollow, PA 18433 | Phone 570-555-0118 | Fax 570-555-0119"
+  ],
+  "footer": [
+    "CONFIDENTIAL: Thomas Abernathy, DOB 11/22/1959",
+    "Page {PAGE} of 1"
+  ],
+  "body": [
+    { "p": "October 28, 2026" },
+    { "p": "Marcus Feld, MD" },
+    { "p": "Cardiology Associates of Tilden" },
+    { "p": "90 Quarry Road, Suite 210" },
+    { "p": "Tilden, PA 18411" },
+    { "p": "RE: Thomas Abernathy    DOB: 11/22/1959    MRN: TA-553021    Insurance member ID: KXP884120367" },
+    { "p": "Dear Dr. Feld," },
+    { "p": "Thank you for seeing Mr. Abernathy, a 66-year-old man with exertional chest pain over the past two months. The pain is substernal, comes on after climbing one flight of stairs and settles within five minutes of rest. He is a former smoker with a 30 pack-year history, and his father died of a myocardial infarction at 58." },
+    { "p": "An exercise stress test on October 21, 2026 showed 2 mm ST depression in the lateral leads at 6 METs. LDL cholesterol is 162 mg/dL and blood pressure in clinic was 142/88. I have started Aspirin 81 mg daily and Atorvastatin 40 mg nightly, and given Nitroglycerin 0.4 mg sublingual as needed." },
+    { "p": "Tom works nights, so his wife Linda usually handles scheduling. She can be reached at 570-555-0164, or you can email him at tabernathy59@example.com. They live at 6 Birchwood Terrace in Pine Hollow." },
+    { "p": "I would be grateful for your assessment and your advice on whether coronary angiography is indicated." },
+    { "p": "Sincerely," },
+    { "p": "Renee Castillo, DO" },
+    { "p": "Pine Hollow Family Practice" },
+    { "p": "Direct line: 570-555-0121" },
+    { "p": "cc: Thomas Abernathy" }
+  ]
+}

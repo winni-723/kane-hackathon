@@ -29,7 +29,7 @@ const file = input.tool_input?.file_path ?? input.tool_response?.filePath;
 if (!file) process.exit(0);
 const rel = relative(root, resolve(root, file)).replace(/\\/g, "/");
 
-const engine = /^(src\/|tests\/(fixtures|extraction)_test\.rs$|Cargo\.toml$)/.test(rel);
+const engine = /^(src\/|tests\/(fixtures|extraction|documents)_test\.rs$|Cargo\.toml$)/.test(rel);
 const page = /^(web\/src\/|web\/index\.html$)/.test(rel);
 if (!engine && !page) process.exit(0);
 

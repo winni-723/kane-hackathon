@@ -1,0 +1,43 @@
+{
+  "record_id": "docx-05",
+  "format": "docx",
+  "difficulty": "medium",
+  "planted_pii": [
+    { "type": "name", "text": "Aisha Rahman" },
+    { "type": "relative_name", "text": "Farid Rahman" },
+    { "type": "dob", "text": "5/19/2002" },
+    { "type": "mrn", "text": "60-44-817" },
+    { "type": "phone", "text": "(719) 555-0166" },
+    { "type": "phone", "text": "(719) 555-0148" },
+    { "type": "email", "text": "aisha.rahman02@example.com" },
+    { "type": "address", "text": "77 Juniper Loop" },
+    { "type": "address", "text": "Calder Springs" },
+    { "type": "address", "text": "80829" },
+    { "type": "service_date", "text": "11/11/2026" },
+    { "type": "service_date", "text": "11/18/2026" },
+    { "type": "provider_name", "text": "Daniel Whitcombe" },
+    { "type": "provider_name", "text": "Laura Nguyen" },
+    { "type": "provider_name", "text": "Samir Haddad" },
+    { "type": "facility_name", "text": "St. Brendan Regional Hospital" },
+    { "type": "facility_name", "text": "Calder Springs Chest Clinic" },
+    { "type": "facility_name", "text": "Ridgeline Pharmacy" },
+    { "type": "facility_address", "text": "1 Hospital Way" },
+    { "type": "facility_address", "text": "455 Aspen Street" },
+    { "type": "facility_address", "text": "12 Cutler Avenue" },
+    { "type": "facility_phone", "text": "719-555-0105" },
+    { "type": "facility_phone", "text": "719-555-0139" }
+  ],
+  "must_keep": [
+    "Asthma exacerbation",
+    "24-year-old woman",
+    "240 L/min",
+    "380 L/min",
+    "three Albuterol nebulizer treatments",
+    "Prednisone 40 mg by mouth",
+    "40 mg daily for 4 more days",
+    "2 puffs every 4 hours as needed",
+    "110 mcg, 2 puffs twice daily",
+    "Pulmonology",
+    "more often than every 2 hours"
+  ]
+}

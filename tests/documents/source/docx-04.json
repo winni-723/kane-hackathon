@@ -1,0 +1,30 @@
+{
+  "id": "docx-04",
+  "kind": "Radiology report",
+  "header": [
+    "Lakeshore Imaging Associates",
+    "3310 Harbor Drive, Suite 100, Port Ellery, MI 49417 | Tel 616-555-0181"
+  ],
+  "footer": [
+    "Garza, Miguel | DOB 08/30/1975 | Acc# RA-20261109-0457",
+    "Page {PAGE}"
+  ],
+  "body": [
+    { "title": "RADIOLOGY REPORT" },
+    { "p": "Patient: Miguel Garza" },
+    { "p": "DOB: 08/30/1975    Sex: M    MRN: 3384102" },
+    { "p": "Exam: CT abdomen and pelvis with contrast" },
+    { "p": "Exam date: 11/09/2026    Accession: RA-20261109-0457" },
+    { "p": "Referring physician: Dr. Anita Kowalski" },
+    { "h": "Clinical History" },
+    { "p": "51-year-old man with right lower quadrant pain for 2 days, fever and leukocytosis. Rule out appendicitis." },
+    { "h": "Technique" },
+    { "p": "Axial images from the lung bases to the pubic symphysis after 100 mL of intravenous Omnipaque 350." },
+    { "h": "Findings" },
+    { "p": "The appendix is dilated to 12 mm with wall thickening and periappendiceal fat stranding. No abscess or free air. A 4 mm nonobstructing stone is present in the left kidney. The liver, spleen, pancreas and adrenal glands are normal." },
+    { "h": "Impression" },
+    { "p": "1. Acute uncomplicated appendicitis. 2. Nonobstructing 4 mm left renal stone." },
+    { "p": "Findings were called to Dr. Kowalski at 616-555-0172 at 15:40 on 11/09/2026." },
+    { "p": "Dictated and electronically signed by: Owen Bradshaw, MD, 11/09/2026 15:52" }
+  ]
+}

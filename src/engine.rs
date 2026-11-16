@@ -51,12 +51,135 @@ static MRN: LazyLock<Regex> = LazyLock::new(|| {
 /// `Insurance ID: HX-4490217`.
 static INSURANCE_ID: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
-        r"(?P<label>\b(?i:insurance (?:id|number|no\.?)|member (?:id|number|no\.?)|policy (?:id|number|no\.?)))",
+        r"(?P<label>\b(?i:insurance (?:id|number|no\.?)|member (?:id|number|no\.?)|policy (?:id|number|no\.?)",
+        r"|(?:medicare|medicaid|subscriber) (?:id|number|no\.?)))",
         r"(?P<join>\s*[:#]?\s*)",
         r"(?P<id>[A-Z]{0,4}-?\d[\dA-Z-]{2,}[\dA-Z])\b",
     ))
     .expect("insurance id pattern is valid")
 });
+
+/// Numbers that identify one order, specimen or visit, after their label:
+/// `Accession: RA-20261109-0457`, `Acc# 88213`, `Lab accession L-2026-448817`,
+/// `Encounter number 5530021`. The value must contain a digit, so
+/// "accession of fluid" is not touched.
+static OTHER_ID: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"(?P<label>\b(?i:accession(?: number| no\.?)?|acc\.?[ ]?#|specimen (?:id|number|no\.?)",
+        r"|(?:encounter|visit|order) (?:id|number|no\.?)|(?:encounter|visit|order)[ ]?#))",
+        r"(?P<join>\s*[:#]?\s*)",
+        r"(?P<id>[A-Z]{0,4}-?\d[\dA-Z-]{2,}[\dA-Z])\b",
+    ))
+    .expect("other id pattern is valid")
+});
+
+/// The login of whoever printed or entered the page: `Printed 11/03/2026 09:14
+/// by fdesk02`. The login must contain a digit or a separator, so a person's
+/// name after "by" is left to the name rules.
+static USER_LOGIN: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"(?P<lead>\b(?:Printed|Entered|Generated|Exported|Transcribed|Scanned)\b[^\n|]{0,40}?\bby[ ])",
+        r"(?P<id>[A-Za-z]+[\d._][A-Za-z\d._-]*)",
+    ))
+    .expect("user login pattern is valid")
+});
+
+/// What a healthcare organization calls itself. A run of capitalized words
+/// ending in one of these is the name of a facility.
+const FACILITY_KIND: &str = concat!(
+    r"Medical Cent(?:er|re)|Health Cent(?:er|re)|Health System|Health Clinic|Healthcare|Health Care",
+    r"|Hospital|Clinic|Pharmacy|Drugstore|Associates|Family Practice|Family Medicine|Medical Group",
+    r"|Nursing Home|Skilled Nursing|Rehabilitation Cent(?:er|re)|Rehabilitation Hospital",
+    r"|Imaging Cent(?:er|re)|Urgent Care|Surgery Cent(?:er|re)|Surgical Cent(?:er|re)|Laboratories",
+    r"|Hospice|Infirmary|Assisted Living|Senior Living|Memory Care",
+);
+
+/// A facility name: `Harlow Valley Medical Center`, `St. Brendan Regional
+/// Hospital`, `Cardiology Associates of Tilden`, `Maplewood Gardens Skilled
+/// Nursing and Rehabilitation`.
+static FACILITY: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(&format!(
+        concat!(
+            r"(?P<pre>(?:(?:St|Mt|Ft)\.[ ])?(?:[A-Z][A-Za-z'’]+(?:-[A-Z][a-z]+)*[ ]){{1,5}})",
+            r"(?P<kind>{kind})\b",
+            r"(?P<post>(?:[ ](?:and|&)[ ][A-Z][a-z]+)?(?:[ ]of[ ](?P<place>[A-Z][a-z]+(?:[ ][A-Z][a-z]+){{0,2}}))?)",
+        ),
+        kind = FACILITY_KIND
+    ))
+    .expect("facility pattern is valid")
+});
+
+/// Words that begin a sentence in front of a facility name without being part
+/// of it: `Called Ridgeline Pharmacy`.
+const BEFORE_A_FACILITY: &[&str] = &[
+    "At", "To", "From", "In", "Via", "Per", "With", "And", "Or", "By", "For", "Her", "His", "Their",
+    "My", "Our", "Your", "The", "This", "That", "A", "An", "Called", "Seen", "Transfer",
+    "Transferred", "Admitted", "Discharged", "Referred", "Visited", "Contacted", "Notified",
+    "Returned", "Presented", "Sent", "Faxed",
+];
+
+/// Words that describe a kind of department or service. `Nephrology Clinic`
+/// and `Emergency Department` say nothing about where the patient is, so a
+/// facility name made only of these is left alone.
+const GENERIC_FACILITY_WORDS: &[&str] = &[
+    "Regional", "Memorial", "General", "Community", "University", "County", "City", "State",
+    "National", "Central", "Children's", "Childrens", "Women's", "Womens", "Veterans", "VA",
+    "Medical", "Health", "Family", "Emergency", "Outpatient", "Inpatient", "Primary", "Urgent",
+    "Skilled", "Chest", "Heart", "Eye", "Pain", "Sleep", "Memory", "Wound", "Cancer", "Dental",
+    "Clinical", "Specialty", "Cardiology", "Nephrology", "Neurology", "Oncology", "Endocrinology",
+    "Pulmonology", "Pulmonary", "Gastroenterology", "GI", "Urology", "Dermatology",
+    "Rheumatology", "Hematology", "Psychiatry", "Psychiatric", "Pediatric", "Pediatrics",
+    "Geriatric", "Geriatrics", "Orthopedic", "Orthopedics", "Orthopaedic", "Surgical", "Surgery",
+    "Radiology", "Imaging", "Obstetrics", "Gynecology", "ENT", "Ophthalmology", "Podiatry",
+    "Allergy", "Asthma", "Diabetes", "Dialysis", "Transplant", "Vascular", "Cardiac", "Renal",
+    "Thoracic", "Spine", "Sports", "Medicine", "Internal", "Behavioral", "Mental", "Infectious",
+    "Disease", "Anticoagulation", "Coumadin", "Lipid", "Hypertension", "Fracture", "Breast",
+    "Liver", "Stroke", "Epilepsy", "Headache", "Movement", "Disorders", "Rehabilitation",
+    "Physical", "Therapy", "Occupational", "Nursing", "Care", "Free", "Mobile", "Student",
+    "Employee", "Travel", "Teaching", "Retail", "Local", "Outside", "Home", "Senior", "Assisted",
+    "Living", "Follow-up", "Discharge", "Admission", "Hospital", "Clinic", "Pharmacy",
+];
+
+/// Removes facility names. Returns the text and the proper names found in
+/// them (`Harlow Valley`, `Tilden`), which place the patient just as well when
+/// they are written alone later in the record.
+fn mask_facilities(text: &str) -> (String, Vec<String>) {
+    let mut places: Vec<String> = Vec::new();
+    let out = FACILITY.replace_all(text, |caps: &regex::Captures| {
+        let pre = &caps["pre"];
+        let mut words: Vec<&str> = pre.split(' ').filter(|w| !w.is_empty()).collect();
+        let mut skipped = 0;
+        while words.first().is_some_and(|w| BEFORE_A_FACILITY.contains(w)) {
+            skipped += words[0].len() + 1;
+            words.remove(0);
+        }
+        let proper: Vec<&str> = words
+            .iter()
+            .copied()
+            .take_while(|w| !GENERIC_FACILITY_WORDS.contains(w))
+            .collect();
+        let place = caps.name("place").map(|m| m.as_str());
+        let names_a_place = words.iter().any(|w| !GENERIC_FACILITY_WORDS.contains(w));
+        if !names_a_place && place.is_none() {
+            return caps[0].to_string();
+        }
+        if !proper.is_empty() {
+            places.push(proper.join(" "));
+        }
+        if let Some(place) = place {
+            places.push(place.to_string());
+        }
+        format!("{}[FACILITY]", &pre[..skipped])
+    });
+    places.retain(|p| p.len() >= 5);
+    places.sort_by_key(|p| std::cmp::Reverse(p.len()));
+    places.dedup();
+    (out.into_owned(), places)
+}
+
+fn whole_phrase(phrase: &str) -> Regex {
+    Regex::new(&format!(r"\b{}\b", regex::escape(phrase))).expect("escaped phrase is a valid pattern")
+}
 
 const MONTH: &str = concat!(
     r"(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?",
@@ -105,7 +228,8 @@ pub(crate) static DATE: LazyLock<Regex> = LazyLock::new(|| {
 /// street-type word. `48 Willow Bend Road`, `1260 Juniper Court`.
 static STREET: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
-        r"\b\d{1,6}\s+(?:[A-Z][A-Za-z']*\s+){1,4}",
+        // Spaces only: a tab or a line break is a boundary between fields.
+        r"\b\d{1,6}[ ]+(?:[A-Z][A-Za-z']*[ ]+){1,4}",
         r"(?:Street|St|Avenue|Ave|Road|Rd|Lane|Ln|Drive|Dr|Court|Ct|Boulevard|Blvd|Way|Circle|Cir",
         r"|Trail|Trl|Row|Place|Pl|Terrace|Ter|Parkway|Pkwy|Highway|Hwy|Square|Sq",
         // further US Postal Service street suffixes
@@ -123,7 +247,7 @@ static STREET: LazyLock<Regex> = LazyLock::new(|| {
 /// A unit within a building: `Apt 4B`, `Unit 12`, `Suite 300`.
 /// Capitalized and followed by a number, so "on the unit as" is not touched.
 static UNIT: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\b(?:Apt|Apartment|Unit|Suite|Ste)\.?\s+#?\d+[A-Za-z]?\b")
+    Regex::new(r"\b(?:Apt|Apartment|Unit|Suite|Ste|Room|Rm)\.?[ ]+#?\d+[A-Za-z]?\b")
         .expect("unit pattern is valid")
 });
 
@@ -209,8 +333,9 @@ static LANDMARK_PLACE: LazyLock<Regex> = LazyLock::new(|| {
 /// format: the label says what it is even when the shape does not.
 static FIELD: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
-        r"(?m)^(?P<lead>[ \t]*(?P<label>[A-Za-z][A-Za-z0-9 .'/#-]{0,28}?)[ \t]*:[ \t]*)",
-        r"(?P<value>[^\r\n]*?[^ \t\r\n])(?P<tail>[ \t]*\r?)$",
+        // The label ends in a colon, or in the tab that separates two table cells.
+        r"(?m)^(?P<lead>[ \t]*(?P<label>[A-Za-z][A-Za-z0-9 .'/#-]{0,28}?)(?:[ \t]*:[ \t]*|\t))",
+        r"(?P<value>[^\r\n\t]*?[^ \t\r\n])(?P<tail>[ ]*(?:\t[^\r\n]*)?\r?)$",
     ))
     .expect("field pattern is valid")
 });
@@ -291,15 +416,53 @@ pub fn process(text: &str) -> String {
     let out = SSN.replace_all(&out, "[SSN]");
     let out = MRN.replace_all(&out, "${label}${join}[MRN]");
     let out = INSURANCE_ID.replace_all(&out, "${label}${join}[INSURANCE_ID]");
+    let out = OTHER_ID.replace_all(&out, "${label}${join}[ID_NUMBER]");
     let out = DATE.replace_all(&out, "[DATE]");
     let out = PHONE.replace_all(&out, "[PHONE]");
     let out = PHONE_SPACED.replace_all(&out, "[PHONE]");
+    let out = USER_LOGIN.replace_all(&out, "${lead}[ID_NUMBER]");
     let out = LANDMARK_HOME.replace_all(&out, "${det}[LOCATION]");
     let out = LANDMARK_PLACE.replace_all(&out, "${det}[LOCATION]");
+    // Before the street rule, so "Old Mill Pike ... Clinic" is read as a whole.
+    let (out, places) = mask_facilities(&out);
     let out = STREET.replace_all(&out, "[ADDRESS]");
     let out = UNIT.replace_all(&out, "[ADDRESS]");
-    let out = CITY_STATE_ZIP.replace_all(&out, mask_city_state_zip);
+    // A town written with its state and ZIP is a town wherever else it appears.
+    let towns: Vec<String> = CITY_STATE_ZIP
+        .captures_iter(&out)
+        .filter(|caps| caps.name("zip").is_some())
+        .filter_map(|caps| caps[0].split(',').next().map(str::to_string))
+        .collect();
+    let out = CITY_STATE_ZIP.replace_all(&out, |caps: &regex::Captures| {
+        // "Whitcombe, PA-C" is a credential, not Pennsylvania.
+        let whole = caps.get(0).expect("group 0 always matches");
+        if out[whole.end()..].starts_with('-') {
+            return caps[0].to_string();
+        }
+        // "Samuel Ortega, MD" is a physician and "Silver Spring, MD" a town.
+        // Two words before "MD" with no ZIP after it are left to the name
+        // rules unless a preposition says it is a place.
+        let before = &out[..whole.start()];
+        let placed = ["in ", "at ", "from ", "near ", "to ", "of "]
+            .iter()
+            .any(|word| before.ends_with(word));
+        if &caps["state"] == "MD"
+            && caps.name("zip").is_none()
+            && whole.as_str().split(',').next().is_some_and(|town| town.contains(' '))
+            && !placed
+        {
+            return caps[0].to_string();
+        }
+        mask_city_state_zip(caps)
+    });
     let out = CITY_AFTER_ADDRESS.replace_all(&out, "${lead}[CITY]");
+    let mut out = out.into_owned();
+    for town in &towns {
+        out = whole_phrase(town).replace_all(&out, "[CITY]").into_owned();
+    }
+    for place in &places {
+        out = whole_phrase(place).replace_all(&out, "[LOCATION]").into_owned();
+    }
     let out = FIELD.replace_all(&out, mask_field);
     crate::names::mask(&out)
 }
@@ -597,5 +760,74 @@ mod tests {
         ] {
             assert_eq!(process(text), text);
         }
+    }
+
+    #[test]
+    fn masks_facility_names_and_the_place_inside_them() {
+        assert_eq!(
+            process("Harlow Valley Medical Center\nSeen in Harlow Valley last week."),
+            "[FACILITY]\nSeen in [LOCATION] last week."
+        );
+        assert_eq!(process("St. Brendan Regional Hospital - Emergency Department"), "[FACILITY] - Emergency Department");
+        assert_eq!(process("Referred to Cardiology Associates of Tilden."), "Referred to [FACILITY].");
+        assert_eq!(
+            process("Maplewood Gardens Skilled Nursing and Rehabilitation"),
+            "[FACILITY]"
+        );
+        assert_eq!(process("Called Ridgeline Pharmacy today."), "Called [FACILITY] today.");
+    }
+
+    #[test]
+    fn leaves_departments_and_services_alone() {
+        for text in [
+            "Nephrology Clinic",
+            "Seen in the Emergency Department and then Pulmonary Clinic.",
+            "Referred to Cardiac Rehabilitation and Physical Therapy.",
+            "Follow up at the Anticoagulation Clinic in 2 weeks.",
+            "Hospital Course",
+            "Her mother called the clinic. Sent to the pharmacy.",
+            "Started Peritoneal Dialysis in March.",
+        ] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn masks_labelled_order_numbers_and_logins() {
+        assert_eq!(process("Accession: RA-20261109-0457"), "Accession: [ID_NUMBER]");
+        assert_eq!(process("Lab accession L-2026-448817."), "Lab accession [ID_NUMBER].");
+        assert_eq!(process("Acc# 88213"), "Acc# [ID_NUMBER]");
+        assert_eq!(
+            process("Printed 11/03/2026 09:14 by fdesk02 | Page 1"),
+            "Printed [DATE] 09:14 by [ID_NUMBER] | Page 1"
+        );
+        assert_eq!(process("Medicare ID\t1EG4-TE5-MK73"), "Medicare ID\t[INSURANCE_ID]");
+        for text in ["No accession of fluid.", "Order 2 units of blood.", "Visit 3 of 6 completed."] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn reads_table_rows_as_labelled_fields() {
+        assert_eq!(process("Address\t9 Odd Name Qtr\nSex\tFemale"), "Address\t[ADDRESS]\nSex\tFemale");
+        assert_eq!(process("TSH\t6.8 mIU/L\t0.4-4.0"), "TSH\t6.8 mIU/L\t0.4-4.0");
+        // A time and the next cell are not a street address.
+        assert_eq!(process("9:30 AM\tDr. Samir Haddad"), "9:30 AM\tDr. [NAME]");
+    }
+
+    #[test]
+    fn a_town_given_with_its_zip_is_removed_wherever_it_appears() {
+        assert_eq!(
+            process("Home: 12 Elm Street, Millbrook, OH 43760. She has lived in Millbrook all her life."),
+            "Home: [ADDRESS], [CITY], OH [ZIP]. She has lived in [CITY] all her life."
+        );
+    }
+
+    #[test]
+    fn tells_a_credential_from_a_state() {
+        assert_eq!(process("Seen by Daniel Whitcombe, PA-C, today."), "Seen by [NAME], PA-C, today.");
+        assert_eq!(process("Signed by Samuel Ortega, MD on Monday."), "Signed by [NAME], MD on Monday.");
+        assert_eq!(process("Moved from Silver Spring, MD last year."), "Moved from [CITY], MD last year.");
+        assert_eq!(process("Lives in Baltimore, MD."), "Lives in [CITY], MD.");
     }
 }

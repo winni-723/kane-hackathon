@@ -13,7 +13,7 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
 - **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
-- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original；Load sample record、`.txt` 上傳；Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）；多份病歷（Load sample batch 或多選 `.txt`）產生 Research table，可 Download CSV。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
+- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original；Load sample record、`.txt` 與 `.docx` 上傳；Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）；多份病歷（Load sample batch 或多選 `.txt`）產生 Research table，可 Download CSV。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
 
 ## 雙層驗證閉環
 
@@ -68,6 +68,18 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - 測驗卷的擷取答案卷在 `tests/extraction-heldout/`（10 份，使用者 2026-11-15 定案），只量測、不把關。第一次未調校的分數是 **25/40**，寫在 README 與該資料夾的 README，不要覆蓋；調校後 37/40。
 - 測驗卷刻意不修的漏網：hard-101 的 `tonic-clonic seizure`、hard-102 的 `Contact dermatitis`（沒有引導詞的單句）、medium-103 的 `H. pylori`（藥物後面的 `for`）。修它們會把症狀與用藥原因當成診斷。
 - Synthea 沒有擷取答案卷，其分段格式（`MEDICATIONS:`、`CONDITIONS:`）目前不讀。
+
+### 文件上傳（Word，之後是 CSV、PDF）
+
+使用者 2026-11-16 決定：要貼近真實產品，支援 `.docx`、CSV、PDF（有文字層），遮蔽標準採 HIPAA Safe Harbor。掃描檔 OCR、HL7/FHIR、DICOM 不做，寫在 README 的 Limits。
+
+- `src/document.rs` 把上傳的文件讀成純文字（頁首、內文、註腳、頁尾；表格一列一行、儲存格以 tab 分隔），之後走同一個 `engine::process`。前端透過 `POST /api/read-file/<kind>` 上傳，**不傳檔名**（檔名常含病人姓名）。
+- 測試集在 `tests/documents/`：`source/<id>.json`（內容與版面）→ `python scripts/gen-docx.py` → `<id>.docx`；答案卷在 `keys/<id>.json`。測試文件必須有真實版面（抬頭、頁尾重複姓名、表格、簽名區），不可只是既有病歷轉檔。
+- 答案卷比 `tests/fixtures` 多了 `facility_name`、`facility_address`、`facility_phone`、`provider_name`、`service_date`、`other_id`，全部應遮蔽。答案卷同樣不可為了讓測試通過而修改。
+- 第一層測試在 `tests/documents_test.rs`：`reading_a_document_loses_nothing`（答案卷的每個字串都要在讀出的文字裡）、`medical_content_is_always_kept`、`gated_identifiers_are_removed`（`GATES` 只增不減）。看分數：`cargo test --test documents_test scoreboard -- --nocapture`。
+- 第一次未調校的分數（2026-11-16，6 份 Word）：**98/132，醫療資訊 81/81**。寫在 README 與 `tests/documents/README.md`，不要覆蓋；調校後 132/132。
+- 這 6 份是開發集，目前沒有文件的測驗卷。檔案上傳只由第一層把關，Kane 測試不選檔案。
+- 既有的 88 份病歷、答案卷與 183 個 Kane 測試不因新增格式而修改。
 
 ### 新增一種個資的流程
 

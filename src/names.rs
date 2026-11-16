@@ -58,8 +58,102 @@ const TITLE: &str = r"(?:Mr|Mrs|Ms|Miss|Mx|Dr|Judge|Rev|Fr|Prof|Capt|Sgt|Col|Lt)
 const NAME_LABEL: &str = concat!(
     r"Patient Name|Full Name|Last Name|First Name|Middle Name|Given Name|Surname|Name|Patient|Pt",
     r"|Client|Member|Subscriber|Insured|Guarantor|Parent/Guardian|Guardian|Emergency Contact",
-    r"|Next of Kin|Spouse|Re",
+    r"|Emergency contact|Next of Kin|Next of kin|Spouse|Resident|Re|RE",
 );
+
+/// Where a name label may begin: at the start of a line, in the next cell of a
+/// table row, after a `|` in a page footer, or after the previous sentence.
+const LABEL_START: &str = r"(?:^|[\t|]|[.;][ ])[ \t]*";
+
+/// Letters after a clinician's name: `Samuel Ortega, MD`, `B. Tran, RN`.
+/// Bare `PA`, `OD`, `PT` and `OT` are left out: they are also a chest X-ray
+/// view, the right eye, and two kinds of therapy.
+const CREDENTIAL: &str = concat!(
+    r"MD|M\.D\.|DO|D\.O\.|NP|RN|PA-C|LPN|CNA|CNP|APRN|DNP|FNP-C|FNP|PharmD|MBBS|CRNA|LCSW|PhD",
+    r"|DDS|DMD|DPM|MSW|CNM",
+);
+
+/// Short forms of given names. When a record names `Thomas`, a later `Tom` is
+/// the same person even though nothing introduces him. Short forms that are
+/// also ordinary words in a clinical note (`Will`, `Ray` as in X-Ray, `Drew`,
+/// `Rich`, `Art`, `Al`) are left out.
+const SHORT_FORMS: &[(&str, &[&str])] = &[
+    ("Thomas", &["Tom", "Tommy"]),
+    ("William", &["Bill", "Billy", "Liam"]),
+    ("Robert", &["Bob", "Bobby", "Rob", "Robbie"]),
+    ("Richard", &["Rick", "Ricky", "Dick"]),
+    ("James", &["Jim", "Jimmy", "Jamie"]),
+    ("John", &["Johnny", "Jack"]),
+    ("Joseph", &["Joe", "Joey"]),
+    ("Michael", &["Mike", "Mikey"]),
+    ("Charles", &["Charlie", "Chuck"]),
+    ("Edward", &["Ed", "Eddie", "Ted"]),
+    ("Theodore", &["Ted", "Theo"]),
+    ("Daniel", &["Dan", "Danny"]),
+    ("Matthew", &["Matt"]),
+    ("Christopher", &["Chris"]),
+    ("Anthony", &["Tony"]),
+    ("Andrew", &["Andy"]),
+    ("Steven", &["Steve"]),
+    ("Stephen", &["Steve"]),
+    ("Kenneth", &["Ken", "Kenny"]),
+    ("Timothy", &["Tim"]),
+    ("Ronald", &["Ron", "Ronnie"]),
+    ("Donald", &["Donnie"]),
+    ("Benjamin", &["Ben", "Benny"]),
+    ("Samuel", &["Sam", "Sammy"]),
+    ("Nicholas", &["Nick"]),
+    ("Patrick", &["Pat", "Paddy"]),
+    ("Gregory", &["Greg"]),
+    ("Lawrence", &["Larry"]),
+    ("Gerald", &["Gerry", "Jerry"]),
+    ("Frederick", &["Fred", "Freddie"]),
+    ("Alexander", &["Alex"]),
+    ("Jonathan", &["Jon"]),
+    ("Joshua", &["Josh"]),
+    ("Harold", &["Hal", "Harry"]),
+    ("Henry", &["Hank", "Harry"]),
+    ("Walter", &["Walt", "Wally"]),
+    ("Albert", &["Bert"]),
+    ("Leonard", &["Len", "Lenny", "Leo"]),
+    ("Vincent", &["Vince", "Vinny"]),
+    ("Philip", &["Phil"]),
+    ("Phillip", &["Phil"]),
+    ("Douglas", &["Doug"]),
+    ("Peter", &["Pete"]),
+    ("Nathaniel", &["Nate", "Nat"]),
+    ("Nathan", &["Nate"]),
+    ("Zachary", &["Zach", "Zack"]),
+    ("Margaret", &["Peggy", "Maggie", "Meg", "Marge"]),
+    ("Elizabeth", &["Liz", "Lizzie", "Beth", "Betty", "Betsy", "Eliza"]),
+    ("Katherine", &["Kate", "Katie", "Kathy", "Kat"]),
+    ("Catherine", &["Cathy", "Kate", "Katie"]),
+    ("Kathleen", &["Kathy", "Katie"]),
+    ("Patricia", &["Pat", "Patty", "Trish", "Tricia"]),
+    ("Jennifer", &["Jen", "Jenny"]),
+    ("Barbara", &["Barb"]),
+    ("Susan", &["Sue", "Susie"]),
+    ("Deborah", &["Deb", "Debbie"]),
+    ("Dorothy", &["Dottie"]),
+    ("Rebecca", &["Becky", "Becca"]),
+    ("Jessica", &["Jess", "Jessie"]),
+    ("Christine", &["Chris", "Chrissy"]),
+    ("Christina", &["Chris", "Tina"]),
+    ("Victoria", &["Vicky", "Tori"]),
+    ("Virginia", &["Ginny"]),
+    ("Jacqueline", &["Jackie"]),
+    ("Cynthia", &["Cindy"]),
+    ("Pamela", &["Pam"]),
+    ("Sandra", &["Sandy"]),
+    ("Kimberly", &["Kim"]),
+    ("Stephanie", &["Steph"]),
+    ("Samantha", &["Sam"]),
+    ("Abigail", &["Abby"]),
+    ("Eleanor", &["Ellie", "Nora"]),
+    ("Josephine", &["Josie"]),
+    ("Gertrude", &["Trudy"]),
+    ("Mildred", &["Millie"]),
+];
 
 /// Patterns that introduce a person. Each captures the name as `n`.
 static INTRODUCTIONS: LazyLock<Vec<Regex>> = LazyLock::new(|| {
@@ -67,7 +161,21 @@ static INTRODUCTIONS: LazyLock<Vec<Regex>> = LazyLock::new(|| {
     let strong = strong_name();
     [
         // Name: Eleanor Carter / Emergency Contact: Anil Raman (husband)
-        format!(r"(?m)^[ \t]*(?:{NAME_LABEL})[ \t]*:[ \t]*(?:{TITLE}[ ])?(?P<n>{name})"),
+        format!(r"(?m){LABEL_START}(?:{NAME_LABEL})[ \t]*:[ \t]*(?:{TITLE}[ ])?(?P<n>{name})"),
+        // The same label and its value in two table cells. A table header such
+        // as "Name | Dose" has the same shape, so a full name is required.
+        format!(r"(?m){LABEL_START}(?:{NAME_LABEL})\t(?:{TITLE}[ ])?(?P<n>{strong})"),
+        // A contact line: Daughter: Siobhan Reyes-Whitaker, cell [PHONE]
+        // The phone number is what tells it from "Mother: Breast Cancer".
+        format!(r"\b(?i:{KIN}):[ ](?P<n>{strong})[^\r\n\t]{{0,30}}\[PHONE\]"),
+        // Samuel Ortega, MD / B. Tran, RN | Page 1 / Renee Castillo, DO
+        // Not "Metoprolol Succinate, DO NOT CRUSH": no capital may follow.
+        format!(r"(?m)(?P<n>{strong}),[ ](?:{CREDENTIAL})(?:[,.;:)\t|]|[ ][^A-Z\r\n]|[ ]*\r?$)"),
+        // A page headed by the name and then the birth date:
+        //   Aisha Rahman    Date of birth: [DATE]
+        format!(r"(?m)^(?P<n>{strong})[ \t,|]+(?:Date of [Bb]irth|DOB|D\.O\.B\.)"),
+        // prefers "Yuki"
+        format!(r#"\b(?:prefers|preferred name(?: is)?:?)[ ]"(?P<n>{WORD})""#),
         // A record headed by the person's name, underlined, then demographics:
         //   Andy Howe
         //   =========
@@ -115,6 +223,21 @@ static SPELLED: LazyLock<Regex> = LazyLock::new(|| {
 static SURNAME_FIRST: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(&format!(r"\b(?P<s>[A-Z]{{3,}}),[ ](?P<g>{WORD}(?:[ ]{WORD})?)\b"))
         .expect("surname-first pattern is valid")
+});
+
+/// `Resident: O'Connell-Reyes, Margaret` or, in a table, `Patient | NAKAMURA,
+/// Yuki A.`: after a name label the surname-first order needs no further proof.
+static LABELLED_SURNAME_FIRST: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(&format!(
+        r"(?m){LABEL_START}(?:{NAME_LABEL})(?:[ \t]*:[ \t]*|\t)(?P<s>{WORD}|[A-Z][A-Z'’-]{{2,}}),[ ](?P<g>{WORD})"
+    ))
+    .expect("labelled surname-first pattern is valid")
+});
+
+/// A nickname in quotation marks right after a name: `Margaret ("Peggy")`.
+static QUOTED_NICKNAME: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(&format!(r#"(?P<prev>{WORD})[ ]\(?["“](?P<n>{WORD})["”]"#))
+        .expect("quoted nickname pattern is valid")
 });
 
 static NAME_WORD: LazyLock<Regex> =
@@ -209,6 +332,31 @@ fn find(text: &str) -> Found {
             add_word(&mut words, &surname);
             for given in caps["g"].split(' ') {
                 add_word(&mut words, given);
+            }
+        }
+    }
+
+    for caps in LABELLED_SURNAME_FIRST.captures_iter(text) {
+        let surname = &caps["s"];
+        if surname.chars().any(|c| c.is_lowercase()) {
+            add_word(&mut words, surname);
+        } else {
+            phrases.push(surname.to_string());
+            add_word(&mut words, &title_case(surname));
+        }
+        add_word(&mut words, &caps["g"]);
+    }
+
+    for caps in QUOTED_NICKNAME.captures_iter(text) {
+        if words.iter().any(|w| w == &caps["prev"]) {
+            add_word(&mut words, &caps["n"]);
+        }
+    }
+
+    for (full, short_forms) in SHORT_FORMS {
+        if words.iter().any(|w| w == full) {
+            for short in *short_forms {
+                add_word(&mut words, short);
             }
         }
     }
@@ -372,6 +520,64 @@ mod tests {
             "Advised a Mediterranean diet. Started Atorvastatin 20 mg nightly.",
             "The son reports she got lost. Her mother called the clinic.",
             "Patient is alert and oriented. Patient is Afebrile.",
+        ] {
+            assert_eq!(mask(text), text);
+        }
+    }
+
+    #[test]
+    fn names_in_table_cells_and_page_footers() {
+        assert_eq!(mask("Patient Name\tDorothy Kessler\tMRN\tx"), "Patient Name\t[NAME]\tMRN\tx");
+        assert_eq!(
+            mask("Patient\tNAKAMURA, Yuki A. (prefers \"Yuki\")\nYuki says"),
+            "Patient\t[NAME], [NAME] A. (prefers \"[NAME]\")\n[NAME] says"
+        );
+        assert_eq!(
+            mask("Transfer form | Resident: O'Connell-Reyes, Margaret \"Peggy\" | x\nPeggy fell."),
+            "Transfer form | Resident: [NAME], [NAME] \"[NAME]\" | x\n[NAME] fell."
+        );
+        assert_eq!(mask("Aisha Rahman    Date of birth: x"), "[NAME]    Date of birth: x");
+        assert_eq!(
+            mask("Mobile: x. Emergency contact: Farid Rahman (father), y"),
+            "Mobile: x. Emergency contact: [NAME] (father), y"
+        );
+    }
+
+    #[test]
+    fn clinicians_named_by_their_credentials() {
+        assert_eq!(mask("Electronically signed by Samuel Ortega, MD on x"), "Electronically signed by [NAME], MD on x");
+        assert_eq!(mask("Completed x by B. Tran, RN | Page 1"), "Completed x by [NAME], RN | Page 1");
+        assert_eq!(mask("Renee Castillo, DO\nPine Hollow"), "[NAME], DO\nPine Hollow");
+    }
+
+    #[test]
+    fn a_short_form_of_a_name_already_found() {
+        assert_eq!(
+            mask("RE: Thomas Abernathy\nTom works nights."),
+            "RE: [NAME]\n[NAME] works nights."
+        );
+        // Nothing names a Thomas here, so Tom is not assumed to be a person.
+        assert_eq!(mask("Tom Collins mix was denied."), "Tom Collins mix was denied.");
+    }
+
+    #[test]
+    fn contact_lines_need_a_phone_number() {
+        assert_eq!(
+            mask("Daughter: Siobhan Reyes-Whitaker, cell [PHONE]"),
+            "Daughter: [NAME], cell [PHONE]"
+        );
+    }
+
+    #[test]
+    fn new_rules_leave_medical_text_alone() {
+        for text in [
+            "Mother: Breast Cancer at 52. Father: Coronary Artery Disease.",
+            "Name\tDose\tFrequency",
+            "Metoprolol Succinate, DO NOT CRUSH.",
+            "Chest Film, PA and lateral views.",
+            "She prefers Tylenol to Ibuprofen.",
+            "Test\tResult\nPatient\tStable",
+            "Timolol Eye Drops, OD twice daily.",
         ] {
             assert_eq!(mask(text), text);
         }

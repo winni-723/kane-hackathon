@@ -1,0 +1,43 @@
+{
+  "id": "docx-03",
+  "kind": "Outpatient visit note printed from a clinic system",
+  "header": [
+    "Redfern Community Health Clinic - Endocrinology",
+    "1200 Mission Plaza, Redfern, CA 94061 | 415-555-0100"
+  ],
+  "footer": [
+    "NAKAMURA, Yuki A. | 06/14/1991 | MRN 7730415",
+    "Printed 11/03/2026 09:14 by fdesk02 | Page {PAGE}"
+  ],
+  "body": [
+    { "title": "OUTPATIENT VISIT NOTE" },
+    {
+      "table": [
+        ["Patient", "NAKAMURA, Yuki A. (prefers \"Yuki\")"],
+        ["DOB", "1991-06-14"],
+        ["MRN", "7730415"],
+        ["Visit date", "11/03/2026"],
+        ["Provider", "Priya Raman, NP"],
+        ["Contact", "415.555.0133 / yuki.nakamura@example.com"],
+        ["Address", "58 Alder Court, Apt 3B, Redfern, CA 94061"],
+        ["Emergency contact", "Jordan Ellis (partner) (415) 555-0159"]
+      ]
+    },
+    { "h": "Subjective" },
+    { "p": "35-year-old woman with Hashimoto thyroiditis, here for follow-up. Reports fatigue and cold intolerance for six weeks; weight up 4 lb. Denies palpitations. Yuki says her partner Jordan noticed she has been sleeping 10 hours a night. Mother has Graves disease. Missed about two doses of Levothyroxine a week." },
+    { "h": "Results" },
+    {
+      "header_row": true,
+      "table": [
+        ["Test", "Result", "Reference range", "Collected"],
+        ["TSH", "6.8 mIU/L", "0.4-4.0", "10/27/2026"],
+        ["Free T4", "0.8 ng/dL", "0.8-1.8", "10/27/2026"],
+        ["Anti-TPO antibodies", "412 IU/mL", "<35", "10/27/2026"]
+      ]
+    },
+    { "p": "Lab accession L-2026-448817." },
+    { "h": "Assessment and Plan" },
+    { "p": "Hashimoto thyroiditis, under-replaced. Increase Levothyroxine from 75 mcg to 88 mcg daily, taken on an empty stomach. Recheck TSH in 6 weeks. Vitamin D 2000 IU daily to continue. Call 415-555-0100 with questions." },
+    { "p": "Signed: Priya Raman, NP 11/03/2026 10:02" }
+  ]
+}

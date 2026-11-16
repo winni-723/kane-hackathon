@@ -1,0 +1,48 @@
+{
+  "id": "docx-06",
+  "kind": "Nursing facility to hospital transfer form",
+  "header": [
+    "Maplewood Gardens Skilled Nursing and Rehabilitation",
+    "880 Old Mill Pike, Waverly Falls, VT 05677 | Phone 802-555-0110 x214 | Fax 802-555-0111"
+  ],
+  "footer": [
+    "Transfer form | Resident: O'Connell-Reyes, Margaret \"Peggy\" | Rm 214B",
+    "Completed 2/9/26 by B. Tran, RN | Page {PAGE}"
+  ],
+  "body": [
+    { "title": "RESIDENT TRANSFER FORM" },
+    {
+      "table": [
+        ["Resident", "O'Connell-Reyes, Margaret (\"Peggy\")"],
+        ["Born", "February 2nd, 1941"],
+        ["SSN", "512-55-0199"],
+        ["Medicare ID", "1EG4-TE5-MK73"],
+        ["Sending facility", "Maplewood Gardens, Room 214B"],
+        ["Receiving facility", "Waverly Falls Memorial Hospital, Emergency Department"],
+        ["Health care proxy", "Daughter: Siobhan Reyes-Whitaker, cell 802.555.0157"],
+        ["Second contact", "Grandson Declan, 802-555-0193 (text preferred)"],
+        ["Primary physician", "Dr. Emeka Obi, 802-555-0120"]
+      ]
+    },
+    { "h": "Reason for transfer" },
+    { "p": "Peggy is an 85-year-old woman with Alzheimer disease, atrial fibrillation and chronic kidney disease stage 3 who fell in her room at 06:15 on 2/9/26. She has new left hip pain, cannot bear weight, and the left leg is shortened and externally rotated. No loss of consciousness. Suspected left hip fracture." },
+    { "h": "Baseline" },
+    { "p": "Oriented to person only. Walks with a rolling walker. Needs help with bathing and dressing. Mrs. O'Connell-Reyes was a schoolteacher in Waverly Falls for 40 years and is calmer when staff call her Peggy." },
+    { "h": "Current medications" },
+    {
+      "header_row": true,
+      "table": [
+        ["Medication", "Dose", "Last given"],
+        ["Apixaban", "2.5 mg twice daily", "2/8/26 20:00"],
+        ["Donepezil", "10 mg at bedtime", "2/8/26 20:00"],
+        ["Metoprolol succinate", "50 mg daily", "2/8/26 08:00"],
+        ["Acetaminophen", "650 mg every 6 hours as needed", "2/9/26 06:40"]
+      ]
+    },
+    { "h": "Vital signs at transfer" },
+    { "p": "BP 158/84, pulse 96 irregular, respirations 20, temperature 98.2 F, oxygen saturation 95% on room air. Blood glucose 112 mg/dL." },
+    { "h": "Code status" },
+    { "p": "DNR/DNI. Signed form attached. Siobhan was called at 06:30 and will meet the ambulance at Memorial." },
+    { "p": "Completed by: Bao Tran, RN, charge nurse, 802-555-0110 x214" }
+  ]
+}

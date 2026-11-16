@@ -1,0 +1,44 @@
+{
+  "id": "docx-05",
+  "kind": "Emergency department after-visit summary given to the patient",
+  "header": [
+    "St. Brendan Regional Hospital - Emergency Department",
+    "1 Hospital Way, Calder Springs, CO 80829 | Main 719-555-0105"
+  ],
+  "footer": [
+    "After Visit Summary for Aisha Rahman (MRN 60-44-817)",
+    "Printed 11/11/2026 | Page {PAGE}"
+  ],
+  "body": [
+    { "title": "AFTER VISIT SUMMARY" },
+    { "p": "Aisha Rahman    Date of birth: 5/19/2002    Visit: 11/11/2026" },
+    { "p": "You were seen today by Daniel Whitcombe, PA-C, and Dr. Laura Nguyen." },
+    { "h": "Why you were seen" },
+    { "p": "Asthma exacerbation. You are a 24-year-old woman with asthma who came in with wheezing and shortness of breath after a cold. Your peak flow was 240 L/min on arrival and 380 L/min after treatment." },
+    { "h": "What we did" },
+    { "p": "You received three Albuterol nebulizer treatments and Prednisone 40 mg by mouth. Your chest X-ray was normal." },
+    { "h": "Your medications" },
+    {
+      "header_row": true,
+      "table": [
+        ["Medication", "How to take it"],
+        ["Prednisone", "40 mg daily for 4 more days"],
+        ["Albuterol inhaler", "2 puffs every 4 hours as needed"],
+        ["Fluticasone inhaler", "110 mcg, 2 puffs twice daily (new)"]
+      ]
+    },
+    { "h": "Your appointments" },
+    {
+      "header_row": true,
+      "table": [
+        ["When", "With", "Where"],
+        ["11/18/2026 9:30 AM", "Dr. Samir Haddad, Pulmonology", "Calder Springs Chest Clinic, 455 Aspen Street, Suite 3"]
+      ]
+    },
+    { "h": "Pharmacy" },
+    { "p": "Prescriptions were sent to Ridgeline Pharmacy, 12 Cutler Avenue, Calder Springs, phone 719-555-0139." },
+    { "h": "Contact on file" },
+    { "p": "Home: 77 Juniper Loop, Unit 12, Calder Springs, CO 80829. Mobile: (719) 555-0166. Email: aisha.rahman02@example.com. Emergency contact: Farid Rahman (father), (719) 555-0148." },
+    { "p": "Return to the emergency department if you need Albuterol more often than every 2 hours, or if you cannot speak in full sentences." }
+  ]
+}

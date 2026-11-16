@@ -88,6 +88,7 @@ const CATEGORIES: Record<string, { css: string; one: string; many: string }> = {
   CITY: { css: "place", one: "town", many: "towns" },
   ZIP: { css: "place", one: "ZIP code", many: "ZIP codes" },
   LOCATION: { css: "place", one: "described location", many: "described locations" },
+  FACILITY: { css: "place", one: "facility name", many: "facility names" },
   SSN: { css: "id", one: "Social Security number", many: "Social Security numbers" },
   MRN: { css: "id", one: "record number", many: "record numbers" },
   INSURANCE_ID: { css: "id", one: "insurance ID", many: "insurance IDs" },
@@ -227,8 +228,37 @@ sampleBatchButton.addEventListener("click", () => {
 
 input.addEventListener("input", () => setPendingBatch(null));
 
-// Files are read in the browser and only fill the text box or the waiting
-// batch; nothing is sent until Process is pressed.
+const MAX_DOCUMENT_BYTES = 10_000_000;
+
+// The kind of document a file is, or null for one that cannot be loaded.
+// "text" is read here in the browser; the others are read by the server.
+function fileKind(file: File): "text" | "docx" | null {
+  if (/\.docx$/i.test(file.name)) return "docx";
+  if (file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name))) return "text";
+  return null;
+}
+
+// The plain text of one file. A Word document is sent to the server to be
+// read into text; its name is not sent, since file names often hold a
+// patient's name.
+async function readFile(file: File): Promise<string> {
+  const kind = fileKind(file);
+  if (kind === "text") return file.text();
+  const response = await fetch(`/api/read-file/${kind}`, {
+    method: "POST",
+    headers: { "content-type": "application/octet-stream" },
+    body: file,
+  });
+  const body: { text?: string; error?: string } = await response.json();
+  if (!response.ok || body.text === undefined) {
+    throw new Error(body.error ?? "A file could not be read.");
+  }
+  return body.text;
+}
+
+// A text file only fills the text box or the waiting batch. A Word document
+// is read by the server first; either way nothing is de-identified or shown
+// until Process is pressed.
 fileInput.addEventListener("change", async () => {
   clearError();
   const files = [...(fileInput.files ?? [])];
@@ -239,18 +269,22 @@ fileInput.addEventListener("change", async () => {
     return;
   }
   for (const file of files) {
-    const isText = file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name));
-    if (!isText) {
-      showError("Only plain text (.txt) files can be loaded.");
+    const kind = fileKind(file);
+    if (kind === null) {
+      showError("Only plain text (.txt) and Word (.docx) files can be loaded.");
       return;
     }
-    if (file.size > MAX_FILE_BYTES) {
-      showError("A file is larger than 1 MB.");
+    if (kind === "text" && file.size > MAX_FILE_BYTES) {
+      showError("A text file is larger than 1 MB.");
+      return;
+    }
+    if (file.size > MAX_DOCUMENT_BYTES) {
+      showError("A document is larger than 10 MB.");
       return;
     }
   }
   try {
-    const texts = await Promise.all(files.map((file) => file.text()));
+    const texts = await Promise.all(files.map(readFile));
     if (texts.length === 1) {
       setPendingBatch(null);
       input.value = texts[0];
@@ -258,8 +292,8 @@ fileInput.addEventListener("change", async () => {
     } else {
       setPendingBatch(texts);
     }
-  } catch {
-    showError("A file could not be read.");
+  } catch (error) {
+    showError(error instanceof Error && error.message ? error.message : "A file could not be read.");
   }
 });
 

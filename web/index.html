@@ -131,8 +131,13 @@
       <div class="starters">
         <p>No record to hand? Start from one of these:</p>
         <button id="sample" type="button">Load sample record</button>
-        <label for="file">or choose a .txt file</label>
-        <input id="file" type="file" accept=".txt,text/plain" multiple />
+        <label for="file">or choose a .txt or Word (.docx) file</label>
+        <input
+          id="file"
+          type="file"
+          accept=".txt,text/plain,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          multiple
+        />
         <p class="batch-hint">
           Several records at once become a research table, one row per record:
           choose more than one file, or
