@@ -1,0 +1,12 @@
+{
+  "record_id": "easy-103",
+  "age": "74",
+  "age_source": "dob",
+  "sex": "M",
+  "diagnoses": [],
+  "medications": [
+    "Carvedilol 6.25 mg twice daily",
+    "Spironolactone 25 mg daily"
+  ],
+  "must_not_list": []
+}

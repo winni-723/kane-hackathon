@@ -96,9 +96,34 @@ fn report_age(age: u32) -> Option<String> {
 }
 
 fn stated_age(text: &str) -> Option<String> {
-    let caps = STATED_AGE.captures(text)?;
-    let digits = (1..=4).find_map(|i| caps.get(i))?.as_str();
+    let digits = match STATED_AGE.captures(text) {
+        Some(caps) => (1..=4).find_map(|i| caps.get(i))?.as_str().to_string(),
+        None => age_and_sex(text)?.0,
+    };
     report_age(digits.parse().ok()?)
+}
+
+/// The shorthand that opens many emergency notes: `47M`, `62F`, `81yoF`.
+static AGE_SEX: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?:^|[\s(,;])(\d{1,3})(?:yo)?([MF]) [A-Za-z]").expect("age-sex pattern is valid")
+});
+
+/// Words before a number-and-letter that make it a temperature: `Temp 102F`.
+const TEMPERATURE_WORDS: [&str; 6] = ["temp", "temperature", "fever", "tmax", "t", "of"];
+
+fn age_and_sex(text: &str) -> Option<(String, &'static str)> {
+    AGE_SEX.captures_iter(text).find_map(|caps| {
+        let digits = caps.get(1)?;
+        let before = text[..digits.start()]
+            .split(|c: char| !c.is_ascii_alphabetic())
+            .rfind(|w| !w.is_empty())
+            .unwrap_or_default()
+            .to_lowercase();
+        if TEMPERATURE_WORDS.contains(&before.as_str()) {
+            return None;
+        }
+        Some((digits.as_str().to_string(), if &caps[2] == "F" { "F" } else { "M" }))
+    })
 }
 
 /// Words that say the date after them is a date of birth.
@@ -162,7 +187,23 @@ fn parse_date(date: &str, this_year: i32) -> Option<Day> {
         .split(|c: char| !c.is_ascii_alphabetic())
         .find_map(|word| MONTH_PREFIXES.iter().position(|m| word.starts_with(m)));
 
-    let (year, month, day) = if let Some(index) = month_name {
+    // `Christmas Eve, 1936`: a named day with a fixed date. Thanksgiving moves
+    // from year to year and is left out.
+    let holiday = [
+        ("christmas eve", 12, 24),
+        ("christmas", 12, 25),
+        ("new year's eve", 12, 31),
+        ("new year's day", 1, 1),
+        ("valentine's day", 2, 14),
+        ("halloween", 10, 31),
+        ("independence day", 7, 4),
+    ]
+    .into_iter()
+    .find(|(name, _, _)| lower.contains(name));
+
+    let (year, month, day) = if let Some((_, month, day)) = holiday {
+        (*numbers.last()?, month, day)
+    } else if let Some(index) = month_name {
         let year = *numbers.last()?;
         let day = match numbers.len() {
             2 => numbers[0].parse().ok()?,
@@ -200,6 +241,11 @@ static SEX_WORD: LazyLock<Regex> = LazyLock::new(|| {
     .expect("sex word pattern is valid")
 });
 
+static PATIENT_TITLE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?mi)^(?:re|patient(?: name)?|pt|name)\s*:\s*(mr|mrs|ms|miss)\b")
+        .expect("patient title pattern is valid")
+});
+
 static PRONOUN: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"(?i)\b(?:(she|her|hers|herself)|(he|him|his|himself))\b")
         .expect("pronoun pattern is valid")
@@ -210,6 +256,14 @@ fn sex(text: &str) -> Option<&'static str> {
         let word = caps.get(1).or(caps.get(2))?.as_str().to_lowercase();
         let female = ["woman", "female", "girl", "daughter", "lady", "f"];
         return Some(if female.contains(&word.as_str()) { "F" } else { "M" });
+    }
+    if let Some((_, sex)) = age_and_sex(text) {
+        return Some(sex);
+    }
+    // A title in the field that names the patient: `Re: Mr. [NAME]`. Titles
+    // elsewhere in a record often belong to relatives and are not used.
+    if let Some(caps) = PATIENT_TITLE.captures(text) {
+        return Some(if caps[1].eq_ignore_ascii_case("mr") { "M" } else { "F" });
     }
     // Pronouns also point at relatives ("her nephew ... his cell"), so one
     // side has to clearly outnumber the other.
@@ -238,12 +292,27 @@ static DIAGNOSIS_FIELD: LazyLock<Regex> = LazyLock::new(|| {
         .expect("diagnosis field pattern is valid")
 });
 
+/// An assessment line, including the `A:` of a SOAP note. It may name the
+/// diagnosis (`A: Preeclampsia with severe features.`) or only say how the
+/// patient is doing (`Assessment: PHQ-9 score 14, improved from 19.`).
+static ASSESSMENT_FIELD: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?m)^(?:Assessment|A)\s*:\s*([^.;\n]+)").expect("assessment field pattern is valid")
+});
+
+/// Words that make an assessment a progress report rather than a diagnosis.
+const PROGRESS_WORDS: [&str; 14] = [
+    "control", "controlled", "suboptimal", "improved", "improving", "stable", "worsening",
+    "worse", "unchanged", "well", "normal", "resolved", "tolerating", "continue",
+];
+
 /// Phrases that introduce the condition being treated:
 /// `follow-up of atrial fibrillation`, `admitted with pneumonia`.
 static DIAGNOSIS_CUE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
         r"(?i)\b(?:follow-up (?:of|for)|management of|admitted with|diagnosed with|treated for",
-        r"|history (?:of|includes)|chemotherapy for|for symptomatic|secondary to)\s+",
+        r"|(?:history|hx) (?:of|includes)|for symptomatic|secondary to",
+        // the reason for an operation or a course of treatment
+        r"|(?:chemotherapy|radiotherapy|\w+(?:ectomy|otomy|ostomy|plasty)|resection) for(?: symptomatic)?)\s+",
         r"([^.;,\n]+)",
     ))
     .expect("diagnosis cue pattern is valid")
@@ -258,7 +327,7 @@ static SECONDARY_TO: LazyLock<Regex> = LazyLock::new(|| {
 
 /// Where a condition's name stops inside a clause.
 static CONDITION_END: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"(?i) (?:controlled|managed|treated|despite|since|on|with|and|who|which|that|but|was|is) ")
+    Regex::new(r"(?i) (?:controlled|managed|treated|despite|since|on|with|and|who|which|that|but|was|is|per) ")
         .expect("condition end pattern is valid")
 });
 
@@ -290,6 +359,15 @@ fn diagnoses(text: &str) -> Vec<String> {
             push_unique(&mut found, value.to_string());
         }
     }
+    for caps in ASSESSMENT_FIELD.captures_iter(text) {
+        let value = caps[1].trim();
+        let lower = value.to_lowercase();
+        let describes_progress = value.chars().any(|c| c.is_ascii_digit())
+            || PROGRESS_WORDS.iter().any(|w| lower.split(|c: char| !c.is_ascii_alphabetic()).any(|x| x == *w));
+        if !value.is_empty() && !describes_progress && !value.contains('[') {
+            push_unique(&mut found, value.to_string());
+        }
+    }
     for caps in SECONDARY_TO.captures_iter(text) {
         if let Some(condition) = clean_condition(&caps[1]) {
             push_unique(&mut found, condition);
@@ -315,14 +393,24 @@ fn diagnoses(text: &str) -> Vec<String> {
 /// `Furosemide 40 mg daily`, `Carbidopa-Levodopa 25-100 mg three times daily`,
 /// `Albuterol inhaler 2 puffs every 4 hours as needed`, `Ceftriaxone 1 g IV daily`.
 static MEDICATION: LazyLock<Regex> = LazyLock::new(|| {
-    let name = r"[A-Z][a-z]{3,}(?:-[A-Z][a-z]+)?(?: (?:acid|inhaler|nebulizers?|patch|drops|cream))?";
-    let dose = r"\d[\d.,-]*\s?(?:mg|mcg|g|mL|units?|puffs?|IU|tablets?|capsules?)\b";
+    let name = concat!(
+        r"[A-Z][a-z]{3,}(?:-[A-Z][a-z]+)?",
+        // the second word of a drug's name, or the device it comes in
+        r"(?: (?:acid|sulfate|chloride|sodium|succinate|tartrate|citrate|carbonate|phosphate",
+        r"|hydrochloride|acetate|gluconate|oxide|inhaler|nebulizers?|patch|drops|cream))?",
+    );
+    let dose = concat!(
+        r"(?:\d[\d.,-]*\s?(?:mg|mcg|g|mL|mEq|units?|puffs?|IU|tablets?|capsules?)\b",
+        // a strength written as a percentage needs the form to be a drug
+        r"|\d[\d.]*\s?% (?:cream|ointment|gel|lotion|solution|drops)\b)",
+    );
     let how = concat!(
         r"(?:\s(?:IV|PO|IM|subcutaneously|orally|topically|daily|nightly|weekly|monthly|once|twice",
         r"|three|four|times|every|\d{1,2}|hours?|days?|as needed|at bedtime|in the morning|a day",
         r"|chewed)\b)*",
     );
-    Regex::new(&format!(r"\b({name}) ({dose})({how})")).expect("medication pattern is valid")
+    // `reduce Amlodipine to 2.5 mg daily`
+    Regex::new(&format!(r"\b({name}) (?:to )?({dose})({how})")).expect("medication pattern is valid")
 });
 
 /// A drug given through a device on a schedule, with no dose written:
@@ -334,7 +422,7 @@ static MEDICATION_BY_DEVICE: LazyLock<Regex> = LazyLock::new(|| {
 
 /// A drug named by how it was given: `Heparin bolus`, `ABVD chemotherapy`.
 static MEDICATION_BY_FORM: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\b(?:[A-Z][a-z]{3,} (?:bolus|infusion|drip)|[A-Z]{3,6} chemotherapy)\b")
+    Regex::new(r"\b(?:[A-Z][a-z]{3,} (?:bolus|infusion|drip|PCA)|[A-Z]{3,6} chemotherapy)\b")
         .expect("form medication pattern is valid")
 });
 
@@ -480,6 +568,72 @@ mod tests {
             ["Warfarin 5 mg daily", "Metoprolol 25 mg twice daily"]
         );
         assert_eq!(medications("Start Sertraline 50 mg daily at home."), ["Sertraline 50 mg daily"]);
+    }
+
+    #[test]
+    fn age_and_sex_shorthand() {
+        assert_eq!(stated_age("47M BIBA after a seizure.").as_deref(), Some("47"));
+        assert_eq!(sex("47M BIBA after a seizure."), Some("M"));
+        assert_eq!(sex("Seen today: 62F with chest pain."), Some("F"));
+        // a temperature, a distance and a staging code are not an age
+        assert_eq!(stated_age("Temp 102F and rising."), None);
+        assert_eq!(stated_age("fever of 102.4 F and right ear pain"), None);
+        assert_eq!(stated_age("Ambulated 200m with assistance. Stage T2N1M0 disease."), None);
+    }
+
+    #[test]
+    fn age_from_a_named_day() {
+        assert_eq!(born("Christmas Eve, 1936").as_deref(), Some("89"));
+        assert_eq!(born("Halloween, 1936").as_deref(), Some("90+"));
+        assert_eq!(born("Thanksgiving, 1950"), None);
+    }
+
+    #[test]
+    fn sex_from_a_title_only_in_the_patient_field() {
+        assert_eq!(sex("REFERRAL\nRe: Mr. [NAME]\nDate of birth: [DATE]"), Some("M"));
+        assert_eq!(sex("Patient: Mrs. [NAME]"), Some("F"));
+        // a relative's title says nothing about the patient
+        assert_eq!(sex("Discussed with the son, Mr. [NAME]."), None);
+    }
+
+    #[test]
+    fn an_assessment_is_a_diagnosis_only_when_it_names_one() {
+        assert_eq!(
+            diagnoses("Assessment: Gastroesophageal reflux disease.\nRx: Omeprazole 20 mg daily."),
+            ["Gastroesophageal reflux disease"]
+        );
+        assert_eq!(
+            diagnoses("O: BP 162/104.\nA: Preeclampsia with severe features.\nP: Admit."),
+            ["Preeclampsia with severe features"]
+        );
+        assert!(diagnoses("Assessment: Glycemic control suboptimal. Add Empagliflozin 10 mg daily.").is_empty());
+        assert!(diagnoses("Assessment: Stable, tolerating diet.").is_empty());
+    }
+
+    #[test]
+    fn the_reason_for_an_operation_and_a_history() {
+        assert_eq!(
+            diagnoses("post-op day 2 from a right hemicolectomy for adenocarcinoma of the ascending colon."),
+            ["adenocarcinoma of the ascending colon"]
+        );
+        assert_eq!(diagnoses("Hx of traumatic brain injury per chart."), ["traumatic brain injury"]);
+        assert!(diagnoses("Referred for Physical Therapy after surgery.").is_empty());
+    }
+
+    #[test]
+    fn more_ways_a_medication_is_written() {
+        assert_eq!(
+            medications("Plan: Ferrous sulfate 325 mg twice daily; recheck in 6 weeks."),
+            ["Ferrous sulfate 325 mg twice daily"]
+        );
+        assert_eq!(
+            medications("add Triamcinolone 0.1% cream twice daily."),
+            ["Triamcinolone 0.1% cream twice daily"]
+        );
+        assert_eq!(medications("reduce Amlodipine to 2.5 mg daily"), ["Amlodipine to 2.5 mg daily"]);
+        assert_eq!(medications("Pain controlled on Hydromorphone PCA; tolerating liquids."), ["Hydromorphone PCA"]);
+        // a stopped drug and a percentage that is not a strength
+        assert!(medications("stop Diphenhydramine; SpO2 95% on room air; HbA1c 7.8%.").is_empty());
     }
 
     #[test]

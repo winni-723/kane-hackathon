@@ -1,0 +1,13 @@
+{
+  "record_id": "easy-102",
+  "age": "36",
+  "age_source": "dob",
+  "sex": null,
+  "diagnoses": [
+    "Iron deficiency anemia"
+  ],
+  "medications": [
+    "Ferrous sulfate 325 mg twice daily"
+  ],
+  "must_not_list": []
+}

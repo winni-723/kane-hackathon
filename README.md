@@ -113,9 +113,27 @@ records. Whole columns right, by difficulty:
 The two misses are left as they are: a record whose only pronouns are one
 `her` and one `his`, and a diagnosis introduced by nothing but `has`.
 
-These numbers are from the records the rules were written against. There are
-no extraction answer keys for the held-out sets yet, so there is no honest
-score for unseen records; see Limits for what a look at them showed.
+Those numbers are from the records the rules were written against. The 10
+hand-written held-out records have their own extraction keys
+(`tests/extraction-heldout/`), fixed after the first run and before any rule
+was changed for them:
+
+| Cells right | First run, untuned | After the loop |
+|---|---|---|
+| Development (`tests/extraction`), 80 cells | 78 | 78 |
+| Held-out (`tests/extraction-heldout`), 40 cells | 25 (63%) | 37 (93%) |
+
+On the first run, by column: age 8/10, sex 8/10, diagnoses 4/10, medications
+5/10. Every one of the 15 wrong cells was empty or incomplete; none held a
+wrong value. The first-run column is the measure of how the extraction
+carries over to new documents. The second is not: the rules were then
+tuned on those records.
+
+Three held-out diagnoses are still missed and left that way, because the
+rule that would catch them would also list symptoms and treatment reasons:
+a seizure named only as the event that brought the patient in, a diagnosis
+stated as a bare sentence (`Contact dermatitis, recurrent.`), and the
+reason given after a drug (`Clarithromycin ... for H. pylori`).
 
 ## How it is verified
 
@@ -237,11 +255,11 @@ unfixed because fixing them would mask medical text:
 - a name introduced only by an ordinary preposition (`an interaction for
   Leilani Kahananui`)
 
-The research table is weaker than the de-identification. Run by hand on the
-10 hand-written held-out records, it filled age on 9, medications on 8, and
-diagnoses on only 1: a diagnosis is found when a field or a set phrase
-introduces it, and most of those records word it differently. The Synthea
-layout (`MEDICATIONS:` and `CONDITIONS:` sections) is not read at all. Empty
+The research table is weaker than the de-identification. On its first run
+against held-out records it got 63% of cells right and found the diagnosis
+in 4 of 10: a diagnosis is found when a field or a set phrase introduces
+it, and new documents word it differently. The Synthea layout
+(`MEDICATIONS:` and `CONDITIONS:` sections) is not read at all. Empty
 cells are the designed failure: the table should be missing a value rather
 than holding a wrong one. There is no PDF, scan or batch larger than 200
 files, and identifiers are replaced with tags, not with realistic surrogates.
@@ -263,6 +281,7 @@ src/names.rs           finding and removing names
 src/extract.rs         the research columns: age, sex, diagnoses, medications
 src/main.rs            Axum server: POST /api/process, serves the page
 tests/extraction/      answer keys for the research table
+tests/extraction-heldout/ the same for the held-out records, measured only
 tests/extraction_test.rs layer 1 tests of the research table
 tests/kane-live/       Kane test against the deployed site
 web/                   TypeScript + Vite front end

@@ -56,9 +56,13 @@ fn opt(v: &Value) -> Option<String> {
 }
 
 fn load() -> Vec<Key> {
+    load_from("tests/extraction", "tests/fixtures", 20)
+}
+
+fn load_from(key_dir: &str, record_dir: &str, expected: usize) -> Vec<Key> {
     let mut keys = Vec::new();
-    let mut paths: Vec<_> = fs::read_dir("tests/extraction")
-        .expect("tests/extraction exists")
+    let mut paths: Vec<_> = fs::read_dir(key_dir)
+        .unwrap_or_else(|e| panic!("{key_dir}: {e}"))
         .map(|e| e.expect("readable entry").path())
         .filter(|p| p.extension().is_some_and(|e| e == "json"))
         .collect();
@@ -68,7 +72,7 @@ fn load() -> Vec<Key> {
             .unwrap_or_else(|e| panic!("{}: {e}", path.display()));
         let id = key["record_id"].as_str().expect("record_id").to_string();
         let record: Value = serde_json::from_str(
-            &fs::read_to_string(format!("tests/fixtures/{id}.json"))
+            &fs::read_to_string(format!("{record_dir}/{id}.json"))
                 .unwrap_or_else(|e| panic!("no record for extraction key {id}: {e}")),
         )
         .expect("record is valid JSON");
@@ -94,7 +98,7 @@ fn load() -> Vec<Key> {
             deidentified,
         });
     }
-    assert_eq!(keys.len(), 20, "one extraction key per development record");
+    assert_eq!(keys.len(), expected, "one extraction key per record in {record_dir}");
     keys
 }
 
@@ -197,10 +201,23 @@ fn no_identifier_reaches_the_table() {
 
 #[test]
 fn extraction_scoreboard() {
-    let keys = load();
+    print_scoreboard("tests/extraction", &load());
+}
+
+/// Records the extraction rules were not written against. Measured, never
+/// gated: a miss here is a number to report, not a failing test.
+#[test]
+fn heldout_extraction_scoreboard() {
+    print_scoreboard(
+        "tests/extraction-heldout",
+        &load_from("tests/extraction-heldout", "tests/heldout", 10),
+    );
+}
+
+fn print_scoreboard(title: &str, keys: &[Key]) {
     let mut board: BTreeMap<(&str, String), (u32, u32)> = BTreeMap::new();
     let mut details = Vec::new();
-    for key in &keys {
+    for key in keys {
         for column in COLUMNS {
             let wrong = mistakes(key, column);
             let cell = board.entry((column, key.difficulty.clone())).or_default();
@@ -213,7 +230,7 @@ fn extraction_scoreboard() {
             }
         }
     }
-    println!("\nResearch table, records with the whole column right (tests/extraction):");
+    println!("\nResearch table, records with the whole column right ({title}):");
     println!("  {:<12} {:>6} {:>7} {:>6}", "column", "easy", "medium", "hard");
     let mut total = (0, 0);
     for column in COLUMNS {

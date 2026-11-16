@@ -1,0 +1,15 @@
+{
+  "record_id": "medium-103",
+  "age": "58",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "H. pylori"
+  ],
+  "medications": [
+    "Clarithromycin 500 mg twice daily",
+    "Simvastatin 40 mg nightly",
+    "Amlodipine 10 mg daily"
+  ],
+  "must_not_list": []
+}

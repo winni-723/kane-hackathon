@@ -19,7 +19,7 @@
           {
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/stop-verify.mjs\"",
-            "timeout": 900,
+            "timeout": 1800,
             "statusMessage": "Layer 2: replaying every Kane test"
           }
         ]

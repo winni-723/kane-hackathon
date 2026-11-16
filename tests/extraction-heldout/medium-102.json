@@ -1,0 +1,15 @@
+{
+  "record_id": "medium-102",
+  "age": "77",
+  "age_source": "dob",
+  "sex": "M",
+  "diagnoses": [
+    "adenocarcinoma of the ascending colon"
+  ],
+  "medications": [
+    "Hydromorphone",
+    "Cefazolin 2 g IV every 8 hours",
+    "Heparin 5000 units subcutaneously every 12 hours"
+  ],
+  "must_not_list": []
+}

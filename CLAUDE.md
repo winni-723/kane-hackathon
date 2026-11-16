@@ -65,7 +65,9 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - 由生日算的年齡以測試中的 `REFERENCE_DAY`（2026-11-14）為基準，不要改這個日期。
 - 抓不到就留空，不要為了分數去猜（例如由姓名猜性別）。
 - 已知且刻意不修的漏網：hard-05 的性別（代名詞一比一）、hard-06 的 `COPD`（只由 `has` 引出）。
-- 測驗卷與 Synthea 沒有擷取答案卷，目前沒有量測。
+- 測驗卷的擷取答案卷在 `tests/extraction-heldout/`（10 份，使用者 2026-11-15 定案），只量測、不把關。第一次未調校的分數是 **25/40**，寫在 README 與該資料夾的 README，不要覆蓋；調校後 37/40。
+- 測驗卷刻意不修的漏網：hard-101 的 `tonic-clonic seizure`、hard-102 的 `Contact dermatitis`（沒有引導詞的單句）、medium-103 的 `H. pylori`（藥物後面的 `for`）。修它們會把症狀與用藥原因當成診斷。
+- Synthea 沒有擷取答案卷，其分段格式（`MEDICATIONS:`、`CONDITIONS:`）目前不讀。
 
 ### 新增一種個資的流程
 

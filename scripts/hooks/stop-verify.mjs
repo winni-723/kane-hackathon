@@ -56,7 +56,7 @@ if (state.failed === digest) {
   process.exit(0);
 }
 
-const r = spawnSync("bash", ["scripts/verify.sh"], { cwd: root, encoding: "utf8", timeout: 14 * 60 * 1000 });
+const r = spawnSync("bash", ["scripts/verify.sh"], { cwd: root, encoding: "utf8", timeout: 28 * 60 * 1000 });
 const out = `${r.stdout ?? ""}\n${r.stderr ?? ""}`;
 const save = (next) => {
   mkdirSync(join(root, ".kane-logs"), { recursive: true });

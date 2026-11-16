@@ -1,0 +1,14 @@
+{
+  "record_id": "hard-101",
+  "age": "47",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "tonic-clonic seizure",
+    "traumatic brain injury"
+  ],
+  "medications": [
+    "Levetiracetam 1500 mg IV"
+  ],
+  "must_not_list": []
+}

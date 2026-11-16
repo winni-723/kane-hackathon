@@ -1,0 +1,13 @@
+{
+  "record_id": "easy-101",
+  "age": "51",
+  "age_source": "dob",
+  "sex": "M",
+  "diagnoses": [
+    "Gastroesophageal reflux disease"
+  ],
+  "medications": [
+    "Omeprazole 20 mg daily"
+  ],
+  "must_not_list": []
+}

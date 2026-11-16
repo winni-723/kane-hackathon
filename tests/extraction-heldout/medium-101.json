@@ -1,0 +1,15 @@
+{
+  "record_id": "medium-101",
+  "age": "39",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "Preeclampsia"
+  ],
+  "medications": [
+    "Magnesium sulfate 4 g IV",
+    "Labetalol 20 mg IV",
+    "Betamethasone 12 mg IM"
+  ],
+  "must_not_list": []
+}

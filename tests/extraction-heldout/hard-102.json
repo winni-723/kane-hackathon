@@ -1,0 +1,14 @@
+{
+  "record_id": "hard-102",
+  "age": "43",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "Contact dermatitis"
+  ],
+  "medications": [
+    "Prednisone 40 mg daily",
+    "Triamcinolone 0.1% cream twice daily"
+  ],
+  "must_not_list": []
+}
