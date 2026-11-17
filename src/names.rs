@@ -70,7 +70,7 @@ const LABEL_START: &str = r"(?:^|[\t|]|[.;][ ])[ \t]*";
 /// view, the right eye, and two kinds of therapy.
 const CREDENTIAL: &str = concat!(
     r"MD|M\.D\.|DO|D\.O\.|NP|RN|PA-C|LPN|CNA|CNP|APRN|DNP|FNP-C|FNP|PharmD|MBBS|CRNA|LCSW|PhD",
-    r"|DDS|DMD|DPM|MSW|CNM",
+    r"|DDS|DMD|DPM|MSW|CNM|MLS|MLT",
 );
 
 /// Short forms of given names. When a record names `Thomas`, a later `Tom` is
@@ -229,7 +229,7 @@ static SURNAME_FIRST: LazyLock<Regex> = LazyLock::new(|| {
 /// Yuki A.`: after a name label the surname-first order needs no further proof.
 static LABELLED_SURNAME_FIRST: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(&format!(
-        r"(?m){LABEL_START}(?:{NAME_LABEL})(?:[ \t]*:[ \t]*|\t)(?P<s>{WORD}|[A-Z][A-Z'’-]{{2,}}),[ ](?P<g>{WORD})"
+        r"(?m){LABEL_START}(?:{NAME_LABEL})(?:[ \t]*:[ \t]*|\t)(?P<s>{WORD}|{CAPS_WORD}),[ ](?P<g>{WORD}|{CAPS_WORD}\b)"
     ))
     .expect("labelled surname-first pattern is valid")
 });
@@ -252,6 +252,25 @@ const NOT_A_NAME: &[&str] = &[
     "No", "Yes", "Not", "None", "Unknown", "Jr", "Sr", "In", "On", "At", "Is", "Was", "Has",
     "And", "Or", "With", "Will", "Can",
 ];
+
+/// A name word printed in capitals: `DELGADO`, `O'BRIEN`, `ADEBAYO-WALSH`.
+const CAPS_WORD: &str = r"[A-Z][A-Z'’-]{2,}";
+
+/// Capitalized abbreviations that can sit in a `Patient:` field as a pair
+/// (`COPD, CAD`) and have vowels, so the vowel test alone would let them by.
+const CAPS_ABBREVIATIONS: &[&str] = &[
+    "COPD", "CAD", "AIDS", "ADHD", "GERD", "OSA", "PAD", "DVT", "ESRD", "IDDM", "NIDDM", "UTI",
+    "AKI", "ARDS", "OCD", "PTSD", "SLE", "ALS", "AFIB", "NONE", "UNKNOWN", "SELF", "SAME", "NEW",
+];
+
+/// Whether a word in capitals could be one part of a person's name: three or
+/// more letters, a vowel, and not a known abbreviation. `HTN`, `CHF` and
+/// `CKD` have no vowel.
+fn looks_like_a_caps_name(word: &str) -> bool {
+    word.chars().filter(|c| c.is_alphabetic()).count() >= 3
+        && word.chars().any(|c| "AEIOUY".contains(c))
+        && !CAPS_ABBREVIATIONS.contains(&word)
+}
 
 fn title_case(upper: &str) -> String {
     let mut chars = upper.chars();
@@ -337,14 +356,22 @@ fn find(text: &str) -> Found {
     }
 
     for caps in LABELLED_SURNAME_FIRST.captures_iter(text) {
-        let surname = &caps["s"];
-        if surname.chars().any(|c| c.is_lowercase()) {
-            add_word(&mut words, surname);
-        } else {
-            phrases.push(surname.to_string());
-            add_word(&mut words, &title_case(surname));
+        let (surname, given) = (&caps["s"], &caps["g"]);
+        let in_capitals = |w: &str| !w.chars().any(|c| c.is_lowercase());
+        // A record system that prints the whole name in capitals:
+        // "DELGADO, TERESA M". Both parts must look like name words, or the
+        // pair is taken for two abbreviations ("COPD, CHF") and left alone.
+        if in_capitals(given) && !(looks_like_a_caps_name(surname) && looks_like_a_caps_name(given)) {
+            continue;
         }
-        add_word(&mut words, &caps["g"]);
+        for part in [surname, given] {
+            if in_capitals(part) {
+                phrases.push(part.to_string());
+                add_word(&mut words, &title_case(part));
+            } else {
+                add_word(&mut words, part);
+            }
+        }
     }
 
     for caps in QUOTED_NICKNAME.captures_iter(text) {
@@ -548,6 +575,28 @@ mod tests {
         assert_eq!(mask("Electronically signed by Samuel Ortega, MD on x"), "Electronically signed by [NAME], MD on x");
         assert_eq!(mask("Completed x by B. Tran, RN | Page 1"), "Completed x by [NAME], RN | Page 1");
         assert_eq!(mask("Renee Castillo, DO\nPine Hollow"), "[NAME], DO\nPine Hollow");
+        assert_eq!(mask("phoned by T. Whitcombe, MLS."), "phoned by [NAME], MLS.");
+    }
+
+    #[test]
+    fn a_name_printed_all_in_capitals() {
+        assert_eq!(
+            mask("Patient\tDELGADO, TERESA M\tMRN\tx\nDELGADO, TERESA M | DOB x"),
+            "Patient\t[NAME], [NAME] M\tMRN\tx\n[NAME], [NAME] M | DOB x"
+        );
+        assert_eq!(mask("Name: O'BRIEN, SEAN"), "Name: [NAME], [NAME]");
+    }
+
+    #[test]
+    fn capital_abbreviations_in_a_name_field_are_not_names() {
+        for text in [
+            "Patient: COPD, CHF exacerbation",
+            "Patient\tHTN, CKD stage 3",
+            "Pt: CAD, AFIB on warfarin",
+            "Patient: NONE, SELF-PAY",
+        ] {
+            assert_eq!(mask(text), text);
+        }
     }
 
     #[test]
