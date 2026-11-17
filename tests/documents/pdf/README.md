@@ -33,6 +33,10 @@ are the honest starting point and are not overwritten.
 All three medical losses on the first run were the reader's, not the
 engine's: `pdf-04` came out as `PET -CT`, `ef fusion`, `Adebayo-W alsh`.
 
+After the loop (2026-11-17, four commits, one theme each): **identifiers
+100/100, medical content 62/62.** Every (type, difficulty) pair in these
+keys is now in `GATES` in `tests/pdf_test.rs`.
+
 ## About the keys
 
 The keys list what is printed on the page. A string that the PDF itself splits

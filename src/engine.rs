@@ -66,12 +66,77 @@ static INSURANCE_ID: LazyLock<Regex> = LazyLock::new(|| {
 static OTHER_ID: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
         r"(?P<label>\b(?i:accession(?: number| no\.?)?|acc\.?[ ]?#|specimen (?:id|number|no\.?)",
-        r"|(?:encounter|visit|order) (?:id|number|no\.?)|(?:encounter|visit|order)[ ]?#))",
+        r"|(?:encounter|visit|order) (?:id|number|no\.?)|(?:encounter|visit|order)[ ]?#",
+        r"|npi|clia|rx[ ]?#|rx (?:number|no\.?)|prescription (?:#|number|no\.?)))",
         r"(?P<join>\s*[:#]?\s*)",
         r"(?P<id>[A-Z]{0,4}-?\d[\dA-Z-]{2,}[\dA-Z])\b",
     ))
     .expect("other id pattern is valid")
 });
+
+/// Column headers whose cells below hold one identifying number each:
+/// `Rx #`, `Accession`, `Order #`, `NPI`.
+static ID_COLUMN_HEADER: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"^(?i:rx[ ]?#|rx (?:number|no\.?)|prescription (?:#|number|no\.?)|accession(?: number| no\.?| #)?",
+        r"|acc\.?[ ]?#|specimen (?:id|#|number|no\.?)|order (?:id|#|number|no\.?)|order#|npi)$",
+    ))
+    .expect("id column header pattern is valid")
+});
+
+/// What a cell must look like to be taken for an identifying number.
+static ID_CELL: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^[A-Z]{0,4}-?\d[\dA-Z-]{2,}[\dA-Z]$").expect("id cell pattern is valid"));
+
+/// Masks identifying numbers in a table column headed by their label:
+///
+/// ```text
+/// Medication  Directions  Prescriber  Rx #     Last filled
+/// Warfarin    ...         ...         6610490  10/30/2026
+/// ```
+///
+/// A table row is a line of tab-separated cells. Only rows with exactly as
+/// many cells as the header are read, so a row that lost an empty cell never
+/// has the wrong column masked. The table ends at the first line without a
+/// tab.
+fn mask_id_columns(text: &str) -> String {
+    let mut columns: Vec<usize> = Vec::new();
+    let mut width = 0;
+    let mut out = String::with_capacity(text.len());
+    for line in text.split_inclusive('\n') {
+        let body = line.trim_end_matches(['\r', '\n']);
+        let cells: Vec<&str> = body.split('\t').collect();
+        if cells.len() < 2 {
+            columns.clear();
+            out.push_str(line);
+            continue;
+        }
+        let headers: Vec<usize> = cells
+            .iter()
+            .enumerate()
+            .filter(|(_, c)| ID_COLUMN_HEADER.is_match(c.trim()))
+            .map(|(i, _)| i)
+            .collect();
+        if !headers.is_empty() {
+            columns = headers;
+            width = cells.len();
+            out.push_str(line);
+            continue;
+        }
+        if columns.is_empty() || cells.len() != width {
+            out.push_str(line);
+            continue;
+        }
+        let masked: Vec<&str> = cells
+            .iter()
+            .enumerate()
+            .map(|(i, c)| if columns.contains(&i) && ID_CELL.is_match(c.trim()) { "[ID_NUMBER]" } else { c })
+            .collect();
+        out.push_str(&masked.join("\t"));
+        out.push_str(&line[body.len()..]);
+    }
+    out
+}
 
 /// The login of whoever printed or entered the page: `Printed 11/03/2026 09:14
 /// by fdesk02`. The login must contain a digit or a separator, so a person's
@@ -452,6 +517,7 @@ pub fn process(text: &str) -> String {
     let out = MRN.replace_all(&out, "${label}${join}[MRN]");
     let out = INSURANCE_ID.replace_all(&out, "${label}${join}[INSURANCE_ID]");
     let out = OTHER_ID.replace_all(&out, "${label}${join}[ID_NUMBER]");
+    let out = mask_id_columns(&out);
     let out = DATE.replace_all(&out, "[DATE]");
     let out = PHONE.replace_all(&out, "[PHONE]");
     let out = PHONE_SPACED.replace_all(&out, "[PHONE]");
@@ -837,6 +903,34 @@ mod tests {
             process("14:22 FROM: Pinecrest Family Practice FAX x TO: Sutter Ridge Cardiology P.001/001\nSutter Ridge called."),
             "14:22 FROM: [FACILITY] FAX x TO: [FACILITY] P.001/001\n[LOCATION] called."
         );
+    }
+
+    #[test]
+    fn masks_npi_clia_and_rx_numbers() {
+        assert_eq!(process("Lena Okonkwo, NP\tNPI: 1093847562"), "[NAME], NP\tNPI: [ID_NUMBER]");
+        assert_eq!(process("Director. CLIA 29D0998877."), "Director. CLIA [ID_NUMBER].");
+        assert_eq!(process("Refill Rx #6610482 today."), "Refill Rx #[ID_NUMBER] today.");
+    }
+
+    #[test]
+    fn masks_an_id_column_under_its_header() {
+        assert_eq!(
+            process("Medication\tRx #\tQty\nWarfarin 5 mg\t6610490\t30\nAspirin 81 mg\t6608817\t90\nEnd of list"),
+            "Medication\tRx #\tQty\nWarfarin 5 mg\t[ID_NUMBER]\t30\nAspirin 81 mg\t[ID_NUMBER]\t90\nEnd of list"
+        );
+    }
+
+    #[test]
+    fn leaves_other_columns_and_misaligned_rows_alone() {
+        for text in [
+            // Values in the other columns, a cell that is not a number, a
+            // row with a cell missing, and a table that never had the header.
+            "Test\tAccession\tResult\nTSH\tpending\t6.8 mIU/L\nFree T4\t0.8 ng/dL",
+            "Test\tResult\tRange\nGlucose\t1680\t70-99",
+            "No NPI on file. Rx count 4.",
+        ] {
+            assert_eq!(process(text), text);
+        }
     }
 
     #[test]

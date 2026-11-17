@@ -84,7 +84,7 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關，並在瀏覽器手動試過；Kane 測試不選檔案。
 - 既有的 88 份病歷、答案卷與 183 個 Kane 測試不因新增格式而修改。
 - PDF（2026-11-17）：測試集在 `tests/documents/pdf/`（`source/` → `python scripts/gen-pdf.py`，需要 Chrome、Word、PyMuPDF；`keys/`）。pdf-01、04 由 Chrome 列印，02、05 由 Word 另存，03 是固定位置的傳真表單，06 是 03 的掃描檔（沒有答案卷，必須回傳 `DocumentError::Scanned`）。答案卷使用者 2026-11-17 同意，不可修改。第一層測試在 `tests/pdf_test.rs`（讀取不可遺漏、醫療資訊全保留、掃描檔被拒），看分數：`cargo test --test pdf_test scoreboard -- --nocapture`。
-- PDF 第一次分數（不要覆蓋）：套件原樣 81/100、讀壞 3、醫療 59/62；修好讀取程式、未改引擎 88/100、醫療 62/62。
+- PDF 第一次分數（不要覆蓋）：套件原樣 81/100、讀壞 3、醫療 59/62；修好讀取程式、未改引擎 88/100、醫療 62/62。調校後 100/100、醫療 62/62，`tests/pdf_test.rs` 的 `GATES` 涵蓋所有（類型, 難度），只增不減。
 - `vendor/pdf-extract` 是 pdf-extract 0.12.1 加一個修正（字寬表範圍格式讀錯，造成 Chrome PDF 字中間多空格），經 `[patch.crates-io]` 使用，說明在 `vendor/README.md`。
 - 使用者 2026-11-17 指示：規則修正依主題或細項分開 commit，訊息寫清楚改了什麼，不要全部修完一次 commit；每一步開始前先說明打算做什麼。
 

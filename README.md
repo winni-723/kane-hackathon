@@ -321,13 +321,23 @@ identifier the reader garbles is counted as "not read", never as removed.
 |---|---|---|---|
 | First run, the PDF library as published | 81/100 | 3 | 59/62 |
 | After fixing the reader, no engine rule changed | 88/100 | 0 | 62/62 |
+| After the loop | 100/100 | 0 | 62/62 |
 
 The first run's losses were all the reader's: Chrome PDFs came out with
 spaces inside words (`C obalt`, `1 1/04/2026`, `Adebayo-W alsh`). The cause
 was a bug in `pdf-extract` 0.12.1, which misread one form of font width table;
 `vendor/pdf-extract` is the published crate with that fix. Word tables needed
-the column-edge rule: a full cell ends right where the next one begins. The
-page does not take PDF files yet.
+the column-edge rule: a full cell ends right where the next one begins.
+
+The loop then closed the last 12, one theme per commit: a table cell wrapped
+over two lines, a name printed all in capitals (`DELGADO, TERESA M`) and lab
+staff by their credential (`MLS`), laboratories and the practices on a fax
+banner, and ID numbers by label (`NPI`, `CLIA`, `Rx #`) or by a table column
+headed by one. Each rule came with tests of what it must leave alone
+(`Patient: COPD, CHF`, `Sent to Reference Laboratory`, `Specialty:
+Cardiology`). Like the Word set, these five PDFs are a development set, made
+by a script: 100/100 says the loop works on them, not how an unfamiliar
+template will fare. The page does not take PDF files yet.
 
 ### What Kane caught
 

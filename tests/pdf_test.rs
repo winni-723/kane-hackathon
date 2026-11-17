@@ -16,6 +16,39 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
+/// (identifier type, difficulty) pairs that must be removed completely from
+/// the PDFs. Added on 2026-11-17 once every one reached 100%. This list only
+/// ever grows.
+const GATES: &[(&str, &str)] = &[
+    ("name", "medium"),
+    ("name", "hard"),
+    ("relative_name", "medium"),
+    ("relative_name", "hard"),
+    ("provider_name", "medium"),
+    ("provider_name", "hard"),
+    ("facility_name", "medium"),
+    ("facility_name", "hard"),
+    ("facility_address", "medium"),
+    ("facility_address", "hard"),
+    ("facility_phone", "medium"),
+    ("facility_phone", "hard"),
+    ("address", "medium"),
+    ("address", "hard"),
+    ("phone", "medium"),
+    ("phone", "hard"),
+    ("dob", "medium"),
+    ("dob", "hard"),
+    ("service_date", "medium"),
+    ("service_date", "hard"),
+    ("mrn", "medium"),
+    ("mrn", "hard"),
+    ("insurance_id", "medium"),
+    ("insurance_id", "hard"),
+    ("ssn", "hard"),
+    ("other_id", "medium"),
+    ("other_id", "hard"),
+];
+
 struct Key {
     id: String,
     difficulty: String,
@@ -110,6 +143,22 @@ fn medical_content_is_always_kept() {
         }
     }
     assert!(lost.is_empty(), "medical content was removed:\n{}", lost.join("\n"));
+}
+
+/// Every gated kind of identifier is fully removed.
+#[test]
+fn gated_identifiers_are_removed() {
+    let mut leaked = Vec::new();
+    for key in load_keys() {
+        let out = engine::process(&read(&key));
+        for (kind, pii) in &key.planted_pii {
+            let gated = GATES.iter().any(|(k, d)| k == kind && *d == key.difficulty);
+            if gated && out.contains(pii.as_str()) {
+                leaked.push(format!("{}: {kind} \"{pii}\" still present", key.id));
+            }
+        }
+    }
+    assert!(leaked.is_empty(), "gated identifiers leaked:\n{}", leaked.join("\n"));
 }
 
 /// A scanned page holds no text. The site must say so, not show an empty
