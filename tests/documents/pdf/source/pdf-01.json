@@ -1,0 +1,61 @@
+{
+  "id": "pdf-01",
+  "kind": "Laboratory report printed from a patient portal, two pages",
+  "producer": "chrome",
+  "header": [
+    "Brightwater Regional Laboratory",
+    "45 Quarry Road, Cobalt Springs, NV 89077 | Phone 775-555-0190 | Fax 775-555-0191"
+  ],
+  "footer": [
+    "DELGADO, TERESA M | DOB 02/09/1958 | MRN 4417760 | Accession BRL-26-0918842"
+  ],
+  "body": [
+    { "title": "FINAL REPORT" },
+    {
+      "table": [
+        ["Patient", "DELGADO, TERESA M", "Ordering provider", "Kwame Asante, MD"],
+        ["DOB / Sex", "02/09/1958 / F", "Collected", "11/02/2026 07:45"],
+        ["MRN", "4417760", "Received", "11/02/2026 09:10"],
+        ["Phone", "775-555-0142", "Reported", "11/04/2026 16:32"],
+        ["Address", "903 Linden Way, Cobalt Springs, NV 89077", "Accession", "BRL-26-0918842"],
+        ["Insurance", "Member ID XHP448210937", "Specimen", "Serum, fasting"]
+      ]
+    },
+    { "h": "Comprehensive Metabolic Panel" },
+    {
+      "header_row": true,
+      "table": [
+        ["Test", "Result", "Flag", "Reference range"],
+        ["Glucose", "168 mg/dL", "H", "70-99"],
+        ["Creatinine", "1.12 mg/dL", "H", "0.50-1.10"],
+        ["eGFR", "58 mL/min/1.73m2", "L", ">=60"],
+        ["Potassium", "4.6 mmol/L", "", "3.5-5.1"],
+        ["Sodium", "139 mmol/L", "", "136-145"],
+        ["ALT", "31 U/L", "", "7-45"]
+      ]
+    },
+    { "pagebreak": true },
+    { "h": "Hemoglobin A1c" },
+    {
+      "header_row": true,
+      "table": [
+        ["Test", "Result", "Flag", "Reference range"],
+        ["Hemoglobin A1c", "7.9 %", "H", "<5.7"]
+      ]
+    },
+    { "h": "Lipid Panel" },
+    {
+      "header_row": true,
+      "table": [
+        ["Test", "Result", "Flag", "Reference range"],
+        ["Total cholesterol", "221 mg/dL", "H", "<200"],
+        ["LDL cholesterol", "142 mg/dL", "H", "<100"],
+        ["HDL cholesterol", "44 mg/dL", "", ">40"],
+        ["Triglycerides", "176 mg/dL", "H", "<150"]
+      ]
+    },
+    { "h": "Comments" },
+    { "p": "Results consistent with type 2 diabetes mellitus, suboptimally controlled, and stage 3a chronic kidney disease. Critical values: none. Results phoned to the office of Dr. Asante on 11/04/2026 by T. Whitcombe, MLS." },
+    { "p": "Laboratory director: Hannah Lindgren, MD, PhD. CLIA 29D0998877." }
+  ]
+}

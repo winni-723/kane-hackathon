@@ -113,14 +113,13 @@ SECTION = (
     "</w:sectPr>"
 )
 
-for source in sorted(SOURCE.glob("*.json")):
-    doc = json.loads(source.read_text(encoding="utf-8"))
+def build(doc, target):
+    """Writes one source document as a .docx file."""
     header = "".join(
         paragraph(line, bold=(i == 0), size=24 if i == 0 else 16, align="center")
         for i, line in enumerate(doc["header"])
     )
     footer = "".join(paragraph(line, size=16) for line in doc["footer"])
-    target = OUT / f"{doc['id']}.docx"
     parts = [
         ("[Content_Types].xml", CONTENT_TYPES),
         ("_rels/.rels", RELS),
@@ -136,4 +135,11 @@ for source in sorted(SOURCE.glob("*.json")):
             info = zipfile.ZipInfo(name, date_time=(2026, 11, 16, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             z.writestr(info, content)
-    print(f"wrote {target.relative_to(ROOT)}")
+
+
+if __name__ == "__main__":
+    for source in sorted(SOURCE.glob("*.json")):
+        doc = json.loads(source.read_text(encoding="utf-8"))
+        target = OUT / f"{doc['id']}.docx"
+        build(doc, target)
+        print(f"wrote {target.relative_to(ROOT)}")

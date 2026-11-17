@@ -1,0 +1,35 @@
+{
+  "record_id": "pdf-04",
+  "format": "pdf",
+  "difficulty": "medium",
+  "planted_pii": [
+    { "type": "name", "text": "Corinne" },
+    { "type": "name", "text": "Adebayo-Walsh" },
+    { "type": "dob", "text": "12/30/1972" },
+    { "type": "mrn", "text": "6093321" },
+    { "type": "provider_name", "text": "Tomas Lindqvist" },
+    { "type": "provider_name", "text": "Lindqvist" },
+    { "type": "provider_name", "text": "Fiona Reyes-Barrett" },
+    { "type": "facility_name", "text": "Lakeshore Imaging Partners" },
+    { "type": "facility_address", "text": "3100 Harbor Point Blvd" },
+    { "type": "facility_address", "text": "Lakeshore" },
+    { "type": "facility_address", "text": "49099" },
+    { "type": "facility_phone", "text": "616-555-0140" },
+    { "type": "service_date", "text": "11/06/2026" },
+    { "type": "service_date", "text": "05/14/2025" },
+    { "type": "other_id", "text": "RAD-2026-30177" }
+  ],
+  "must_keep": [
+    "CT chest with contrast",
+    "53-year-old woman",
+    "30 pack-years",
+    "Persistent cough for 2 months",
+    "8 mm spiculated nodule in the right upper lobe",
+    "previously 5 mm",
+    "No pleural effusion",
+    "Mild centrilobular emphysema",
+    "Heart size is normal",
+    "Lung-RADS 4A",
+    "Recommend PET-CT"
+  ]
+}

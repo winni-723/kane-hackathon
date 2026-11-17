@@ -1,0 +1,42 @@
+{
+  "record_id": "pdf-05",
+  "format": "pdf",
+  "difficulty": "medium",
+  "planted_pii": [
+    { "type": "name", "text": "Walter Ng" },
+    { "type": "name", "text": "Walter" },
+    { "type": "relative_name", "text": "Kevin Ng" },
+    { "type": "dob", "text": "03/22/1944" },
+    { "type": "phone", "text": "207-555-0135" },
+    { "type": "provider_name", "text": "Ruth" },
+    { "type": "provider_name", "text": "Castellano" },
+    { "type": "provider_name", "text": "Elias Brandt" },
+    { "type": "provider_name", "text": "Dana Whitlock" },
+    { "type": "facility_name", "text": "Cedar Point Pharmacy" },
+    { "type": "facility_address", "text": "19 Market Street" },
+    { "type": "facility_address", "text": "Cedar Point" },
+    { "type": "facility_address", "text": "04999" },
+    { "type": "facility_phone", "text": "207-555-0112" },
+    { "type": "service_date", "text": "11/07/2026" },
+    { "type": "service_date", "text": "10/28/2026" },
+    { "type": "service_date", "text": "10/30/2026" },
+    { "type": "service_date", "text": "10/12/2026" },
+    { "type": "other_id", "text": "6610482" },
+    { "type": "other_id", "text": "6610483" },
+    { "type": "other_id", "text": "6610490" },
+    { "type": "other_id", "text": "6608817" }
+  ],
+  "must_keep": [
+    "Penicillin (hives)",
+    "Metoprolol tartrate 25",
+    "Furosemide 20 mg",
+    "Warfarin 5 mg",
+    "Tamsulosin 0.4 mg",
+    "1 tablet by mouth twice daily",
+    "1 capsule at bedtime",
+    "heart failure with reduced ejection fraction",
+    "atrial fibrillation",
+    "Next INR check",
+    "Avoid NSAIDs while taking Warfarin"
+  ]
+}

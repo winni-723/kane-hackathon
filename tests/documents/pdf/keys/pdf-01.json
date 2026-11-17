@@ -1,0 +1,43 @@
+{
+  "record_id": "pdf-01",
+  "format": "pdf",
+  "difficulty": "medium",
+  "planted_pii": [
+    { "type": "name", "text": "DELGADO" },
+    { "type": "name", "text": "TERESA" },
+    { "type": "dob", "text": "02/09/1958" },
+    { "type": "mrn", "text": "4417760" },
+    { "type": "phone", "text": "775-555-0142" },
+    { "type": "address", "text": "903 Linden Way" },
+    { "type": "address", "text": "Cobalt Springs" },
+    { "type": "address", "text": "89077" },
+    { "type": "insurance_id", "text": "XHP448210937" },
+    { "type": "provider_name", "text": "Kwame Asante" },
+    { "type": "provider_name", "text": "Asante" },
+    { "type": "provider_name", "text": "Whitcombe" },
+    { "type": "provider_name", "text": "Hannah Lindgren" },
+    { "type": "facility_name", "text": "Brightwater Regional Laboratory" },
+    { "type": "facility_address", "text": "45 Quarry Road" },
+    { "type": "facility_phone", "text": "775-555-0190" },
+    { "type": "facility_phone", "text": "775-555-0191" },
+    { "type": "service_date", "text": "11/02/2026" },
+    { "type": "service_date", "text": "11/04/2026" },
+    { "type": "other_id", "text": "BRL-26-0918842" },
+    { "type": "other_id", "text": "29D0998877" }
+  ],
+  "must_keep": [
+    "Comprehensive Metabolic Panel",
+    "Serum, fasting",
+    "168 mg/dL",
+    "1.12 mg/dL",
+    "58 mL/min/1.73m2",
+    "4.6 mmol/L",
+    "Hemoglobin A1c",
+    "7.9 %",
+    "221 mg/dL",
+    "142 mg/dL",
+    "176 mg/dL",
+    "type 2 diabetes mellitus",
+    "stage 3a chronic kidney disease"
+  ]
+}

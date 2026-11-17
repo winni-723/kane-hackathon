@@ -1,0 +1,6 @@
+{
+  "id": "pdf-06",
+  "kind": "A scanned page: pdf-03 printed, faxed and scanned back, so the PDF holds only an image and no text",
+  "producer": "scan",
+  "from": "pdf-03"
+}

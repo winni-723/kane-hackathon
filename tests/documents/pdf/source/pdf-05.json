@@ -1,0 +1,37 @@
+{
+  "id": "pdf-05",
+  "kind": "Pharmacy medication list saved as PDF from Word",
+  "producer": "word",
+  "header": [
+    "Cedar Point Pharmacy",
+    "19 Market Street, Cedar Point, ME 04999 | 207-555-0112"
+  ],
+  "footer": [
+    "Walter Ng | DOB 03/22/1944 | Page {PAGE}"
+  ],
+  "body": [
+    { "title": "MEDICATION LIST" },
+    {
+      "table": [
+        ["Patient", "Walter Ng"],
+        ["Date of birth", "03/22/1944"],
+        ["Phone", "207-555-0135"],
+        ["Allergies", "Penicillin (hives)"],
+        ["Printed", "11/07/2026"]
+      ]
+    },
+    {
+      "header_row": true,
+      "table": [
+        ["Medication", "Directions", "Prescriber", "Rx #", "Last filled"],
+        ["Metoprolol tartrate 25 mg", "1 tablet by mouth twice daily", "Dr. Ruth Castellano", "6610482", "10/28/2026"],
+        ["Furosemide 20 mg", "1 tablet by mouth every morning", "Dr. Ruth Castellano", "6610483", "10/28/2026"],
+        ["Warfarin 5 mg", "As directed by anticoagulation clinic", "Dr. Ruth Castellano", "6610490", "10/30/2026"],
+        ["Tamsulosin 0.4 mg", "1 capsule at bedtime", "Dr. Elias Brandt", "6608817", "10/12/2026"]
+      ]
+    },
+    { "p": "Conditions on file: heart failure with reduced ejection fraction, atrial fibrillation, benign prostatic hyperplasia." },
+    { "p": "Next INR check is due at the anticoagulation clinic. Avoid NSAIDs while taking Warfarin." },
+    { "p": "Reviewed with patient and his son Kevin Ng by Dana Whitlock, PharmD." }
+  ]
+}

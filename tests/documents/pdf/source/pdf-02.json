@@ -1,0 +1,36 @@
+{
+  "id": "pdf-02",
+  "kind": "Hospital discharge summary saved as PDF from Word",
+  "producer": "word",
+  "header": [
+    "Marrow Creek General Hospital",
+    "2200 Foundry Avenue, Marrow Creek, OH 43299 | 614-555-0160"
+  ],
+  "footer": [
+    "Bakare, Oluwaseun | MRN 5520918 | Encounter # 8820193344",
+    "Page {PAGE}"
+  ],
+  "body": [
+    { "title": "DISCHARGE SUMMARY" },
+    {
+      "table": [
+        ["Patient", "Oluwaseun Bakare"],
+        ["Date of birth", "08/17/1959"],
+        ["MRN", "5520918"],
+        ["Admitted", "10/21/2026"],
+        ["Discharged", "10/26/2026"],
+        ["Attending", "Helen Vasquez-Moore, MD"],
+        ["Primary care", "Dr. Ansel Whitfield"]
+      ]
+    },
+    { "h": "Discharge Diagnoses" },
+    { "p": "1. Community-acquired pneumonia, right lower lobe. 2. Acute exacerbation of COPD. 3. Paroxysmal atrial fibrillation with rapid ventricular response, now rate controlled." },
+    { "h": "Hospital Course" },
+    { "p": "Mr. Oluwaseun Bakare is a 67-year-old man with COPD on home oxygen 2 L who presented to the emergency department with three days of productive cough, fever to 38.9 C and worsening dyspnea. Chest X-ray showed right lower lobe consolidation. He was started on Ceftriaxone 1 g IV daily and Azithromycin 500 mg daily, along with Prednisone 40 mg daily and scheduled nebulized Albuterol. On hospital day two he developed atrial fibrillation with heart rate 140s, which responded to Diltiazem. CHA2DS2-VASc score is 2 and Apixaban was started after discussion with the patient and his daughter Folake Bakare, who is his health care proxy. His wife Grace was present for the discharge teaching. Oxygen needs returned to his baseline of 2 L by hospital day four." },
+    { "h": "Discharge Medications" },
+    { "p": "Apixaban 5 mg twice daily (new). Diltiazem ER 120 mg daily (new). Amoxicillin-clavulanate 875 mg twice daily for 3 more days. Prednisone 40 mg daily for 2 more days, then stop. Tiotropium 18 mcg inhaled daily (continue). Albuterol 2 puffs every 4 hours as needed (continue)." },
+    { "h": "Follow-up" },
+    { "p": "Dr. Ansel Whitfield on 11/02/2026. Marrow Creek Pulmonary Associates on 11/09/2026 at 10:30 AM, 410 Kestrel Lane, Suite 200. Repeat chest X-ray in 6 weeks to confirm resolution. Folake can be reached at 614-555-0187 with questions about the medication schedule." },
+    { "p": "Electronically signed by Helen Vasquez-Moore, MD on 10/26/2026 15:48." }
+  ]
+}
