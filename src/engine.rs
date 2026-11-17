@@ -90,7 +90,7 @@ const FACILITY_KIND: &str = concat!(
     r"Medical Cent(?:er|re)|Health Cent(?:er|re)|Health System|Health Clinic|Healthcare|Health Care",
     r"|Hospital|Clinic|Pharmacy|Drugstore|Associates|Family Practice|Family Medicine|Medical Group",
     r"|Nursing Home|Skilled Nursing|Rehabilitation Cent(?:er|re)|Rehabilitation Hospital",
-    r"|Imaging Cent(?:er|re)|Urgent Care|Surgery Cent(?:er|re)|Surgical Cent(?:er|re)|Laboratories",
+    r"|Imaging Cent(?:er|re)|Urgent Care|Surgery Cent(?:er|re)|Surgical Cent(?:er|re)|Laboratories|Laboratory",
     r"|Hospice|Infirmary|Assisted Living|Senior Living|Memory Care",
 );
 
@@ -138,7 +138,19 @@ const GENERIC_FACILITY_WORDS: &[&str] = &[
     "Physical", "Therapy", "Occupational", "Nursing", "Care", "Free", "Mobile", "Student",
     "Employee", "Travel", "Teaching", "Retail", "Local", "Outside", "Home", "Senior", "Assisted",
     "Living", "Follow-up", "Discharge", "Admission", "Hospital", "Clinic", "Pharmacy",
+    "Reference", "Pathology", "Microbiology", "Chemistry", "Toxicology", "Blood", "Core",
 ];
+
+/// A fax banner, the line a fax machine prints across the top of each page:
+/// `11/05/2026 14:22 FROM: Pinecrest Family Practice FAX 541-555-0177 TO:
+/// Sutter Ridge Cardiology P.001/001`. The parties named after `FROM:` and
+/// `TO:` are practices, whatever kind of word ends their name. Only the
+/// capitals form a fax machine prints is read, and only on a line that says
+/// FAX, so a letter's `To: Mom` is left alone.
+static FAX_PARTY: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"\b(?:FROM|TO):[ ]+(?P<n>[A-Z][a-z][A-Za-z'’-]*(?:[ ](?:&[ ])?[A-Z][a-z][A-Za-z'’-]*){0,5})")
+        .expect("fax party pattern is valid")
+});
 
 /// Removes facility names. Returns the text and the proper names found in
 /// them (`Harlow Valley`, `Tilden`), which place the patient just as well when
@@ -171,10 +183,33 @@ fn mask_facilities(text: &str) -> (String, Vec<String>) {
         }
         format!("{}[FACILITY]", &pre[..skipped])
     });
+    let out = out
+        .split_inclusive('\n')
+        .map(|line| {
+            if !line.contains("FAX") {
+                return line.to_string();
+            }
+            FAX_PARTY
+                .replace_all(line, |caps: &regex::Captures| {
+                    let party = &caps["n"];
+                    let words: Vec<&str> = party.split(' ').filter(|w| *w != "&").collect();
+                    if words.iter().all(|w| GENERIC_FACILITY_WORDS.contains(w)) {
+                        return caps[0].to_string();
+                    }
+                    let proper: Vec<&str> =
+                        words.iter().copied().take_while(|w| !GENERIC_FACILITY_WORDS.contains(w)).collect();
+                    if !proper.is_empty() {
+                        places.push(proper.join(" "));
+                    }
+                    caps[0].replacen(party, "[FACILITY]", 1)
+                })
+                .into_owned()
+        })
+        .collect::<String>();
     places.retain(|p| p.len() >= 5);
     places.sort_by_key(|p| std::cmp::Reverse(p.len()));
     places.dedup();
-    (out.into_owned(), places)
+    (out, places)
 }
 
 fn whole_phrase(phrase: &str) -> Regex {
@@ -787,6 +822,29 @@ mod tests {
             "Hospital Course",
             "Her mother called the clinic. Sent to the pharmacy.",
             "Started Peritoneal Dialysis in March.",
+            "Sent to Reference Laboratory. Clinical Laboratory results below.",
+            "Laboratory director signed the report.",
+            "Specialty: Cardiology",
+        ] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn masks_laboratories_and_fax_parties() {
+        assert_eq!(process("Brightwater Regional Laboratory\nResults"), "[FACILITY]\nResults");
+        assert_eq!(
+            process("14:22 FROM: Pinecrest Family Practice FAX x TO: Sutter Ridge Cardiology P.001/001\nSutter Ridge called."),
+            "14:22 FROM: [FACILITY] FAX x TO: [FACILITY] P.001/001\n[LOCATION] called."
+        );
+    }
+
+    #[test]
+    fn leaves_to_and_from_alone_off_a_fax_banner() {
+        for text in [
+            "TO: Cardiology FAX x",
+            "To: Mom. From: Dr. office",
+            "TO: Sutter Ridge Cardiology",
         ] {
             assert_eq!(process(text), text);
         }
