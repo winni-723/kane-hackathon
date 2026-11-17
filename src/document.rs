@@ -166,31 +166,103 @@ fn page_text(mut glyphs: Vec<Glyph>) -> String {
     }
     let columns = column_edges(&lines);
 
-    let mut out = Vec::new();
-    for line in lines {
-        let breaks = line_breaks(&line, &columns);
-        let mut text = String::new();
-        for (glyph, brk) in line.iter().zip(breaks) {
-            match brk {
-                Break::Tab => {
-                    while text.ends_with(' ') {
-                        text.pop();
-                    }
-                    text.push('\t');
-                }
-                Break::Space if !text.ends_with([' ', '\t']) => text.push(' '),
-                _ => {}
+    let rows: Vec<Row> = lines.iter().filter_map(|line| row(line, &columns)).collect();
+    join_wrapped_cells(rows)
+        .iter()
+        .map(|r| r.cells.iter().map(|c| c.text.as_str()).collect::<Vec<_>>().join("\t"))
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+/// One printed line, split into cells at its tabs.
+struct Row {
+    /// Baseline of the line's first and last printed line (a row grows when
+    /// a wrapped cell is joined to it).
+    top: f64,
+    bottom: f64,
+    size: f64,
+    cells: Vec<Cell>,
+}
+
+struct Cell {
+    /// Where the cell's text starts on the page.
+    x: f64,
+    text: String,
+}
+
+fn row(line: &[Glyph], columns: &[f64]) -> Option<Row> {
+    let breaks = line_breaks(line, columns);
+    let mut cells: Vec<Cell> = Vec::new();
+    for (glyph, brk) in line.iter().zip(breaks) {
+        let blank = glyph.text.trim().is_empty();
+        if brk == Break::Tab || cells.is_empty() {
+            if blank {
+                continue;
             }
-            if !(glyph.text.trim().is_empty() && text.ends_with([' ', '\t'])) {
-                text.push_str(&glyph.text);
-            }
+            cells.push(Cell { x: glyph.x, text: String::new() });
         }
-        let text = text.trim_end().to_string();
-        if !text.is_empty() {
-            out.push(text);
+        let text = &mut cells.last_mut().expect("a cell was just opened").text;
+        if brk == Break::Space && !text.ends_with(' ') {
+            text.push(' ');
+        }
+        if !(blank && text.ends_with(' ')) {
+            text.push_str(&glyph.text);
         }
     }
-    out.join("\n")
+    for cell in &mut cells {
+        cell.text = cell.text.trim_end().to_string();
+    }
+    cells.retain(|c| !c.text.is_empty());
+    let first = line.first()?;
+    (!cells.is_empty()).then_some(Row { top: first.y, bottom: first.y, size: first.size, cells })
+}
+
+/// Joins the second line of a wrapped table cell back onto its row.
+///
+/// When a table cell is too narrow for its text, the text wraps inside the
+/// cell, and a name like "Dr. Ruth / Castellano" ends up on two printed lines.
+/// Such a line is joined to the row above when every one of its cells starts
+/// on the edge of a cell in that row, and it sits closer to the row than the
+/// rows of the table sit to each other.
+fn join_wrapped_cells(mut rows: Vec<Row>) -> Vec<Row> {
+    // How far apart the rows around row `i` are: the larger of the gap from
+    // the table row above it and the gap below the line after it.
+    let spacing = |rows: &[Row], i: usize| -> Option<f64> {
+        let above = (i > 0 && rows[i - 1].cells.len() >= 2).then(|| rows[i - 1].bottom - rows[i].top);
+        let below = (i + 2 < rows.len() && rows[i + 2].cells.len() >= 2)
+            .then(|| rows[i + 1].bottom - rows[i + 2].top);
+        match (above, below) {
+            (Some(a), Some(b)) => Some(a.max(b)),
+            (a, b) => a.or(b),
+        }
+    };
+
+    let mut i = 0;
+    while i < rows.len() {
+        let joins = i + 1 < rows.len() && {
+            let (row, next) = (&rows[i], &rows[i + 1]);
+            let gap = row.bottom - next.top;
+            row.cells.len() >= 2
+                && next.cells.iter().all(|c| row.cells.iter().any(|r| (r.x - c.x).abs() <= EDGE_TOLERANCE))
+                && spacing(&rows, i).is_some_and(|rows_apart| gap < rows_apart * 0.85)
+                && gap < row.size * 2.0
+        };
+        if joins {
+            let next = rows.remove(i + 1);
+            let row = &mut rows[i];
+            for cell in next.cells {
+                if let Some(target) = row.cells.iter_mut().find(|r| (r.x - cell.x).abs() <= EDGE_TOLERANCE) {
+                    target.text.push(' ');
+                    target.text.push_str(&cell.text);
+                }
+            }
+            row.bottom = next.bottom;
+            // The row may wrap onto a third line too: look at it again.
+            continue;
+        }
+        i += 1;
+    }
+    rows
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -699,6 +771,38 @@ mod tests {
         ];
         let text = page_text(lines.concat());
         assert_eq!(text, "Drug\tDose\tWhen\nWarfarin\t5mg\tdaily\nAspirin\t81mg\tdaily");
+    }
+
+    #[test]
+    fn a_cell_that_wraps_is_joined_to_its_row() {
+        // Rows 50 points apart; the prescriber's surname wraps 30 points
+        // below its row, in the same cell.
+        let lines = [
+            placed(300.0, &[(0.0, "Drug"), (100.0, "Doctor"), (200.0, "Rx")]),
+            placed(250.0, &[(0.0, "Warfarin"), (100.0, "Dr. Ruth"), (200.0, "6610490")]),
+            placed(220.0, &[(100.0, "Castellano")]),
+            placed(170.0, &[(0.0, "Aspirin"), (100.0, "Dr. Ng"), (200.0, "6608817")]),
+        ];
+        assert_eq!(
+            page_text(lines.concat()),
+            "Drug\tDoctor\tRx\nWarfarin\tDr. Ruth Castellano\t6610490\nAspirin\tDr. Ng\t6608817"
+        );
+    }
+
+    #[test]
+    fn evenly_spaced_rows_are_not_joined() {
+        // A short row sitting on the table's edges is still a row of its own
+        // when it is as far from the row above as the other rows are.
+        let lines = [
+            placed(300.0, &[(0.0, "Test"), (100.0, "Result"), (200.0, "Flag")]),
+            placed(270.0, &[(0.0, "Glucose"), (100.0, "168"), (200.0, "H")]),
+            placed(240.0, &[(0.0, "Sodium"), (100.0, "139")]),
+            placed(210.0, &[(0.0, "ALT"), (100.0, "31"), (200.0, "N")]),
+        ];
+        assert_eq!(
+            page_text(lines.concat()),
+            "Test\tResult\tFlag\nGlucose\t168\tH\nSodium\t139\nALT\t31\tN"
+        );
     }
 
     #[test]

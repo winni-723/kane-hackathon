@@ -312,6 +312,8 @@ refused with a clear message rather than come back empty.
 `document::text_from_pdf` rebuilds lines from where each character sits: a
 small gap is a space; a wide one, or a word starting on a column edge shared
 by several rows, is a tab, so a table row reads like one from a Word document.
+A cell whose text wraps onto a second printed line is joined back to its row,
+so a prescriber's name split as `Dr. Ruth` / `Castellano` reads whole.
 A layer 1 test checks the reader loses nothing an answer key names. An
 identifier the reader garbles is counted as "not read", never as removed.
 
