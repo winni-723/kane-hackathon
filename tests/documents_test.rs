@@ -9,6 +9,7 @@
 //! The answer keys are the standard. The engine changes; the keys and the
 //! gates do not shrink.
 
+use deid_server::extract::{self, Day};
 use deid_server::{document, engine};
 use serde_json::Value;
 use std::collections::BTreeMap;
@@ -60,12 +61,25 @@ const GATES: &[(&str, &str)] = &[
     ("other_id", "hard"),
 ];
 
+/// Ages worked out from a date of birth are as of this day, the same day the
+/// research-table keys in `tests/extraction` use.
+const REFERENCE_DAY: Day = Day { year: 2026, month: 11, day: 14 };
+
 struct Key {
     id: String,
     format: String,
     difficulty: String,
     planted_pii: Vec<(String, String)>,
     must_keep: Vec<String>,
+    /// For a CSV file: what the research table must show for each row.
+    table: Vec<TableRow>,
+}
+
+struct TableRow {
+    age: String,
+    sex: String,
+    diagnoses: Vec<String>,
+    medications: Vec<String>,
 }
 
 fn root() -> &'static Path {
@@ -108,20 +122,60 @@ fn load_keys() -> Vec<Key> {
                     .iter()
                     .map(|s| s.as_str().expect("must_keep entry is a string").to_string())
                     .collect(),
+                table: v["table"]
+                    .as_array()
+                    .map(|rows| {
+                        let list = |row: &Value, key: &str| -> Vec<String> {
+                            row[key]
+                                .as_array()
+                                .expect("table list")
+                                .iter()
+                                .map(|s| s.as_str().expect("table entry is a string").to_string())
+                                .collect()
+                        };
+                        rows.iter()
+                            .map(|row| TableRow {
+                                age: text(row, "age"),
+                                sex: text(row, "sex"),
+                                diagnoses: list(row, "diagnoses"),
+                                medications: list(row, "medications"),
+                            })
+                            .collect()
+                    })
+                    .unwrap_or_default(),
             }
         })
         .collect()
 }
 
-/// The plain text read out of a test document.
-fn read_document(key: &Key) -> String {
+/// The records read out of a test document: one for a Word document, one per
+/// row for a CSV file.
+fn read_records(key: &Key) -> Vec<String> {
     let path = root().join(format!("tests/documents/{}.{}", key.id, key.format));
     let bytes = fs::read(&path).unwrap_or_else(|e| panic!("{}: {e}", path.display()));
     match key.format.as_str() {
-        "docx" => document::text_from_docx(&bytes)
+        "docx" => vec![
+            document::text_from_docx(&bytes).unwrap_or_else(|e| panic!("{}: {e}", path.display())),
+        ],
+        "csv" => document::records_from_csv(&bytes)
             .unwrap_or_else(|e| panic!("{}: {e}", path.display())),
         other => panic!("{}: no reader for format {other}", key.id),
     }
+}
+
+/// Everything read from a test document, as one text.
+fn read_document(key: &Key) -> String {
+    read_records(key).join("\n\n")
+}
+
+/// The de-identified text of a test document. Each record goes through the
+/// engine on its own, exactly as the page sends them.
+fn deidentify(key: &Key) -> String {
+    read_records(key)
+        .iter()
+        .map(|record| engine::process(record))
+        .collect::<Vec<_>>()
+        .join("\n\n")
 }
 
 /// Reading a document must not lose anything: every string an answer key
@@ -151,7 +205,7 @@ fn reading_a_document_loses_nothing() {
 fn medical_content_is_always_kept() {
     let mut lost = Vec::new();
     for key in load_keys() {
-        let out = engine::process(&read_document(&key));
+        let out = deidentify(&key);
         for keep in &key.must_keep {
             if !out.contains(keep.as_str()) {
                 lost.push(format!("{}: lost \"{keep}\"", key.id));
@@ -166,7 +220,7 @@ fn medical_content_is_always_kept() {
 fn gated_identifiers_are_removed() {
     let mut leaked = Vec::new();
     for key in load_keys() {
-        let out = engine::process(&read_document(&key));
+        let out = deidentify(&key);
         for (kind, pii) in &key.planted_pii {
             let gated = GATES.iter().any(|(k, d)| k == kind && *d == key.difficulty);
             if gated && out.contains(pii.as_str()) {
@@ -186,7 +240,7 @@ fn documents_scoreboard() {
     let mut notes = Vec::new();
 
     for key in &keys {
-        let out = engine::process(&read_document(key));
+        let out = deidentify(key);
         for (kind, pii) in &key.planted_pii {
             let entry = by_kind.entry(kind.clone()).or_default();
             entry.1 += 1;
@@ -216,4 +270,66 @@ fn documents_scoreboard() {
     for note in notes {
         println!("{note}");
     }
+}
+
+/// A CSV file has as many records as its answer key has rows.
+#[test]
+fn a_csv_row_is_one_record() {
+    for key in load_keys().iter().filter(|k| k.format == "csv") {
+        assert_eq!(read_records(key).len(), key.table.len(), "{}: number of records", key.id);
+    }
+}
+
+/// Nothing an answer key lists as an identifier may reach the research table.
+#[test]
+fn no_identifier_reaches_the_table() {
+    let mut leaked = Vec::new();
+    for key in load_keys().iter().filter(|k| !k.table.is_empty()) {
+        for (n, record) in read_records(key).iter().enumerate() {
+            let got = extract::extract(record, &engine::process(record), REFERENCE_DAY);
+            let cells = [got.diagnoses.join("; "), got.medications.join("; ")].join(" | ");
+            for (kind, pii) in &key.planted_pii {
+                if cells.contains(pii.as_str()) {
+                    leaked.push(format!("{} row {}: {kind} \"{pii}\" in the table", key.id, n + 1));
+                }
+            }
+        }
+    }
+    assert!(leaked.is_empty(), "identifiers in the research table:\n{}", leaked.join("\n"));
+}
+
+/// Run with: cargo test --test documents_test table_scoreboard -- --nocapture
+#[test]
+fn csv_table_scoreboard() {
+    let (mut right, mut cells) = (0, 0);
+    let mut notes = Vec::new();
+    let same_list = |got: &[String], want: &[String]| {
+        got.len() == want.len()
+            && want.iter().all(|w| got.iter().any(|g| g.to_lowercase().contains(&w.to_lowercase())))
+    };
+    for key in load_keys().iter().filter(|k| !k.table.is_empty()) {
+        for (n, (record, want)) in read_records(key).iter().zip(&key.table).enumerate() {
+            let got = extract::extract(record, &engine::process(record), REFERENCE_DAY);
+            let checks = [
+                ("age", got.age.as_deref() == Some(want.age.as_str()), format!("{:?}", got.age)),
+                ("sex", got.sex == Some(want.sex.as_str()), format!("{:?}", got.sex)),
+                ("diagnoses", same_list(&got.diagnoses, &want.diagnoses), format!("{:?}", got.diagnoses)),
+                ("medications", same_list(&got.medications, &want.medications), format!("{:?}", got.medications)),
+            ];
+            for (column, ok, shown) in checks {
+                cells += 1;
+                if ok {
+                    right += 1;
+                } else {
+                    notes.push(format!("  wrong   {} row {}  {column}: got {shown}", key.id, n + 1));
+                }
+            }
+        }
+    }
+    println!("\nresearch table from CSV rows: {right}/{cells} cells right");
+    for note in &notes {
+        println!("{note}");
+    }
+    // Gated since 2026-11-16: every cell of both CSV files is right.
+    assert!(notes.is_empty(), "the research table from CSV rows has wrong cells");
 }

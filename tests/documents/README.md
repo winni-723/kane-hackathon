@@ -8,6 +8,7 @@ medication table, a signature block. Everything in them is fictional.
 |---|---|
 | `source/<id>.json` | The content and layout of one document |
 | `<id>.docx` | The document, built by `python scripts/gen-docx.py` |
+| `<id>.csv` | A CSV export, one patient per row |
 | `keys/<id>.json` | Its answer key: `planted_pii` must be gone, `must_keep` must survive |
 
 The answer keys follow the HIPAA Safe Harbor list. Besides the kinds used in
@@ -44,3 +45,17 @@ overwritten.
 | dob, email, mrn, phone, facility_phone, service_date, ssn | all removed |
 
 Scores: `cargo test --test documents_test scoreboard -- --nocapture`
+
+## CSV exports, first run (2026-11-16)
+
+Two files, five rows each. Approved by the user on 2026-11-16 before the
+engine was run on them. Their keys carry a `table` list: what the research
+table must show for each row (ages from the birth date as of 2026-11-14).
+
+**Identifiers removed 82 of 82, medical content kept 31 of 31, research table
+37 of 40 cells right.** The first run came after the document rules above
+were written. After the loop the table is 40 of 40.
+
+SSNs in this folder use the never-issued `987-65-43xx` range. `docx-06`
+first carried `512-55-0199` by mistake; the user had it changed to
+`987-65-4320` on 2026-11-16.

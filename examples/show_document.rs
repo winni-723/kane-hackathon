@@ -1,11 +1,19 @@
-//! Prints the text read from a test document, then its de-identified text.
+//! Prints the de-identified text of a test document, one record at a time.
 //! Usage: cargo run --example show_document -- docx-03
+//!        cargo run --example show_document -- csv-02
 use deid_server::{document, engine};
 use std::fs;
 
 fn main() {
     let id = std::env::args().nth(1).expect("usage: show_document <id>");
-    let bytes = fs::read(format!("tests/documents/{id}.docx")).expect("document exists");
-    let text = document::text_from_docx(&bytes).expect("document is readable");
-    println!("{}", engine::process(&text));
+    let records = if id.starts_with("csv") {
+        let bytes = fs::read(format!("tests/documents/{id}.csv")).expect("document exists");
+        document::records_from_csv(&bytes).expect("table is readable")
+    } else {
+        let bytes = fs::read(format!("tests/documents/{id}.docx")).expect("document exists");
+        vec![document::text_from_docx(&bytes).expect("document is readable")]
+    };
+    for record in records {
+        println!("{}\n", engine::process(&record));
+    }
 }

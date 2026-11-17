@@ -32,9 +32,10 @@ async fn process(Json(req): Json<ProcessRequest>) -> Json<ProcessResponse> {
 
 #[derive(Serialize)]
 struct ReadFileResponse {
-    /// The plain text of the uploaded document, not yet de-identified. The
-    /// page puts it in the text box, exactly as if it had been pasted.
-    text: String,
+    /// The plain text of the uploaded file, not yet de-identified: one record
+    /// for a Word document, one per row for a CSV file. The page treats them
+    /// exactly as if they had been pasted.
+    records: Vec<String>,
 }
 
 #[derive(Serialize)]
@@ -49,7 +50,8 @@ async fn read_file(
     body: Bytes,
 ) -> Result<Json<ReadFileResponse>, (StatusCode, Json<ErrorResponse>)> {
     let result = match kind.as_str() {
-        "docx" => document::text_from_docx(&body),
+        "docx" => document::text_from_docx(&body).map(|text| vec![text]),
+        "csv" => document::records_from_csv(&body),
         _ => {
             return Err((
                 StatusCode::NOT_FOUND,
@@ -58,7 +60,7 @@ async fn read_file(
         }
     };
     result
-        .map(|text| Json(ReadFileResponse { text }))
+        .map(|records| Json(ReadFileResponse { records }))
         .map_err(|e| (StatusCode::UNPROCESSABLE_ENTITY, Json(ErrorResponse { error: e.to_string() })))
 }
 

@@ -121,11 +121,19 @@ for source in sorted(SOURCE.glob("*.json")):
     )
     footer = "".join(paragraph(line, size=16) for line in doc["footer"])
     target = OUT / f"{doc['id']}.docx"
+    parts = [
+        ("[Content_Types].xml", CONTENT_TYPES),
+        ("_rels/.rels", RELS),
+        ("word/_rels/document.xml.rels", DOC_RELS),
+        ("word/document.xml", part("document", f"<w:body>{body(doc['body'])}{SECTION}</w:body>")),
+        ("word/header1.xml", part("hdr", header)),
+        ("word/footer1.xml", part("ftr", footer)),
+    ]
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as z:
-        z.writestr("[Content_Types].xml", CONTENT_TYPES)
-        z.writestr("_rels/.rels", RELS)
-        z.writestr("word/_rels/document.xml.rels", DOC_RELS)
-        z.writestr("word/document.xml", part("document", f"<w:body>{body(doc['body'])}{SECTION}</w:body>"))
-        z.writestr("word/header1.xml", part("hdr", header))
-        z.writestr("word/footer1.xml", part("ftr", footer))
+        for name, content in parts:
+            # A fixed timestamp, so rebuilding an unchanged source gives the
+            # same bytes and git shows no difference.
+            info = zipfile.ZipInfo(name, date_time=(2026, 11, 16, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(info, content)
     print(f"wrote {target.relative_to(ROOT)}")

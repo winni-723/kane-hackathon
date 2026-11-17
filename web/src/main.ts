@@ -196,7 +196,12 @@ processButton.addEventListener("click", async () => {
   processButton.disabled = true;
   try {
     if (pendingBatch) {
-      batchResults = await Promise.all(pendingBatch.map(processText));
+      // A CSV file can hold hundreds of records, so they go a few at a time.
+      const results: ProcessResponse[] = [];
+      for (let i = 0; i < pendingBatch.length; i += 8) {
+        results.push(...(await Promise.all(pendingBatch.slice(i, i + 8).map(processText))));
+      }
+      batchResults = results;
       setPendingBatch(null);
       showTable();
     } else {
@@ -229,31 +234,35 @@ sampleBatchButton.addEventListener("click", () => {
 input.addEventListener("input", () => setPendingBatch(null));
 
 const MAX_DOCUMENT_BYTES = 10_000_000;
+// A CSV file is one record per row, so one file can hold many.
+const MAX_RECORDS = 1000;
 
 // The kind of document a file is, or null for one that cannot be loaded.
 // "text" is read here in the browser; the others are read by the server.
-function fileKind(file: File): "text" | "docx" | null {
+function fileKind(file: File): "text" | "docx" | "csv" | null {
   if (/\.docx$/i.test(file.name)) return "docx";
+  if (/\.csv$/i.test(file.name)) return "csv";
   if (file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name))) return "text";
   return null;
 }
 
-// The plain text of one file. A Word document is sent to the server to be
-// read into text; its name is not sent, since file names often hold a
+// The records in one file: one for a text file or a Word document, one per
+// row for a CSV file. Word and CSV files are sent to the server to be read
+// into text; the file's name is not sent, since file names often hold a
 // patient's name.
-async function readFile(file: File): Promise<string> {
+async function readFile(file: File): Promise<string[]> {
   const kind = fileKind(file);
-  if (kind === "text") return file.text();
+  if (kind === "text") return [await file.text()];
   const response = await fetch(`/api/read-file/${kind}`, {
     method: "POST",
     headers: { "content-type": "application/octet-stream" },
     body: file,
   });
-  const body: { text?: string; error?: string } = await response.json();
-  if (!response.ok || body.text === undefined) {
+  const body: { records?: string[]; error?: string } = await response.json();
+  if (!response.ok || body.records === undefined) {
     throw new Error(body.error ?? "A file could not be read.");
   }
-  return body.text;
+  return body.records;
 }
 
 // A text file only fills the text box or the waiting batch. A Word document
@@ -271,7 +280,7 @@ fileInput.addEventListener("change", async () => {
   for (const file of files) {
     const kind = fileKind(file);
     if (kind === null) {
-      showError("Only plain text (.txt) and Word (.docx) files can be loaded.");
+      showError("Only plain text (.txt), Word (.docx) and CSV (.csv) files can be loaded.");
       return;
     }
     if (kind === "text" && file.size > MAX_FILE_BYTES) {
@@ -284,7 +293,11 @@ fileInput.addEventListener("change", async () => {
     }
   }
   try {
-    const texts = await Promise.all(files.map(readFile));
+    const texts = (await Promise.all(files.map(readFile))).flat();
+    if (texts.length > MAX_RECORDS) {
+      showError(`These files hold ${texts.length} records; at most ${MAX_RECORDS} can be processed at a time.`);
+      return;
+    }
     if (texts.length === 1) {
       setPendingBatch(null);
       input.value = texts[0];

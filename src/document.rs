@@ -91,6 +91,117 @@ pub fn text_from_docx(bytes: &[u8]) -> Result<String, DocumentError> {
     if text.is_empty() { Err(DocumentError::NoText) } else { Ok(text) }
 }
 
+/// The most rows one CSV file may hold.
+pub const MAX_CSV_ROWS: usize = 1000;
+
+/// The records in a CSV export: one per row, each written as the labelled
+/// lines of a form.
+///
+/// ```text
+/// LastName,FirstName,DOB          Last Name: Okonkwo
+/// Okonkwo,Chidi,04/12/1968   ->   First Name: Chidi
+///                                 DOB: 04/12/1968
+/// ```
+///
+/// The column header becomes the label, so the engine's field rules know what
+/// each value is even when its shape says nothing (`19900602` under
+/// `Birth Date`). Values are passed on exactly as written; empty cells are
+/// left out.
+pub fn records_from_csv(bytes: &[u8]) -> Result<Vec<String>, DocumentError> {
+    const KIND: &str = "a CSV table";
+    let text = String::from_utf8_lossy(bytes);
+    let text = text.strip_prefix('\u{feff}').unwrap_or(&text);
+    if text.contains('\0') {
+        return Err(DocumentError::Unreadable(KIND));
+    }
+
+    let mut rows = parse_csv(text).into_iter();
+    let header: Vec<String> = rows.next().unwrap_or_default().iter().map(|h| label(h)).collect();
+    if header.len() < 2 || header.iter().any(String::is_empty) {
+        return Err(DocumentError::Unreadable(KIND));
+    }
+
+    let mut records = Vec::new();
+    for row in rows {
+        let mut record = String::new();
+        for (label, value) in header.iter().zip(&row) {
+            let value = value.trim();
+            if value.is_empty() {
+                continue;
+            }
+            record.push_str(&format!("{label}: {value}\n"));
+        }
+        if !record.is_empty() {
+            records.push(record.trim_end().to_string());
+        }
+        if records.len() > MAX_CSV_ROWS {
+            return Err(DocumentError::TooLarge);
+        }
+    }
+    if records.is_empty() { Err(DocumentError::NoText) } else { Ok(records) }
+}
+
+/// Splits CSV text into rows of cells. Handles quoted cells, doubled quotes,
+/// line breaks inside quotes, and `,`, `;` or tab as the separator (whichever
+/// the header row uses most).
+fn parse_csv(text: &str) -> Vec<Vec<String>> {
+    let first_line = text.lines().next().unwrap_or("");
+    let separator = [',', ';', '\t']
+        .into_iter()
+        .max_by_key(|sep| first_line.matches(*sep).count())
+        .unwrap_or(',');
+
+    let mut rows = Vec::new();
+    let mut row: Vec<String> = Vec::new();
+    let mut cell = String::new();
+    let mut quoted = false;
+    let mut chars = text.chars().peekable();
+    while let Some(c) = chars.next() {
+        if quoted {
+            match c {
+                '"' if chars.peek() == Some(&'"') => {
+                    chars.next();
+                    cell.push('"');
+                }
+                '"' => quoted = false,
+                '\r' => {}
+                _ => cell.push(c),
+            }
+        } else if c == '"' && cell.is_empty() {
+            quoted = true;
+        } else if c == separator {
+            row.push(std::mem::take(&mut cell));
+        } else if c == '\n' {
+            row.push(std::mem::take(&mut cell));
+            rows.push(std::mem::take(&mut row));
+        } else if c != '\r' {
+            cell.push(c);
+        }
+    }
+    if !cell.is_empty() || !row.is_empty() {
+        row.push(cell);
+        rows.push(row);
+    }
+    rows.retain(|row| row.iter().any(|cell| !cell.trim().is_empty()));
+    rows
+}
+
+/// A column header as a form label: `LastName` -> `Last Name`,
+/// `birth_date` -> `birth date`, `PatientDOB` -> `Patient DOB`.
+fn label(header: &str) -> String {
+    let mut out = String::new();
+    let mut previous: Option<char> = None;
+    for c in header.trim().chars() {
+        let c = if matches!(c, '_' | ':' | '\n' | '\t') { ' ' } else { c };
+        if c.is_uppercase() && previous.is_some_and(|p| p.is_lowercase()) {
+            out.push(' ');
+        }
+        out.push(c);
+        previous = Some(c);
+    }
+    out.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
 /// Reads the visible text out of one WordprocessingML part.
 fn text_from_word_xml(xml: &str) -> String {
     let mut out = String::new();
@@ -240,6 +351,47 @@ mod tests {
     fn entities_tabs_and_breaks() {
         let xml = "<w:p><w:r><w:t>Smith &amp; Jones &lt;5 &#233;</w:t><w:tab/><w:t>x</w:t><w:br/><w:t>y</w:t></w:r></w:p>";
         assert_eq!(tidy(&text_from_word_xml(xml)), "Smith & Jones <5 é\tx\ny");
+    }
+
+    #[test]
+    fn a_csv_row_becomes_a_labelled_record() {
+        let csv = "MRN,LastName,FirstName,DOB,PrimaryDx\r\n40071823,Okonkwo,Chidi,04/12/1968,Asthma\r\n";
+        assert_eq!(
+            records_from_csv(csv.as_bytes()),
+            Ok(vec![
+                "MRN: 40071823\nLast Name: Okonkwo\nFirst Name: Chidi\nDOB: 04/12/1968\nPrimary Dx: Asthma"
+                    .to_string()
+            ])
+        );
+    }
+
+    #[test]
+    fn csv_quotes_commas_line_breaks_and_empty_cells() {
+        let csv = "\u{feff}\"Patient Name\",\"Email\",\"Visit Note\"\r\n\
+                   \"Hollis, Marguerite\",\"\",\"He said, \"\"call Irina\"\".\nSecond line.\"\r\n\
+                   \"\",\"\",\"\"\r\n";
+        assert_eq!(
+            records_from_csv(csv.as_bytes()),
+            Ok(vec![
+                "Patient Name: Hollis, Marguerite\nVisit Note: He said, \"call Irina\".\nSecond line."
+                    .to_string()
+            ])
+        );
+    }
+
+    #[test]
+    fn csv_with_semicolons_and_a_compact_birth_date() {
+        let csv = "name;birth_date;weight\nA B;19900602;19900602\n";
+        assert_eq!(
+            records_from_csv(csv.as_bytes()),
+            Ok(vec!["name: A B\nbirth date: 19900602\nweight: 19900602".to_string()])
+        );
+    }
+
+    #[test]
+    fn rejects_text_that_is_not_a_table() {
+        assert_eq!(records_from_csv(b"just one line"), Err(DocumentError::Unreadable("a CSV table")));
+        assert_eq!(records_from_csv(b"a,b\n"), Err(DocumentError::NoText));
     }
 
     #[test]

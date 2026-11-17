@@ -135,13 +135,29 @@ static BIRTH_CUE: LazyLock<Regex> = LazyLock::new(|| {
 /// How far after the cue the date may start: `DOB per wristband: 09-06-48`.
 const BIRTH_CUE_REACH: usize = 24;
 
+/// A date written as eight digits, as database exports do: `19900602`.
+/// Only read as a date directly after a birth cue.
+static COMPACT_DATE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"^[\s:]{0,3}((?:18|19|20)\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\b")
+        .expect("compact date pattern is valid")
+});
+
 fn age_from_birth_date(original: &str, today: Day) -> Option<String> {
     for cue in BIRTH_CUE.find_iter(original) {
-        let date = crate::engine::DATE.find_at(original, cue.end());
-        if let Some(date) = date
-            && date.start() - cue.end() <= BIRTH_CUE_REACH
-            && let Some(born) = parse_date(date.as_str(), today.year)
-        {
+        let compact = COMPACT_DATE.captures(&original[cue.end()..]).and_then(|caps| {
+            Some(Day {
+                year: caps[1].parse().ok()?,
+                month: caps[2].parse().ok()?,
+                day: caps[3].parse().ok()?,
+            })
+        });
+        let written = || {
+            crate::engine::DATE
+                .find_at(original, cue.end())
+                .filter(|date| date.start() - cue.end() <= BIRTH_CUE_REACH)
+                .and_then(|date| parse_date(date.as_str(), today.year))
+        };
+        if let Some(born) = compact.or_else(written) {
             let mut age = today.year - born.year;
             if (born.month, born.day) > (today.month, today.day) {
                 age -= 1;
@@ -394,19 +410,22 @@ fn diagnoses(text: &str) -> Vec<String> {
 /// `Albuterol inhaler 2 puffs every 4 hours as needed`, `Ceftriaxone 1 g IV daily`.
 static MEDICATION: LazyLock<Regex> = LazyLock::new(|| {
     let name = concat!(
-        r"[A-Z][a-z]{3,}(?:-[A-Z][a-z]+)?",
+        // the second half of a combination may be lower case: Budesonide-formoterol
+        r"[A-Z][a-z]{3,}(?:-[A-Za-z][a-z]+)?",
         // the second word of a drug's name, or the device it comes in
         r"(?: (?:acid|sulfate|chloride|sodium|succinate|tartrate|citrate|carbonate|phosphate",
         r"|hydrochloride|acetate|gluconate|oxide|inhaler|nebulizers?|patch|drops|cream))?",
     );
     let dose = concat!(
-        r"(?:\d[\d.,-]*\s?(?:mg|mcg|g|mL|mEq|units?|puffs?|IU|tablets?|capsules?)\b",
+        // 160/4.5 mcg: the two strengths of a combination
+        r"(?:\d[\d.,/-]*\s?(?:mg|mcg|g|mL|mEq|units?|puffs?|IU|tablets?|capsules?)\b",
         // a strength written as a percentage needs the form to be a drug
         r"|\d[\d.]*\s?% (?:cream|ointment|gel|lotion|solution|drops)\b)",
     );
     let how = concat!(
         r"(?:\s(?:IV|PO|IM|subcutaneously|orally|topically|daily|nightly|weekly|monthly|once|twice",
-        r"|three|four|times|every|\d{1,2}|hours?|days?|as needed|at bedtime|in the morning|a day",
+        r"|three|four|times|every|\d{1,2}|hours?|days?|weeks?|months?|puffs?|as needed|at bedtime",
+        r"|in the morning|a day",
         r"|chewed)\b)*",
     );
     // `reduce Amlodipine to 2.5 mg daily`
@@ -478,6 +497,25 @@ mod tests {
         assert_eq!(born("April 9, 1953").as_deref(), Some("73"));
         assert_eq!(born("March 3rd, '91").as_deref(), Some("35"));
         assert_eq!(born("the fourth of July, 1944").as_deref(), Some("82"));
+    }
+
+    #[test]
+    fn age_from_an_eight_digit_birth_date() {
+        assert_eq!(born("19900602").as_deref(), Some("36"));
+        assert_eq!(age_from_birth_date("Birth Date: 19381225", TODAY).as_deref(), Some("87"));
+        // Eight digits that are not right after a birth cue are not a date.
+        assert_eq!(age_from_birth_date("MRN: 19900602", TODAY), None);
+        assert_eq!(age_from_birth_date("DOB unknown. Chart 19900602", TODAY), None);
+    }
+
+    #[test]
+    fn medications_with_combined_strengths_and_long_intervals() {
+        assert_eq!(
+            medications("Continue Adalimumab 40 mg every 2 weeks. Budesonide-formoterol 160/4.5 mcg 2 puffs twice daily."),
+            ["Adalimumab 40 mg every 2 weeks", "Budesonide-formoterol 160/4.5 mcg 2 puffs twice daily"]
+        );
+        // A lab value with a slash in its unit is still not a dose.
+        assert!(medications("Glucose 152 mg/dL. Cholesterol 210 mg/dL.").is_empty());
     }
 
     #[test]
