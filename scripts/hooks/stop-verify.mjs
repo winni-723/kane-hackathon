@@ -34,8 +34,9 @@ function files(dir, keep) {
 const tracked = [
   ...files("src", () => true),
   ...files("web/src", () => true),
+  ...files("vendor", (f) => /\.(rs|toml)$/.test(f)),
   ...files("tests/kane", (f) => /^tests\/kane\/[^/]+_test\.md$/.test(f)),
-  ...["web/index.html", "Cargo.toml", "tests/fixtures_test.rs", "tests/extraction_test.rs", "tests/documents_test.rs"].filter((f) => existsSync(join(root, f))),
+  ...["web/index.html", "Cargo.toml", "tests/fixtures_test.rs", "tests/extraction_test.rs", "tests/documents_test.rs", "tests/pdf_test.rs"].filter((f) => existsSync(join(root, f))),
 ].sort();
 
 const hash = createHash("sha256");

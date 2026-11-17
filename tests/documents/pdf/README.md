@@ -20,6 +20,21 @@ program lays text out differently and a reader has to cope with all of them.
 
 pdf-06 has no key: nothing can be read from it.
 
+## First run (2026-11-17)
+
+Scores: `cargo test --test pdf_test scoreboard -- --nocapture`. These numbers
+are the honest starting point and are not overwritten.
+
+| | Identifiers removed | Not read by the reader | Medical content kept |
+|---|---|---|---|
+| `pdf-extract` 0.12.1 as published | 81/100 | 3 | 59/62 |
+| Reader fixed, no engine rule changed | 88/100 | 0 | 62/62 |
+
+All three medical losses on the first run were the reader's, not the
+engine's: `pdf-04` came out as `PET -CT`, `ef fusion`, `Adebayo-W alsh`.
+
+## About the keys
+
 The keys list what is printed on the page. A string that the PDF itself splits
 over two lines (a prescriber's name in pdf-05) is listed as its parts. The
 keys were checked against the page text with PyMuPDF, an independent reader,

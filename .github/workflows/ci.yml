@@ -31,6 +31,7 @@ jobs:
           cargo test --test fixtures_test -- --nocapture scoreboard
           cargo test --test extraction_test -- --nocapture scoreboard
           cargo test --test documents_test -- --nocapture scoreboard
+          cargo test --test pdf_test -- --nocapture scoreboard
       - name: Front end type-check and build
         run: |
           npm --prefix web ci

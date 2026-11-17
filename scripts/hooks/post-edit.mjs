@@ -29,7 +29,7 @@ const file = input.tool_input?.file_path ?? input.tool_response?.filePath;
 if (!file) process.exit(0);
 const rel = relative(root, resolve(root, file)).replace(/\\/g, "/");
 
-const engine = /^(src\/|tests\/(fixtures|extraction|documents)_test\.rs$|Cargo\.toml$)/.test(rel);
+const engine = /^(src\/|vendor\/|tests\/(fixtures|extraction|documents|pdf)_test\.rs$|Cargo\.toml$)/.test(rel);
 const page = /^(web\/src\/|web\/index\.html$)/.test(rel);
 if (!engine && !page) process.exit(0);
 
@@ -79,6 +79,13 @@ for (const line of out.split(/\r?\n/)) {
     current.kept = `${kept[1]}/${kept[2]}`;
     current.lost = Number(kept[2]) - Number(kept[1]);
     scores.push(current);
+    current = null;
+  }
+  // "tests/documents/pdf (5 documents)" ... "identifiers removed 88/100 (...), medical kept 62/62"
+  if (/^tests\/documents\/pdf /.test(line)) current = { name: "tests/documents/pdf" };
+  const pdf = /^\s+identifiers removed (\d+\/\d+).*medical kept (\d+)\/(\d+)/.exec(line);
+  if (pdf && current?.name === "tests/documents/pdf") {
+    scores.push({ ...current, removed: pdf[1], kept: `${pdf[2]}/${pdf[3]}`, lost: Number(pdf[3]) - Number(pdf[2]) });
     current = null;
   }
 }

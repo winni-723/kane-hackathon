@@ -20,6 +20,8 @@ pub enum DocumentError {
     TooLarge,
     /// The document was read but holds no text.
     NoText,
+    /// A PDF with pages but no text on them: a scan or a photo of paper.
+    Scanned,
 }
 
 impl fmt::Display for DocumentError {
@@ -28,8 +30,263 @@ impl fmt::Display for DocumentError {
             DocumentError::Unreadable(kind) => write!(f, "This file could not be read as {kind}."),
             DocumentError::TooLarge => write!(f, "This document is too large."),
             DocumentError::NoText => write!(f, "This document contains no text."),
+            DocumentError::Scanned => write!(
+                f,
+                "This PDF has no text in it, only a picture of the page, as a scan does. \
+                 Scanned documents cannot be read here."
+            ),
         }
     }
+}
+
+/// The text of a PDF, page by page, top to bottom, as the PDF's own text layer
+/// holds it.
+///
+/// A PDF has no words, paragraphs or tables, only characters placed on a page.
+/// The text is rebuilt from where each character sits: characters at the same
+/// height form a line; a small gap between two characters is a space, a wide
+/// one (between table cells or form columns) is a tab, the separator a Word
+/// table row gets. A long paragraph keeps the line breaks it was printed with.
+/// A PDF with no text at all is a scan and is refused: the site does not read
+/// pictures.
+pub fn text_from_pdf(bytes: &[u8]) -> Result<String, DocumentError> {
+    const KIND: &str = "a PDF";
+    if !bytes.starts_with(b"%PDF-") {
+        return Err(DocumentError::Unreadable(KIND));
+    }
+    // The PDF library can panic on a damaged file; a bad upload must give an
+    // error message, not take the request down.
+    let pages = std::panic::catch_unwind(|| -> Option<Vec<Vec<Glyph>>> {
+        let mut doc = pdf_extract::Document::load_mem(bytes).ok()?;
+        if doc.is_encrypted() {
+            // Many PDFs are encrypted only to restrict printing or copying,
+            // with an empty password. Others cannot be opened here.
+            doc.decrypt("").ok()?;
+        }
+        let mut collector = GlyphCollector::default();
+        pdf_extract::output_doc(&doc, &mut collector).ok()?;
+        Some(collector.pages)
+    })
+    .ok()
+    .flatten()
+    .ok_or(DocumentError::Unreadable(KIND))?;
+
+    let text = pages.into_iter().map(page_text).filter(|p| !p.is_empty()).collect::<Vec<_>>().join("\n\n");
+    if text.len() as u64 > MAX_TEXT_BYTES {
+        return Err(DocumentError::TooLarge);
+    }
+    if text.trim().is_empty() { Err(DocumentError::Scanned) } else { Ok(text) }
+}
+
+/// One character on a PDF page. `y` grows up the page, as PDF coordinates do.
+#[derive(Clone, Debug)]
+struct Glyph {
+    x: f64,
+    end: f64,
+    y: f64,
+    size: f64,
+    text: String,
+}
+
+#[derive(Default)]
+struct GlyphCollector {
+    pages: Vec<Vec<Glyph>>,
+}
+
+impl pdf_extract::OutputDev for GlyphCollector {
+    fn begin_page(
+        &mut self,
+        _page: u32,
+        _media_box: &pdf_extract::MediaBox,
+        _art_box: Option<(f64, f64, f64, f64)>,
+    ) -> Result<(), pdf_extract::OutputError> {
+        self.pages.push(Vec::new());
+        Ok(())
+    }
+    fn end_page(&mut self) -> Result<(), pdf_extract::OutputError> {
+        Ok(())
+    }
+    fn output_character(
+        &mut self,
+        trm: &pdf_extract::Transform,
+        width: f64,
+        _spacing: f64,
+        font_size: f64,
+        text: &str,
+    ) -> Result<(), pdf_extract::OutputError> {
+        // The size the character is drawn at, after every scaling the page
+        // applies: the side of a square with the area of the scaled em box.
+        let sx = font_size * (trm.m11 + trm.m21);
+        let sy = font_size * (trm.m12 + trm.m22);
+        let size = (sx * sy).abs().sqrt();
+        if let Some(page) = self.pages.last_mut()
+            && size > 0.0
+            && !text.is_empty()
+        {
+            page.push(Glyph {
+                x: trm.m31,
+                end: trm.m31 + width * size,
+                y: trm.m32,
+                size,
+                text: text.to_string(),
+            });
+        }
+        Ok(())
+    }
+    fn begin_word(&mut self) -> Result<(), pdf_extract::OutputError> {
+        Ok(())
+    }
+    fn end_word(&mut self) -> Result<(), pdf_extract::OutputError> {
+        Ok(())
+    }
+    fn end_line(&mut self) -> Result<(), pdf_extract::OutputError> {
+        Ok(())
+    }
+}
+
+/// The text of one page: lines from the top down, each read left to right.
+fn page_text(mut glyphs: Vec<Glyph>) -> String {
+    // Top of the page first; within a height, left to right.
+    glyphs.sort_by(|a, b| b.y.total_cmp(&a.y).then(a.x.total_cmp(&b.x)));
+
+    // Characters whose baselines are within a third of their size of the
+    // line's first character belong to that line.
+    let mut lines: Vec<Vec<Glyph>> = Vec::new();
+    for glyph in glyphs {
+        match lines.last_mut() {
+            Some(line) if (line[0].y - glyph.y).abs() <= line[0].size.min(glyph.size) / 3.0 => {
+                line.push(glyph)
+            }
+            _ => lines.push(vec![glyph]),
+        }
+    }
+
+    for line in &mut lines {
+        line.sort_by(|a, b| a.x.total_cmp(&b.x));
+    }
+    let columns = column_edges(&lines);
+
+    let mut out = Vec::new();
+    for line in lines {
+        let breaks = line_breaks(&line, &columns);
+        let mut text = String::new();
+        for (glyph, brk) in line.iter().zip(breaks) {
+            match brk {
+                Break::Tab => {
+                    while text.ends_with(' ') {
+                        text.pop();
+                    }
+                    text.push('\t');
+                }
+                Break::Space if !text.ends_with([' ', '\t']) => text.push(' '),
+                _ => {}
+            }
+            if !(glyph.text.trim().is_empty() && text.ends_with([' ', '\t'])) {
+                text.push_str(&glyph.text);
+            }
+        }
+        let text = text.trim_end().to_string();
+        if !text.is_empty() {
+            out.push(text);
+        }
+    }
+    out.join("\n")
+}
+
+#[derive(Clone, Copy, PartialEq)]
+enum Break {
+    None,
+    Space,
+    /// The next cell or column.
+    Tab,
+    /// A word that starts on a column edge, with no wide gap before it.
+    Edge,
+}
+
+/// What comes before each character of a line.
+fn line_breaks(line: &[Glyph], columns: &[f64]) -> Vec<Break> {
+    let mut breaks = Vec::with_capacity(line.len());
+    let mut last_end: Option<f64> = None;
+    let mut after_blank = false;
+    for glyph in line {
+        let blank = glyph.text.trim().is_empty();
+        let brk = match last_end {
+            Some(end) if !blank => {
+                let gap = glyph.x - end;
+                let word_start = after_blank || gap > glyph.size * 0.2;
+                if gap > glyph.size * 1.5 {
+                    // A gap of more than one and a half letters.
+                    Break::Tab
+                } else if word_start && columns.iter().any(|c| (c - glyph.x).abs() <= EDGE_TOLERANCE) {
+                    Break::Edge
+                } else if gap > glyph.size * 0.2 {
+                    Break::Space
+                } else {
+                    Break::None
+                }
+            }
+            _ => Break::None,
+        };
+        breaks.push(brk);
+        after_blank = blank;
+        last_end = Some(glyph.end.max(last_end.unwrap_or(f64::MIN)));
+    }
+    // A table row breaks into cells more than once. A lone word that merely
+    // sits on a column edge, in a heading or a paragraph, is not a new cell.
+    let cells = breaks.iter().filter(|b| matches!(b, Break::Tab | Break::Edge)).count();
+    for brk in &mut breaks {
+        if *brk == Break::Edge {
+            *brk = if cells >= 2 { Break::Tab } else { Break::Space };
+        }
+    }
+    breaks
+}
+
+/// How far apart, in points, two word starts may be and still share an edge.
+const EDGE_TOLERANCE: f64 = 0.6;
+
+/// Left edges of table cells and form columns on a page: positions where a
+/// word starts, inside a line, on at least three different lines, and where
+/// on at least one of them a wide gap comes before it.
+///
+/// Word sets table cells side by side, so the text of a full cell can end
+/// right where the next cell's text begins, with no wider gap than a space.
+/// The cells' edges line up from row to row, and a shorter row (the header,
+/// as a rule) shows the gap. Words in a paragraph, or units in a column of
+/// numbers, may line up by chance but never have a wide gap before them.
+fn column_edges(lines: &[Vec<Glyph>]) -> Vec<f64> {
+    let mut starts: Vec<(f64, usize, bool)> = Vec::new();
+    for (n, line) in lines.iter().enumerate() {
+        let mut last_end = f64::MIN;
+        let mut after_blank = false;
+        for glyph in line {
+            let blank = glyph.text.trim().is_empty();
+            let gap = glyph.x - last_end;
+            if last_end > f64::MIN && !blank && (after_blank || gap > glyph.size * 0.2) {
+                starts.push((glyph.x, n, gap > glyph.size * 1.5));
+            }
+            after_blank = blank;
+            last_end = last_end.max(glyph.end);
+        }
+    }
+    starts.sort_by(|a, b| a.0.total_cmp(&b.0));
+    let mut edges = Vec::new();
+    let mut i = 0;
+    while i < starts.len() {
+        let mut j = i;
+        while j + 1 < starts.len() && starts[j + 1].0 - starts[i].0 <= EDGE_TOLERANCE {
+            j += 1;
+        }
+        let mut lines_here: Vec<usize> = starts[i..=j].iter().map(|s| s.1).collect();
+        lines_here.sort_unstable();
+        lines_here.dedup();
+        let confirmed = starts[i..=j].iter().any(|s| s.2);
+        if lines_here.len() >= 3 && confirmed {
+            edges.push(starts[i].0);
+        }
+        i = j + 1;
+    }
+    edges
 }
 
 /// The text of a Word document: page headers, then the body, footnotes,
@@ -400,5 +657,59 @@ mod tests {
             text_from_docx(b"just some text"),
             Err(DocumentError::Unreadable("a Word document"))
         );
+    }
+
+    #[test]
+    fn rejects_bytes_that_are_not_a_pdf() {
+        assert_eq!(text_from_pdf(b"just some text"), Err(DocumentError::Unreadable("a PDF")));
+        assert_eq!(text_from_pdf(b"%PDF-1.7 but broken"), Err(DocumentError::Unreadable("a PDF")));
+    }
+
+    /// Lays out `words` on one line at height `y`, 10 points per letter, each
+    /// word starting at its given x.
+    fn placed(y: f64, words: &[(f64, &str)]) -> Vec<Glyph> {
+        let mut out = Vec::new();
+        for (x, word) in words {
+            for (i, c) in word.chars().enumerate() {
+                let x = x + 10.0 * i as f64;
+                out.push(Glyph { x, end: x + 10.0, y, size: 20.0, text: c.to_string() });
+            }
+        }
+        out
+    }
+
+    #[test]
+    fn pdf_lines_from_top_to_bottom_with_spaces_and_tabs() {
+        let mut glyphs = placed(100.0, &[(0.0, "low")]);
+        // Out of order on purpose: a PDF may draw text in any order.
+        glyphs.extend(placed(200.0, &[(0.0, "Name"), (300.0, "Ann"), (50.0, "x")]));
+        // A gap of a third of a letter is a space; none is a word going on.
+        glyphs.extend(placed(150.0, &[(0.0, "ab"), (27.0, "cd")]));
+        assert_eq!(page_text(glyphs), "Name x\tAnn\nab cd\nlow");
+    }
+
+    #[test]
+    fn pdf_cells_that_touch_are_split_on_shared_edges() {
+        // A header row shows the gap before the second column at x=100;
+        // in the rows below, the first cell runs right up to it.
+        let lines = [
+            placed(300.0, &[(0.0, "Drug"), (100.0, "Dose"), (200.0, "When")]),
+            placed(280.0, &[(0.0, "Warfarin"), (85.0, " "), (100.0, "5mg"), (200.0, "daily")]),
+            placed(260.0, &[(0.0, "Aspirin"), (75.0, " "), (100.0, "81mg"), (200.0, "daily")]),
+        ];
+        let text = page_text(lines.concat());
+        assert_eq!(text, "Drug\tDose\tWhen\nWarfarin\t5mg\tdaily\nAspirin\t81mg\tdaily");
+    }
+
+    #[test]
+    fn a_word_alone_on_a_column_edge_is_not_a_cell() {
+        let lines = [
+            placed(300.0, &[(0.0, "Drug"), (100.0, "Dose"), (200.0, "When")]),
+            placed(280.0, &[(0.0, "Warfarin"), (100.0, "5mg"), (200.0, "daily")]),
+            placed(260.0, &[(0.0, "Aspirin"), (100.0, "81mg"), (200.0, "daily")]),
+            // A sentence below the table whose third word happens to start at x=100.
+            placed(240.0, &[(0.0, "Take"), (45.0, "all"), (80.0, " "), (100.0, "doses")]),
+        ];
+        assert!(page_text(lines.concat()).ends_with("\nTake all doses"));
     }
 }

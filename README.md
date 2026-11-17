@@ -299,6 +299,34 @@ It also ran after the rules written for the Word documents that day. The
 three wrong cells were an age behind an eight-digit birth date and two
 medications (`every 2 weeks`, `160/4.5 mcg`).
 
+### PDF files
+
+A PDF has no paragraphs or tables, only characters placed on a page, and
+every program places them its own way. `tests/documents/pdf/` holds five
+fictional documents made the ways real PDFs are made: printed by Chrome from a
+portal page (lab report, radiology report), saved as PDF by Word (discharge
+summary, pharmacy list) and written by form software (a fax referral with two
+columns of fields), plus a scan of that fax with no text at all, which must be
+refused with a clear message rather than come back empty.
+
+`document::text_from_pdf` rebuilds lines from where each character sits: a
+small gap is a space; a wide one, or a word starting on a column edge shared
+by several rows, is a tab, so a table row reads like one from a Word document.
+A layer 1 test checks the reader loses nothing an answer key names. An
+identifier the reader garbles is counted as "not read", never as removed.
+
+| | Identifiers removed | Not read | Medical content kept |
+|---|---|---|---|
+| First run, the PDF library as published | 81/100 | 3 | 59/62 |
+| After fixing the reader, no engine rule changed | 88/100 | 0 | 62/62 |
+
+The first run's losses were all the reader's: Chrome PDFs came out with
+spaces inside words (`C obalt`, `1 1/04/2026`, `Adebayo-W alsh`). The cause
+was a bug in `pdf-extract` 0.12.1, which misread one form of font width table;
+`vendor/pdf-extract` is the published crate with that fix. Word tables needed
+the column-edge rule: a full cell ends right where the next one begins. The
+page does not take PDF files yet.
+
 ### What Kane caught
 
 - An empty error placeholder in the page was being matched instead of the
@@ -352,11 +380,15 @@ town names are made up.
 src/engine.rs          rules for everything except names
 src/names.rs           finding and removing names
 src/extract.rs         the research columns: age, sex, diagnoses, medications
-src/document.rs        reads an uploaded Word document or CSV file into text
+src/document.rs        reads an uploaded Word document, CSV file or PDF into text
 src/main.rs            Axum server: POST /api/process, /api/read-file, serves the page
 tests/documents/       6 Word documents and 2 CSV exports, with answer keys
+tests/documents/pdf/   6 PDFs (one scanned), with answer keys
 tests/documents_test.rs layer 1 tests of the documents
+tests/pdf_test.rs      layer 1 tests of the PDFs
 scripts/gen-docx.py    builds the Word documents from tests/documents/source
+scripts/gen-pdf.py     builds the PDFs with Chrome, Word and PyMuPDF
+vendor/pdf-extract/    the PDF library, with one fix (see vendor/README.md)
 tests/extraction/      answer keys for the research table
 tests/extraction-heldout/ the same for the held-out records, measured only
 tests/extraction_test.rs layer 1 tests of the research table

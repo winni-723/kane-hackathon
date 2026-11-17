@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 axum = "0.8.9"
+pdf-extract = "0.12.1"
 regex = "1.13.1"
 serde = { version = "1.0.229", features = ["derive"] }
 tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net"] }
@@ -13,3 +14,7 @@ zip = { version = "9.6.1", default-features = false, features = ["deflate"] }
 
 [dev-dependencies]
 serde_json = "1.0.154"
+
+# pdf-extract with one fix to how it reads font widths; see vendor/README.md.
+[patch.crates-io]
+pdf-extract = { path = "vendor/pdf-extract" }
