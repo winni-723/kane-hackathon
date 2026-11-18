@@ -23,10 +23,17 @@ for pair in "${pairs[@]}"; do
   [ -z "$pair" ] && continue
   record="${pair%%:*}"
   kind="${pair##*:}"
-  file="tests/kane/${record}-${kind}_test.md"
+  # upload:<document_id> is a test of the file-upload path (sample menu).
+  if [ "$record" = "upload" ]; then
+    file="tests/kane/upload-${kind}_test.md"
+    gen=(node scripts/gen-kane-upload-test.mjs "$kind")
+  else
+    file="tests/kane/${record}-${kind}_test.md"
+    gen=(node scripts/gen-kane-test.mjs "$record" "$kind")
+  fi
   if [ -e "$file" ]; then
     echo "  skip  $file (exists)"
-  elif node scripts/gen-kane-test.mjs "$record" "$kind" > /dev/null; then
+  elif "${gen[@]}" > /dev/null; then
     new+=("$file")
   else
     echo "  could not generate $file"
