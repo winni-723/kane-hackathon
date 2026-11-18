@@ -1,3 +1,4 @@
+import { processRecord, readDocument } from "./engine";
 import { SAMPLE_BATCH, SAMPLE_RECORD } from "./samples";
 
 interface Extracted {
@@ -183,14 +184,10 @@ function showInput(): void {
   input.focus();
 }
 
+// De-identified here in the browser, by the engine in a Web Worker: the
+// record is not sent anywhere.
 async function processText(text: string): Promise<ProcessResponse> {
-  const res = await fetch("/api/process", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
-  });
-  if (!res.ok) throw new Error(`Server returned ${res.status}`);
-  return (await res.json()) as ProcessResponse;
+  return JSON.parse(await processRecord(text)) as ProcessResponse;
 }
 
 processButton.addEventListener("click", async () => {
@@ -198,11 +195,9 @@ processButton.addEventListener("click", async () => {
   processButton.disabled = true;
   try {
     if (pendingBatch) {
-      // A CSV file can hold hundreds of records, so they go a few at a time.
+      // One at a time: the engine works through them in its own thread.
       const results: ProcessResponse[] = [];
-      for (let i = 0; i < pendingBatch.length; i += 8) {
-        results.push(...(await Promise.all(pendingBatch.slice(i, i + 8).map(processText))));
-      }
+      for (const record of pendingBatch) results.push(await processText(record));
       batchResults = results;
       setPendingBatch(null);
       showTable();
@@ -210,7 +205,7 @@ processButton.addEventListener("click", async () => {
       showResult(await processText(input.value), false);
     }
   } catch (e) {
-    showError(e instanceof Error ? e.message : "Request failed");
+    showError(e instanceof Error ? e.message : "The record could not be processed.");
   } finally {
     processButton.disabled = false;
   }
@@ -240,7 +235,7 @@ const MAX_DOCUMENT_BYTES = 10_000_000;
 const MAX_RECORDS = 1000;
 
 // The kind of document a file is, or null for one that cannot be loaded.
-// "text" is read here in the browser; the others are read by the server.
+// "text" is read as it is; the others are read by the engine.
 function fileKind(file: File): "text" | "docx" | "csv" | "pdf" | null {
   if (/\.docx$/i.test(file.name)) return "docx";
   if (/\.csv$/i.test(file.name)) return "csv";
@@ -250,26 +245,20 @@ function fileKind(file: File): "text" | "docx" | "csv" | "pdf" | null {
 }
 
 // The records in one file: one for a text file, a Word document or a PDF,
-// one per row for a CSV file. Word, CSV and PDF files are sent to the server
-// to be read into text; the file's name is not sent, since file names often
-// hold a patient's name.
+// one per row for a CSV file. Every file is read here in the browser, by the
+// engine; neither the file nor its name is sent anywhere.
 async function readFile(file: File): Promise<string[]> {
   const kind = fileKind(file);
   if (kind === "text") return [await file.text()];
-  const response = await fetch(`/api/read-file/${kind}`, {
-    method: "POST",
-    headers: { "content-type": "application/octet-stream" },
-    body: file,
-  });
-  const body: { records?: string[]; error?: string } = await response.json();
-  if (!response.ok || body.records === undefined) {
-    throw new Error(body.error ?? "A file could not be read.");
-  }
+  if (kind === null) throw new Error("This kind of file is not supported.");
+  const body: { records?: string[]; error?: string } = JSON.parse(
+    await readDocument(kind, new Uint8Array(await file.arrayBuffer())),
+  );
+  if (body.records === undefined) throw new Error(body.error ?? "A file could not be read.");
   return body.records;
 }
 
-// A text file only fills the text box or the waiting batch. A Word document,
-// CSV file or PDF is read by the server first; either way nothing is
+// Loading a file only fills the text box or the waiting batch; nothing is
 // de-identified or shown until Process is pressed.
 fileInput.addEventListener("change", async () => {
   clearError();
