@@ -174,9 +174,14 @@ presses Process, and checks the Result region against the answer key. The
 whole suite is replayed on every run with `--no-adaptive-heal`, so a regression
 fails instead of the test being rewritten to fit.
 
-The suite holds 183 tests: every record and identifier kind in the
+The suite holds 187 tests: every record and identifier kind in the
 development set (110), every held-out hand-written record (56), three of the
-Synthea records (13), and four tests of the page itself. A held-out record
+Synthea records (13), four tests of the page itself, and four of file upload.
+The upload tests (`scripts/gen-kane-upload-test.mjs`) pick a file from the
+page's sample menu, so it goes through the same upload request as a file the
+visitor chooses: a Word note and a PDF lab report are checked against their
+answer keys in the Result, a CSV of five patients against its key in the
+research table, and a scanned PDF must be refused with a clear message. A held-out record
 gets no Kane test for an identifier the engine is known to miss (three such
 pairs, listed under Limits), because a test that fails by design would block
 every commit.

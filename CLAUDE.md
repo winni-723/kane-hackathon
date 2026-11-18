@@ -81,7 +81,8 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - CSV（2026-11-16）：`document::records_from_csv` 把每一列轉成一份「`欄位名: 值`」的病歷，值原樣保留（不在讀取時改寫）。答案卷多一個 `table`，列出每一列在研究數據表應顯示的年齡、性別、診斷、用藥；`csv_table_scoreboard` 要求全對。第一次分數：個資 82/82、醫療 31/31、表格 37/40（調校後 40/40），不要覆蓋。前端 `/api/read-file/<kind>` 回傳 `{ records: [...] }`。
 - 研究數據表在 Word 文件上沒有量測，表格儲存格裡的診斷與用藥大多抓不到。
 - 測試資料的 SSN 一律用從未發出的號段（`987-65-43xx`）。`docx-06` 原本誤用 `512-55-0199`，使用者 2026-11-16 指示改為 `987-65-4320`。
-- 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關，並在瀏覽器手動試過；Kane 測試不選檔案。
+- 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 187 個測試。
+- `.testmuai/evidence/` 在 OneDrive 資料夾裡，Kane 結束時改名證據檔偶爾會被鎖住（EPERM），測試全過但沒有 `testrun_done`、exit 1。這不是測試失敗，重跑 `verify.sh` 即可（不扣 credits）。
 - 既有的 88 份病歷、答案卷與 183 個 Kane 測試不因新增格式而修改。
 - PDF（2026-11-17）：測試集在 `tests/documents/pdf/`（`source/` → `python scripts/gen-pdf.py`，需要 Chrome、Word、PyMuPDF；`keys/`）。pdf-01、04 由 Chrome 列印，02、05 由 Word 另存，03 是固定位置的傳真表單，06 是 03 的掃描檔（沒有答案卷，必須回傳 `DocumentError::Scanned`）。答案卷使用者 2026-11-17 同意，不可修改。第一層測試在 `tests/pdf_test.rs`（讀取不可遺漏、醫療資訊全保留、掃描檔被拒），看分數：`cargo test --test pdf_test scoreboard -- --nocapture`。
 - PDF 第一次分數（不要覆蓋）：套件原樣 81/100、讀壞 3、醫療 59/62；修好讀取程式、未改引擎 88/100、醫療 62/62。調校後 100/100、醫療 62/62，`tests/pdf_test.rs` 的 `GATES` 涵蓋所有（類型, 難度），只增不減。
