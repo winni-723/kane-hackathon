@@ -7,7 +7,7 @@ on:
 
 jobs:
   layer1:
-    name: Layer 1 (answer keys, clippy, tests, tsc)
+    name: Layer 1 (answer keys, clippy, tests, browser engine, tsc)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,6 +17,11 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
+          targets: wasm32-unknown-unknown
+      - name: wasm-bindgen-cli at the version Cargo.lock pins
+        run: |
+          version=$(grep -A1 '^name = "wasm-bindgen"$' Cargo.lock | sed -n 's/^version = "\(.*\)"/\1/p')
+          cargo install wasm-bindgen-cli --version "$version" --locked
       - name: Answer keys are well-formed
         run: |
           node scripts/validate-fixtures.mjs tests/fixtures
@@ -32,31 +37,41 @@ jobs:
           cargo test --test extraction_test -- --nocapture scoreboard
           cargo test --test documents_test -- --nocapture scoreboard
           cargo test --test pdf_test -- --nocapture scoreboard
+      - name: Clippy, the engine built for the browser
+        run: cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm -- -D warnings
+      - name: The browser engine answers exactly as the native one
+        run: |
+          bash scripts/build-wasm.sh
+          cargo run -q --example native_outputs > native-outputs.json
+          node scripts/wasm-matches-native.mjs native-outputs.json
       - name: Front end type-check and build
         run: |
           npm --prefix web ci
           npm --prefix web run build
 
   image:
-    name: Docker image builds and de-identifies
+    name: Docker image serves the page and takes no records
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Build the image
         run: docker build -t deid .
-      - name: Start it and send one record through
+      - name: Start it and check what it serves
         run: |
           docker run -d --name deid -p 8080:8080 deid
           for i in $(seq 1 30); do curl -fs http://127.0.0.1:8080/ > /dev/null && break; sleep 1; done
           curl -fs http://127.0.0.1:8080/ | grep -q "Medical Record De-identifier"
-          out=$(curl -fs -X POST -H 'Content-Type: application/json' \
-            -d '{"text":"Name: Eleanor Carter\nPhone: (617) 555-0142\nDiagnosis: Migraine without aura."}' \
-            http://127.0.0.1:8080/api/process)
-          echo "$out"
-          echo "$out" | grep -q '\[NAME\]'
-          echo "$out" | grep -q '\[PHONE\]'
-          echo "$out" | grep -q 'Migraine without aura'
-          if echo "$out" | grep -q 'Eleanor'; then echo "name leaked"; exit 1; fi
+          page=$(curl -fs http://127.0.0.1:8080/ | grep -o 'assets/index-[A-Za-z0-9_-]*\.js' | head -1)
+          worker=$(curl -fs "http://127.0.0.1:8080/$page" | grep -o 'assets/engine-worker-[A-Za-z0-9_-]*\.js' | head -1)
+          engine=$(curl -fs "http://127.0.0.1:8080/$worker" | grep -o 'engine_bg-[A-Za-z0-9_-]*\.wasm' | head -1)
+          echo "page $page, worker $worker, engine $engine"
+          test -n "$engine"
+          curl -fs -o /dev/null -w '%{content_type}' "http://127.0.0.1:8080/assets/$engine" | grep -q application/wasm
+          # There is no API: a record sent to the old one is not accepted.
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' \
+            -d '{"text":"Name: Eleanor Carter"}' http://127.0.0.1:8080/api/process)
+          echo "POST /api/process -> $code"
+          case "$code" in 2??) echo "the server accepted a record"; exit 1;; esac
       - name: Server log
         if: always()
         run: docker logs deid || true

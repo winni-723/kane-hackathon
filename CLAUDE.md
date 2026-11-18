@@ -1,6 +1,6 @@
 # 病歷去識別化網站（Kane CLI Hackathon）
 
-Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**（台灣時間 11/20 02:29）。截止後不能再推送修正。
+Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-27（五）13:30 PST**（台灣時間 11/28（六）05:30）。原本是 11/19，主辦於 2026-11-18 延後。截止後不能再推送修正。
 
 ## 專案
 
@@ -10,6 +10,7 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 
 - **後端**：Rust + Axum，負責去識別化引擎。
 - **前端**：TypeScript + Vite，build 後由 Axum 直接提供靜態檔案。整個專案只部署一個服務。
+- **引擎在瀏覽器裡執行**（2026-11-18 起）：同一份 Rust 引擎以 `--features wasm` 編成 WebAssembly（`src/wasm.rs`、`bash scripts/build-wasm.sh` → `web/src/engine-wasm/`，不進 git），頁面在 Web Worker 裡執行（`web/src/engine-worker.ts`、`web/src/engine.ts`）。伺服器只提供檔案，沒有接收病歷的路由。今天的日期由頁面傳入。需要 `rustup target add wasm32-unknown-unknown` 與版本和 `Cargo.lock` 一致的 `wasm-bindgen-cli`（目前 0.2.130）。第一層的 `scripts/wasm-matches-native.mjs` 要求 102 份測試輸入在瀏覽器版與原生版的輸出完全相同。改了 `src/` 之後，`tsc` 用的是上次建置的 `engine-wasm`；`verify.sh` 會重建。
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
 - **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
@@ -73,12 +74,12 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 
 使用者 2026-11-16 決定：要貼近真實產品，支援 `.docx`、CSV、PDF（有文字層），遮蔽標準採 HIPAA Safe Harbor。掃描檔 OCR、HL7/FHIR、DICOM 不做，寫在 README 的 Limits。
 
-- `src/document.rs` 把上傳的文件讀成純文字（頁首、內文、註腳、頁尾；表格一列一行、儲存格以 tab 分隔），之後走同一個 `engine::process`。前端透過 `POST /api/read-file/<kind>` 上傳，**不傳檔名**（檔名常含病人姓名）。
+- `src/document.rs` 把上傳的文件讀成純文字（頁首、內文、註腳、頁尾；表格一列一行、儲存格以 tab 分隔），之後走同一個 `engine::process`。檔案在瀏覽器裡由引擎讀取（`read_file`），**不傳檔名、也不傳檔案**。
 - 測試集在 `tests/documents/`：`source/<id>.json`（內容與版面）→ `python scripts/gen-docx.py` → `<id>.docx`；答案卷在 `keys/<id>.json`。測試文件必須有真實版面（抬頭、頁尾重複姓名、表格、簽名區），不可只是既有病歷轉檔。
 - 答案卷比 `tests/fixtures` 多了 `facility_name`、`facility_address`、`facility_phone`、`provider_name`、`service_date`、`other_id`，全部應遮蔽。答案卷同樣不可為了讓測試通過而修改。
 - 第一層測試在 `tests/documents_test.rs`：`reading_a_document_loses_nothing`（答案卷的每個字串都要在讀出的文字裡）、`medical_content_is_always_kept`、`gated_identifiers_are_removed`（`GATES` 只增不減）。看分數：`cargo test --test documents_test scoreboard -- --nocapture`。
 - 第一次未調校的分數（2026-11-16，6 份 Word）：**98/132，醫療資訊 81/81**。寫在 README 與 `tests/documents/README.md`，不要覆蓋；調校後 132/132。
-- CSV（2026-11-16）：`document::records_from_csv` 把每一列轉成一份「`欄位名: 值`」的病歷，值原樣保留（不在讀取時改寫）。答案卷多一個 `table`，列出每一列在研究數據表應顯示的年齡、性別、診斷、用藥；`csv_table_scoreboard` 要求全對。第一次分數：個資 82/82、醫療 31/31、表格 37/40（調校後 40/40），不要覆蓋。前端 `/api/read-file/<kind>` 回傳 `{ records: [...] }`。
+- CSV（2026-11-16）：`document::records_from_csv` 把每一列轉成一份「`欄位名: 值`」的病歷，值原樣保留（不在讀取時改寫）。答案卷多一個 `table`，列出每一列在研究數據表應顯示的年齡、性別、診斷、用藥；`csv_table_scoreboard` 要求全對。第一次分數：個資 82/82、醫療 31/31、表格 37/40（調校後 40/40），不要覆蓋。`read_file` 回傳 `{ records: [...] }`。
 - 研究數據表在 Word 文件上沒有量測，表格儲存格裡的診斷與用藥大多抓不到。
 - 測試資料的 SSN 一律用從未發出的號段（`987-65-43xx`）。`docx-06` 原本誤用 `512-55-0199`，使用者 2026-11-16 指示改為 `987-65-4320`。
 - 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 187 個測試。

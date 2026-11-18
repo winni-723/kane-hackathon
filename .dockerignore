@@ -12,3 +12,4 @@ tests
 scripts
 examples
 *.md
+web/src/engine-wasm
