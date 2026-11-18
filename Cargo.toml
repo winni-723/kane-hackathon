@@ -4,13 +4,32 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-axum = "0.8.9"
+axum = { version = "0.8.9", optional = true }
 pdf-extract = "0.12.1"
 regex = "1.13.1"
 serde = { version = "1.0.229", features = ["derive"] }
-tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net"] }
-tower-http = { version = "0.7.1", features = ["fs"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net"], optional = true }
+tower-http = { version = "0.7.1", features = ["fs"], optional = true }
+serde_json = { version = "1.0.154", optional = true }
+wasm-bindgen = { version = "0.2.130", optional = true }
 zip = { version = "9.6.1", default-features = false, features = ["deflate"] }
+
+# Two builds of one engine:
+#   default ("server"): the binary that serves the page's files.
+#   "wasm": the engine compiled to WebAssembly, run by the page in the
+#   visitor's browser (scripts/build-wasm.sh), so records never leave it.
+[features]
+default = ["server"]
+server = ["dep:axum", "dep:tokio", "dep:tower-http"]
+wasm = ["dep:serde_json", "dep:wasm-bindgen"]
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[[bin]]
+name = "deid-server"
+path = "src/main.rs"
+required-features = ["server"]
 
 [dev-dependencies]
 serde_json = "1.0.154"

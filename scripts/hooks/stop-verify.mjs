@@ -33,7 +33,8 @@ function files(dir, keep) {
 
 const tracked = [
   ...files("src", () => true),
-  ...files("web/src", () => true),
+  // web/src/engine-wasm/ is built from src/ by verify.sh itself.
+  ...files("web/src", (f) => !f.startsWith("web/src/engine-wasm/")),
   ...files("vendor", (f) => /\.(rs|toml)$/.test(f)),
   ...files("tests/kane", (f) => /^tests\/kane\/[^/]+_test\.md$/.test(f)),
   ...["web/index.html", "Cargo.toml", "tests/fixtures_test.rs", "tests/extraction_test.rs", "tests/documents_test.rs", "tests/pdf_test.rs"].filter((f) => existsSync(join(root, f))),

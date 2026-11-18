@@ -25,3 +25,6 @@ tests/kane-live/output-*/.internal/
 
 # Local tools (Synthea jar)
 .tools/
+
+# The engine built for the browser (scripts/build-wasm.sh)
+web/src/engine-wasm/

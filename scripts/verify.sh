@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Two-layer verification. Run from the repo root:  bash scripts/verify.sh
 #
-#   Layer 1: fixtures well-formed, cargo build, clippy, cargo test, tsc + vite build
+#   Layer 1: fixtures well-formed, cargo build, clippy (server and browser
+#            builds), cargo test, the browser engine equals the native one,
+#            tsc + vite build
 #   Layer 2: every saved Kane test in tests/kane, replayed against the local server
 #
 # Stops at the first failing layer. Exit 0 only when both layers pass.
@@ -45,6 +47,10 @@ step fixtures node scripts/validate-fixtures.mjs
 step build    cargo build
 step clippy   cargo clippy --all-targets -- -D warnings
 step test     cargo test
+step clippy-wasm cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm -- -D warnings
+step wasm     bash scripts/build-wasm.sh
+step native   sh -c 'cargo run -q --example native_outputs > "$0/native-outputs.json"' "$LOG_DIR"
+step wasm-matches-native node scripts/wasm-matches-native.mjs "$LOG_DIR/native-outputs.json"
 step web      npm --prefix web run build
 grep -h "test result" "$LOG_DIR/layer1-test.log" | sed 's/^/        /'
 
