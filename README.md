@@ -26,11 +26,13 @@ Medications: Furosemide 40 mg daily     Medications: Furosemide 40 mg daily
 **Live: https://medical-record-deidentifier.onrender.com**
 
 Press **Load sample record**, then **Process**. You can also paste a record or
-choose a `.txt`, Word (`.docx`) or CSV file; more sample records are in
-`tests/fixtures/` (the `text` field of each file), and Word documents laid out
-like real ones (letterhead, page footer, tables) and CSV exports are in
-`tests/documents/`. A CSV file is read as one record per row and gives the
-research table directly.
+choose a `.txt`, Word (`.docx`), CSV or PDF file. To try a file without having
+one, pick a fictional **sample file** at the bottom of the page (a clinic note
+in Word, a patient list in CSV, a lab report PDF, or a scanned fax that the
+site must refuse) and press **Load sample file**. More sample records are in
+`tests/fixtures/` (the `text` field of each file); Word documents, CSV exports
+and PDFs laid out like real ones are in `tests/documents/`. A CSV file is read
+as one record per row and gives the research table directly.
 
 For several records at once, press **Load sample batch** (or choose more than
 one `.txt` file), then **Process**: you get a research table, one row per
@@ -337,7 +339,8 @@ headed by one. Each rule came with tests of what it must leave alone
 (`Patient: COPD, CHF`, `Sent to Reference Laboratory`, `Specialty:
 Cardiology`). Like the Word set, these five PDFs are a development set, made
 by a script: 100/100 says the loop works on them, not how an unfamiliar
-template will fare. The page does not take PDF files yet.
+template will fare. A PDF with no text layer, a scan, is refused with a
+message that says so, never shown as an empty "de-identified" result.
 
 ### What Kane caught
 
@@ -369,9 +372,10 @@ in 4 of 10: a diagnosis is found when a field or a set phrase introduces
 it, and new documents word it differently. The Synthea layout
 (`MEDICATIONS:` and `CONDITIONS:` sections) is not read at all. Empty
 cells are the designed failure: the table should be missing a value rather
-than holding a wrong one. Files can be plain text, Word (`.docx`) or CSV. There
-is no PDF yet, no Excel file (save it as CSV), no scanned document (that needs
-OCR, and one misread character lets a name through), no HL7, FHIR or DICOM,
+than holding a wrong one. Files can be plain text, Word (`.docx`), CSV or PDF
+with a text layer. There is no Excel file (save it as CSV), no scanned
+document or photo of paper (that needs OCR, and one misread character lets a
+name through; a scanned PDF is refused), no HL7, FHIR or DICOM,
 and no batch larger than 200 files or 1000 records. A CSV file comes back as
 the research table and one de-identified record per row, not as a CSV with
 the same columns. Identifiers are replaced with tags, not with realistic
@@ -406,6 +410,7 @@ tests/extraction-heldout/ the same for the held-out records, measured only
 tests/extraction_test.rs layer 1 tests of the research table
 tests/kane-live/       Kane test against the deployed site
 web/                   TypeScript + Vite front end
+web/public/samples/    the page's sample files: copies of four test files (checked byte for byte)
 tests/fixtures/        20 development records with answer keys
 tests/heldout/         10 held-out records with answer keys
 tests/synthea/         58 Synthea records with answer keys

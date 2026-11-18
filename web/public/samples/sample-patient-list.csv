@@ -1,0 +1,6 @@
+MRN,LastName,FirstName,DOB,Sex,Phone,Address,City,State,ZIP,PrimaryDx,ActiveMeds,LastVisit,PCP
+40071823,Okonkwo,Chidi,04/12/1968,M,(919) 555-0123,31 Tanager Court,Fallbrook,NC,27519,Type 2 diabetes mellitus,Metformin 1000 mg twice daily; Empagliflozin 10 mg daily,10/05/2026,Dr. Leah Morgan
+40071991,Vasquez,Elena,11/30/1985,F,(919) 555-0187,908 Copper Mill Road Apt 4,Fallbrook,NC,27519,Migraine without aura,Sumatriptan 50 mg as needed; Propranolol 40 mg twice daily,09/22/2026,Dr. Leah Morgan
+40072456,Lindqvist,Harold,02/03/1944,M,(984) 555-0144,7 Quail Hollow Lane,Sutter Creek,NC,27540,Chronic obstructive pulmonary disease,Tiotropium 18 mcg daily; Albuterol inhaler 2 puffs as needed,10/19/2026,"Amit Desai, NP"
+40073302,Baptiste,Simone,07/21/1997,F,(919) 555-0162,455 Ferncliff Avenue,Fallbrook,NC,27519,Generalized anxiety disorder,Sertraline 100 mg daily,08/14/2026,Dr. Leah Morgan
+40073910,Yamamoto,Kenji,09/09/1959,M,(984) 555-0109,12 Stonegate Drive,Sutter Creek,NC,27540,Atrial fibrillation,Apixaban 5 mg twice daily; Metoprolol succinate 50 mg daily,10/27/2026,"Amit Desai, NP"

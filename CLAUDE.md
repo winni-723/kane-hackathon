@@ -13,7 +13,7 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-19 23:59 IST**
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
 - **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
-- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original；Load sample record、`.txt`、`.docx`、`.csv` 上傳；Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）；多份病歷（Load sample batch 或多選 `.txt`）產生 Research table，可 Download CSV。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
+- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original；Load sample record、`.txt`、`.docx`、`.csv`、`.pdf` 上傳；輸入區最後的「Load sample file」選單（2026-11-17 加入，4 個虛構檔放在 `web/public/samples/`，與測試檔逐位元組相同，由 `pdf_test.rs` 的 `page_samples_are_the_test_files` 把關，走與選檔相同的上傳流程）；Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）；多份病歷（Load sample batch 或多選 `.txt`）產生 Research table，可 Download CSV。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
 
 ## 雙層驗證閉環
 

@@ -46,7 +46,14 @@
       .starters label {
         margin: 0 0.5rem;
       }
+      .starters .sample-docs {
+        margin-top: 0.5rem;
+      }
+      .starters .sample-docs label {
+        margin-left: 0;
+      }
       .batch-hint button,
+      .sample-docs button,
       td button {
         margin-top: 0;
         padding: 0.2rem 0.6rem;
@@ -131,17 +138,28 @@
       <div class="starters">
         <p>No record to hand? Start from one of these:</p>
         <button id="sample" type="button">Load sample record</button>
-        <label for="file">or choose a .txt, Word (.docx) or CSV file</label>
+        <label for="file">or choose a .txt, Word (.docx), CSV or PDF file</label>
         <input
           id="file"
           type="file"
-          accept=".txt,text/plain,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.csv,text/csv"
+          accept=".txt,text/plain,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.csv,text/csv,.pdf,application/pdf"
           multiple
         />
         <p class="batch-hint">
           Several records at once become a research table, one row per record:
           choose more than one file, or
           <button id="sample-batch" type="button">Load sample batch</button>
+        </p>
+        <!-- Last in the panel, so every control before it stays where it was. -->
+        <p class="sample-docs">
+          <label for="sample-doc">Or try a fictional sample file:</label>
+          <select id="sample-doc">
+            <option value="sample-clinic-note.docx">Clinic note (Word)</option>
+            <option value="sample-patient-list.csv">Patient list (CSV)</option>
+            <option value="sample-lab-report.pdf">Lab report (PDF)</option>
+            <option value="sample-scanned-fax.pdf">Scanned fax (PDF, no text)</option>
+          </select>
+          <button id="load-doc" type="button">Load sample file</button>
         </p>
       </div>
     </section>

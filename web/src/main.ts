@@ -31,6 +31,8 @@ const output = mustGet<HTMLPreElement>("output");
 const sampleButton = mustGet<HTMLButtonElement>("sample");
 const sampleBatchButton = mustGet<HTMLButtonElement>("sample-batch");
 const fileInput = mustGet<HTMLInputElement>("file");
+const sampleDocSelect = mustGet<HTMLSelectElement>("sample-doc");
+const sampleDocButton = mustGet<HTMLButtonElement>("load-doc");
 const summary = mustGet<HTMLParagraphElement>("summary");
 const detailsBody = mustGet<HTMLTableSectionElement>("details-body");
 const backButton = mustGet<HTMLButtonElement>("back");
@@ -239,17 +241,18 @@ const MAX_RECORDS = 1000;
 
 // The kind of document a file is, or null for one that cannot be loaded.
 // "text" is read here in the browser; the others are read by the server.
-function fileKind(file: File): "text" | "docx" | "csv" | null {
+function fileKind(file: File): "text" | "docx" | "csv" | "pdf" | null {
   if (/\.docx$/i.test(file.name)) return "docx";
   if (/\.csv$/i.test(file.name)) return "csv";
+  if (/\.pdf$/i.test(file.name) || file.type === "application/pdf") return "pdf";
   if (file.type === "text/plain" || (file.type === "" && /\.txt$/i.test(file.name))) return "text";
   return null;
 }
 
-// The records in one file: one for a text file or a Word document, one per
-// row for a CSV file. Word and CSV files are sent to the server to be read
-// into text; the file's name is not sent, since file names often hold a
-// patient's name.
+// The records in one file: one for a text file, a Word document or a PDF,
+// one per row for a CSV file. Word, CSV and PDF files are sent to the server
+// to be read into text; the file's name is not sent, since file names often
+// hold a patient's name.
 async function readFile(file: File): Promise<string[]> {
   const kind = fileKind(file);
   if (kind === "text") return [await file.text()];
@@ -265,13 +268,31 @@ async function readFile(file: File): Promise<string[]> {
   return body.records;
 }
 
-// A text file only fills the text box or the waiting batch. A Word document
-// is read by the server first; either way nothing is de-identified or shown
-// until Process is pressed.
+// A text file only fills the text box or the waiting batch. A Word document,
+// CSV file or PDF is read by the server first; either way nothing is
+// de-identified or shown until Process is pressed.
 fileInput.addEventListener("change", async () => {
   clearError();
   const files = [...(fileInput.files ?? [])];
   fileInput.value = "";
+  await loadFiles(files);
+});
+
+// The sample documents are fictional test files served with the page. A
+// chosen one goes through exactly the path a file chosen from disk does.
+sampleDocButton.addEventListener("click", async () => {
+  clearError();
+  const name = sampleDocSelect.value;
+  try {
+    const response = await fetch(`samples/${name}`);
+    if (!response.ok) throw new Error(`Server returned ${response.status}`);
+    await loadFiles([new File([await response.blob()], name)]);
+  } catch (error) {
+    showError(error instanceof Error && error.message ? error.message : "The sample could not be loaded.");
+  }
+});
+
+async function loadFiles(files: File[]): Promise<void> {
   if (files.length === 0) return;
   if (files.length > MAX_FILES) {
     showError(`Choose at most ${MAX_FILES} files at a time.`);
@@ -280,7 +301,7 @@ fileInput.addEventListener("change", async () => {
   for (const file of files) {
     const kind = fileKind(file);
     if (kind === null) {
-      showError("Only plain text (.txt), Word (.docx) and CSV (.csv) files can be loaded.");
+      showError("Only plain text (.txt), Word (.docx), CSV (.csv) and PDF (.pdf) files can be loaded.");
       return;
     }
     if (kind === "text" && file.size > MAX_FILE_BYTES) {
@@ -308,7 +329,7 @@ fileInput.addEventListener("change", async () => {
   } catch (error) {
     showError(error instanceof Error && error.message ? error.message : "A file could not be read.");
   }
-});
+}
 
 // --- downloads ------------------------------------------------------------------
 

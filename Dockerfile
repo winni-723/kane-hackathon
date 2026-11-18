@@ -12,6 +12,8 @@ RUN npm run build
 FROM rust:1-slim-bookworm AS server
 WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
+# The PDF library, patched; Cargo.toml points pdf-extract here.
+COPY vendor ./vendor
 COPY src ./src
 RUN cargo build --release --bin deid-server
 

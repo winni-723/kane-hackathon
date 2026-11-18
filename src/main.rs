@@ -52,6 +52,7 @@ async fn read_file(
     let result = match kind.as_str() {
         "docx" => document::text_from_docx(&body).map(|text| vec![text]),
         "csv" => document::records_from_csv(&body),
+        "pdf" => document::text_from_pdf(&body).map(|text| vec![text]),
         _ => {
             return Err((
                 StatusCode::NOT_FOUND,

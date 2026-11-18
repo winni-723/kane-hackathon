@@ -161,6 +161,24 @@ fn gated_identifiers_are_removed() {
     assert!(leaked.is_empty(), "gated identifiers leaked:\n{}", leaked.join("\n"));
 }
 
+/// The sample files offered on the page are the test files themselves, byte
+/// for byte, so what a visitor tries is what layer 1 checks.
+#[test]
+fn page_samples_are_the_test_files() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    for (sample, test_file) in [
+        ("sample-clinic-note.docx", "tests/documents/docx-03.docx"),
+        ("sample-patient-list.csv", "tests/documents/csv-01.csv"),
+        ("sample-lab-report.pdf", "tests/documents/pdf/pdf-01.pdf"),
+        ("sample-scanned-fax.pdf", "tests/documents/pdf/pdf-06.pdf"),
+    ] {
+        let sample_path = root.join("web/public/samples").join(sample);
+        let a = fs::read(&sample_path).unwrap_or_else(|e| panic!("{}: {e}", sample_path.display()));
+        let b = fs::read(root.join(test_file)).expect("test file exists");
+        assert!(a == b, "{sample} differs from {test_file}");
+    }
+}
+
 /// A scanned page holds no text. The site must say so, not show an empty
 /// result that looks like a successful de-identification.
 #[test]
