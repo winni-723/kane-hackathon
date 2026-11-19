@@ -2,10 +2,10 @@
 
 [![CI](https://github.com/winni-723/kane-hackathon/actions/workflows/ci.yml/badge.svg)](https://github.com/winni-723/kane-hackathon/actions/workflows/ci.yml)
 
-Paste a medical record or open a Word, CSV or PDF file, get it back with the
-personal identifiers removed and the medical content intact, then download
-the result. The engine runs in your browser: records and files are never sent
-to a server.
+Upload medical records as text, Word, CSV or PDF files, or paste one, and get
+them back with the personal identifiers removed and the medical content
+intact; several records become a research table. Download either. The
+engine runs in your browser: records and files are never sent to a server.
 
 Built for the Kane CLI Online Hackathon with Claude Code as the coding agent.
 Every engine change in this repo went through the same loop: the agent edits
@@ -27,18 +27,20 @@ Medications: Furosemide 40 mg daily     Medications: Furosemide 40 mg daily
 
 **Live: https://medical-record-deidentifier.onrender.com**
 
-Press **Load sample record**, then **Process**. You can also paste a record or
-choose a `.txt`, Word (`.docx`), CSV or PDF file. To try a file without having
-one, pick a fictional **sample file** at the bottom of the page (a clinic note
-in Word, a patient list in CSV, a lab report PDF, or a scanned fax that the
-site must refuse) and press **Load sample file**. More sample records are in
-`tests/fixtures/` (the `text` field of each file); Word documents, CSV exports
-and PDFs laid out like real ones are in `tests/documents/`. A CSV file is read
-as one record per row and gives the research table directly.
+Drop or choose files: plain text (`.txt`), Word (`.docx`), CSV or PDF. One
+file opens as one record; press **Process** to see it de-identified. Several
+files, or a CSV file with one patient per row, become a research table, one
+row per record: **View** opens a record (**Previous** and **Next** move
+through them), **Download CSV** saves the table, and **Download all records**
+saves every de-identified record in one text file.
 
-For several records at once, press **Load sample batch** (or choose more than
-one `.txt` file), then **Process**: you get a research table, one row per
-record, that downloads as CSV.
+No files to hand? Pick a fictional sample in the menu under the upload area
+(a progress note, three records, a clinic note in Word, a patient list in
+CSV, a lab report PDF, or a scanned fax that the site must refuse) and press
+**Load sample file**. A single record can also be pasted under **Or paste one
+record**. More sample records are in `tests/fixtures/` (the `text` field of
+each file); Word documents, CSV exports and PDFs laid out like real ones are
+in `tests/documents/`.
 
 | Record | Age | Sex | Diagnoses | Medications |
 |---|---|---|---|---|
