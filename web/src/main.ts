@@ -29,7 +29,6 @@ const processButton = mustGet<HTMLButtonElement>("process");
 const editButton = mustGet<HTMLButtonElement>("edit");
 const downloadButton = mustGet<HTMLButtonElement>("download");
 const output = mustGet<HTMLPreElement>("output");
-const sampleBatchButton = mustGet<HTMLButtonElement>("sample-batch");
 const fileInput = mustGet<HTMLInputElement>("file");
 const sampleDocSelect = mustGet<HTMLSelectElement>("sample-doc");
 const sampleDocButton = mustGet<HTMLButtonElement>("load-doc");
@@ -214,11 +213,6 @@ processButton.addEventListener("click", async () => {
 
 const MAX_FILE_BYTES = 1_000_000;
 const MAX_FILES = 200;
-
-sampleBatchButton.addEventListener("click", () => {
-  clearError();
-  setPendingBatch(SAMPLE_BATCH);
-});
 
 input.addEventListener("input", () => setPendingBatch(null));
 
