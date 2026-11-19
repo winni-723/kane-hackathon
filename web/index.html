@@ -45,10 +45,14 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
       }
-      .dropzone .hint {
+      .dropzone .hint,
+      .privacy {
         margin: 0.5rem 0 0;
         font-size: 0.9rem;
         color: #444;
+      }
+      .privacy {
+        margin-top: 0.75rem;
       }
       .sample-docs {
         margin: 1rem 0 0;
@@ -160,6 +164,7 @@
         />
         <p class="hint">One file opens as one record. Several files, or a CSV file with one patient per row, become a research table.</p>
       </div>
+      <p class="privacy">Records are processed in your browser. Nothing is uploaded.</p>
       <p class="sample-docs">
         <label for="sample-doc">Or try a fictional sample:</label>
         <select id="sample-doc">
