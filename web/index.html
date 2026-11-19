@@ -40,6 +40,10 @@
         padding: 1.25rem;
         background: #f7f9fb;
       }
+      .dropzone.dragging {
+        border-color: #2f6fb3;
+        background: #eef4fb;
+      }
       .dropzone label {
         display: block;
         font-weight: 600;
@@ -155,7 +159,7 @@
     <section id="input-panel" aria-labelledby="input-heading">
       <h2 id="input-heading">Upload records</h2>
       <div id="dropzone" class="dropzone">
-        <label for="file">Choose files: plain text (.txt), Word (.docx), CSV or PDF</label>
+        <label for="file">Choose or drop files: plain text (.txt), Word (.docx), CSV or PDF</label>
         <input
           id="file"
           type="file"

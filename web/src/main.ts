@@ -29,6 +29,7 @@ const processButton = mustGet<HTMLButtonElement>("process");
 const editButton = mustGet<HTMLButtonElement>("edit");
 const downloadButton = mustGet<HTMLButtonElement>("download");
 const output = mustGet<HTMLPreElement>("output");
+const dropzone = mustGet<HTMLDivElement>("dropzone");
 const fileInput = mustGet<HTMLInputElement>("file");
 const sampleDocSelect = mustGet<HTMLSelectElement>("sample-doc");
 const sampleDocButton = mustGet<HTMLButtonElement>("load-doc");
@@ -251,6 +252,19 @@ fileInput.addEventListener("change", async () => {
   const files = [...(fileInput.files ?? [])];
   fileInput.value = "";
   await loadFiles(files);
+});
+
+// Files dropped on the upload area take the same path as chosen ones.
+dropzone.addEventListener("dragover", (event) => {
+  event.preventDefault();
+  dropzone.classList.add("dragging");
+});
+dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragging"));
+dropzone.addEventListener("drop", async (event) => {
+  event.preventDefault();
+  dropzone.classList.remove("dragging");
+  clearError();
+  await loadFiles([...(event.dataTransfer?.files ?? [])]);
 });
 
 // The samples are fictional. The sample documents are test files served with
