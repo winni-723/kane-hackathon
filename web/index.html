@@ -87,6 +87,12 @@
         margin-top: 0;
         padding: 0.2rem 0.6rem;
       }
+      .record-nav button {
+        margin-right: 0.5rem;
+      }
+      .record-nav #position {
+        margin-right: 0.5rem;
+      }
       .batch-note {
         margin: 0.75rem 0 0;
         padding: 0.5rem 0.75rem;
@@ -209,7 +215,12 @@
         <tbody id="details-body"></tbody>
       </table>
       <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
-      <button id="back" type="button">Back to table</button>
+      <p id="record-nav" class="record-nav">
+        <button id="prev" type="button">Previous</button>
+        <span id="position"></span>
+        <button id="next" type="button">Next</button>
+        <button id="back" type="button">Back to table</button>
+      </p>
     </section>
 
     <section id="batch-panel" aria-labelledby="batch-heading" hidden>

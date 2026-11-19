@@ -36,6 +36,10 @@ const sampleDocButton = mustGet<HTMLButtonElement>("load-doc");
 const summary = mustGet<HTMLParagraphElement>("summary");
 const detailsBody = mustGet<HTMLTableSectionElement>("details-body");
 const backButton = mustGet<HTMLButtonElement>("back");
+const recordNav = mustGet<HTMLParagraphElement>("record-nav");
+const prevButton = mustGet<HTMLButtonElement>("prev");
+const nextButton = mustGet<HTMLButtonElement>("next");
+const position = mustGet<HTMLSpanElement>("position");
 const batchBody = mustGet<HTMLTableSectionElement>("batch-body");
 const csvButton = mustGet<HTMLButtonElement>("csv");
 const restartButton = mustGet<HTMLButtonElement>("restart");
@@ -152,12 +156,22 @@ function showOnly(...panels: HTMLElement[]): void {
   }
 }
 
-function showResult(result: ProcessResponse, fromTable: boolean): void {
+// `index` is the record's place in the research table, or null for a record
+// that was processed on its own.
+let shownIndex: number | null = null;
+
+function showResult(result: ProcessResponse, index: number | null): void {
+  shownIndex = index;
   renderResult(result.text);
   summary.textContent = removedSummary(result.text);
   detailsBody.replaceChildren();
   addCells(detailsBody.insertRow(), columns(result.extracted));
-  backButton.hidden = !fromTable;
+  recordNav.hidden = index === null;
+  if (index !== null) {
+    position.textContent = `Record ${index + 1} of ${batchResults.length}`;
+    prevButton.disabled = index === 0;
+    nextButton.disabled = index === batchResults.length - 1;
+  }
   showOnly(resultPanel, detailsPanel);
 }
 
@@ -170,7 +184,7 @@ function showTable(): void {
     view.type = "button";
     view.textContent = "View";
     view.setAttribute("aria-label", `View record ${index + 1}`);
-    view.addEventListener("click", () => showResult(result, true));
+    view.addEventListener("click", () => showResult(result, index));
     row.insertCell().append(view);
   });
   showOnly(batchPanel);
@@ -201,7 +215,7 @@ processButton.addEventListener("click", async () => {
       setPendingBatch(null);
       showTable();
     } else {
-      showResult(await processText(input.value), false);
+      showResult(await processText(input.value), null);
     }
   } catch (e) {
     showError(e instanceof Error ? e.message : "The record could not be processed.");
@@ -378,3 +392,11 @@ csvButton.addEventListener("click", () => {
 editButton.addEventListener("click", showInput);
 restartButton.addEventListener("click", showInput);
 backButton.addEventListener("click", showTable);
+
+function step(by: number): void {
+  if (shownIndex === null) return;
+  const index = shownIndex + by;
+  if (index >= 0 && index < batchResults.length) showResult(batchResults[index], index);
+}
+prevButton.addEventListener("click", () => step(-1));
+nextButton.addEventListener("click", () => step(1));
