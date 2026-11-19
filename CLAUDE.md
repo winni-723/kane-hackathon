@@ -14,7 +14,7 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-27（五）13:
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
 - **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
-- **頁面功能**：輸入、Process、Result、Download result（下載畫面上的結果文字）、Edit original；Load sample record、`.txt`、`.docx`、`.csv`、`.pdf` 上傳；輸入區最後的「Load sample file」選單（2026-11-17 加入，4 個虛構檔放在 `web/public/samples/`，與測試檔逐位元組相同，由 `pdf_test.rs` 的 `page_samples_are_the_test_files` 把關，走與選檔相同的上傳流程）；Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）；多份病歷（Load sample batch 或多選 `.txt`）產生 Research table，可 Download CSV。大量建立 Kane 測試後不要再改頁面結構，否則錄製可能全部要重來。
+- **頁面功能**（2026-11-19 改為上傳優先）：最上面是上傳區（選檔或拖放 `.txt`、`.docx`、`.csv`、`.pdf`），下面一行說明病歷只在瀏覽器裡處理；接著是唯一的範例選單「Or try a fictional sample」＋「Load sample file」，6 個選項：Progress note (text)、Three records (text)，以及 4 個虛構檔（放在 `web/public/samples/`，與測試檔逐位元組相同，由 `pdf_test.rs` 的 `page_samples_are_the_test_files` 把關，走與選檔相同的上傳流程）；最後是「Or paste one record」與 Process。結果頁有 Result、Download result、Edit original、Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）。多份病歷（Three records、多選檔案或 CSV）產生 Research table：View 打開一份，Previous / Next 切換，Download CSV、Download all records（所有去識別化病歷存成一個 `.txt`）。Load sample record、Load sample batch 兩個按鈕已拿掉。Kane 錄製以角色與名稱找元素，不看位置，所以調整版面不必重錄；改按鈕或標籤名稱則要。
 
 ## 雙層驗證閉環
 
@@ -82,7 +82,7 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - CSV（2026-11-16）：`document::records_from_csv` 把每一列轉成一份「`欄位名: 值`」的病歷，值原樣保留（不在讀取時改寫）。答案卷多一個 `table`，列出每一列在研究數據表應顯示的年齡、性別、診斷、用藥；`csv_table_scoreboard` 要求全對。第一次分數：個資 82/82、醫療 31/31、表格 37/40（調校後 40/40），不要覆蓋。`read_file` 回傳 `{ records: [...] }`。
 - 研究數據表在 Word 文件上沒有量測，表格儲存格裡的診斷與用藥大多抓不到。
 - 測試資料的 SSN 一律用從未發出的號段（`987-65-43xx`）。`docx-06` 原本誤用 `512-55-0199`，使用者 2026-11-16 指示改為 `987-65-4320`。
-- 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 187 個測試。
+- 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 188 個測試（頁面本身 5 個：ui-download、ui-menu-record、ui-menu-batch、ui-menu-details、ui-batch-view）。
 - `.testmuai/evidence/` 在 OneDrive 資料夾裡，Kane 結束時改名證據檔偶爾會被鎖住（EPERM），測試全過但沒有 `testrun_done`、exit 1。這不是測試失敗，重跑 `verify.sh` 即可（不扣 credits）。
 - 既有的 88 份病歷、答案卷與 183 個 Kane 測試不因新增格式而修改。
 - PDF（2026-11-17）：測試集在 `tests/documents/pdf/`（`source/` → `python scripts/gen-pdf.py`，需要 Chrome、Word、PyMuPDF；`keys/`）。pdf-01、04 由 Chrome 列印，02、05 由 Word 另存，03 是固定位置的傳真表單，06 是 03 的掃描檔（沒有答案卷，必須回傳 `DocumentError::Scanned`）。答案卷使用者 2026-11-17 同意，不可修改。第一層測試在 `tests/pdf_test.rs`（讀取不可遺漏、醫療資訊全保留、掃描檔被拒），看分數：`cargo test --test pdf_test scoreboard -- --nocapture`。
@@ -108,6 +108,7 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 常用腳本：
 
 - `bash scripts/author-kane-tests.sh <record>:<type> ...`（或 `--from <清單檔>`）：產生並錄製新測試，結束時列出需要重錄的（`REDO`）。超過約 15 個測試要用背景執行，前景上限 10 分鐘。
+- `bash scripts/author-kane-tests.sh hand:tests/kane/<name>_test.md`：錄製手寫的測試（例如頁面測試）。檔案要先寫好；已有錄製的會略過。
 - `bash scripts/redo-kane-recordings.sh <file> ...`：重錄尚未 commit 的測試；已 commit 的會被拒絕。實測約每 8 個新測試有 1 個需要重錄。
 - `node scripts/cleanup-kane-chrome.mjs`：清掉 Kane 殘留的背景 Chrome。症狀是測試在 0 秒內結束、錯誤訊息為 `All CDP ports 9222-9230 are in use`。只清 `kane-clean-*` 設定檔的程序，不動使用者自己的 Chrome。
 - `cargo run --example show -- <record_id>`：印出某份病歷的去識別化結果，用來肉眼檢查。
@@ -168,6 +169,8 @@ Kane 測試在 commit 之後即凍結。尚未 commit 的新測試若檢查方�
 - **病歷文字用變數檔傳入**（`--variables-file`，objective 裡寫 `{{record}}`），不要寫在 objective 字串裡。多行文字已驗證可原樣輸入。
 - **每次執行後用 `node scripts/kane-summary.mjs <log>` 看 Kane 實際檢查了哪個元素。** `locators` 應該是 Result 區；若是別的元素或 `analyzer=visual` 且沒有 locator，該次結果不可信，要重寫 objective。
 - **「包含」與「不包含」的檢查要放在同一個步驟裡。** 步驟裡只有「不包含」檢查時，Kane 會改用截圖判讀；和「包含」檢查放一起時，兩者都是精確比對。`gen-kane-test.mjs` 已照此產生。
+- **含表格的區塊（例如 Record details）要寫成「the Record details region, taken as a whole, contains / does not contain the text '...'」**（2026-11-19）。只寫 region 時 Kane 會對準單一儲存格，「不包含」就變成截圖判讀；ui-menu-details 錄了三次才確認。
+- **不同區塊的檢查放在不同步驟。** 同一步驟混合 Result 與 Record details 的檢查時，Kane 找不準區塊（ui-batch-view）。
 - **存檔測試的重播已驗證**（2026-11-14）：3 個測試重播約 40 秒、不扣 credits；暫時關掉電話遮蔽後，三個測試在 `--no-adaptive-heal` 下全部失敗。重播抓得到退步。
 - `tests/kane/output-*/.internal/` 是本機的重播錄製，內含 TestMu 帳號與專案 id，已列入 `.gitignore`。遺失的話重新建立錄製即可，建立一個測試實際約 25–35 credits（2026-11-14 以 12 個測試量得平均 34）。
 - 頁面設計配合檢查：輸入區與 Result 區同一時間只顯示一個，錯誤訊息元素只在出錯時才存在。不要加入空白的佔位元素，Kane 曾把空的錯誤訊息元素誤認為 Result 區。
