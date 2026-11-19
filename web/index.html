@@ -34,25 +34,46 @@
         min-height: 3rem;
         background: #f6f6f6;
       }
-      .starters {
+      .dropzone {
+        border: 2px dashed #9aa7b5;
+        border-radius: 8px;
+        padding: 1.25rem;
+        background: #f7f9fb;
+      }
+      .dropzone label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .dropzone .hint {
+        margin: 0.5rem 0 0;
+        font-size: 0.9rem;
+        color: #444;
+      }
+      .sample-docs {
+        margin: 1rem 0 0;
+        font-size: 0.95rem;
+      }
+      .sample-docs label {
+        margin-right: 0.5rem;
+      }
+      .paste {
         margin-top: 1.5rem;
         padding-top: 0.75rem;
         border-top: 1px solid #ddd;
-        font-size: 0.95rem;
       }
-      .starters p {
-        margin: 0;
+      .paste h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
       }
-      .starters label {
-        margin: 0 0.5rem;
+      .paste label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
       }
-      .starters .sample-docs {
-        margin-top: 0.5rem;
+      .paste textarea {
+        min-height: 120px;
       }
-      .starters .sample-docs label {
-        margin-left: 0;
-      }
-      .batch-hint button,
       .sample-docs button,
       td button {
         margin-top: 0;
@@ -128,38 +149,36 @@
     <!-- Only one panel is on screen at a time, so the original text and the
          de-identified result never appear together. -->
     <section id="input-panel" aria-labelledby="input-heading">
-      <h2 id="input-heading">Original record</h2>
-      <label for="input">Medical record text</label>
-      <textarea id="input" placeholder="Paste a medical record here"></textarea>
-      <button id="process" type="button">Process</button>
-
-      <!-- Kept after the Process button so the text box and Process stay the
-           first controls in this panel. -->
-      <div class="starters">
-        <label for="file">Choose a .txt, Word (.docx), CSV or PDF file</label>
+      <h2 id="input-heading">Upload records</h2>
+      <div id="dropzone" class="dropzone">
+        <label for="file">Choose files: plain text (.txt), Word (.docx), CSV or PDF</label>
         <input
           id="file"
           type="file"
           accept=".txt,text/plain,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.csv,text/csv,.pdf,application/pdf"
           multiple
         />
-        <p class="batch-hint">
-          Several records at once become a research table, one row per record.
-        </p>
-        <!-- Last in the panel, so every control before it stays where it was. -->
-        <p class="sample-docs">
-          <label for="sample-doc">Or try a fictional sample:</label>
-          <select id="sample-doc">
-            <option value="sample-clinic-note.docx">Clinic note (Word)</option>
-            <option value="sample-patient-list.csv">Patient list (CSV)</option>
-            <option value="sample-lab-report.pdf">Lab report (PDF)</option>
-            <option value="sample-scanned-fax.pdf">Scanned fax (PDF, no text)</option>
-            <option value="inline:record">Progress note (text)</option>
-            <option value="inline:batch">Three records (text)</option>
-          </select>
-          <button id="load-doc" type="button">Load sample file</button>
-        </p>
+        <p class="hint">One file opens as one record. Several files, or a CSV file with one patient per row, become a research table.</p>
       </div>
+      <p class="sample-docs">
+        <label for="sample-doc">Or try a fictional sample:</label>
+        <select id="sample-doc">
+          <option value="sample-clinic-note.docx">Clinic note (Word)</option>
+          <option value="sample-patient-list.csv">Patient list (CSV)</option>
+          <option value="sample-lab-report.pdf">Lab report (PDF)</option>
+          <option value="sample-scanned-fax.pdf">Scanned fax (PDF, no text)</option>
+          <option value="inline:record">Progress note (text)</option>
+          <option value="inline:batch">Three records (text)</option>
+        </select>
+        <button id="load-doc" type="button">Load sample file</button>
+      </p>
+
+      <div class="paste">
+        <h3>Or paste one record</h3>
+        <label for="input">Medical record text</label>
+        <textarea id="input" placeholder="Paste a medical record here"></textarea>
+      </div>
+      <button id="process" type="button">Process</button>
     </section>
 
     <section id="result-panel" aria-labelledby="result-heading" hidden>
