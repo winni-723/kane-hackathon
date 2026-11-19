@@ -3,6 +3,7 @@
 #
 #   bash scripts/author-kane-tests.sh <record_id>:<pii_type> [...]
 #   bash scripts/author-kane-tests.sh --from <file with one pair per line>
+#   bash scripts/author-kane-tests.sh hand:tests/kane/<name>_test.md
 #
 # The local server must already be running the engine under test
 # (bash scripts/verify.sh leaves it running). Existing tests are skipped, never
@@ -23,6 +24,20 @@ for pair in "${pairs[@]}"; do
   [ -z "$pair" ] && continue
   record="${pair%%:*}"
   kind="${pair##*:}"
+  # hand:<path> is a test written by hand (a UI test, say). The file exists
+  # already; it is recorded only if it has no recording yet.
+  if [ "$record" = "hand" ]; then
+    file="$kind"
+    stem="$(basename "$file" _test.md)"
+    if [ ! -f "$file" ]; then
+      echo "  could not find $file"
+    elif [ -d "$(dirname "$file")/output-$stem/.internal" ]; then
+      echo "  skip  $file (already recorded)"
+    else
+      new+=("$file")
+    fi
+    continue
+  fi
   # upload:<document_id> is a test of the file-upload path (sample menu).
   if [ "$record" = "upload" ]; then
     file="tests/kane/upload-${kind}_test.md"
