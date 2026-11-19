@@ -42,6 +42,7 @@ const nextButton = mustGet<HTMLButtonElement>("next");
 const position = mustGet<HTMLSpanElement>("position");
 const batchBody = mustGet<HTMLTableSectionElement>("batch-body");
 const csvButton = mustGet<HTMLButtonElement>("csv");
+const allRecordsButton = mustGet<HTMLButtonElement>("all-records");
 const restartButton = mustGet<HTMLButtonElement>("restart");
 
 // The error message exists in the page only while there is an error, so an
@@ -387,6 +388,15 @@ csvButton.addEventListener("click", () => {
   const csv = [header, ...rows].map((row) => row.map(csvField).join(",")).join("\r\n");
   // The byte-order mark makes spreadsheets read the file as UTF-8.
   save(`﻿${csv}\r\n`, "text/csv;charset=utf-8", "research-table.csv");
+});
+
+// Every de-identified record in one file. Like Download result, it holds
+// only text the engine returned, never the original.
+allRecordsButton.addEventListener("click", () => {
+  const parts = batchResults.map(
+    (result, index) => `===== Record ${index + 1} =====\r\n\r\n${result.text.replace(/\r?\n/g, "\r\n")}\r\n`,
+  );
+  save(parts.join("\r\n"), "text/plain;charset=utf-8", "deidentified-records.txt");
 });
 
 editButton.addEventListener("click", showInput);
