@@ -201,9 +201,12 @@ presses Process, and checks the Result region against the answer key. The
 whole suite is replayed on every run with `--no-adaptive-heal`, so a regression
 fails instead of the test being rewritten to fit.
 
-The suite holds 187 tests: every record and identifier kind in the
+The suite holds 188 tests: every record and identifier kind in the
 development set (110), every held-out hand-written record (56), three of the
-Synthea records (13), four tests of the page itself, and four of file upload.
+Synthea records (13), five tests of the page itself, and four of file upload.
+The page tests pick the progress note and the three-record sample from the
+menu, check Record details, open records from the research table and step
+through them with Next, and download the result.
 The upload tests (`scripts/gen-kane-upload-test.mjs`) pick a file from the
 page's sample menu, so it is read the same way as a file the visitor
 chooses: a Word note and a PDF lab report are checked against their
