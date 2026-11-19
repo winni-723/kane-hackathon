@@ -267,11 +267,22 @@ fileInput.addEventListener("change", async () => {
   await loadFiles(files);
 });
 
-// The sample documents are fictional test files served with the page. A
-// chosen one goes through exactly the path a file chosen from disk does.
+// The samples are fictional. The sample documents are test files served with
+// the page, and a chosen one goes through exactly the path a file chosen from
+// disk does; the text samples go where pasted text or a batch of files would.
 sampleDocButton.addEventListener("click", async () => {
   clearError();
   const name = sampleDocSelect.value;
+  if (name === "inline:record") {
+    setPendingBatch(null);
+    input.value = SAMPLE_RECORD;
+    input.focus();
+    return;
+  }
+  if (name === "inline:batch") {
+    setPendingBatch(SAMPLE_BATCH);
+    return;
+  }
   try {
     const response = await fetch(`samples/${name}`);
     if (!response.ok) throw new Error(`Server returned ${response.status}`);
