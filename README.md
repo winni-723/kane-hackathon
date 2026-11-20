@@ -219,13 +219,13 @@ every commit.
 A commit is made only when both layers pass, and the commit message says what
 passed.
 
-The deployed site has its own Kane test, `tests/kane-live/live-sample_test.md`,
-which loads the sample record on the live URL and checks the Result the same
-way. It is kept out of the regression suite so that a sleeping free instance
+The deployed site has its own Kane test,
+`tests/kane-live/live-menu-sample_test.md`, which picks the progress note
+from the sample menu on the live URL and checks the Result the same way. It is kept out of the regression suite so that a sleeping free instance
 cannot block a commit:
 
 ```bash
-kane-cli testmd run tests/kane-live/live-sample_test.md --agent --headless --no-adaptive-heal
+kane-cli testmd run tests/kane-live/live-menu-sample_test.md --agent --headless --no-adaptive-heal
 ```
 
 ### The loop is wired into the agent
