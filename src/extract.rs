@@ -439,8 +439,10 @@ static MEDICATION: LazyLock<Regex> = LazyLock::new(|| {
         r"|in the morning|a day",
         r"|chewed)\b)*",
     );
-    // `reduce Amlodipine to 2.5 mg daily`
-    Regex::new(&format!(r"\b({name}) (?:to )?({dose})({how})")).expect("medication pattern is valid")
+    // `reduce Amlodipine to 2.5 mg daily`. In a document's table the dose is
+    // in the next cell (`Metformin<tab>1000 mg<tab>twice daily`), and in a
+    // wrapped paragraph it may start the next line.
+    Regex::new(&format!(r"\b({name})[ \t\n](?:to )?({dose})({how})")).expect("medication pattern is valid")
 });
 
 /// A drug given through a device on a schedule, with no dose written:
@@ -471,11 +473,11 @@ fn medications(text: &str) -> Vec<String> {
         let is_lab_value = text[dose.end()..].starts_with('/');
         let name = caps[1].split(' ').next().unwrap_or_default();
         if !is_lab_value && !NOT_A_DRUG.contains(&name) {
-            found.push((whole.start(), whole.as_str().trim().to_string()));
+            found.push((whole.start(), one_line(whole.as_str())));
         }
     }
     for m in MEDICATION_BY_DEVICE.find_iter(text).chain(MEDICATION_BY_FORM.find_iter(text)) {
-        found.push((m.start(), m.as_str().to_string()));
+        found.push((m.start(), one_line(m.as_str())));
     }
     found.sort();
 
@@ -488,6 +490,17 @@ fn medications(text: &str) -> Vec<String> {
         }
     }
     list
+}
+
+/// A medication as one line with single spaces: a table row's tabs and a
+/// wrapped paragraph's line break become spaces. A bare number left at the
+/// end is the next cell (`25 mg<tab>1 tablet`), not part of the schedule.
+fn one_line(raw: &str) -> String {
+    let mut words: Vec<&str> = raw.split_whitespace().collect();
+    while words.len() > 1 && words.last().is_some_and(|w| w.chars().all(|c| c.is_ascii_digit())) {
+        words.pop();
+    }
+    words.join(" ")
 }
 
 #[cfg(test)]
@@ -701,6 +714,24 @@ mod tests {
         assert_eq!(medications("Pain controlled on Hydromorphone PCA; tolerating liquids."), ["Hydromorphone PCA"]);
         // a stopped drug and a percentage that is not a strength
         assert!(medications("stop Diphenhydramine; SpO2 95% on room air; HbA1c 7.8%.").is_empty());
+    }
+
+    #[test]
+    fn a_dose_in_the_next_cell_or_on_the_next_line() {
+        assert_eq!(
+            medications("Medication\tDose\tFrequency\nMetformin\t1000 mg\ttwice daily\tcontinue"),
+            ["Metformin 1000 mg twice daily"]
+        );
+        assert_eq!(medications("Lisinopril 20 mg daily, Atorvastatin\n40 mg daily."), [
+            "Lisinopril 20 mg daily",
+            "Atorvastatin 40 mg daily"
+        ]);
+        // The next cell's number is not part of the schedule.
+        assert_eq!(medications("Furosemide 20 mg\t1 tablet by mouth"), ["Furosemide 20 mg"]);
+        // A drug mentioned twice is one row, however its dose was spaced.
+        assert_eq!(medications("Prednisone 40 mg by mouth.\nPrednisone\t40 mg daily"), ["Prednisone 40 mg"]);
+        // A lab table is not a medication list.
+        assert!(medications("Test\tResult\nGlucose\t168 mg/dL\tH").is_empty());
     }
 
     #[test]

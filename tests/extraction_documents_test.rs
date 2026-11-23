@@ -172,8 +172,11 @@ fn no_identifier_reaches_the_table() {
                 failures.push(format!("{}: {pii:?} is in the table", key.id));
             }
         }
+        // A cell is one line: a table row's tabs and a wrapped line's break
+        // become single spaces, so it is compared with the text spaced alike.
+        let one_line = key.deidentified.split_whitespace().collect::<Vec<_>>().join(" ");
         for cell in &cells {
-            assert!(key.deidentified.contains(cell.as_str()), "{}: {cell:?} is not in the de-identified text", key.id);
+            assert!(one_line.contains(cell.as_str()), "{}: {cell:?} is not in the de-identified text", key.id);
         }
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
