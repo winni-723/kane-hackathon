@@ -247,12 +247,14 @@ fn parse_date(date: &str, this_year: i32) -> Option<Day> {
 // --- sex ---------------------------------------------------------------------
 
 /// The word after an age, or a labelled field: `72-year-old woman`,
-/// `4-year-old son`, `34 y/o male`, `Sex: F`.
+/// `4-year-old son`, `34 y/o male`, `Sex: F`, and the fields of a document's
+/// table: `Sex<tab>Female`, `DOB / Sex<tab>[DATE] / F`.
 static SEX_WORD: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
         r"(?i)(?:\d[- ]years?[- ]old|\by/?o)\s+(?:\w+\s+)?",
         r"(woman|female|girl|daughter|lady|man|male|boy|son|gentleman)\b",
-        r"|\b(?:sex|gender)\s*:\s*(f|m|female|male|woman|man)\b",
+        r"|\b(?:sex|gender)(?:[ \t]*:|\t)[ \t]*(f|m|female|male|woman|man)\b",
+        r"|\b(?:dob|date of birth) ?/ ?(?:sex|gender)(?:[ \t]*:|\t)[ \t]*\S+ ?/ ?(f|m|female|male)\b",
     ))
     .expect("sex word pattern is valid")
 });
@@ -269,7 +271,7 @@ static PRONOUN: LazyLock<Regex> = LazyLock::new(|| {
 
 fn sex(text: &str) -> Option<&'static str> {
     if let Some(caps) = SEX_WORD.captures(text) {
-        let word = caps.get(1).or(caps.get(2))?.as_str().to_lowercase();
+        let word = caps.get(1).or(caps.get(2)).or(caps.get(3))?.as_str().to_lowercase();
         let female = ["woman", "female", "girl", "daughter", "lady", "f"];
         return Some(if female.contains(&word.as_str()) { "F" } else { "M" });
     }
@@ -557,6 +559,16 @@ mod tests {
         // One pronoun each way is not enough to decide.
         assert_eq!(sex("Her nephew translates; call his cell."), None);
         assert_eq!(sex("Name: [NAME]\nDiagnosis: Migraine."), None);
+    }
+
+    #[test]
+    fn sex_from_a_table_field() {
+        assert_eq!(sex("Date of Birth\t[DATE]\tSex\tFemale"), Some("F"));
+        assert_eq!(sex("DOB / Sex\t[DATE] / F\tCollected\t[DATE]"), Some("F"));
+        assert_eq!(sex("DOB/Sex: [DATE]/M"), Some("M"));
+        // The word alone, with no value after it, says nothing.
+        assert_eq!(sex("Safe sex practices were discussed."), None);
+        assert_eq!(sex("Sex\tnot recorded"), None);
     }
 
     #[test]
