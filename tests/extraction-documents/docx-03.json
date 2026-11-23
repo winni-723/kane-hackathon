@@ -1,0 +1,17 @@
+{
+  "record_id": "docx-03",
+  "age": "35",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "Hashimoto thyroiditis"
+  ],
+  "medications": [
+    "Levothyroxine",
+    "Vitamin D 2000 IU daily"
+  ],
+  "must_not_list": [
+    "Graves disease"
+  ],
+  "notes": "Graves disease is the mother's. Levothyroxine is keyed by name: the dose changes from 75 mcg to 88 mcg."
+}

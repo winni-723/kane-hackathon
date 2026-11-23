@@ -1,0 +1,16 @@
+{
+  "record_id": "docx-02",
+  "age": "66",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [],
+  "medications": [
+    "Aspirin 81 mg daily",
+    "Atorvastatin 40 mg nightly",
+    "Nitroglycerin 0.4 mg sublingual as needed"
+  ],
+  "must_not_list": [
+    "myocardial infarction"
+  ],
+  "notes": "Only a symptom (exertional chest pain) is given; no diagnosis is stated, so none is keyed. The myocardial infarction is the father's."
+}

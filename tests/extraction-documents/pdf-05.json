@@ -1,0 +1,22 @@
+{
+  "record_id": "pdf-05",
+  "age": "82",
+  "age_source": "dob",
+  "sex": "M",
+  "diagnoses": [
+    "heart failure with reduced ejection fraction",
+    "atrial fibrillation",
+    "benign prostatic hyperplasia"
+  ],
+  "medications": [
+    "Metoprolol tartrate",
+    "Furosemide",
+    "Warfarin",
+    "Tamsulosin"
+  ],
+  "must_not_list": [
+    "Penicillin",
+    "NSAIDs"
+  ],
+  "notes": "Sex comes from 'his son'. Penicillin is an allergy and NSAIDs are to be avoided, so neither is a medication."
+}

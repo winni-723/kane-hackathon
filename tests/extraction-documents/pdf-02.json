@@ -1,0 +1,23 @@
+{
+  "record_id": "pdf-02",
+  "age": "67",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "Community-acquired pneumonia",
+    "COPD",
+    "atrial fibrillation"
+  ],
+  "medications": [
+    "Apixaban",
+    "Diltiazem",
+    "Amoxicillin-clavulanate",
+    "Prednisone",
+    "Tiotropium",
+    "Albuterol",
+    "Ceftriaxone",
+    "Azithromycin"
+  ],
+  "must_not_list": [],
+  "notes": "Ceftriaxone and Azithromycin were given in hospital; the rest are discharge medications."
+}

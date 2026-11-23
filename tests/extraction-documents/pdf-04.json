@@ -1,0 +1,13 @@
+{
+  "record_id": "pdf-04",
+  "age": "53",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "nodule",
+    "emphysema"
+  ],
+  "medications": [],
+  "must_not_list": [],
+  "notes": "A radiology report lists no medications."
+}

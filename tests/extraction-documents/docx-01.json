@@ -1,0 +1,20 @@
+{
+  "record_id": "docx-01",
+  "age": "78",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "Community-acquired pneumonia",
+    "Type 2 diabetes mellitus",
+    "Hypertension"
+  ],
+  "medications": [
+    "Amoxicillin-clavulanate",
+    "Metformin",
+    "Lisinopril",
+    "Ceftriaxone",
+    "Azithromycin"
+  ],
+  "must_not_list": [],
+  "notes": "Medications in the discharge table are keyed by name only: the table splits name and dose into cells. Ceftriaxone and Azithromycin were given in hospital."
+}

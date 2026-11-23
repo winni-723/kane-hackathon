@@ -1,0 +1,13 @@
+{
+  "record_id": "pdf-01",
+  "age": "68",
+  "age_source": "dob",
+  "sex": "F",
+  "diagnoses": [
+    "type 2 diabetes mellitus",
+    "chronic kidney disease"
+  ],
+  "medications": [],
+  "must_not_list": [],
+  "notes": "A lab report lists no medications. Sex comes from the 'DOB / Sex' field."
+}

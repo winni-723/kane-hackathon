@@ -1,0 +1,17 @@
+{
+  "record_id": "pdf-03",
+  "age": "77",
+  "age_source": "dob",
+  "sex": "M",
+  "diagnoses": [
+    "Hypertension",
+    "hyperlipidemia"
+  ],
+  "medications": [
+    "Lisinopril 20 mg daily",
+    "Atorvastatin",
+    "Aspirin 81 mg daily"
+  ],
+  "must_not_list": [],
+  "notes": "Exertional chest pain is a symptom, not keyed. Atorvastatin is keyed by name: its dose is wrapped onto the next line."
+}

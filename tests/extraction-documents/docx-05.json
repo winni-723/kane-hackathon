@@ -1,0 +1,16 @@
+{
+  "record_id": "docx-05",
+  "age": "24",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "Asthma"
+  ],
+  "medications": [
+    "Albuterol",
+    "Prednisone",
+    "Fluticasone"
+  ],
+  "must_not_list": [],
+  "notes": "Medications in the table are keyed by name only."
+}

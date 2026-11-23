@@ -1,0 +1,13 @@
+{
+  "record_id": "docx-04",
+  "age": "51",
+  "age_source": "stated",
+  "sex": "M",
+  "diagnoses": [
+    "appendicitis",
+    "renal stone"
+  ],
+  "medications": [],
+  "must_not_list": [],
+  "notes": "Omnipaque 350 is CT contrast, not a medication, so it is not keyed."
+}

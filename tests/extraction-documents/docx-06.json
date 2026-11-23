@@ -1,0 +1,19 @@
+{
+  "record_id": "docx-06",
+  "age": "85",
+  "age_source": "stated",
+  "sex": "F",
+  "diagnoses": [
+    "Alzheimer disease",
+    "atrial fibrillation",
+    "chronic kidney disease"
+  ],
+  "medications": [
+    "Apixaban",
+    "Donepezil",
+    "Metoprolol succinate",
+    "Acetaminophen"
+  ],
+  "must_not_list": [],
+  "notes": "The left hip fracture is only suspected, so it is not a diagnosis. Medications in the table are keyed by name only."
+}
