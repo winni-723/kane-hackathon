@@ -464,6 +464,17 @@ static MEDICATION_BY_FORM: LazyLock<Regex> = LazyLock::new(|| {
         .expect("form medication pattern is valid")
 });
 
+/// Drugs said to be given, with no dose written:
+/// `treated with intravenous Ceftriaxone and Azithromycin`.
+static MEDICATION_GIVEN: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"\b(?:treated with|started on|given)",
+        r"(?: (?:intravenous|IV|oral|inhaled|nebulized|subcutaneous))?",
+        r" ([A-Z][a-z]{3,}(?:-[a-z]+)?)(?: and ([A-Z][a-z]{3,}(?:-[a-z]+)?))?\b",
+    ))
+    .expect("given medication pattern is valid")
+});
+
 /// Capitalized words that take a number and a unit but are not drugs.
 const NOT_A_DRUG: [&str; 12] = [
     "Glucose", "Creatinine", "Hemoglobin", "Potassium", "Sodium", "Calcium", "Cholesterol",
@@ -493,6 +504,15 @@ fn medications(text: &str) -> Vec<String> {
         let name = item.split(' ').next().unwrap_or_default().to_string();
         if !list.iter().any(|have| have.split(' ').next() == Some(name.as_str())) {
             list.push(item);
+        }
+    }
+    // A drug given with no dose is listed by name, unless it is already
+    // there with one.
+    for caps in MEDICATION_GIVEN.captures_iter(text) {
+        for name in [caps.get(1), caps.get(2)].into_iter().flatten().map(|m| m.as_str()) {
+            if !NOT_A_DRUG.contains(&name) && !list.iter().any(|have| have.split(' ').next() == Some(name)) {
+                list.push(name.to_string());
+            }
         }
     }
     list
@@ -754,6 +774,18 @@ mod tests {
         );
         // `ER` alone after a word is not a release form: the emergency room.
         assert!(medications("Seen in the ER 2 days ago.").is_empty());
+    }
+
+    #[test]
+    fn drugs_given_with_no_dose() {
+        assert_eq!(
+            medications("She was treated with intravenous Ceftriaxone and Azithromycin and improved."),
+            ["Ceftriaxone", "Azithromycin"]
+        );
+        // With a dose elsewhere, the drug is listed once, with its dose.
+        assert_eq!(medications("Started on Apixaban. Apixaban 5 mg twice daily (new)."), ["Apixaban 5 mg twice daily"]);
+        // A name is never a drug: it is a tag by now.
+        assert!(medications("She was given [NAME]'s number.").is_empty());
     }
 
     #[test]

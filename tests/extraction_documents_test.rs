@@ -15,7 +15,7 @@ const REFERENCE_DAY: Day = Day { year: 2026, month: 11, day: 14 };
 
 /// Columns the extraction must get completely right on every document. This
 /// list only ever grows.
-const GATES: &[&str] = &["age", "sex"];
+const GATES: &[&str] = &["age", "sex", "medications"];
 
 const COLUMNS: [&str; 4] = ["age", "sex", "diagnoses", "medications"];
 
