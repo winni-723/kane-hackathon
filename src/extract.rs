@@ -264,6 +264,12 @@ static PATIENT_TITLE: LazyLock<Regex> = LazyLock::new(|| {
         .expect("patient title pattern is valid")
 });
 
+/// `Reviewed with patient and his son`: the pronoun right after "patient
+/// and" can only be the patient's.
+static PATIENT_AND_PRONOUN: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?i)\b(?:the )?patient and (?:(her)|(his))\b").expect("patient pronoun pattern is valid")
+});
+
 static PRONOUN: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"(?i)\b(?:(she|her|hers|herself)|(he|him|his|himself))\b")
         .expect("pronoun pattern is valid")
@@ -282,6 +288,9 @@ fn sex(text: &str) -> Option<&'static str> {
     // elsewhere in a record often belong to relatives and are not used.
     if let Some(caps) = PATIENT_TITLE.captures(text) {
         return Some(if caps[1].eq_ignore_ascii_case("mr") { "M" } else { "F" });
+    }
+    if let Some(caps) = PATIENT_AND_PRONOUN.captures(text) {
+        return Some(if caps.get(1).is_some() { "F" } else { "M" });
     }
     // Pronouns also point at relatives ("her nephew ... his cell"), so one
     // side has to clearly outnumber the other.
@@ -569,6 +578,14 @@ mod tests {
         // The word alone, with no value after it, says nothing.
         assert_eq!(sex("Safe sex practices were discussed."), None);
         assert_eq!(sex("Sex\tnot recorded"), None);
+    }
+
+    #[test]
+    fn sex_from_the_pronoun_after_patient_and() {
+        assert_eq!(sex("Reviewed with patient and his son [NAME]."), Some("M"));
+        assert_eq!(sex("Discussed with the patient and her husband."), Some("F"));
+        // A relative's pronoun elsewhere does not count.
+        assert_eq!(sex("Called the patient's daughter and her husband."), None);
     }
 
     #[test]
