@@ -421,11 +421,15 @@ fn diagnoses(text: &str) -> Vec<String> {
 /// `Albuterol inhaler 2 puffs every 4 hours as needed`, `Ceftriaxone 1 g IV daily`.
 static MEDICATION: LazyLock<Regex> = LazyLock::new(|| {
     let name = concat!(
+        // a vitamin is named by a letter: Vitamin D, Vitamin B12
+        r"(?:Vitamin [A-EK]\d{0,2}|",
         // the second half of a combination may be lower case: Budesonide-formoterol
         r"[A-Z][a-z]{3,}(?:-[A-Za-z][a-z]+)?",
         // the second word of a drug's name, or the device it comes in
         r"(?: (?:acid|sulfate|chloride|sodium|succinate|tartrate|citrate|carbonate|phosphate",
         r"|hydrochloride|acetate|gluconate|oxide|inhaler|nebulizers?|patch|drops|cream))?",
+        // an extended-release form: Diltiazem ER
+        r"(?: (?:ER|XR|SR|CR|XL|LA))?)",
     );
     let dose = concat!(
         // 160/4.5 mcg: the two strengths of a combination
@@ -434,7 +438,7 @@ static MEDICATION: LazyLock<Regex> = LazyLock::new(|| {
         r"|\d[\d.]*\s?% (?:cream|ointment|gel|lotion|solution|drops)\b)",
     );
     let how = concat!(
-        r"(?:\s(?:IV|PO|IM|subcutaneously|orally|topically|daily|nightly|weekly|monthly|once|twice",
+        r"(?:\s(?:IV|PO|IM|subcutaneously|orally|topically|sublingual|sublingually|daily|nightly|weekly|monthly|once|twice",
         r"|three|four|times|every|\d{1,2}|hours?|days?|weeks?|months?|puffs?|as needed|at bedtime",
         r"|in the morning|a day",
         r"|chewed)\b)*",
@@ -442,7 +446,9 @@ static MEDICATION: LazyLock<Regex> = LazyLock::new(|| {
     // `reduce Amlodipine to 2.5 mg daily`. In a document's table the dose is
     // in the next cell (`Metformin<tab>1000 mg<tab>twice daily`), and in a
     // wrapped paragraph it may start the next line.
-    Regex::new(&format!(r"\b({name})[ \t\n](?:to )?({dose})({how})")).expect("medication pattern is valid")
+    // A change of dose names both: `Levothyroxine from 75 mcg to 88 mcg daily`.
+    let change = r"(?:from \d[\d.]*\s?(?:mg|mcg|g|units?) )?";
+    Regex::new(&format!(r"\b({name})[ \t\n]{change}(?:to )?({dose})({how})")).expect("medication pattern is valid")
 });
 
 /// A drug given through a device on a schedule, with no dose written:
@@ -732,6 +738,22 @@ mod tests {
         assert_eq!(medications("Prednisone 40 mg by mouth.\nPrednisone\t40 mg daily"), ["Prednisone 40 mg"]);
         // A lab table is not a medication list.
         assert!(medications("Test\tResult\nGlucose\t168 mg/dL\tH").is_empty());
+    }
+
+    #[test]
+    fn release_forms_vitamins_routes_and_dose_changes() {
+        assert_eq!(medications("Diltiazem ER 120 mg daily (new)."), ["Diltiazem ER 120 mg daily"]);
+        assert_eq!(medications("Vitamin D 2000 IU daily to continue."), ["Vitamin D 2000 IU daily"]);
+        assert_eq!(
+            medications("given Nitroglycerin 0.4 mg sublingual as needed."),
+            ["Nitroglycerin 0.4 mg sublingual as needed"]
+        );
+        assert_eq!(
+            medications("Increase Levothyroxine from 75 mcg to 88 mcg daily, taken fasting."),
+            ["Levothyroxine from 75 mcg to 88 mcg daily"]
+        );
+        // `ER` alone after a word is not a release form: the emergency room.
+        assert!(medications("Seen in the ER 2 days ago.").is_empty());
     }
 
     #[test]
