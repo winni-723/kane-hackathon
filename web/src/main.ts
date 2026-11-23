@@ -67,6 +67,9 @@ function showError(message: string): void {
 // builds the research table instead of reading the text box.
 let pendingBatch: string[] | null = null;
 let batchNote: HTMLParagraphElement | null = null;
+// The loaded records as read, shown before Process so the visitor can see
+// what was loaded. It exists only while a batch is waiting.
+let batchPreview: HTMLElement | null = null;
 // The processed batch, kept so a record can be opened from the table.
 let batchResults: ProcessResponse[] = [];
 
@@ -74,12 +77,25 @@ function setPendingBatch(records: string[] | null): void {
   pendingBatch = records;
   batchNote?.remove();
   batchNote = null;
+  batchPreview?.remove();
+  batchPreview = null;
   if (records) {
     batchNote = document.createElement("p");
     batchNote.className = "batch-note";
     batchNote.setAttribute("role", "status");
     batchNote.textContent = `${records.length} records loaded. Press Process to build the research table.`;
-    processButton.before(batchNote);
+    batchPreview = document.createElement("div");
+    batchPreview.className = "batch-preview";
+    batchPreview.setAttribute("role", "region");
+    batchPreview.setAttribute("aria-label", "Loaded records");
+    records.forEach((record, index) => {
+      const heading = document.createElement("h4");
+      heading.textContent = `Record ${index + 1} of ${records.length}`;
+      const text = document.createElement("pre");
+      text.textContent = record;
+      batchPreview?.append(heading, text);
+    });
+    processButton.before(batchNote, batchPreview);
     input.value = "";
   }
 }
