@@ -422,8 +422,51 @@ fn diagnoses_under_heading(text: &str) -> Vec<String> {
     found
 }
 
+/// The patient introduced by age with their conditions:
+/// `85-year-old woman with Alzheimer disease, atrial fibrillation and
+/// chronic kidney disease stage 3 who fell`.
+static AGED_PATIENT_WITH: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"(?i)\d[- ]years?[- ]old (?:woman|man|female|male|lady|gentleman|girl|boy|patient) with ",
+        r"([^.;\n]+)",
+    ))
+    .expect("aged patient pattern is valid")
+});
+
+/// Where the list of conditions after "with" stops.
+static WITH_LIST_END: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?i),? (?:who|here|presenting|presents|presented|over|for|on|since|that|after) ")
+        .expect("list end pattern is valid")
+});
+
+/// Words that make an item a symptom or a finding, not a diagnosis.
+const SYMPTOM_WORDS: [&str; 16] = [
+    "pain", "ache", "fever", "cough", "dyspnea", "breath", "nausea", "vomiting", "wheezing",
+    "fatigue", "leukocytosis", "swelling", "rash", "bleeding", "dizziness", "headache",
+];
+
+fn diagnoses_after_age(text: &str) -> Vec<String> {
+    let mut found = Vec::new();
+    for caps in AGED_PATIENT_WITH.captures_iter(text) {
+        let list = &caps[1];
+        let list = &list[..WITH_LIST_END.find(list).map_or(list.len(), |m| m.start())];
+        for item in list.split(", and ").flat_map(|s| s.split(", ")).flat_map(|s| s.split(" and ")) {
+            let item = item.trim().trim_end_matches(',');
+            let lower = item.to_lowercase();
+            let symptom = lower.split(|c: char| !c.is_ascii_alphabetic()).any(|w| SYMPTOM_WORDS.contains(&w));
+            if !symptom && let Some(condition) = clean_condition(item) {
+                push_unique(&mut found, condition);
+            }
+        }
+    }
+    found
+}
+
 fn diagnoses(text: &str) -> Vec<String> {
     let mut found = diagnoses_under_heading(text);
+    for condition in diagnoses_after_age(text) {
+        push_unique(&mut found, condition);
+    }
     for caps in DIAGNOSIS_FIELD.captures_iter(text) {
         let value = caps[1].trim();
         if !value.is_empty() && !value.contains('[') {
@@ -702,6 +745,19 @@ mod tests {
         );
         // The word inside a sentence is not a heading.
         assert!(diagnoses("My impression\nis that she is improving.").is_empty());
+    }
+
+    #[test]
+    fn conditions_after_the_patients_age() {
+        assert_eq!(
+            diagnoses("[NAME] is an 85-year-old woman with Alzheimer disease, atrial fibrillation and chronic kidney disease stage 3 who fell."),
+            ["Alzheimer disease", "atrial fibrillation", "chronic kidney disease stage 3"]
+        );
+        assert_eq!(diagnoses("35-year-old woman with Hashimoto thyroiditis, here for follow-up."), ["Hashimoto thyroiditis"]);
+        assert_eq!(diagnoses("a 67-year-old man with COPD on home oxygen 2 L who presented"), ["COPD"]);
+        // Symptoms and findings are not diagnoses.
+        assert!(diagnoses("66-year-old man with exertional chest pain over the past two months.").is_empty());
+        assert!(diagnoses("51-year-old man with right lower quadrant pain for 2 days, fever and leukocytosis.").is_empty());
     }
 
     #[test]
