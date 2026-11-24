@@ -76,8 +76,11 @@ pub fn assess(deidentified: &str, extracted: &Extracted) -> Assessment {
     for m in AGE_OVER_89.find_iter(deidentified) {
         found.push(QuasiIdentifier { category: "Age over 89", level: "review", line: line_of(deidentified, m.start()), action: OVER_89 });
     }
-    let table_age_over_89 = extracted.age.as_deref().and_then(|a| a.parse::<u32>().ok()).is_some_and(|a| a > 89);
-    if table_age_over_89 && found.is_empty() {
+    // The table shows 90+ for an age the record stated; if the text does not
+    // say 90+ too, the exact age was written in a shape the engine leaves
+    // (e.g. "94F"). An age from a date of birth needs no flag: the date is gone.
+    let stated_over_89 = extracted.age.as_deref() == Some("90+") && extracted.age_source == Some("stated");
+    if stated_over_89 && !deidentified.contains("90+") && found.is_empty() {
         found.push(QuasiIdentifier { category: "Age over 89", level: "review", line: 0, action: OVER_89 });
     }
     for m in STATE_LINE.find_iter(deidentified).chain(STATE_AFTER_CITY.find_iter(deidentified)) {
@@ -100,11 +103,16 @@ pub fn assess(deidentified: &str, extracted: &Extracted) -> Assessment {
     Assessment { quasi_identifiers: found }
 }
 
+/// A research-table age as a number; the table writes 90 and over as "90+".
+fn table_age(age: &str) -> Option<u32> {
+    if age == "90+" { Some(90) } else { age.parse().ok() }
+}
+
 /// How many records share each (age band, sex) in a set's research table.
 pub fn group_sizes(rows: &[Extracted]) -> GroupSizes {
     let mut groups: BTreeMap<(u32, &str), usize> = BTreeMap::new();
     for row in rows {
-        let age = row.age.as_deref().and_then(|a| a.parse::<u32>().ok());
+        let age = row.age.as_deref().and_then(table_age);
         if let (Some(age), Some(sex)) = (age, row.sex) {
             // 90 and over is one band, as Safe Harbor reports it.
             *groups.entry((age.min(90) / 10, sex)).or_default() += 1;
@@ -135,8 +143,13 @@ mod tests {
         assert_eq!(categories("A 92-year-old woman with CHF.", &none), vec![("Age over 89", 1)]);
         assert_eq!(categories("Note\nAge: 101", &none), vec![("Age over 89", 2)]);
         assert_eq!(categories("Pt is 95 yo.", &none), vec![("Age over 89", 1)]);
-        // From the table only, e.g. worked out from a date of birth.
-        assert_eq!(categories("DOB: [DATE]", &row(Some("93"), None)), vec![("Age over 89", 0)]);
+        // The table says 90+ from a shape the engine leaves in the text.
+        let stated = Extracted { age_source: Some("stated"), ..row(Some("90+"), None) };
+        assert_eq!(categories("94F with CHF.", &stated), vec![("Age over 89", 0)]);
+        // Already 90+ in the text, or worked out from a removed date of birth.
+        assert_eq!(categories("A 90+-year-old woman.", &stated), vec![]);
+        let from_dob = Extracted { age_source: Some("dob"), ..row(Some("90+"), None) };
+        assert_eq!(categories("DOB: [DATE]", &from_dob), vec![]);
     }
 
     #[test]
@@ -162,7 +175,8 @@ mod tests {
             row(Some("47"), Some("F")),
             row(Some("63"), Some("M")),
             row(Some("95"), Some("F")),
-            row(Some("91"), Some("F")),
+            // as the table writes it; one band with the 95 above
+            row(Some("90+"), Some("F")),
             row(None, Some("M")),
         ];
         let g = group_sizes(&rows);

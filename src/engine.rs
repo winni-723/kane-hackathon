@@ -29,6 +29,18 @@ static URL: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r#"\b(?:https?://|www\.)[^\s<>"'()\[\]]*[^\s<>"'()\[\].,;:!?]"#).expect("url pattern is valid")
 });
 
+/// Ages over 89 written as an age (`92-year-old`, `95 yo`, `Age: 101`):
+/// HIPAA Safe Harbor has them reported as 90 or older, so the number
+/// becomes `90+` and the words around it stay.
+static AGE_OVER_89: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"(?i)\b(?:9\d|1[0-2]\d)(?P<unit>[- ]years?[- ]old\b|[- ]?y/?o\b)",
+        // the `+` is taken in too, so a second pass leaves `90+` as it is
+        r"|\b(?P<label>aged?[ \t]*:?[ \t]*)(?:9\d|1[0-2]\d)\b\+?",
+    ))
+    .expect("age pattern is valid")
+});
+
 /// Email addresses.
 static EMAIL: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b")
@@ -529,6 +541,7 @@ pub fn process(text: &str) -> String {
     let out = DATE.replace_all(&out, "[DATE]");
     let out = PHONE.replace_all(&out, "[PHONE]");
     let out = PHONE_SPACED.replace_all(&out, "[PHONE]");
+    let out = AGE_OVER_89.replace_all(&out, "${label}90+${unit}");
     let out = USER_LOGIN.replace_all(&out, "${lead}[ID_NUMBER]");
     let out = LANDMARK_HOME.replace_all(&out, "${det}[LOCATION]");
     let out = LANDMARK_PLACE.replace_all(&out, "${det}[LOCATION]");
@@ -628,6 +641,31 @@ mod tests {
             "Metformin 0.5 mg q.d. with meals.",
             "Hgb 13.2 g/dL, eGFR 58 mL/min/1.73m2.",
             "Follow up p.r.n. at the www clinic desk.",
+        ] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn ages_over_89_become_90_plus() {
+        assert_eq!(process("A 92-year-old woman with CHF."), "A 90+-year-old woman with CHF.");
+        assert_eq!(process("Pt is 95 yo, lives alone."), "Pt is 90+ yo, lives alone.");
+        assert_eq!(process("Age: 101"), "Age: 90+");
+        assert_eq!(process("aged 94, widowed"), "aged 90+, widowed");
+        // a second pass changes nothing
+        for text in ["Age: 90+", "A 90+-year-old woman.", "Pt is 90+ yo."] {
+            assert_eq!(process(text), text);
+        }
+    }
+
+    #[test]
+    fn ages_under_90_and_clinical_nineties_are_left_alone() {
+        for text in [
+            "An 89-year-old man.",
+            "Age: 72",
+            "Aspirin 90 mg daily. HR 96, SpO2 94%.",
+            "Stage 3 disease; page 92 of the chart.",
+            "Glucose 110 mg/dL over 90 days.",
         ] {
             assert_eq!(process(text), text);
         }

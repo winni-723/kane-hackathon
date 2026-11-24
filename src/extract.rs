@@ -79,8 +79,8 @@ pub fn extract(original: &str, deidentified: &str, today: Day) -> Extracted {
 /// `72-year-old`, `34 y/o`, `Age: 61`, `[NAME], 58,`.
 static STATED_AGE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(concat!(
-        r"(?i)\b(\d{1,3})[- ]years?[- ]old\b",
-        r"|\b(\d{1,3})\s?y/?o\b",
+        r"(?i)\b(\d{1,3})\+?[- ]years?[- ]old\b",
+        r"|\b(\d{1,3})\+?\s?y/?o\b",
         r"|\bage[ds]?:?\s+(\d{1,3})\b",
         r"|\[NAME\], (\d{1,3}),",
     ))
@@ -701,6 +701,10 @@ mod tests {
         assert_eq!(born("01/01/1930").as_deref(), Some("90+"));
         assert_eq!(stated_age("a 94-year-old woman").as_deref(), Some("90+"));
         assert_eq!(stated_age("an 89-year-old man").as_deref(), Some("89"));
+        // as the engine leaves an age over 89
+        assert_eq!(stated_age("a 90+-year-old woman").as_deref(), Some("90+"));
+        assert_eq!(stated_age("Pt is 90+ yo.").as_deref(), Some("90+"));
+        assert_eq!(stated_age("Age: 90+").as_deref(), Some("90+"));
     }
 
     #[test]
