@@ -22,6 +22,13 @@ static PHONE: LazyLock<Regex> = LazyLock::new(|| {
         .expect("phone pattern is valid")
 });
 
+/// Web addresses (HIPAA Safe Harbor lists URLs among the identifiers): a
+/// scheme or `www.` and everything up to the next space, less any closing
+/// punctuation that ends the sentence rather than the address.
+static URL: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r#"\b(?:https?://|www\.)[^\s<>"'()\[\]]*[^\s<>"'()\[\].,;:!?]"#).expect("url pattern is valid")
+});
+
 /// Email addresses.
 static EMAIL: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b")
@@ -512,7 +519,8 @@ fn mask_city_state_zip(caps: &regex::Captures) -> String {
 pub fn process(text: &str) -> String {
     // Order matters: the most specific shapes go first so a later, looser rule
     // never sees part of an identifier that has already been replaced.
-    let out = EMAIL.replace_all(text, "[EMAIL]");
+    let out = URL.replace_all(text, "[URL]");
+    let out = EMAIL.replace_all(&out, "[EMAIL]");
     let out = SSN.replace_all(&out, "[SSN]");
     let out = MRN.replace_all(&out, "${label}${join}[MRN]");
     let out = INSURANCE_ID.replace_all(&out, "${label}${join}[INSURANCE_ID]");
@@ -599,6 +607,30 @@ mod tests {
     fn masks_every_phone_in_a_sentence() {
         let out = process("Call (312) 555-0165 or (312) 555-0190 after 5 pm.");
         assert_eq!(out, "Call [PHONE] or [PHONE] after 5 pm.");
+    }
+
+    #[test]
+    fn masks_web_addresses() {
+        assert_eq!(
+            process("See www.example.org/portal for results."),
+            "See [URL] for results."
+        );
+        assert_eq!(
+            process("Portal: https://portal.example.com/p?id=4417&u=a.b@example.com"),
+            "Portal: [URL]"
+        );
+        assert_eq!(process("(http://example.net/x)"), "([URL])");
+    }
+
+    #[test]
+    fn web_address_rule_leaves_medical_text_alone() {
+        for text in [
+            "Metformin 0.5 mg q.d. with meals.",
+            "Hgb 13.2 g/dL, eGFR 58 mL/min/1.73m2.",
+            "Follow up p.r.n. at the www clinic desk.",
+        ] {
+            assert_eq!(process(text), text);
+        }
     }
 
     #[test]

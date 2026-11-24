@@ -199,7 +199,7 @@ mod tests {
 
     #[test]
     fn residual_findings_are_reported_by_record_and_line() {
-        let r = report(&["Seen today.".to_string(), "Seen today.\nSee www.example.org/p for the portal.".to_string()], DAY);
+        let r = report(&["Seen today.".to_string(), "Seen today.\nRef 4417203 is on file.".to_string()], DAY);
         assert_eq!((r.residual.high, r.residual.medium), (1, 0));
         assert_eq!(r.residual.findings.len(), 1);
         for f in &r.residual.findings {

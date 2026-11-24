@@ -150,6 +150,7 @@ const CATEGORIES: Record<string, { css: string; one: string; many: string }> = {
   NAME: { css: "name", one: "name", many: "names" },
   PHONE: { css: "contact", one: "phone number", many: "phone numbers" },
   EMAIL: { css: "contact", one: "email address", many: "email addresses" },
+  URL: { css: "contact", one: "web address", many: "web addresses" },
   DATE: { css: "date", one: "date", many: "dates" },
   ADDRESS: { css: "place", one: "street address", many: "street addresses" },
   CITY: { css: "place", one: "town", many: "towns" },
