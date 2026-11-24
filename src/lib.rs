@@ -2,6 +2,7 @@ pub mod engine;
 pub mod document;
 pub mod extract;
 pub mod names;
+pub mod privacy;
 pub mod residual;
 pub mod utility;
 
