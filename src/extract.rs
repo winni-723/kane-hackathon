@@ -462,8 +462,42 @@ fn diagnoses_after_age(text: &str) -> Vec<String> {
     found
 }
 
+/// A list of conditions after `consistent with` or a field such as
+/// `Conditions on file:`. The list may wrap onto the next line and runs to
+/// the end of the sentence.
+static CONDITION_LIST: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?i)\b(not )?(?:consistent with|(?:conditions|problems)(?: on file| list)?\s*:|problem list\s*:)\s*([^.;]+)")
+        .expect("condition list pattern is valid")
+});
+
+fn diagnoses_in_a_list(text: &str) -> Vec<String> {
+    let mut found = Vec::new();
+    for caps in CONDITION_LIST.captures_iter(text) {
+        if caps.get(1).is_some() {
+            continue; // `not consistent with`
+        }
+        for item in caps[2].split(", and ").flat_map(|s| s.split(',')) {
+            let item = item.split_whitespace().collect::<Vec<_>>().join(" ");
+            let lower = item.to_lowercase();
+            let words: Vec<&str> = lower.split(|c: char| !c.is_ascii_alphabetic()).filter(|w| !w.is_empty()).collect();
+            // `consistent with complete metabolic response` reports how
+            // treatment went, as the progress words do.
+            let progress = words.iter().any(|w| PROGRESS_WORDS.contains(w) || *w == "response");
+            let symptom = words.iter().any(|w| SYMPTOM_WORDS.contains(w));
+            let count = item.split(' ').count();
+            if !item.is_empty() && !progress && !symptom && count <= 8 && !item.contains('[') {
+                push_unique(&mut found, item);
+            }
+        }
+    }
+    found
+}
+
 fn diagnoses(text: &str) -> Vec<String> {
     let mut found = diagnoses_under_heading(text);
+    for condition in diagnoses_in_a_list(text) {
+        push_unique(&mut found, condition);
+    }
     for condition in diagnoses_after_age(text) {
         push_unique(&mut found, condition);
     }
@@ -758,6 +792,21 @@ mod tests {
         // Symptoms and findings are not diagnoses.
         assert!(diagnoses("66-year-old man with exertional chest pain over the past two months.").is_empty());
         assert!(diagnoses("51-year-old man with right lower quadrant pain for 2 days, fever and leukocytosis.").is_empty());
+    }
+
+    #[test]
+    fn conditions_in_a_list() {
+        assert_eq!(
+            diagnoses("Results consistent with type 2 diabetes mellitus, suboptimally controlled, and stage 3a chronic kidney disease."),
+            ["type 2 diabetes mellitus", "stage 3a chronic kidney disease"]
+        );
+        assert_eq!(
+            diagnoses("Conditions on file: heart failure with reduced ejection fraction, atrial fibrillation, benign\nprostatic hyperplasia."),
+            ["heart failure with reduced ejection fraction", "atrial fibrillation", "benign prostatic hyperplasia"]
+        );
+        // Ruled out, or how treatment went: not a diagnosis.
+        assert!(diagnoses("The X-ray is not consistent with pneumonia.").is_empty());
+        assert!(diagnoses("Deauville score of 2, consistent with complete metabolic response.").is_empty());
     }
 
     #[test]
