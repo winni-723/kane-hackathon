@@ -1,3 +1,4 @@
+pub mod assurance;
 pub mod engine;
 pub mod document;
 pub mod extract;

@@ -7,7 +7,7 @@
 use wasm_bindgen::prelude::*;
 
 use crate::extract::{self, Day, Extracted};
-use crate::{document, engine};
+use crate::{assurance, document, engine};
 
 #[derive(serde::Serialize)]
 struct Processed {
@@ -26,6 +26,17 @@ pub fn process(text: &str, year: i32, month: u32, day: u32) -> String {
     let deidentified = engine::process(text);
     let extracted = extract::extract(text, &deidentified, Day { year, month, day });
     json(&Processed { text: deidentified, extracted })
+}
+
+/// The assurance report for a set of records, given as a JSON list of the
+/// original texts: the report of `src/assurance.rs`, which holds no record
+/// text. `{"error": "..."}` if the list cannot be read.
+#[wasm_bindgen]
+pub fn assure(records_json: &str, year: i32, month: u32, day: u32) -> String {
+    match serde_json::from_str::<Vec<String>>(records_json) {
+        Ok(records) => json(&assurance::report(&records, Day { year, month, day })),
+        Err(_) => error("The records could not be read."),
+    }
 }
 
 /// Reads a file into plain-text records, not yet de-identified: one for a
