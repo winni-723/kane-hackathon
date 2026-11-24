@@ -34,3 +34,18 @@ The rules were written for free-text notes, where a diagnosis follows words
 such as `Diagnosis:` or `diagnosed with`. Documents put them under headings
 (`Assessment and Plan`, `Impression`, `Discharge Diagnoses`), in tables, or
 after `consistent with`, and give sex in a field such as `DOB / Sex`.
+
+After the loop (2026-11-23, eight commits, one theme each): **43/44**.
+
+| Column | Documents exactly right |
+|---|---|
+| Age | 11/11 |
+| Sex | 11/11 |
+| Diagnoses | 10/11 |
+| Medications | 11/11 |
+
+Age, sex and medications are in `GATES`. The miss left is pdf-03, which
+lists `Hypertension, hyperlipidemia, former smoker (40 pack-years)` with no
+word introducing them; a rule for bare lists would read other sentences as
+diagnoses. The development records (78/80) and the held-out records (37/40)
+kept their scores through every change.

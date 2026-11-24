@@ -80,7 +80,7 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - 第一層測試在 `tests/documents_test.rs`：`reading_a_document_loses_nothing`（答案卷的每個字串都要在讀出的文字裡）、`medical_content_is_always_kept`、`gated_identifiers_are_removed`（`GATES` 只增不減）。看分數：`cargo test --test documents_test scoreboard -- --nocapture`。
 - 第一次未調校的分數（2026-11-16，6 份 Word）：**98/132，醫療資訊 81/81**。寫在 README 與 `tests/documents/README.md`，不要覆蓋；調校後 132/132。
 - CSV（2026-11-16）：`document::records_from_csv` 把每一列轉成一份「`欄位名: 值`」的病歷，值原樣保留（不在讀取時改寫）。答案卷多一個 `table`，列出每一列在研究數據表應顯示的年齡、性別、診斷、用藥；`csv_table_scoreboard` 要求全對。第一次分數：個資 82/82、醫療 31/31、表格 37/40（調校後 40/40），不要覆蓋。`read_file` 回傳 `{ records: [...] }`。
-- 研究數據表在 Word 文件上沒有量測，表格儲存格裡的診斷與用藥大多抓不到。
+- 研究數據表在 Word 與 PDF 上的擷取答案卷在 `tests/extraction-documents/`（11 份，使用者 2026-11-23 定案，含說明判斷理由的 `notes`），測試在 `tests/extraction_documents_test.rs`（`GATES` 只增不減）。第一次 25/44（不要覆蓋），調校後 43/44。刻意不修的漏網：pdf-03 的 `Hypertension, hyperlipidemia`（前面沒有引導詞的清單）。看分數：`cargo test --test extraction_documents_test scoreboard -- --nocapture`。
 - 測試資料的 SSN 一律用從未發出的號段（`987-65-43xx`）。`docx-06` 原本誤用 `512-55-0199`，使用者 2026-11-16 指示改為 `987-65-4320`。
 - 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 188 個測試（頁面本身 5 個：ui-download、ui-menu-record、ui-menu-batch、ui-menu-details、ui-batch-view）。
 - `.testmuai/evidence/` 在 OneDrive 資料夾裡，Kane 結束時改名證據檔偶爾會被鎖住（EPERM），測試全過但沒有 `testrun_done`、exit 1。這不是測試失敗，重跑 `verify.sh` 即可（不扣 credits）。
