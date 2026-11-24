@@ -3,6 +3,7 @@ pub mod document;
 pub mod extract;
 pub mod names;
 pub mod residual;
+pub mod utility;
 
 #[cfg(feature = "wasm")]
 pub mod wasm;
