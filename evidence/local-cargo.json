@@ -1,0 +1,58 @@
+{
+  "format": "deid-test-evidence/1",
+  "generated_at": "2026-11-24T22:28:42.219Z",
+  "source": {
+    "commit_at_run": "e0f07150d061d216c22e6f2ae221845d8499d351",
+    "uncommitted_changes": true,
+    "tracked_files": 632,
+    "tracked_files_sha256": "235d7f765f84a2bcb16c6a529d5cf7076c797d9efc6e19e57437c2fe742e1a36",
+    "check_with": "node scripts/tree-hash.mjs"
+  },
+  "layer": "1: answer keys, build, clippy, cargo test, browser engine equals native, tsc",
+  "environment": "local",
+  "ci_run": null,
+  "toolchain": "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+  "status": "passed",
+  "steps": [
+    {
+      "name": "fixtures",
+      "status": "pass"
+    },
+    {
+      "name": "build",
+      "status": "pass"
+    },
+    {
+      "name": "clippy",
+      "status": "pass"
+    },
+    {
+      "name": "test",
+      "status": "pass"
+    },
+    {
+      "name": "clippy-wasm",
+      "status": "pass"
+    },
+    {
+      "name": "wasm",
+      "status": "pass"
+    },
+    {
+      "name": "native",
+      "status": "pass"
+    },
+    {
+      "name": "wasm-matches-native",
+      "status": "pass"
+    },
+    {
+      "name": "web",
+      "status": "pass"
+    }
+  ],
+  "rust_tests": {
+    "passed": 146,
+    "failed": 0
+  }
+}

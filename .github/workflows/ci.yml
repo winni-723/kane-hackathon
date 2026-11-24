@@ -23,14 +23,17 @@ jobs:
           version=$(grep -A1 '^name = "wasm-bindgen"$' Cargo.lock | sed -n 's/^version = "\(.*\)"/\1/p')
           cargo install wasm-bindgen-cli --version "$version" --locked
       - name: Answer keys are well-formed
+        id: fixtures
         run: |
           node scripts/validate-fixtures.mjs tests/fixtures
           node scripts/validate-fixtures.mjs tests/heldout
           node scripts/validate-fixtures.mjs tests/synthea
       - name: Clippy
+        id: clippy
         run: cargo clippy --all-targets -- -D warnings
       - name: Tests, including the answer-key tests
-        run: cargo test
+        id: test
+        run: cargo test 2>&1 | tee cargo-test.log
       - name: Scoreboards
         run: |
           cargo test --test fixtures_test -- --nocapture scoreboard
@@ -38,16 +41,31 @@ jobs:
           cargo test --test documents_test -- --nocapture scoreboard
           cargo test --test pdf_test -- --nocapture scoreboard
       - name: Clippy, the engine built for the browser
+        id: clippy-wasm
         run: cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm -- -D warnings
       - name: The browser engine answers exactly as the native one
+        id: wasm-matches-native
         run: |
           bash scripts/build-wasm.sh
           cargo run -q --example native_outputs > native-outputs.json
           node scripts/wasm-matches-native.mjs native-outputs.json
       - name: Front end type-check and build
+        id: web
         run: |
           npm --prefix web ci
           npm --prefix web run build
+      # The same layer-1 evidence verify.sh writes locally, from this run.
+      # Kane (layer 2) is not run here: it needs a signed-in Kane CLI account.
+      - name: Test evidence
+        if: always()
+        run: |
+          node scripts/write-evidence.mjs cargo cloud-cargo.json --env github-actions             --steps "fixtures=${{ steps.fixtures.outcome }},clippy=${{ steps.clippy.outcome }},test=${{ steps.test.outcome }},clippy-wasm=${{ steps.clippy-wasm.outcome }},wasm-matches-native=${{ steps.wasm-matches-native.outcome }},web=${{ steps.web.outcome }}"             --test-log cargo-test.log
+          cat cloud-cargo.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-evidence
+          path: cloud-cargo.json
 
   image:
     name: Docker image serves the page and takes no records

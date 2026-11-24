@@ -9,6 +9,10 @@
 # Stops at the first failing layer. Exit 0 only when both layers pass.
 # Kane tests are replayed with --no-adaptive-heal so a regression fails instead
 # of Kane rewriting the test to fit the page.
+#
+# Each run writes what it found to evidence/local-cargo.json (layer 1) and
+# evidence/local-kane.json (layer 2), with a fingerprint of the files it ran
+# on; evidence/README.md says how to check them.
 set -u
 export PATH="$HOME/.cargo/bin:$PATH"
 PORT="${PORT:-3000}"
@@ -27,13 +31,25 @@ mkdir -p "$LOCK"
 date > "$LOCK/started"
 trap 'rm -rf "$LOCK"' EXIT
 
+steps_done=()
+evidence_cargo() {
+  node scripts/write-evidence.mjs cargo evidence/local-cargo.json --env local     --steps "$(IFS=,; echo "${steps_done[*]}")" --test-log "$LOG_DIR/layer1-test.log" || true
+}
+evidence_kane() {
+  node scripts/write-evidence.mjs kane evidence/local-kane.json "$@" || true
+}
+
 step() {
   local name="$1"; shift
   if "$@" > "$LOG_DIR/layer1-$name.log" 2>&1; then
     echo "  pass  $name"
+    steps_done+=("$name=pass")
   else
     echo "  FAIL  $name   (see $LOG_DIR/layer1-$name.log)"
     tail -25 "$LOG_DIR/layer1-$name.log"
+    steps_done+=("$name=fail")
+    evidence_cargo
+    evidence_kane --exit "" --note "layer 1 failed at $name"
     echo "LAYER 1 FAILED"
     exit 1
   fi
@@ -53,6 +69,7 @@ step native   sh -c 'cargo run -q --example native_outputs > "$0/native-outputs.
 step wasm-matches-native node scripts/wasm-matches-native.mjs "$LOG_DIR/native-outputs.json"
 step web      npm --prefix web run build
 grep -h "test result" "$LOG_DIR/layer1-test.log" | sed 's/^/        /'
+evidence_cargo
 
 echo "== Layer 2"
 # A verification replays recordings; it never makes them. A test with no
@@ -65,6 +82,7 @@ done
 if [ ${#unrecorded[@]} -gt 0 ]; then
   echo "  ${#unrecorded[@]} Kane test(s) have no recording yet:"
   printf '    %s\n' "${unrecorded[@]}" | head -10
+  evidence_kane --exit 2 --note "${#unrecorded[@]} test(s) had no recording"
   echo "KANE DID NOT RUN: record them first with scripts/redo-kane-recordings.sh"
   exit 2
 fi
@@ -78,6 +96,7 @@ for _ in $(seq 1 20); do
 done
 if ! curl -s -o /dev/null "http://127.0.0.1:$PORT/"; then
   echo "  FAIL  server did not start (see $LOG_DIR/server.log)"
+  evidence_kane --exit 1 --note "the local server did not start"
   exit 1
 fi
 
@@ -93,6 +112,7 @@ KANE_CLI_USER_AGENT=claude-code kane-cli testrun run "${tests[@]}" \
   --agent --headless --no-adaptive-heal --parallel "${KANE_PARALLEL:-3}" \
   > "$LOG_DIR/layer2-suite.ndjson" 2> "$LOG_DIR/layer2-suite.err"
 kane_exit=$?
+evidence_kane --exit "$kane_exit" --suite "$LOG_DIR/layer2-suite.ndjson"
 
 node scripts/kane-suite-summary.mjs "$LOG_DIR/layer2-suite.ndjson"
 # A member that could not get a browser is "broken", not a test failure.
