@@ -378,8 +378,52 @@ fn push_unique(list: &mut Vec<String>, item: String) {
     }
 }
 
-fn diagnoses(text: &str) -> Vec<String> {
+/// A document's heading for its diagnoses, alone on its line:
+/// `Discharge Diagnoses`, `Secondary Diagnoses`, `Impression`.
+static DIAGNOSIS_HEADING: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?mi)^(?:(?:principal|primary|secondary|discharge|final|admitting) )?(?:diagnos[ie]s|impression)[ \t]*$")
+        .expect("diagnosis heading pattern is valid")
+});
+
+/// `1. ` at the start of a numbered item.
+static ITEM_NUMBER: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?:^|\s)\d{1,2}\.(?:\s+|$)").expect("item number pattern is valid")
+});
+
+/// The conditions under a diagnosis heading. The section is the next line,
+/// joined with the lines after it while an item is cut off by the page's
+/// wrapping (`... COPD. 3.` / `Paroxysmal atrial fibrillation ...`). Items
+/// are numbered, or else one sentence each; a condition ends at its first
+/// comma (`Community-acquired pneumonia, right lower lobe`).
+fn diagnoses_under_heading(text: &str) -> Vec<String> {
     let mut found = Vec::new();
+    for heading in DIAGNOSIS_HEADING.find_iter(text) {
+        let mut lines = text[heading.end()..].lines().skip(1);
+        let Some(first) = lines.next() else { continue };
+        let mut body = first.trim().to_string();
+        while !body.ends_with('.') || ITEM_NUMBER.find_iter(&body).last().is_some_and(|m| m.end() == body.len()) {
+            match lines.next() {
+                Some(next) if !next.trim().is_empty() => body = format!("{body} {}", next.trim()),
+                _ => break,
+            }
+        }
+        let items: Vec<&str> = if ITEM_NUMBER.is_match(&body) {
+            ITEM_NUMBER.split(&body).collect()
+        } else {
+            body.split(". ").collect()
+        };
+        for item in items {
+            let name = item.split([',', '.']).next().unwrap_or_default().trim();
+            if let Some(condition) = clean_condition(name) {
+                push_unique(&mut found, condition);
+            }
+        }
+    }
+    found
+}
+
+fn diagnoses(text: &str) -> Vec<String> {
+    let mut found = diagnoses_under_heading(text);
     for caps in DIAGNOSIS_FIELD.captures_iter(text) {
         let value = caps[1].trim();
         if !value.is_empty() && !value.contains('[') {
@@ -639,6 +683,25 @@ mod tests {
             diagnoses("Stage 4 chronic kidney disease secondary to IgA nephropathy; eGFR is 22."),
             ["Stage 4 chronic kidney disease", "IgA nephropathy"]
         );
+    }
+
+    #[test]
+    fn diagnoses_under_a_heading() {
+        assert_eq!(
+            diagnoses("Principal Diagnosis\nCommunity-acquired pneumonia, right lower lobe.\nSecondary Diagnoses\nType 2 diabetes mellitus. Hypertension.\nHospital Course\nShe improved."),
+            ["Community-acquired pneumonia", "Type 2 diabetes mellitus", "Hypertension"]
+        );
+        // Numbered items, one cut off by the page's wrapping.
+        assert_eq!(
+            diagnoses("Discharge Diagnoses\n1. Pneumonia. 2. Acute exacerbation of COPD. 3.\nParoxysmal atrial fibrillation, now rate controlled.\nHospital Course"),
+            ["Pneumonia", "Acute exacerbation of COPD", "Paroxysmal atrial fibrillation"]
+        );
+        assert_eq!(
+            diagnoses("Impression\n1. Acute appendicitis. 2. Mild\ncentrilobular emphysema.\nFindings were called to Dr. [NAME]."),
+            ["Acute appendicitis", "Mild centrilobular emphysema"]
+        );
+        // The word inside a sentence is not a heading.
+        assert!(diagnoses("My impression\nis that she is improving.").is_empty());
     }
 
     #[test]
