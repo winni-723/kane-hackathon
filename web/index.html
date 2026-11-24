@@ -167,6 +167,33 @@
         overflow: hidden;
         clip-path: inset(50%);
       }
+      #assurance-panel {
+        margin-top: 2rem;
+        padding-top: 0.5rem;
+        border-top: 2px solid #2f6fb3;
+      }
+      #assurance-panel h3 {
+        margin: 1rem 0 0.25rem;
+        font-size: 1rem;
+      }
+      #assurance-panel p,
+      #assurance-panel ul {
+        margin: 0.25rem 0;
+      }
+      .review-status {
+        display: inline-block;
+        padding: 0.25rem 0.6rem;
+        background: #fff4d6;
+        border: 1px solid #e0b84c;
+        border-radius: 4px;
+      }
+      .disclaimer {
+        margin-top: 1rem !important;
+        padding: 0.5rem 0.75rem;
+        background: #f6f6f6;
+        border-left: 3px solid #999;
+        font-size: 0.9rem;
+      }
       .error {
         color: #b00020;
       }
@@ -256,6 +283,40 @@
       <button id="csv" type="button">Download CSV</button>
       <button id="all-records" type="button">Download all records</button>
       <button id="restart" type="button">Start over</button>
+    </section>
+
+    <!-- Shown with a result or a research table. It describes the records and
+         holds none of their text, so it can be shared without them. -->
+    <section id="assurance-panel" aria-labelledby="assurance-heading" hidden>
+      <h2 id="assurance-heading">Assurance report</h2>
+      <p id="review-status" class="review-status"></p>
+      <h3>Identifiers replaced</h3>
+      <p id="replaced"></p>
+      <h3>Residual findings</h3>
+      <p id="residual-summary"></p>
+      <table id="residual-table">
+        <thead>
+          <tr><th>Record</th><th>Line</th><th>May be</th><th>Severity</th><th>Action</th></tr>
+        </thead>
+        <tbody id="residual-body"></tbody>
+      </table>
+      <h3>Re-identification risk</h3>
+      <p id="groups"></p>
+      <table id="quasi-table">
+        <thead>
+          <tr><th>Record</th><th>Line</th><th>Quasi-identifier</th><th>Level</th><th>Action</th></tr>
+        </thead>
+        <tbody id="quasi-body"></tbody>
+      </table>
+      <details>
+        <summary>Assumptions and limits</summary>
+        <ul id="assumptions"></ul>
+      </details>
+      <h3>Research utility</h3>
+      <ul id="utility"></ul>
+      <p id="engine-info" class="footnote"></p>
+      <p id="disclaimer" class="disclaimer"></p>
+      <button id="report" type="button">Download report (JSON)</button>
     </section>
 
     <script type="module" src="/src/main.ts"></script>

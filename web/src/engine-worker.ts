@@ -1,11 +1,12 @@
 // Runs the de-identification engine (Rust compiled to WebAssembly) off the
 // page's main thread. Records and files are handled here, in the visitor's
 // browser; nothing is sent to the server.
-import init, { process as deidentify, read_file } from "./engine-wasm/engine.js";
+import init, { assure, process as deidentify, read_file } from "./engine-wasm/engine.js";
 
 export type EngineRequest =
   | { id: number; op: "process"; text: string; today: [number, number, number] }
-  | { id: number; op: "read"; kind: string; bytes: Uint8Array };
+  | { id: number; op: "read"; kind: string; bytes: Uint8Array }
+  | { id: number; op: "assure"; records: string[]; today: [number, number, number] };
 
 export type EngineReply = { id: number; json: string } | { id: number; crash: string };
 
@@ -19,7 +20,9 @@ globalThis.addEventListener("message", async (event: Event) => {
     const json =
       request.op === "process"
         ? deidentify(request.text, ...request.today)
-        : read_file(request.kind, request.bytes);
+        : request.op === "assure"
+          ? assure(JSON.stringify(request.records), ...request.today)
+          : read_file(request.kind, request.bytes);
     reply({ id: request.id, json });
   } catch (error) {
     // A panic inside the engine stops this instance for good; the page

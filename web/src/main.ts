@@ -1,4 +1,4 @@
-import { processRecord, readDocument } from "./engine";
+import { assureRecords, processRecord, readDocument } from "./engine";
 import { SAMPLE_BATCH, SAMPLE_RECORD } from "./samples";
 
 interface Extracted {
@@ -12,6 +12,36 @@ interface Extracted {
 interface ProcessResponse {
   text: string;
   extracted: Extracted;
+}
+
+// The engine's assurance report (src/assurance.rs). It holds counts,
+// categories and line numbers, never record text.
+interface Located {
+  record: number;
+  line: number;
+  category: string;
+  action: string;
+}
+
+interface AssuranceReport {
+  report_format: string;
+  generated_on: string;
+  engine: { version: string; rules_version: string; method: string };
+  dataset: { records: number; deidentified_sha256?: string };
+  replaced: Record<string, number>;
+  residual: { high: number; medium: number; findings: (Located & { severity: string })[]; note: string };
+  privacy: {
+    quasi_identifiers: (Located & { level: string })[];
+    group_sizes: { records_counted: number; smallest_group: number | null; records_alone: number } | null;
+    assumptions: string[];
+  };
+  utility: {
+    completeness: { rows: number; age: number; sex: number; diagnoses: number; medications: number };
+    records_with_every_line_kept: number;
+    lowest_text_kept_percent: number;
+  };
+  review: { status: string; release: string };
+  disclaimer: string;
 }
 
 function mustGet<T extends HTMLElement>(id: string): T {
@@ -44,6 +74,20 @@ const batchBody = mustGet<HTMLTableSectionElement>("batch-body");
 const csvButton = mustGet<HTMLButtonElement>("csv");
 const allRecordsButton = mustGet<HTMLButtonElement>("all-records");
 const restartButton = mustGet<HTMLButtonElement>("restart");
+const assurancePanel = mustGet<HTMLElement>("assurance-panel");
+const reviewStatus = mustGet<HTMLParagraphElement>("review-status");
+const replacedEl = mustGet<HTMLParagraphElement>("replaced");
+const residualSummary = mustGet<HTMLParagraphElement>("residual-summary");
+const residualTable = mustGet<HTMLTableElement>("residual-table");
+const residualBody = mustGet<HTMLTableSectionElement>("residual-body");
+const groupsEl = mustGet<HTMLParagraphElement>("groups");
+const quasiTable = mustGet<HTMLTableElement>("quasi-table");
+const quasiBody = mustGet<HTMLTableSectionElement>("quasi-body");
+const assumptionsEl = mustGet<HTMLUListElement>("assumptions");
+const utilityEl = mustGet<HTMLUListElement>("utility");
+const engineInfo = mustGet<HTMLParagraphElement>("engine-info");
+const disclaimer = mustGet<HTMLParagraphElement>("disclaimer");
+const reportButton = mustGet<HTMLButtonElement>("report");
 
 // The error message exists in the page only while there is an error, so an
 // empty placeholder can never be mistaken for the result area.
@@ -167,10 +211,15 @@ function addCells(row: HTMLTableRowElement, values: string[]): void {
 
 // --- panels: only one of input, single result and table is on screen ----------
 
+// The report on what was last processed, shown under the result or the
+// research table until the visitor goes back to the input.
+let report: AssuranceReport | null = null;
+
 function showOnly(...panels: HTMLElement[]): void {
   for (const panel of [inputPanel, resultPanel, detailsPanel, batchPanel]) {
     panel.hidden = !panels.includes(panel);
   }
+  assurancePanel.hidden = report === null || panels.includes(inputPanel);
 }
 
 // `index` is the record's place in the research table, or null for a record
@@ -210,6 +259,7 @@ function showTable(): void {
 function showInput(): void {
   output.replaceChildren();
   batchResults = [];
+  report = null;
   showOnly(inputPanel);
   input.focus();
 }
@@ -220,6 +270,87 @@ async function processText(text: string): Promise<ProcessResponse> {
   return JSON.parse(await processRecord(text)) as ProcessResponse;
 }
 
+// The report also carries a fingerprint of the de-identified output (never
+// of the original, which could be used to confirm a guess at it), so a
+// shared report can be matched to the file it describes.
+async function buildReport(originals: string[], results: ProcessResponse[]): Promise<AssuranceReport> {
+  const built = JSON.parse(await assureRecords(originals)) as AssuranceReport & { error?: string };
+  if (built.error) throw new Error(built.error);
+  const bytes = new TextEncoder().encode(results.map((r) => r.text).join("\n\u0000\n"));
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes));
+  built.dataset.deidentified_sha256 = [...digest].map((b) => b.toString(16).padStart(2, "0")).join("");
+  return built;
+}
+
+function plural(n: number, one: string, many: string): string {
+  return `${n} ${n === 1 ? one : many}`;
+}
+
+function fillRows(body: HTMLTableSectionElement, rows: string[][]): void {
+  body.replaceChildren();
+  for (const values of rows) addCells(body.insertRow(), values);
+}
+
+function listItems(list: HTMLUListElement, texts: string[]): void {
+  list.replaceChildren(
+    ...texts.map((text) => {
+      const item = document.createElement("li");
+      item.textContent = text;
+      return item;
+    }),
+  );
+}
+
+function renderReport(r: AssuranceReport): void {
+  reviewStatus.textContent = `Review status: ${r.review.status}. Release: ${r.review.release}.`;
+
+  const replaced = Object.entries(r.replaced).map(([kind, n]) =>
+    CATEGORIES[kind] ? plural(n, CATEGORIES[kind].one, CATEGORIES[kind].many) : `${n} ${kind}`,
+  );
+  replacedEl.textContent = replaced.length === 0 ? "None." : `${replaced.join(", ")}.`;
+
+  const findings = r.residual.findings;
+  residualSummary.textContent =
+    findings.length === 0
+      ? `Nothing of the checked shapes was found. ${r.residual.note}`
+      : `${r.residual.high} high, ${r.residual.medium} medium. ${r.residual.note}`;
+  residualTable.hidden = findings.length === 0;
+  fillRows(
+    residualBody,
+    findings.map((f) => [`Record ${f.record}`, String(f.line), f.category, f.severity, f.action]),
+  );
+
+  const g = r.privacy.group_sizes;
+  groupsEl.textContent =
+    g === null
+      ? "Group sizes are counted for a set of more than one record."
+      : g.smallest_group === null
+        ? "No record has both an age and a sex in the table, so no groups were counted."
+        : `Smallest group sharing a 10-year age band and sex: ${g.smallest_group} ` +
+          `(${plural(g.records_alone, "record", "records")} alone in their group, of ${g.records_counted} counted).`;
+  const quasi = r.privacy.quasi_identifiers;
+  quasiTable.hidden = quasi.length === 0;
+  fillRows(
+    quasiBody,
+    quasi.map((q) => [`Record ${q.record}`, q.line === 0 ? "table" : String(q.line), q.category, q.level, q.action]),
+  );
+  listItems(assumptionsEl, r.privacy.assumptions);
+
+  const u = r.utility;
+  const c = u.completeness;
+  listItems(utilityEl, [
+    `Records with every line kept: ${u.records_with_every_line_kept} of ${r.dataset.records}`,
+    `Lowest share of original text kept in a record: ${u.lowest_text_kept_percent}%`,
+    `Research table filled: age ${c.age}/${c.rows}, sex ${c.sex}/${c.rows}, ` +
+      `diagnoses ${c.diagnoses}/${c.rows}, medications ${c.medications}/${c.rows}`,
+  ]);
+
+  engineInfo.textContent =
+    `Engine ${r.engine.version}, rules ${r.engine.rules_version}. ` +
+    `${plural(r.dataset.records, "record", "records")}, report of ${r.generated_on}.`;
+  disclaimer.textContent = r.disclaimer;
+}
+
 processButton.addEventListener("click", async () => {
   clearError();
   processButton.disabled = true;
@@ -228,11 +359,16 @@ processButton.addEventListener("click", async () => {
       // One at a time: the engine works through them in its own thread.
       const results: ProcessResponse[] = [];
       for (const record of pendingBatch) results.push(await processText(record));
+      report = await buildReport(pendingBatch, results);
+      renderReport(report);
       batchResults = results;
       setPendingBatch(null);
       showTable();
     } else {
-      showResult(await processText(input.value), null);
+      const result = await processText(input.value);
+      report = await buildReport([input.value], [result]);
+      renderReport(report);
+      showResult(result, null);
     }
   } catch (e) {
     showError(e instanceof Error ? e.message : "The record could not be processed.");
@@ -413,6 +549,12 @@ allRecordsButton.addEventListener("click", () => {
     (result, index) => `===== Record ${index + 1} =====\r\n\r\n${result.text.replace(/\r?\n/g, "\r\n")}\r\n`,
   );
   save(parts.join("\r\n"), "text/plain;charset=utf-8", "deidentified-records.txt");
+});
+
+// The report as the engine built it, plus the output's fingerprint: counts,
+// categories and line numbers, no record text.
+reportButton.addEventListener("click", () => {
+  if (report) save(`${JSON.stringify(report, null, 2)}\n`, "application/json", "assurance-report.json");
 });
 
 editButton.addEventListener("click", showInput);

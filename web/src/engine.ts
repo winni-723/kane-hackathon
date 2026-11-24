@@ -38,7 +38,8 @@ function restart(message: string): void {
 
 type Request =
   | { op: "process"; text: string; today: [number, number, number] }
-  | { op: "read"; kind: string; bytes: Uint8Array };
+  | { op: "read"; kind: string; bytes: Uint8Array }
+  | { op: "assure"; records: string[]; today: [number, number, number] };
 
 function call(request: Request): Promise<string> {
   worker ??= start();
@@ -64,4 +65,9 @@ export function processRecord(text: string): Promise<string> {
 /** Reads a Word, CSV or PDF file into records; JSON `{records}` or `{error}`. */
 export function readDocument(kind: string, bytes: Uint8Array): Promise<string> {
   return call({ op: "read", kind, bytes });
+}
+
+/** The assurance report on a set of original records; JSON with no record text. */
+export function assureRecords(records: string[]): Promise<string> {
+  return call({ op: "assure", records, today: today() });
 }
