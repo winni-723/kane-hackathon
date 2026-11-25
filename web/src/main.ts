@@ -88,6 +88,8 @@ const utilityEl = mustGet<HTMLUListElement>("utility");
 const engineInfo = mustGet<HTMLParagraphElement>("engine-info");
 const disclaimer = mustGet<HTMLParagraphElement>("disclaimer");
 const reportButton = mustGet<HTMLButtonElement>("report");
+const statsEl = mustGet<HTMLDivElement>("stats");
+const stepItems = [...document.querySelectorAll<HTMLLIElement>("#steps li")];
 
 // The error message exists in the page only while there is an error, so an
 // empty placeholder can never be mistaken for the result area.
@@ -139,7 +141,7 @@ function setPendingBatch(records: string[] | null): void {
       text.textContent = record;
       batchPreview?.append(heading, text);
     });
-    processButton.before(batchNote, batchPreview);
+    (processButton.parentElement ?? processButton).before(batchNote, batchPreview);
     input.value = "";
   }
 }
@@ -221,6 +223,18 @@ function showOnly(...panels: HTMLElement[]): void {
     panel.hidden = !panels.includes(panel);
   }
   assurancePanel.hidden = report === null || panels.includes(inputPanel);
+  // The progress line: upload while the input is on screen, then review.
+  markStep(panels.includes(inputPanel) ? "1" : "2");
+}
+
+// Upload, review, then download once something has been saved.
+function markStep(step: "1" | "2" | "3"): void {
+  for (const item of stepItems) {
+    const current = item.dataset.step === step;
+    item.classList.toggle("current", current);
+    if (current) item.setAttribute("aria-current", "step");
+    else item.removeAttribute("aria-current");
+  }
 }
 
 // `index` is the record's place in the research table, or null for a record
@@ -302,7 +316,38 @@ function listItems(list: HTMLUListElement, texts: string[]): void {
   );
 }
 
+// The headline numbers at the top of the report; the sentences below them
+// say the same in full.
+function renderStats(r: AssuranceReport): void {
+  const replacedTotal = Object.values(r.replaced).reduce((a, b) => a + b, 0);
+  const findings = r.residual.findings.length;
+  const c = r.utility.completeness;
+  const cells = c.rows * 4;
+  const filled = c.age + c.sex + c.diagnoses + c.medications;
+  const stats: [string, string, string][] = [
+    ["Identifiers replaced", String(replacedTotal), ""],
+    ["Possible leftovers", String(findings), findings === 0 ? "good" : "check"],
+    ["Records with all lines kept",`${r.utility.records_with_every_line_kept}/${r.dataset.records}`, ""],
+    ["Table cells filled", `${filled}/${cells}`, ""],
+  ];
+  statsEl.replaceChildren(
+    ...stats.map(([label, value, tone]) => {
+      const card = document.createElement("div");
+      card.className = tone ? `stat ${tone}` : "stat";
+      const l = document.createElement("p");
+      l.className = "stat-label";
+      l.textContent = label;
+      const v = document.createElement("p");
+      v.className = "stat-value";
+      v.textContent = value;
+      card.append(l, v);
+      return card;
+    }),
+  );
+}
+
 function renderReport(r: AssuranceReport): void {
+  renderStats(r);
   reviewStatus.textContent = `Review status: ${r.review.status}. Release: ${r.review.release}.`;
 
   const replaced = Object.entries(r.replaced).map(([kind, n]) =>
@@ -502,6 +547,7 @@ async function loadFiles(files: File[]): Promise<void> {
 // --- downloads ------------------------------------------------------------------
 
 function save(content: string, type: string, name: string): void {
+  markStep("3");
   const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement("a");
   link.href = url;

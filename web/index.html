@@ -3,162 +3,655 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
     <title>Medical Record De-identifier</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230f766e' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z'/%3E%3C/svg%3E"
+    />
     <style>
-      body {
-        font-family: system-ui, sans-serif;
-        max-width: 760px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-        color: #1a1a1a;
-        background: #fff;
+      /* No web fonts or other outside files: the page loads nothing from
+         anywhere but this server, so a visit tells no one else about it. */
+      :root {
+        --bg: #f5f7f8;
+        --surface: #ffffff;
+        --surface-2: #f2f5f6;
+        --text: #16232a;
+        --text-2: #4b5a62;
+        --text-3: #6b7a82;
+        --border: #dde4e7;
+        --border-strong: #b9c6cc;
+        --accent: #0f766e;
+        --accent-hover: #0b5f58;
+        --accent-soft: #e3f3f1;
+        --accent-text: #0b5f58;
+        --ok-bg: #e5f4ea;
+        --ok-text: #1f6b3a;
+        --warn-bg: #fdf3dc;
+        --warn-border: #ecd28e;
+        --warn-text: #7a5200;
+        --danger: #b42318;
+        --shadow: 0 1px 2px rgba(16, 35, 42, 0.05), 0 4px 16px rgba(16, 35, 42, 0.06);
+        --radius: 10px;
+        --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+        --tag-name-bg: #ebe8fd;
+        --tag-name: #3c3489;
+        --tag-contact-bg: #fbe8dc;
+        --tag-contact: #712b13;
+        --tag-date-bg: #dcf3ea;
+        --tag-date: #085041;
+        --tag-place-bg: #fae3ec;
+        --tag-place: #72243e;
+        --tag-id-bg: #f7ebcf;
+        --tag-id: #633806;
       }
-      textarea {
-        width: 100%;
-        min-height: 180px;
-        font: inherit;
-        padding: 0.5rem;
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f1619;
+          --surface: #172125;
+          --surface-2: #1d292e;
+          --text: #e6eef0;
+          --text-2: #b3c1c6;
+          --text-3: #8d9ca2;
+          --border: #2a383e;
+          --border-strong: #3d4f56;
+          --accent: #2bb3a4;
+          --accent-hover: #4cc7b9;
+          --accent-soft: #13302d;
+          --accent-text: #7fdccf;
+          --ok-bg: #16301f;
+          --ok-text: #8fdba7;
+          --warn-bg: #352a10;
+          --warn-border: #6b5520;
+          --warn-text: #f1cf7a;
+          --danger: #ff8a80;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          --tag-name-bg: #322c6b;
+          --tag-name: #d9d4ff;
+          --tag-contact-bg: #5a2a17;
+          --tag-contact: #ffd9c6;
+          --tag-date-bg: #12433a;
+          --tag-date: #bdf0de;
+          --tag-place-bg: #5a2236;
+          --tag-place: #ffd2e1;
+          --tag-id-bg: #4d3810;
+          --tag-id: #fbe2ad;
+        }
+      }
+      * {
         box-sizing: border-box;
       }
-      button {
-        margin-top: 0.75rem;
-        padding: 0.5rem 1.25rem;
-        font: inherit;
-        cursor: pointer;
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        color: var(--text);
+        background: var(--bg);
       }
-      #output {
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-        border: 1px solid #bbb;
-        padding: 0.75rem;
-        min-height: 3rem;
-        background: #f6f6f6;
+      h1,
+      h2,
+      h3 {
+        line-height: 1.25;
+      }
+
+      /* --- top bar ------------------------------------------------------- */
+      .topbar {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+      }
+      .topbar-inner {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        flex: none;
+        color: var(--accent);
+      }
+      .topbar h1 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 650;
+        letter-spacing: -0.01em;
+      }
+      .badge-local {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        background: var(--ok-bg);
+        color: var(--ok-text);
+        font-size: 0.85rem;
+        font-weight: 550;
+      }
+      .badge-local svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      /* --- steps --------------------------------------------------------- */
+      .steps {
+        display: flex;
+        gap: 0.5rem;
+        margin: 0 0 1.25rem;
+        padding: 0;
+        list-style: none;
+        font-size: 0.875rem;
+        color: var(--text-3);
+        flex-wrap: wrap;
+      }
+      .steps li {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .steps li + li::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--border-strong);
+        margin-right: 0.1rem;
+      }
+      .steps .num {
+        display: inline-grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 1px solid var(--border-strong);
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .steps li.current {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .steps li.current .num {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      /* --- cards --------------------------------------------------------- */
+      section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+      }
+      section > h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.2rem;
+        font-weight: 650;
+      }
+
+      /* --- input --------------------------------------------------------- */
+      .hero {
+        margin: 0 0 1.25rem;
+      }
+      .hero-title {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .hero-lead {
+        margin: 0.4rem 0 0;
+        color: var(--text-2);
+        max-width: 60ch;
+      }
+      .keeps {
+        display: flex;
+        gap: 0.5rem 1.25rem;
+        flex-wrap: wrap;
+        margin: 0.75rem 0 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.9rem;
+        color: var(--text-2);
+      }
+      .keeps li {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .keeps .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .dot.removed {
+        background: var(--tag-name);
+      }
+      .dot.kept {
+        background: var(--accent);
+      }
+      #input-panel > h2 {
+        font-size: 1rem;
+        color: var(--text-2);
+        font-weight: 600;
+        margin-top: 1.5rem;
       }
       .dropzone {
-        border: 2px dashed #9aa7b5;
-        border-radius: 8px;
-        padding: 1.25rem;
-        background: #f7f9fb;
+        position: relative;
+        border: 2px dashed var(--border-strong);
+        border-radius: 12px;
+        padding: 1.75rem 1rem;
+        background: var(--surface-2);
+        text-align: center;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
       }
+      .dropzone:hover,
       .dropzone.dragging {
-        border-color: #2f6fb3;
-        background: #eef4fb;
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .dropzone .drop-icon {
+        width: 36px;
+        height: 36px;
+        color: var(--accent);
       }
       .dropzone label {
         display: block;
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin: 0.4rem 0 0.75rem;
       }
-      .dropzone .hint,
-      .privacy {
-        margin: 0.5rem 0 0;
+      .dropzone input[type="file"] {
+        font: inherit;
         font-size: 0.9rem;
-        color: #444;
+        max-width: 100%;
+      }
+      .dropzone input[type="file"]::file-selector-button {
+        font: inherit;
+        margin-right: 0.75rem;
+        padding: 0.45rem 1rem;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--accent-text);
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .dropzone .hint {
+        margin: 0.75rem auto 0;
+        font-size: 0.875rem;
+        color: var(--text-3);
+        max-width: 52ch;
       }
       .privacy {
-        margin-top: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0.75rem 0 0;
+        font-size: 0.875rem;
+        color: var(--ok-text);
+      }
+      .privacy svg {
+        width: 15px;
+        height: 15px;
+        flex: none;
       }
       .sample-docs {
-        margin: 1rem 0 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 1.25rem 0 0;
+        padding: 0.85rem 1rem;
+        border-radius: var(--radius);
+        background: var(--surface-2);
         font-size: 0.95rem;
       }
       .sample-docs label {
-        margin-right: 0.5rem;
+        color: var(--text-2);
       }
       .paste {
         margin-top: 1.5rem;
-        padding-top: 0.75rem;
-        border-top: 1px solid #ddd;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--border);
       }
       .paste h3 {
-        margin: 0 0 0.5rem;
+        margin: 0 0 0.6rem;
         font-size: 1rem;
       }
       .paste label {
         display: block;
-        font-size: 0.9rem;
-        margin-bottom: 0.25rem;
+        font-size: 0.85rem;
+        color: var(--text-3);
+        margin-bottom: 0.3rem;
       }
-      .paste textarea {
-        min-height: 120px;
+      .actions {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 1rem;
       }
-      .sample-docs button,
-      td button {
-        margin-top: 0;
-        padding: 0.2rem 0.6rem;
+      #input-panel > .actions {
+        justify-content: flex-end;
       }
-      .record-nav button {
-        margin-right: 0.5rem;
+
+      /* --- controls ------------------------------------------------------ */
+      button,
+      select {
+        font: inherit;
+        font-size: 0.95rem;
+        color: var(--text);
+        border-radius: 8px;
       }
-      .record-nav #position {
-        margin-right: 0.5rem;
+      button {
+        padding: 0.5rem 1.1rem;
+        border: 1px solid var(--border-strong);
+        background: var(--surface);
+        font-weight: 550;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
       }
-      .batch-note {
-        margin: 0.75rem 0 0;
-        padding: 0.5rem 0.75rem;
-        background: #eef4fb;
-        border: 1px solid #b5d4f4;
+      button:hover {
+        background: var(--surface-2);
+        border-color: var(--text-3);
       }
-      .batch-preview {
-        max-height: 320px;
-        overflow-y: auto;
-        margin-top: 0.5rem;
-        padding: 0 0.75rem 0.75rem;
-        border: 1px solid #ddd;
-        background: #fafafa;
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
       }
-      .batch-preview h4 {
-        margin: 0.75rem 0 0.25rem;
-        font-size: 0.9rem;
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
       }
-      .batch-preview pre {
+      button.primary:hover {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+      }
+      #process {
+        padding: 0.65rem 2rem;
+        font-size: 1rem;
+      }
+      select {
+        padding: 0.45rem 0.6rem;
+        border: 1px solid var(--border-strong);
+        background: var(--surface);
+      }
+      textarea {
+        width: 100%;
+        min-height: 140px;
+        padding: 0.75rem;
+        font: inherit;
+        font-family: var(--mono);
+        font-size: 0.875rem;
+        color: var(--text);
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius);
+        resize: vertical;
+      }
+      :focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+        outline-offset: 2px;
+      }
+      textarea:focus-visible {
+        outline-offset: 0;
+        border-color: var(--accent);
+      }
+
+      /* --- result -------------------------------------------------------- */
+      #output {
         margin: 0;
         white-space: pre-wrap;
         overflow-wrap: anywhere;
-        font-size: 0.85rem;
+        font-family: var(--mono);
+        font-size: 0.875rem;
+        line-height: 1.7;
+        padding: 1rem 1.1rem;
+        min-height: 3rem;
+        max-height: 70vh;
+        overflow-y: auto;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
       }
       .tag {
-        border-radius: 3px;
-        padding: 0 2px;
+        border-radius: 4px;
+        padding: 0 3px;
+        font-weight: 600;
       }
       .tag-name {
-        background: #e4e1fb;
-        color: #3c3489;
+        background: var(--tag-name-bg);
+        color: var(--tag-name);
       }
       .tag-contact {
-        background: #fbe6d9;
-        color: #712b13;
+        background: var(--tag-contact-bg);
+        color: var(--tag-contact);
       }
       .tag-date {
-        background: #d9f1e8;
-        color: #085041;
+        background: var(--tag-date-bg);
+        color: var(--tag-date);
       }
       .tag-place {
-        background: #f9e0ea;
-        color: #72243e;
+        background: var(--tag-place-bg);
+        color: var(--tag-place);
       }
       .tag-id {
-        background: #f6e7c8;
-        color: #633806;
+        background: var(--tag-id-bg);
+        color: var(--tag-id);
+      }
+
+      /* --- tables -------------------------------------------------------- */
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
       }
       table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 0.95rem;
+        font-size: 0.925rem;
       }
       th,
       td {
         text-align: left;
         vertical-align: top;
-        padding: 0.4rem 0.5rem;
-        border-bottom: 1px solid #ddd;
+        padding: 0.6rem 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
       }
       th {
-        border-bottom-color: #999;
+        background: var(--surface-2);
+        color: var(--text-2);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      tbody tr:hover {
+        background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+      }
+      td button {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.85rem;
       }
       .footnote {
+        margin: 0.6rem 0 0;
+        font-size: 0.8rem;
+        color: var(--text-3);
+      }
+      #summary {
+        margin: 0 0 0.9rem;
+        color: var(--text-2);
+      }
+      .record-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 1rem 0 0;
+      }
+      #position {
+        font-size: 0.9rem;
+        color: var(--text-2);
+        padding: 0 0.25rem;
+      }
+      #back {
+        margin-left: auto;
+      }
+
+      /* --- batch --------------------------------------------------------- */
+      .batch-note {
+        margin: 1rem 0 0;
+        padding: 0.65rem 0.9rem;
+        border-radius: var(--radius);
+        background: var(--accent-soft);
+        color: var(--accent-text);
+        font-weight: 550;
+      }
+      .batch-preview {
+        max-height: 320px;
+        overflow-y: auto;
+        margin-top: 0.6rem;
+        padding: 0 1rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface-2);
+      }
+      .batch-preview h4 {
+        margin: 0.9rem 0 0.3rem;
         font-size: 0.85rem;
-        color: #555;
+        color: var(--text-2);
+      }
+      .batch-preview pre {
+        margin: 0;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+      }
+
+      /* --- assurance report ---------------------------------------------- */
+      .report-head {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      .report-head h2 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 650;
+      }
+      .review-status {
+        margin: 0;
+        padding: 0.2rem 0.7rem;
+        border-radius: 999px;
+        background: var(--warn-bg);
+        border: 1px solid var(--warn-border);
+        color: var(--warn-text);
+        font-size: 0.85rem;
+        font-weight: 550;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.75rem;
+        margin: 0 0 1.25rem;
+      }
+      .stat {
+        padding: 0.85rem 1rem;
+        border-radius: var(--radius);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+      }
+      .stat-label {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-3);
+      }
+      .stat-value {
+        margin: 0.15rem 0 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .stat.good .stat-value {
+        color: var(--ok-text);
+      }
+      .stat.check .stat-value {
+        color: var(--warn-text);
+      }
+      #assurance-panel h3 {
+        margin: 1.25rem 0 0.35rem;
+        font-size: 0.95rem;
+        font-weight: 650;
+      }
+      #assurance-panel p,
+      #assurance-panel ul {
+        margin: 0.3rem 0;
+        color: var(--text-2);
+      }
+      #assurance-panel ul {
+        padding-left: 1.25rem;
+      }
+      #assurance-panel .table-wrap {
+        margin-top: 0.6rem;
+      }
+      #assurance-panel details {
+        margin-top: 0.6rem;
+        color: var(--text-2);
+      }
+      #assurance-panel summary {
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--accent-text);
+        font-weight: 550;
+      }
+      #assurance-panel .footnote {
+        margin-top: 1rem;
+      }
+      #assurance-panel .disclaimer {
+        margin-top: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius);
+        background: var(--surface-2);
+        font-size: 0.875rem;
+      }
+
+      .error {
+        margin: 1rem 0 0;
+        padding: 0.65rem 0.9rem;
+        border-radius: var(--radius);
+        border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+        background: color-mix(in srgb, var(--danger) 8%, transparent);
+        color: var(--danger);
+      }
+      .site-foot {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        color: var(--text-3);
+        text-align: center;
       }
       .visually-hidden {
         position: absolute;
@@ -166,158 +659,227 @@
         height: 1px;
         overflow: hidden;
         clip-path: inset(50%);
+        white-space: nowrap;
       }
-      #assurance-panel {
-        margin-top: 2rem;
-        padding-top: 0.5rem;
-        border-top: 2px solid #2f6fb3;
-      }
-      #assurance-panel h3 {
-        margin: 1rem 0 0.25rem;
-        font-size: 1rem;
-      }
-      #assurance-panel p,
-      #assurance-panel ul {
-        margin: 0.25rem 0;
-      }
-      .review-status {
-        display: inline-block;
-        padding: 0.25rem 0.6rem;
-        background: #fff4d6;
-        border: 1px solid #e0b84c;
-        border-radius: 4px;
-      }
-      .disclaimer {
-        margin-top: 1rem !important;
-        padding: 0.5rem 0.75rem;
-        background: #f6f6f6;
-        border-left: 3px solid #999;
-        font-size: 0.9rem;
-      }
-      .error {
-        color: #b00020;
+      .table-wrap:has(> table[hidden]) {
+        display: none;
       }
       [hidden] {
         display: none !important;
       }
+
+      @media (max-width: 600px) {
+        section {
+          padding: 1.1rem;
+          border-radius: 12px;
+        }
+        .hero-title {
+          font-size: 1.3rem;
+        }
+        .badge-local {
+          margin-left: 0;
+        }
+        #input-panel > .actions,
+        #input-panel > .actions button {
+          width: 100%;
+        }
+        .steps li + li::before {
+          width: 12px;
+        }
+        /* wide enough to read; the table scrolls sideways in its frame */
+        table {
+          min-width: 34rem;
+          font-size: 0.85rem;
+        }
+      }
     </style>
   </head>
   <body>
-    <h1>Medical Record De-identifier</h1>
-
-    <!-- Only one panel is on screen at a time, so the original text and the
-         de-identified result never appear together. -->
-    <section id="input-panel" aria-labelledby="input-heading">
-      <h2 id="input-heading">Upload records</h2>
-      <div id="dropzone" class="dropzone">
-        <label for="file">Choose or drop files: plain text (.txt), Word (.docx), CSV or PDF</label>
-        <input
-          id="file"
-          type="file"
-          accept=".txt,text/plain,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.csv,text/csv,.pdf,application/pdf"
-          multiple
-        />
-        <p class="hint">One file opens as one record. Several files, or a CSV file with one patient per row, become a research table.</p>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z" />
+          <path fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m8.5 12 2.5 2.5 4.5-5" />
+        </svg>
+        <h1>Medical Record De-identifier</h1>
+        <span class="badge-local">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v10h-13z" />
+          </svg>
+          Runs in your browser
+        </span>
       </div>
-      <p class="privacy">Records are processed in your browser. Nothing is uploaded.</p>
-      <p class="sample-docs">
-        <label for="sample-doc">Or try a fictional sample:</label>
-        <select id="sample-doc">
-          <option value="sample-clinic-note.docx">Clinic note (Word)</option>
-          <option value="sample-patient-list.csv">Patient list (CSV)</option>
-          <option value="sample-lab-report.pdf">Lab report (PDF)</option>
-          <option value="sample-scanned-fax.pdf">Scanned fax (PDF, no text)</option>
-          <option value="inline:record">Progress note (text)</option>
-          <option value="inline:batch">Three records (text)</option>
-        </select>
-        <button id="load-doc" type="button">Load sample file</button>
-      </p>
+    </header>
 
-      <div class="paste">
-        <h3>Or paste one record</h3>
-        <label for="input">Medical record text</label>
-        <textarea id="input" placeholder="Paste a medical record here"></textarea>
-      </div>
-      <button id="process" type="button">Process</button>
-    </section>
+    <main>
+      <ol id="steps" class="steps" aria-label="Progress">
+        <li data-step="1" class="current"><span class="num">1</span>Upload</li>
+        <li data-step="2"><span class="num">2</span>Review</li>
+        <li data-step="3"><span class="num">3</span>Download</li>
+      </ol>
 
-    <section id="result-panel" aria-labelledby="result-heading" hidden>
-      <h2 id="result-heading">Result</h2>
-      <pre id="output" aria-label="De-identified result" aria-live="polite"></pre>
-      <button id="download" type="button">Download result</button>
-      <button id="edit" type="button">Edit original</button>
-    </section>
+      <!-- Only one panel is on screen at a time, so the original text and the
+           de-identified result never appear together. -->
+      <section id="input-panel" aria-labelledby="input-heading">
+        <div class="hero">
+          <p class="hero-title">Share medical records without sharing the patient</p>
+          <p class="hero-lead">
+            Names, phone numbers, addresses, dates and ID numbers are replaced with labels. Symptoms, diagnoses,
+            medications and lab values stay as they were.
+          </p>
+          <ul class="keeps">
+            <li><span class="dot removed"></span>Removed: personal identifiers (HIPAA Safe Harbor)</li>
+            <li><span class="dot kept"></span>Kept: the medical content</li>
+          </ul>
+        </div>
 
-    <!-- Shown with the Result but kept outside it, so the Result region holds
-         the de-identified record and nothing else. -->
-    <section id="details-panel" aria-labelledby="details-heading" hidden>
-      <h2 id="details-heading">Record details</h2>
-      <p id="summary"></p>
-      <table>
-        <thead>
-          <tr><th>Age</th><th>Sex</th><th>Diagnoses</th><th>Medications</th></tr>
-        </thead>
-        <tbody id="details-body"></tbody>
-      </table>
-      <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
-      <p id="record-nav" class="record-nav">
-        <button id="prev" type="button">Previous</button>
-        <span id="position"></span>
-        <button id="next" type="button">Next</button>
-        <button id="back" type="button">Back to table</button>
-      </p>
-    </section>
+        <h2 id="input-heading">Upload records</h2>
+        <div id="dropzone" class="dropzone">
+          <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"
+            />
+          </svg>
+          <label for="file">Choose or drop files: plain text (.txt), Word (.docx), CSV or PDF</label>
+          <input
+            id="file"
+            type="file"
+            accept=".txt,text/plain,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.csv,text/csv,.pdf,application/pdf"
+            multiple
+          />
+          <p class="hint">One file opens as one record. Several files, or a CSV file with one patient per row, become a research table.</p>
+        </div>
+        <p class="privacy">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 3 5 6v5c0 4.4 3 8.3 7 9.5 4-1.2 7-5.1 7-9.5V6z" />
+          </svg>
+          Records are processed in your browser. Nothing is uploaded.
+        </p>
+        <p class="sample-docs">
+          <label for="sample-doc">Or try a fictional sample:</label>
+          <select id="sample-doc">
+            <option value="sample-clinic-note.docx">Clinic note (Word)</option>
+            <option value="sample-patient-list.csv">Patient list (CSV)</option>
+            <option value="sample-lab-report.pdf">Lab report (PDF)</option>
+            <option value="sample-scanned-fax.pdf">Scanned fax (PDF, no text)</option>
+            <option value="inline:record">Progress note (text)</option>
+            <option value="inline:batch">Three records (text)</option>
+          </select>
+          <button id="load-doc" type="button">Load sample file</button>
+        </p>
 
-    <section id="batch-panel" aria-labelledby="batch-heading" hidden>
-      <h2 id="batch-heading">Research table</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Record</th><th>Age</th><th>Sex</th><th>Diagnoses</th><th>Medications</th>
-            <th><span class="visually-hidden">Open</span></th>
-          </tr>
-        </thead>
-        <tbody id="batch-body"></tbody>
-      </table>
-      <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
-      <button id="csv" type="button">Download CSV</button>
-      <button id="all-records" type="button">Download all records</button>
-      <button id="restart" type="button">Start over</button>
-    </section>
+        <div class="paste">
+          <h3>Or paste one record</h3>
+          <label for="input">Medical record text</label>
+          <textarea id="input" placeholder="Paste a medical record here"></textarea>
+        </div>
+        <div class="actions">
+          <button id="process" class="primary" type="button">Process</button>
+        </div>
+      </section>
 
-    <!-- Shown with a result or a research table. It describes the records and
-         holds none of their text, so it can be shared without them. -->
-    <section id="assurance-panel" aria-labelledby="assurance-heading" hidden>
-      <h2 id="assurance-heading">Assurance report</h2>
-      <p id="review-status" class="review-status"></p>
-      <h3>Identifiers replaced</h3>
-      <p id="replaced"></p>
-      <h3>Residual findings</h3>
-      <p id="residual-summary"></p>
-      <table id="residual-table">
-        <thead>
-          <tr><th>Record</th><th>Line</th><th>May be</th><th>Severity</th><th>Action</th></tr>
-        </thead>
-        <tbody id="residual-body"></tbody>
-      </table>
-      <h3>Re-identification risk</h3>
-      <p id="groups"></p>
-      <table id="quasi-table">
-        <thead>
-          <tr><th>Record</th><th>Line</th><th>Quasi-identifier</th><th>Level</th><th>Action</th></tr>
-        </thead>
-        <tbody id="quasi-body"></tbody>
-      </table>
-      <details>
-        <summary>Assumptions and limits</summary>
-        <ul id="assumptions"></ul>
-      </details>
-      <h3>Research utility</h3>
-      <ul id="utility"></ul>
-      <p id="engine-info" class="footnote"></p>
-      <p id="disclaimer" class="disclaimer"></p>
-      <button id="report" type="button">Download report (JSON)</button>
-    </section>
+      <section id="result-panel" aria-labelledby="result-heading" hidden>
+        <h2 id="result-heading">Result</h2>
+        <pre id="output" aria-label="De-identified result" aria-live="polite"></pre>
+        <div class="actions">
+          <button id="download" class="primary" type="button">Download result</button>
+          <button id="edit" type="button">Edit original</button>
+        </div>
+      </section>
+
+      <!-- Shown with the Result but kept outside it, so the Result region holds
+           the de-identified record and nothing else. -->
+      <section id="details-panel" aria-labelledby="details-heading" hidden>
+        <h2 id="details-heading">Record details</h2>
+        <p id="summary"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Age</th><th>Sex</th><th>Diagnoses</th><th>Medications</th></tr>
+            </thead>
+            <tbody id="details-body"></tbody>
+          </table>
+        </div>
+        <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
+        <p id="record-nav" class="record-nav">
+          <button id="prev" type="button">Previous</button>
+          <span id="position"></span>
+          <button id="next" type="button">Next</button>
+          <button id="back" type="button">Back to table</button>
+        </p>
+      </section>
+
+      <section id="batch-panel" aria-labelledby="batch-heading" hidden>
+        <h2 id="batch-heading">Research table</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Record</th><th>Age</th><th>Sex</th><th>Diagnoses</th><th>Medications</th>
+                <th><span class="visually-hidden">Open</span></th>
+              </tr>
+            </thead>
+            <tbody id="batch-body"></tbody>
+          </table>
+        </div>
+        <p class="footnote">* Age worked out from the date of birth, as of today. Empty cells: not stated in the record.</p>
+        <div class="actions">
+          <button id="csv" class="primary" type="button">Download CSV</button>
+          <button id="all-records" type="button">Download all records</button>
+          <button id="restart" type="button">Start over</button>
+        </div>
+      </section>
+
+      <!-- Shown with a result or a research table. It describes the records and
+           holds none of their text, so it can be shared without them. -->
+      <section id="assurance-panel" aria-labelledby="assurance-heading" hidden>
+        <div class="report-head">
+          <h2 id="assurance-heading">Assurance report</h2>
+          <p id="review-status" class="review-status"></p>
+        </div>
+        <div id="stats" class="stats"></div>
+        <h3>Identifiers replaced</h3>
+        <p id="replaced"></p>
+        <h3>Residual findings</h3>
+        <p id="residual-summary"></p>
+        <div class="table-wrap" id="residual-wrap">
+          <table id="residual-table">
+            <thead>
+              <tr><th>Record</th><th>Line</th><th>May be</th><th>Severity</th><th>Action</th></tr>
+            </thead>
+            <tbody id="residual-body"></tbody>
+          </table>
+        </div>
+        <h3>Re-identification risk</h3>
+        <p id="groups"></p>
+        <div class="table-wrap" id="quasi-wrap">
+          <table id="quasi-table">
+            <thead>
+              <tr><th>Record</th><th>Line</th><th>Quasi-identifier</th><th>Level</th><th>Action</th></tr>
+            </thead>
+            <tbody id="quasi-body"></tbody>
+          </table>
+        </div>
+        <details>
+          <summary>Assumptions and limits</summary>
+          <ul id="assumptions"></ul>
+        </details>
+        <h3>Research utility</h3>
+        <ul id="utility"></ul>
+        <p id="engine-info" class="footnote"></p>
+        <p id="disclaimer" class="disclaimer"></p>
+        <div class="actions">
+          <button id="report" type="button">Download report (JSON)</button>
+        </div>
+      </section>
+
+      <p class="site-foot">Fictional samples only. A hackathon project, not a tool to rely on for real patient data.</p>
+    </main>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
