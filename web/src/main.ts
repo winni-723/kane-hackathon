@@ -74,6 +74,7 @@ const batchBody = mustGet<HTMLTableSectionElement>("batch-body");
 const csvButton = mustGet<HTMLButtonElement>("csv");
 const allRecordsButton = mustGet<HTMLButtonElement>("all-records");
 const restartButton = mustGet<HTMLButtonElement>("restart");
+const startOverButton = mustGet<HTMLButtonElement>("start-over");
 const assurancePanel = mustGet<HTMLElement>("assurance-panel");
 const reviewStatus = mustGet<HTMLParagraphElement>("review-status");
 const replacedEl = mustGet<HTMLParagraphElement>("replaced");
@@ -277,6 +278,14 @@ function showInput(): void {
   report = null;
   showOnly(inputPanel);
   input.focus();
+}
+
+// Edit original keeps the text to change it; Start over begins again empty.
+function startOver(): void {
+  clearError();
+  setPendingBatch(null);
+  input.value = "";
+  showInput();
 }
 
 // De-identified here in the browser, by the engine in a Web Worker: the
@@ -605,7 +614,8 @@ reportButton.addEventListener("click", () => {
 });
 
 editButton.addEventListener("click", showInput);
-restartButton.addEventListener("click", showInput);
+restartButton.addEventListener("click", startOver);
+startOverButton.addEventListener("click", startOver);
 backButton.addEventListener("click", showTable);
 
 function step(by: number): void {
