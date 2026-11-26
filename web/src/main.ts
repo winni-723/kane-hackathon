@@ -113,42 +113,96 @@ function showError(message: string): void {
   inputPanel.append(errorEl);
 }
 
+// Files loaded together, listed before Process so the visitor can check
+// them, take one out, or see why one could not be read. A file's name is
+// shown only in this list, on this device: it never reaches the table, the
+// CSV or the report, since a file is often named after its patient.
+interface LoadedFile {
+  name: string;
+  kind: "text" | "docx" | "csv" | "pdf" | null;
+  records: string[];
+  error: string | null;
+}
+let loadedFiles: LoadedFile[] = [];
 // Records waiting to be processed together. While this is set, Process
 // builds the research table instead of reading the text box.
 let pendingBatch: string[] | null = null;
 let batchNote: HTMLParagraphElement | null = null;
-// The loaded records as read, shown before Process so the visitor can see
-// what was loaded. It exists only while a batch is waiting.
-let batchPreview: HTMLElement | null = null;
+let fileList: HTMLElement | null = null;
 // The processed batch, kept so a record can be opened from the table.
 let batchResults: ProcessResponse[] = [];
 
-function setPendingBatch(records: string[] | null): void {
-  pendingBatch = records;
+const KIND_LABEL = { text: "Text", docx: "Word", csv: "CSV", pdf: "PDF" };
+
+function setLoadedFiles(files: LoadedFile[]): void {
+  loadedFiles = files;
   batchNote?.remove();
   batchNote = null;
-  batchPreview?.remove();
-  batchPreview = null;
-  if (records) {
-    batchNote = document.createElement("p");
-    batchNote.className = "batch-note";
-    batchNote.setAttribute("role", "status");
-    batchNote.textContent = `${records.length} records loaded. Press Process to build the research table.`;
-    batchPreview = document.createElement("div");
-    batchPreview.className = "batch-preview";
-    batchPreview.setAttribute("role", "region");
-    batchPreview.setAttribute("aria-label", "Loaded records");
-    records.forEach((record, index) => {
-      const heading = document.createElement("h4");
-      heading.textContent = `Record ${index + 1} of ${records.length}`;
-      const text = document.createElement("pre");
-      text.textContent = record;
-      batchPreview?.append(heading, text);
-    });
-    (processButton.parentElement ?? processButton).before(batchNote, batchPreview);
-    input.value = "";
-    clearRecordBoxes();
+  fileList?.remove();
+  fileList = null;
+  if (files.length === 0) {
+    pendingBatch = null;
+    return;
   }
+  const records = files.flatMap((file) => file.records);
+  pendingBatch = records;
+  batchNote = document.createElement("p");
+  batchNote.className = "batch-note";
+  batchNote.setAttribute("role", "status");
+  batchNote.textContent =
+    records.length === 0
+      ? "No records could be read from these files."
+      : `${plural(records.length, "record", "records")} loaded. Press Process to build the research table.`;
+  fileList = renderFileList(files);
+  (processButton.parentElement ?? processButton).before(batchNote, fileList);
+  input.value = "";
+  clearRecordBoxes();
+}
+
+function clearLoadedFiles(): void {
+  setLoadedFiles([]);
+}
+
+function renderFileList(files: LoadedFile[]): HTMLElement {
+  const wrap = document.createElement("div");
+  wrap.className = "file-list";
+  wrap.setAttribute("role", "region");
+  wrap.setAttribute("aria-label", "Loaded files");
+  const failed = files.filter((file) => file.error !== null).length;
+  const head = document.createElement("p");
+  head.className = "file-list-head";
+  head.textContent =
+    plural(files.length, "file", "files") +
+    (failed > 0 ? ` · ${failed} could not be read and will be left out` : "");
+  const list = document.createElement("ul");
+  for (const file of files) {
+    const row = document.createElement("li");
+    row.className = file.error === null ? "file-row" : "file-row failed";
+    const name = document.createElement("span");
+    name.className = "file-name";
+    name.textContent = file.name;
+    name.title = file.name;
+    const kind = document.createElement("span");
+    kind.className = "file-kind";
+    kind.textContent = file.kind === null ? "?" : KIND_LABEL[file.kind];
+    const info = document.createElement("span");
+    info.className = "file-info";
+    info.textContent =
+      file.error ?? plural(file.records.length, "record", "records");
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "remove";
+    remove.textContent = "Remove";
+    remove.setAttribute("aria-label", `Remove ${file.name}`);
+    remove.addEventListener("click", () => {
+      setLoadedFiles(loadedFiles.filter((other) => other !== file));
+      input.focus();
+    });
+    row.append(kind, name, info, remove);
+    list.append(row);
+  }
+  wrap.append(head, list);
+  return wrap;
 }
 
 // --- the placeholders the engine writes ---------------------------------------
@@ -290,7 +344,7 @@ function showInput(): void {
 // Edit original keeps the text to change it; Start over begins again empty.
 function startOver(): void {
   clearError();
-  setPendingBatch(null);
+  clearLoadedFiles();
   clearRecordBoxes();
   input.value = "";
   showInput();
@@ -416,6 +470,10 @@ function renderReport(r: AssuranceReport): void {
 
 processButton.addEventListener("click", async () => {
   clearError();
+  if (pendingBatch !== null && pendingBatch.length === 0) {
+    showError("None of the loaded files could be read. Remove them, or load other files.");
+    return;
+  }
   processButton.disabled = true;
   try {
     const pasted = pastedRecords();
@@ -427,7 +485,7 @@ processButton.addEventListener("click", async () => {
       report = await buildReport(batch, results);
       renderReport(report);
       batchResults = results;
-      setPendingBatch(null);
+      clearLoadedFiles();
       showTable();
     } else {
       const text = pasted[0] ?? input.value;
@@ -448,7 +506,7 @@ processButton.addEventListener("click", async () => {
 const MAX_FILE_BYTES = 1_000_000;
 const MAX_FILES = 200;
 
-input.addEventListener("input", () => setPendingBatch(null));
+input.addEventListener("input", () => clearLoadedFiles());
 
 // --- pasting several records ---------------------------------------------------
 // The first box is the one every Kane test types into; more boxes are added
@@ -494,7 +552,7 @@ function addRecordBox(text = ""): HTMLTextAreaElement {
   box.id = id;
   box.placeholder = "Paste another record here";
   box.value = text;
-  box.addEventListener("input", () => setPendingBatch(null));
+  box.addEventListener("input", () => clearLoadedFiles());
   remove.addEventListener("click", () => {
     item.remove();
     renumberBoxes();
@@ -576,7 +634,7 @@ sampleDocButton.addEventListener("click", async () => {
   clearError();
   const name = sampleDocSelect.value;
   if (name === "inline:record") {
-    setPendingBatch(null);
+    clearLoadedFiles();
     clearRecordBoxes();
     input.value = SAMPLE_RECORD;
     input.focus();
@@ -584,7 +642,7 @@ sampleDocButton.addEventListener("click", async () => {
   }
   // The three records go into three paste boxes: a set of pasted records.
   if (name === "inline:batch") {
-    setPendingBatch(null);
+    clearLoadedFiles();
     clearRecordBoxes();
     const [first, ...rest] = SAMPLE_BATCH;
     input.value = first;
@@ -600,44 +658,54 @@ sampleDocButton.addEventListener("click", async () => {
   }
 });
 
+// One file, read on its own: a file that cannot be read says why, and the
+// others are still loaded.
+async function readOne(file: File): Promise<LoadedFile> {
+  const kind = fileKind(file);
+  const loaded = (records: string[], error: string | null): LoadedFile => ({ name: file.name, kind, records, error });
+  if (kind === null) {
+    return loaded([], "Only plain text (.txt), Word (.docx), CSV (.csv) and PDF (.pdf) files can be loaded.");
+  }
+  if (kind === "text" && file.size > MAX_FILE_BYTES) return loaded([], "A text file is larger than 1 MB.");
+  if (file.size > MAX_DOCUMENT_BYTES) return loaded([], "A document is larger than 10 MB.");
+  try {
+    return loaded(await readFile(file), null);
+  } catch (error) {
+    return loaded([], error instanceof Error && error.message ? error.message : "A file could not be read.");
+  }
+}
+
+// A single file with one record opens in the text box, as a pasted record
+// would; a single file that cannot be read says why. Anything more joins
+// the list of loaded files, which Process turns into the research table.
 async function loadFiles(files: File[]): Promise<void> {
   if (files.length === 0) return;
-  if (files.length > MAX_FILES) {
+  if (loadedFiles.length + files.length > MAX_FILES) {
     showError(`Choose at most ${MAX_FILES} files at a time.`);
     return;
   }
-  for (const file of files) {
-    const kind = fileKind(file);
-    if (kind === null) {
-      showError("Only plain text (.txt), Word (.docx), CSV (.csv) and PDF (.pdf) files can be loaded.");
+  const read = await Promise.all(files.map(readOne));
+  if (loadedFiles.length === 0 && read.length === 1) {
+    const [only] = read;
+    if (only.error !== null) {
+      showError(only.error);
       return;
     }
-    if (kind === "text" && file.size > MAX_FILE_BYTES) {
-      showError("A text file is larger than 1 MB.");
-      return;
-    }
-    if (file.size > MAX_DOCUMENT_BYTES) {
-      showError("A document is larger than 10 MB.");
-      return;
-    }
-  }
-  try {
-    const texts = (await Promise.all(files.map(readFile))).flat();
-    if (texts.length > MAX_RECORDS) {
-      showError(`These files hold ${texts.length} records; at most ${MAX_RECORDS} can be processed at a time.`);
-      return;
-    }
-    if (texts.length === 1) {
-      setPendingBatch(null);
+    if (only.records.length === 1) {
+      clearLoadedFiles();
       clearRecordBoxes();
-      input.value = texts[0];
+      input.value = only.records[0];
       input.focus();
-    } else {
-      setPendingBatch(texts);
+      return;
     }
-  } catch (error) {
-    showError(error instanceof Error && error.message ? error.message : "A file could not be read.");
   }
+  const all = [...loadedFiles, ...read];
+  const total = all.reduce((n, file) => n + file.records.length, 0);
+  if (total > MAX_RECORDS) {
+    showError(`These files hold ${total} records; at most ${MAX_RECORDS} can be processed at a time.`);
+    return;
+  }
+  setLoadedFiles(all);
 }
 
 // --- downloads ------------------------------------------------------------------

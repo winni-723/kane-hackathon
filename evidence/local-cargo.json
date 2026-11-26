@@ -1,11 +1,11 @@
 {
   "format": "deid-test-evidence/1",
-  "generated_at": "2026-11-26T02:33:36.822Z",
+  "generated_at": "2026-11-26T05:32:53.609Z",
   "source": {
-    "commit_at_run": "ae7eea5044777ff28d372cc749bc2f1c817eb258",
+    "commit_at_run": "3aec878cb38cdb99568c25998b0e66b337f7326c",
     "uncommitted_changes": true,
-    "tracked_files": 636,
-    "tracked_files_sha256": "1efa5957951df2e074485ab495a03273357f039445c086a95c669c01718206a1",
+    "tracked_files": 638,
+    "tracked_files_sha256": "4ff6be56dc714adc259af0319926d7c68be0eba59f8927c40ed52316d380728b",
     "check_with": "node scripts/tree-hash.mjs"
   },
   "layer": "1: answer keys, build, clippy, cargo test, browser engine equals native, tsc",
