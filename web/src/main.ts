@@ -75,6 +75,9 @@ const csvButton = mustGet<HTMLButtonElement>("csv");
 const allRecordsButton = mustGet<HTMLButtonElement>("all-records");
 const restartButton = mustGet<HTMLButtonElement>("restart");
 const startOverButton = mustGet<HTMLButtonElement>("start-over");
+const moreRecords = mustGet<HTMLDivElement>("more-records");
+const firstNum = mustGet<HTMLSpanElement>("first-num");
+const addRecordButton = mustGet<HTMLButtonElement>("add-record");
 const assurancePanel = mustGet<HTMLElement>("assurance-panel");
 const reviewStatus = mustGet<HTMLParagraphElement>("review-status");
 const replacedEl = mustGet<HTMLParagraphElement>("replaced");
@@ -144,6 +147,7 @@ function setPendingBatch(records: string[] | null): void {
     });
     (processButton.parentElement ?? processButton).before(batchNote, batchPreview);
     input.value = "";
+    clearRecordBoxes();
   }
 }
 
@@ -223,6 +227,9 @@ function showOnly(...panels: HTMLElement[]): void {
   for (const panel of [inputPanel, resultPanel, detailsPanel, batchPanel]) {
     panel.hidden = !panels.includes(panel);
   }
+  // A new view starts at its top: after a long input, the page would
+  // otherwise stay scrolled to the middle of the result.
+  window.scrollTo(0, 0);
   assurancePanel.hidden = report === null || panels.includes(inputPanel);
   // The progress line: upload while the input is on screen, then review.
   markStep(panels.includes(inputPanel) ? "1" : "2");
@@ -284,6 +291,7 @@ function showInput(): void {
 function startOver(): void {
   clearError();
   setPendingBatch(null);
+  clearRecordBoxes();
   input.value = "";
   showInput();
 }
@@ -410,18 +418,21 @@ processButton.addEventListener("click", async () => {
   clearError();
   processButton.disabled = true;
   try {
-    if (pendingBatch) {
+    const pasted = pastedRecords();
+    const batch = pendingBatch ?? (pasted.length > 1 ? pasted : null);
+    if (batch) {
       // One at a time: the engine works through them in its own thread.
       const results: ProcessResponse[] = [];
-      for (const record of pendingBatch) results.push(await processText(record));
-      report = await buildReport(pendingBatch, results);
+      for (const record of batch) results.push(await processText(record));
+      report = await buildReport(batch, results);
       renderReport(report);
       batchResults = results;
       setPendingBatch(null);
       showTable();
     } else {
-      const result = await processText(input.value);
-      report = await buildReport([input.value], [result]);
+      const text = pasted[0] ?? input.value;
+      const result = await processText(text);
+      report = await buildReport([text], [result]);
       renderReport(report);
       showResult(result, null);
     }
@@ -438,6 +449,75 @@ const MAX_FILE_BYTES = 1_000_000;
 const MAX_FILES = 200;
 
 input.addEventListener("input", () => setPendingBatch(null));
+
+// --- pasting several records ---------------------------------------------------
+// The first box is the one every Kane test types into; more boxes are added
+// below it. Two or more filled boxes are processed as a set, like several
+// files, into the research table.
+
+const MAX_PASTED = 20;
+let boxCount = 0;
+
+function extraBoxes(): HTMLTextAreaElement[] {
+  return [...moreRecords.querySelectorAll<HTMLTextAreaElement>("textarea")];
+}
+
+// Numbers the boxes 1, 2, 3... after one is added or removed.
+function renumberBoxes(): void {
+  const boxes = extraBoxes();
+  boxes.forEach((box, index) => {
+    const item = box.closest(".record-box");
+    const label = item?.querySelector("label");
+    const remove = item?.querySelector("button");
+    if (label) label.textContent = `Record ${index + 2}`;
+    remove?.setAttribute("aria-label", `Remove record ${index + 2}`);
+  });
+  firstNum.hidden = boxes.length === 0;
+  addRecordButton.disabled = boxes.length + 1 >= MAX_PASTED;
+}
+
+function addRecordBox(text = ""): HTMLTextAreaElement {
+  boxCount += 1;
+  const id = `record-box-${boxCount}`;
+  const item = document.createElement("div");
+  item.className = "record-box";
+  const head = document.createElement("div");
+  head.className = "record-head";
+  const label = document.createElement("label");
+  label.htmlFor = id;
+  label.className = "record-num";
+  const remove = document.createElement("button");
+  remove.type = "button";
+  remove.className = "remove";
+  remove.textContent = "Remove";
+  const box = document.createElement("textarea");
+  box.id = id;
+  box.placeholder = "Paste another record here";
+  box.value = text;
+  box.addEventListener("input", () => setPendingBatch(null));
+  remove.addEventListener("click", () => {
+    item.remove();
+    renumberBoxes();
+    input.focus();
+  });
+  head.append(label, remove);
+  item.append(head, box);
+  moreRecords.append(item);
+  renumberBoxes();
+  return box;
+}
+
+function clearRecordBoxes(): void {
+  moreRecords.replaceChildren();
+  renumberBoxes();
+}
+
+// The text of every filled box, in order.
+function pastedRecords(): string[] {
+  return [input, ...extraBoxes()].map((box) => box.value).filter((text) => text.trim() !== "");
+}
+
+addRecordButton.addEventListener("click", () => addRecordBox().focus());
 
 const MAX_DOCUMENT_BYTES = 10_000_000;
 // A CSV file is one record per row, so one file can hold many.
@@ -497,12 +577,18 @@ sampleDocButton.addEventListener("click", async () => {
   const name = sampleDocSelect.value;
   if (name === "inline:record") {
     setPendingBatch(null);
+    clearRecordBoxes();
     input.value = SAMPLE_RECORD;
     input.focus();
     return;
   }
+  // The three records go into three paste boxes: a set of pasted records.
   if (name === "inline:batch") {
-    setPendingBatch(SAMPLE_BATCH);
+    setPendingBatch(null);
+    clearRecordBoxes();
+    const [first, ...rest] = SAMPLE_BATCH;
+    input.value = first;
+    for (const record of rest) addRecordBox(record);
     return;
   }
   try {
@@ -543,6 +629,7 @@ async function loadFiles(files: File[]): Promise<void> {
     }
     if (texts.length === 1) {
       setPendingBatch(null);
+      clearRecordBoxes();
       input.value = texts[0];
       input.focus();
     } else {
