@@ -1,9 +1,9 @@
 ---
 test: ../easy-s22-address_test.md
 status: passed
-started: 2026-11-15T17:45:14.151Z
-duration_s: 64
-session_id: a16b7cc2-96ec-4c43-9db8-ef3c44ab35ea
+started: 2026-11-26T22:40:51.703Z
+duration_s: 61
+session_id: 7dcd2c3f-488b-4eaf-b77d-a20ead3122e7
 ---
 
 # easy-s22: address is removed, medical content is kept — Result
@@ -13,7 +13,7 @@ md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (33.8s)
+## Medical content is kept and planted address is gone ✓ passed (31.7s)
 md5: f76f6b8e3bb646b96abbcfb405d3cad4
 Verify that the Result region contains the text 'Concussion with no loss of consciousness (disorder)'.
 Verify that the Result region contains the text 'Concussion injury of brain (disorder)'.

@@ -1,14 +1,14 @@
 ---
 test: ../hard-103-relative_name_test.md
 status: passed
-started: 2026-11-15T17:52:34.025Z
-duration_s: 68
-session_id: fdaee44a-afa8-4caa-84f2-1fb82ad2f4c7
+started: 2026-11-26T22:59:54.673Z
+duration_s: 63
+session_id: 825845dc-c9dc-463b-a990-e3a91a84b5b3
 ---
 
 # hard-103: relative name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (26.9s)
+## Submit the record ✓ passed (22.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.

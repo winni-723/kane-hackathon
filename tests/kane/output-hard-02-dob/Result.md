@@ -1,19 +1,19 @@
 ---
 test: ../hard-02-dob_test.md
 status: passed
-started: 2026-11-14T04:22:34.060Z
-duration_s: 105
-session_id: 2a0d8fc1-48c0-4d5d-872c-74a4c0a1e407
+started: 2026-11-26T23:35:52.416Z
+duration_s: 60
+session_id: 863fcb40-d9b5-4870-a695-25004306460d
 ---
 
 # hard-02: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.3s)
+## Submit the record ✓ passed (21.8s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (61.3s)
+## Medical content is kept and planted dob is gone ✓ passed (31.3s)
 md5: fc724986a9296f4f7c94deb256374e6c
 Verify that the Result region contains the text 'evaluation of memory loss'.
 Verify that the Result region contains the text '19 out of 30'.

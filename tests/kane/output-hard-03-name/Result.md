@@ -1,19 +1,19 @@
 ---
 test: ../hard-03-name_test.md
 status: passed
-started: 2026-11-14T04:45:26.984Z
-duration_s: 91
-session_id: f7e8d919-ce5d-4f29-9619-83caeac9c500
+started: 2026-11-26T22:47:26.657Z
+duration_s: 62
+session_id: de273fbd-5920-4c40-ad51-3a15c6e6d959
 ---
 
 # hard-03: name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.9s)
+## Submit the record ✓ passed (24.7s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted name is gone ✓ passed (48.8s)
+## Medical content is kept and planted name is gone ✓ passed (33.7s)
 md5: 39af1daef13f49460707c3f8a3ed4487
 Verify that the Result region contains the text 'cycle 3 of ABVD chemotherapy'.
 Verify that the Result region contains the text 'Hodgkin lymphoma, stage IIA'.

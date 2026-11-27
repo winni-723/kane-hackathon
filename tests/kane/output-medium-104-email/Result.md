@@ -1,19 +1,19 @@
 ---
 test: ../medium-104-email_test.md
 status: passed
-started: 2026-11-15T18:00:34.837Z
-duration_s: 80
-session_id: 065eef2d-9235-421e-8524-801798b56635
+started: 2026-11-26T23:22:02.955Z
+duration_s: 57
+session_id: 2665b198-9213-45c6-9ac4-05c530b632ec
 ---
 
 # medium-104: email is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (32.8s)
+## Submit the record ✓ passed (22.7s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted email is gone ✓ passed (41.3s)
+## Medical content is kept and planted email is gone ✓ passed (30.9s)
 md5: 9369581166737bda5b8b09445c560371
 Verify that the Result region contains the text 'left total knee replacement'.
 Verify that the Result region contains the text 'Knee flexion is 85 degrees'.

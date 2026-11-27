@@ -1,19 +1,19 @@
 ---
 test: ../medium-104-dob_test.md
 status: passed
-started: 2026-11-15T18:00:32.532Z
-duration_s: 86
-session_id: dc61e43e-7229-4145-9108-41464fa08612
+started: 2026-11-26T23:21:56.308Z
+duration_s: 56
+session_id: 84589b35-7d1c-4b92-810a-104e4db44548
 ---
 
 # medium-104: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (34.4s)
+## Submit the record ✓ passed (22.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (43.9s)
+## Medical content is kept and planted dob is gone ✓ passed (30.3s)
 md5: b8efe36e2f8b909189989ee2c4ae4243
 Verify that the Result region contains the text 'left total knee replacement'.
 Verify that the Result region contains the text 'Knee flexion is 85 degrees'.

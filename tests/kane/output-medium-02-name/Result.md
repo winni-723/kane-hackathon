@@ -1,19 +1,19 @@
 ---
 test: ../medium-02-name_test.md
 status: passed
-started: 2026-11-14T04:54:32.474Z
-duration_s: 81
-session_id: 96cff0ab-2658-46c5-8feb-903bbb337c7b
+started: 2026-11-26T23:03:28.081Z
+duration_s: 61
+session_id: 89ddde59-e189-4c71-8c4c-6c9fb0c394d6
 ---
 
 # medium-02: name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33.6s)
+## Submit the record ✓ passed (25.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted name is gone ✓ passed (42.9s)
+## Medical content is kept and planted name is gone ✓ passed (31.6s)
 md5: 417d5ec1fef4884e9eaf46445a05d4b3
 Verify that the Result region contains the text '45-year-old man'.
 Verify that the Result region contains the text 'crushing substernal chest pain'.

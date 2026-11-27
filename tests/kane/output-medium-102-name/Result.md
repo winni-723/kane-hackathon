@@ -1,19 +1,19 @@
 ---
 test: ../medium-102-name_test.md
 status: passed
-started: 2026-11-15T17:56:34.850Z
-duration_s: 66
-session_id: 5a1c1ddd-b455-48a3-86cb-8153842e927f
+started: 2026-11-26T23:18:32.336Z
+duration_s: 65
+session_id: 34bf3a13-4b05-4158-856d-eace3bfab352
 ---
 
 # medium-102: name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (22.9s)
+## Submit the record ✓ passed (24s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted name is gone ✓ passed (38.4s)
+## Medical content is kept and planted name is gone ✓ passed (37.7s)
 md5: edd8cf02c9058a7212b8db134c01651c
 Verify that the Result region contains the text 'post-op day 2'.
 Verify that the Result region contains the text 'right hemicolectomy'.

@@ -1,19 +1,19 @@
 ---
 test: ../easy-02-dob_test.md
 status: passed
-started: 2026-11-14T04:05:57.557Z
-duration_s: 78
-session_id: 8113fa87-2ae5-405d-971a-20f41689f18e
+started: 2026-11-26T22:19:14.399Z
+duration_s: 56
+session_id: 1c234fe1-9c31-4b4d-9a69-2f795588ae1d
 ---
 
 # easy-02: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33.5s)
+## Submit the record ✓ passed (21.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (40.2s)
+## Medical content is kept and planted dob is gone ✓ passed (28.8s)
 md5: 061fe50b4163c24e4ebffd6db4b98d86
 Verify that the Result region contains the text 'type 2 diabetes mellitus'.
 Verify that the Result region contains the text 'HbA1c 7.8%'.

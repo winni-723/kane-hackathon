@@ -1,19 +1,19 @@
 ---
 test: ../easy-03-relative_name_test.md
 status: passed
-started: 2026-11-14T04:37:13.723Z
-duration_s: 89
-session_id: 4fda6323-b2b2-4963-9fb1-9ec3753ca230
+started: 2026-11-26T22:22:35.587Z
+duration_s: 59
+session_id: 51bf8856-07e1-48fc-8aa3-d80be3ebcb1f
 ---
 
 # easy-03: relative name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (41.1s)
+## Submit the record ✓ passed (26.5s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted relative name is gone ✓ passed (41.7s)
+## Medical content is kept and planted relative name is gone ✓ passed (28.5s)
 md5: e764cb1cabe3ab3eb6a04e6a147f70b3
 Verify that the Result region contains the text 'Severe unilateral headache'.
 Verify that the Result region contains the text 'photophobia'.

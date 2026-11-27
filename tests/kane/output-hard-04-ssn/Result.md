@@ -1,19 +1,19 @@
 ---
 test: ../hard-04-ssn_test.md
 status: passed
-started: 2026-11-14T03:48:11.266Z
-duration_s: 86
-session_id: 98ab3878-782e-4302-9796-78e7f940344f
+started: 2026-11-26T22:49:47.443Z
+duration_s: 57
+session_id: c7f7ad65-a39d-4a8a-bdc7-571287e2913c
 ---
 
 # hard-04: ssn is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.7s)
+## Submit the record ✓ passed (20.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted ssn is gone ✓ passed (44.1s)
+## Medical content is kept and planted ssn is gone ✓ passed (32.9s)
 md5: b19c8db2eb3abf62202ddf88b4cd3981
 Verify that the Result region contains the text '34 y/o veteran'.
 Verify that the Result region contains the text 'nightmares and hypervigilance'.

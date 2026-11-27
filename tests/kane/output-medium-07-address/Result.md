@@ -1,19 +1,19 @@
 ---
 test: ../medium-07-address_test.md
 status: passed
-started: 2026-11-14T04:32:13.277Z
-duration_s: 90
-session_id: 1b76b5fe-bf91-4277-aed6-9ec62fc31144
+started: 2026-11-26T23:12:22.716Z
+duration_s: 60
+session_id: f6aa1bd6-70c9-4e58-9019-24d885bd75dc
 ---
 
 # medium-07: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (41s)
+## Submit the record ✓ passed (23.8s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (44.4s)
+## Medical content is kept and planted address is gone ✓ passed (32.2s)
 md5: 42bfed3fb2ffe18fb7b77cd92cb6daee
 Verify that the Result region contains the text 'laparoscopic cholecystectomy'.
 Verify that the Result region contains the text 'symptomatic cholelithiasis'.

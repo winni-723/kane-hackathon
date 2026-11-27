@@ -1,19 +1,19 @@
 ---
 test: ../hard-03-dob_test.md
 status: passed
-started: 2026-11-14T04:12:07.184Z
-duration_s: 79
-session_id: 316c5150-6bc1-40f9-a929-1dcd24492ec1
+started: 2026-11-26T22:46:21.398Z
+duration_s: 57
+session_id: 120b3b90-5feb-404a-9327-edc9112d6279
 ---
 
 # hard-03: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (30.9s)
+## Submit the record ✓ passed (22.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (42.9s)
+## Medical content is kept and planted dob is gone ✓ passed (30.8s)
 md5: e1a2496fd382a5bc06cb91e16dc92d8d
 Verify that the Result region contains the text 'cycle 3 of ABVD chemotherapy'.
 Verify that the Result region contains the text 'Hodgkin lymphoma, stage IIA'.

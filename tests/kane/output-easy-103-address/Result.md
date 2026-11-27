@@ -1,19 +1,19 @@
 ---
 test: ../easy-103-address_test.md
 status: passed
-started: 2026-11-15T18:07:26.482Z
-duration_s: 91
-session_id: 9d7bec02-f9f2-44bf-8813-bd166e6a4232
+started: 2026-11-26T22:36:41.475Z
+duration_s: 70
+session_id: 9a9e9481-7214-4d74-baf7-84fe27346bb2
 ---
 
 # easy-103: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (40.3s)
+## Submit the record ✓ passed (26.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (45.7s)
+## Medical content is kept and planted address is gone ✓ passed (38.9s)
 md5: 582331d149ffc7f85463fea678dda781
 Verify that the Result region contains the text 'Progressive exertional dyspnea'.
 Verify that the Result region contains the text 'Ejection fraction 35%'.

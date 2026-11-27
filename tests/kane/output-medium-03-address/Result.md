@@ -1,19 +1,19 @@
 ---
 test: ../medium-03-address_test.md
 status: passed
-started: 2026-11-14T04:15:53.688Z
-duration_s: 90
-session_id: daadef7e-4b5b-46b2-bd1c-279d0b3c8a73
+started: 2026-11-26T23:04:36.503Z
+duration_s: 64
+session_id: 90098a21-4cd1-47d2-ba5d-90406bab9c6e
 ---
 
 # medium-03: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (35.5s)
+## Submit the record ✓ passed (22.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (49s)
+## Medical content is kept and planted address is gone ✓ passed (37.1s)
 md5: 82356046d0052b35ab4fcdbb65532098
 Verify that the Result region contains the text 'LDL cholesterol is 172 mg/dL'.
 Verify that the Result region contains the text 'HDL is 38 mg/dL'.

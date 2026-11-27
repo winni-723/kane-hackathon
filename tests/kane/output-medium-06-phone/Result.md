@@ -1,19 +1,19 @@
 ---
 test: ../medium-06-phone_test.md
 status: passed
-started: 2026-11-14T03:31:38.647Z
-duration_s: 89
-session_id: 515bd80a-1f8a-4352-a2a7-8628b3441092
+started: 2026-11-26T23:11:38.284Z
+duration_s: 55
+session_id: 1646ffa0-0e2c-4b2c-9d65-d8520776204e
 ---
 
 # medium-06: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (32.7s)
+## Submit the record ✓ passed (20.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (51.6s)
+## Medical content is kept and planted phone is gone ✓ passed (31.3s)
 md5: 41943e6b7b852d9602e0ab06569cafb7
 Verify that the Result region contains the text '4-year-old son'.
 Verify that the Result region contains the text 'fever of 102.4 F'.

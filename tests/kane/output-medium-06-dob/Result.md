@@ -1,19 +1,19 @@
 ---
 test: ../medium-06-dob_test.md
 status: passed
-started: 2026-11-14T04:19:13.301Z
-duration_s: 78
-session_id: df22d7ba-e3e2-44e3-affd-0cdc751cec30
+started: 2026-11-26T23:10:32.105Z
+duration_s: 58
+session_id: 6f19608f-1711-466b-9ba4-03c2b19023b2
 ---
 
 # medium-06: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (35.5s)
+## Submit the record ✓ passed (21.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (38.7s)
+## Medical content is kept and planted dob is gone ✓ passed (33s)
 md5: be3b2eec74eb36932266a737cef5aa07
 Verify that the Result region contains the text '4-year-old son'.
 Verify that the Result region contains the text 'fever of 102.4 F'.

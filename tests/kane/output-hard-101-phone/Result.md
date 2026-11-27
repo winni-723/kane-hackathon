@@ -1,19 +1,19 @@
 ---
 test: ../hard-101-phone_test.md
 status: passed
-started: 2026-11-15T17:48:50.399Z
-duration_s: 71
-session_id: aee8987f-b37f-491a-99cf-3ea4f5777a32
+started: 2026-11-26T22:55:43.662Z
+duration_s: 57
+session_id: c6edcff0-4143-47a6-8cd6-f5789269edae
 ---
 
 # hard-101: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (24.3s)
+## Submit the record ✓ passed (23.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (39.3s)
+## Medical content is kept and planted phone is gone ✓ passed (29.8s)
 md5: 2940a46b974e0918661e603960056891
 Verify that the Result region contains the text 'witnessed tonic-clonic seizure'.
 Verify that the Result region contains the text 'GCS 13 improving to 15'.

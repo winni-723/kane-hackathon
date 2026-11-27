@@ -1,24 +1,24 @@
 ---
 test: ../upload-docx-03_test.md
 status: passed
-started: 2026-11-18T03:38:29.189Z
-duration_s: 244
-session_id: 8e2ceb66-2ced-49e6-82ee-9dec3deea2f5
+started: 2026-11-26T23:30:17.089Z
+duration_s: 145
+session_id: 14fdad25-d848-4e60-b4f7-6b8255a7fe13
 ---
 
 # upload-docx-03: a Word file is de-identified, medical content is kept — Result
 
-## Load the sample file ✓ passed (38.9s)
+## Load the sample file ✓ passed (31.8s)
 md5: 6927b4519d24f976a766c41e73f37fb7
 Select 'Clinic note (Word)' in the sample file menu and click the Load sample file button.
 Verify that the medical record text box contains the text '35-year-old woman'.
 
-## Process it ✓ passed (27.5s)
+## Process it ✓ passed (16.2s)
 md5: 167407626c87811fbdb2115478dd6038
 Click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted identifiers are gone ✓ passed (123.2s)
+## Medical content is kept and planted identifiers are gone ✓ passed (93.2s)
 md5: 7104605bec21c774551b7b4c3e70212e
 Verify that the Result region contains the text '35-year-old woman'.
 Verify that the Result region contains the text 'Hashimoto thyroiditis'.

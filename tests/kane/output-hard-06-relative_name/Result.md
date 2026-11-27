@@ -1,19 +1,19 @@
 ---
 test: ../hard-06-relative_name_test.md
 status: passed
-started: 2026-11-14T04:52:56.021Z
-duration_s: 87
-session_id: 7df44f1d-c292-499d-ab0b-168ef921d81e
+started: 2026-11-26T22:54:20.425Z
+duration_s: 56
+session_id: bb0963fd-8927-4645-8d4c-26bc54823943
 ---
 
 # hard-06: relative name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (37.6s)
+## Submit the record ✓ passed (22.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted relative name is gone ✓ passed (44.1s)
+## Medical content is kept and planted relative name is gone ✓ passed (29.6s)
 md5: 833366e730e77c57c2fd5346045a0cc2
 Verify that the Result region contains the text 'end-stage COPD'.
 Verify that the Result region contains the text '3 L/min home oxygen'.

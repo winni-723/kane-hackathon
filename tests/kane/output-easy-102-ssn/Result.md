@@ -1,19 +1,19 @@
 ---
 test: ../easy-102-ssn_test.md
 status: passed
-started: 2026-11-15T18:07:22.551Z
-duration_s: 82
-session_id: d63756b1-05f9-4c64-b9d1-5a8d359fa949
+started: 2026-11-26T22:35:57.828Z
+duration_s: 57
+session_id: 2261eac2-e395-43b1-91b5-cf7532d7cf45
 ---
 
 # easy-102: ssn is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (32.7s)
+## Submit the record ✓ passed (23.8s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted ssn is gone ✓ passed (44s)
+## Medical content is kept and planted ssn is gone ✓ passed (29.5s)
 md5: 7d575458cc65c0b60f8e65008277771f
 Verify that the Result region contains the text 'CBC with differential'.
 Verify that the Result region contains the text 'Fatigue and heavy menstrual bleeding for 3 months'.

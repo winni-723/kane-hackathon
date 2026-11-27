@@ -1,19 +1,19 @@
 ---
 test: ../easy-03-address_test.md
 status: passed
-started: 2026-11-14T04:06:03.087Z
-duration_s: 85
-session_id: d9ee1a6a-4bfe-45c6-8b01-fb53a22a4720
+started: 2026-11-26T22:21:25.058Z
+duration_s: 63
+session_id: 86d58607-4a83-42fb-94e4-349727e0994e
 ---
 
 # easy-03: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33.8s)
+## Submit the record ✓ passed (24.7s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (45.6s)
+## Medical content is kept and planted address is gone ✓ passed (34.3s)
 md5: 90b2248024ca22eef79c85204d2289ae
 Verify that the Result region contains the text 'Severe unilateral headache'.
 Verify that the Result region contains the text 'photophobia'.

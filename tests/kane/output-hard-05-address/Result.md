@@ -1,19 +1,19 @@
 ---
 test: ../hard-05-address_test.md
 status: passed
-started: 2026-11-14T04:48:50.488Z
-duration_s: 80
-session_id: c46a9b7c-44e2-4112-a850-bfbb78d7ac9c
+started: 2026-11-26T22:50:46.702Z
+duration_s: 82
+session_id: c6b8e7e8-6018-4b6f-a7ff-3741552307c0
 ---
 
 # hard-05: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (31.9s)
+## Submit the record ✓ passed (24s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (43.5s)
+## Medical content is kept and planted address is gone ✓ passed (54.4s)
 md5: e6872db4b5fb9e6660cfe55da6075fd8
 Verify that the Result region contains the text 'Stage 4 chronic kidney disease'.
 Verify that the Result region contains the text 'IgA nephropathy'.

@@ -1,24 +1,24 @@
 ---
 test: ../upload-csv-01_test.md
 status: passed
-started: 2026-11-18T03:38:28.833Z
-duration_s: 292
-session_id: b418a645-0833-4a69-9838-7868f39a19eb
+started: 2026-11-26T23:29:25.460Z
+duration_s: 184
+session_id: 8b31c698-0b5f-48f5-9828-b04482f1f51c
 ---
 
 # upload-csv-01: every row of a CSV file reaches the research table, de-identified — Result
 
-## Load the sample file ✓ passed (36.7s)
+## Load the sample file ✓ passed (28.8s)
 md5: 2c85c9d5de4142c9d64527fa39ad696f
 Select 'Patient list (CSV)' in the sample file menu and click the Load sample file button.
 Verify that the page contains the text '5 records loaded'.
 
-## Build the research table ✓ passed (29.3s)
+## Build the research table ✓ passed (19.1s)
 md5: a28b7837f972474ccda708944cbdb4a9
 Click the Process button.
 Verify that the Research table heading is visible.
 
-## Diagnoses and medications are shown and planted identifiers are not ✓ passed (171.2s)
+## Diagnoses and medications are shown and planted identifiers are not ✓ passed (132s)
 md5: df6ff0d8aa842b6fd192a2a0222a6196
 Verify that the Research table region contains the text 'Type 2 diabetes mellitus'.
 Verify that the Research table region contains the text 'Metformin 1000 mg twice daily'.

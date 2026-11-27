@@ -1,19 +1,19 @@
 ---
 test: ../easy-103-insurance_id_test.md
 status: passed
-started: 2026-11-15T18:08:54.823Z
-duration_s: 82
-session_id: 73a272a6-69da-48bc-94d5-f401a43e1eb8
+started: 2026-11-26T22:37:03.598Z
+duration_s: 55
+session_id: 365e5abc-162c-4035-a00a-dcb75e1d1933
 ---
 
 # easy-103: insurance id is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (35.5s)
+## Submit the record ✓ passed (20.2s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted insurance id is gone ✓ passed (40.3s)
+## Medical content is kept and planted insurance id is gone ✓ passed (30.8s)
 md5: 2ec49244750f31712e010b3b205d0515
 Verify that the Result region contains the text 'Progressive exertional dyspnea'.
 Verify that the Result region contains the text 'Ejection fraction 35%'.

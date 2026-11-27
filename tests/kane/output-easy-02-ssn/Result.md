@@ -1,19 +1,19 @@
 ---
 test: ../easy-02-ssn_test.md
 status: passed
-started: 2026-11-14T03:43:36.811Z
-duration_s: 87
-session_id: 9f7af424-0736-402b-aa92-85137107ed8f
+started: 2026-11-26T22:21:20.599Z
+duration_s: 57
+session_id: 5f0ecd5f-f83f-4051-bbd4-f2008b67d095
 ---
 
 # easy-02: ssn is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (34.9s)
+## Submit the record ✓ passed (24.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted ssn is gone ✓ passed (41.5s)
+## Medical content is kept and planted ssn is gone ✓ passed (28.8s)
 md5: 8022e1937dc3b37588051e60ccd05da9
 Verify that the Result region contains the text 'type 2 diabetes mellitus'.
 Verify that the Result region contains the text 'HbA1c 7.8%'.

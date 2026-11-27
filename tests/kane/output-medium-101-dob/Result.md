@@ -1,19 +1,19 @@
 ---
 test: ../medium-101-dob_test.md
 status: passed
-started: 2026-11-15T17:53:28.188Z
-duration_s: 65
-session_id: 5be87ad7-d9f3-40b6-a6fc-5655eb3e0ce3
+started: 2026-11-26T23:15:03.106Z
+duration_s: 60
+session_id: 34b69546-e0f4-4729-9783-c49ce3c94491
 ---
 
 # medium-101: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (24.4s)
+## Submit the record ✓ passed (22.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (36.3s)
+## Medical content is kept and planted dob is gone ✓ passed (33.1s)
 md5: 4c920200228690b03d9cf2623125d35b
 Verify that the Result region contains the text '34 weeks gestation'.
 Verify that the Result region contains the text 'BP 162/104'.

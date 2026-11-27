@@ -1,19 +1,19 @@
 ---
 test: ../medium-101-mrn_test.md
 status: passed
-started: 2026-11-15T17:53:50.387Z
-duration_s: 64
-session_id: 0b250605-3dc3-4de4-94e4-703727379b43
+started: 2026-11-26T23:15:47.353Z
+duration_s: 62
+session_id: 0db274b8-59d5-42c8-9c15-77f1ef6cd295
 ---
 
 # medium-101: mrn is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (25.1s)
+## Submit the record ✓ passed (24.2s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted mrn is gone ✓ passed (34.6s)
+## Medical content is kept and planted mrn is gone ✓ passed (33.9s)
 md5: 0ad88abf802548e776dd87d791d1b581
 Verify that the Result region contains the text '34 weeks gestation'.
 Verify that the Result region contains the text 'BP 162/104'.

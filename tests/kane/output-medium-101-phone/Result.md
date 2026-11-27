@@ -1,19 +1,19 @@
 ---
 test: ../medium-101-phone_test.md
 status: passed
-started: 2026-11-15T17:54:41.333Z
-duration_s: 68
-session_id: 248a4196-b101-440a-9ac2-64b04ee27639
+started: 2026-11-26T23:16:11.650Z
+duration_s: 59
+session_id: 78947beb-4294-4568-b6ab-484c86506407
 ---
 
 # medium-101: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (24.9s)
+## Submit the record ✓ passed (20.4s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (39.4s)
+## Medical content is kept and planted phone is gone ✓ passed (35s)
 md5: fd8c55577eaa48f7e302c2314a23ebe6
 Verify that the Result region contains the text '34 weeks gestation'.
 Verify that the Result region contains the text 'BP 162/104'.

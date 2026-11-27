@@ -1,19 +1,19 @@
 ---
 test: ../hard-03-relative_name_test.md
 status: passed
-started: 2026-11-14T04:46:48.960Z
-duration_s: 82
-session_id: dd5c14ef-695b-4e60-aea3-9dad30cb0be1
+started: 2026-11-26T22:47:33.428Z
+duration_s: 57
+session_id: 04ebe548-4c9b-4d18-806c-b337f4905831
 ---
 
 # hard-03: relative name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (35.8s)
+## Submit the record ✓ passed (24.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted relative name is gone ✓ passed (41.5s)
+## Medical content is kept and planted relative name is gone ✓ passed (28.9s)
 md5: c281943a4e631e718c3ecb459d22615a
 Verify that the Result region contains the text 'cycle 3 of ABVD chemotherapy'.
 Verify that the Result region contains the text 'Hodgkin lymphoma, stage IIA'.

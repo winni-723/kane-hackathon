@@ -1,19 +1,19 @@
 ---
 test: ../medium-102-email_test.md
 status: passed
-started: 2026-11-15T17:56:13.661Z
-duration_s: 70
-session_id: 0879daaf-a9c9-46cf-ad56-4b84b9d98f07
+started: 2026-11-26T23:18:09.485Z
+duration_s: 62
+session_id: 1a05660b-8ef2-47a4-9c58-d138e98ddb67
 ---
 
 # medium-102: email is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (26.2s)
+## Submit the record ✓ passed (22.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted email is gone ✓ passed (39s)
+## Medical content is kept and planted email is gone ✓ passed (35.5s)
 md5: f96111338671b5452f92b3843b7cbac9
 Verify that the Result region contains the text 'post-op day 2'.
 Verify that the Result region contains the text 'right hemicolectomy'.

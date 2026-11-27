@@ -1,19 +1,19 @@
 ---
 test: ../medium-104-phone_test.md
 status: passed
-started: 2026-11-15T18:02:07.706Z
-duration_s: 81
-session_id: 772f8499-38a1-4850-a678-454615788410
+started: 2026-11-26T23:23:08.333Z
+duration_s: 58
+session_id: 4375b850-827d-4e39-ba61-620e713135ce
 ---
 
 # medium-104: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (31.8s)
+## Submit the record ✓ passed (24.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (40.3s)
+## Medical content is kept and planted phone is gone ✓ passed (29.7s)
 md5: 260e81dd9b72292d338f3225a71c8973
 Verify that the Result region contains the text 'left total knee replacement'.
 Verify that the Result region contains the text 'Knee flexion is 85 degrees'.

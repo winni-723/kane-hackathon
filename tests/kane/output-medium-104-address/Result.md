@@ -1,19 +1,19 @@
 ---
 test: ../medium-104-address_test.md
 status: passed
-started: 2026-11-15T18:00:27.677Z
-duration_s: 93
-session_id: 42345f4f-f469-4ffe-9ccc-917b860863ea
+started: 2026-11-26T23:21:40.476Z
+duration_s: 61
+session_id: b907d677-2e8e-4e67-9ad1-954fec858f1f
 ---
 
 # medium-104: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.9s)
+## Submit the record ✓ passed (24.5s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (50.2s)
+## Medical content is kept and planted address is gone ✓ passed (32.4s)
 md5: c082f9225a9f841ac007dce14ee83c58
 Verify that the Result region contains the text 'left total knee replacement'.
 Verify that the Result region contains the text 'Knee flexion is 85 degrees'.

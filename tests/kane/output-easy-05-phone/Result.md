@@ -1,19 +1,19 @@
 ---
 test: ../easy-05-phone_test.md
 status: passed
-started: 2026-11-14T03:26:53.826Z
-duration_s: 94
-session_id: 33fca171-789c-431c-b082-53be2f8a95bb
+started: 2026-11-26T22:26:51.893Z
+duration_s: 56
+session_id: ea9fc263-3664-4d40-b99a-5689e37b553f
 ---
 
 # easy-05: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (44.5s)
+## Submit the record ✓ passed (20.7s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (41.6s)
+## Medical content is kept and planted phone is gone ✓ passed (31.4s)
 md5: fcac82513e1118bf36ad6dc683530088
 Verify that the Result region contains the text 'Wheezing and nighttime cough for 3 days'.
 Verify that the Result region contains the text 'Mild persistent asthma'.

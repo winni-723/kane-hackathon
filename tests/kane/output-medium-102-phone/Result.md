@@ -1,14 +1,14 @@
 ---
 test: ../medium-102-phone_test.md
 status: passed
-started: 2026-11-15T17:57:13.048Z
-duration_s: 66
-session_id: c957a576-23e4-4e36-900e-0d2e8bbd8696
+started: 2026-11-26T23:18:38.322Z
+duration_s: 61
+session_id: 80907d6d-65e5-4598-9aaa-251b35523979
 ---
 
 # medium-102: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (26s)
+## Submit the record ✓ passed (21.2s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.

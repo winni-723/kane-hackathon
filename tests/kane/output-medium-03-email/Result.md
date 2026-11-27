@@ -1,19 +1,19 @@
 ---
 test: ../medium-03-email_test.md
 status: passed
-started: 2026-11-14T03:49:45.627Z
-duration_s: 86
-session_id: 8683a5ce-8b6e-4b84-ae3a-b024f3a04e32
+started: 2026-11-26T23:04:50.163Z
+duration_s: 58
+session_id: ff2b521e-c3b6-46f4-be77-41065a068ffa
 ---
 
 # medium-03: email is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.8s)
+## Submit the record ✓ passed (24.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted email is gone ✓ passed (42.8s)
+## Medical content is kept and planted email is gone ✓ passed (29.1s)
 md5: 326ce6f25999547f0c0ff699a9f47a2f
 Verify that the Result region contains the text 'LDL cholesterol is 172 mg/dL'.
 Verify that the Result region contains the text 'HDL is 38 mg/dL'.

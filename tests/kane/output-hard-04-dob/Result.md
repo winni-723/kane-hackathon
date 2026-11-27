@@ -1,19 +1,19 @@
 ---
 test: ../hard-04-dob_test.md
 status: passed
-started: 2026-11-14T04:12:26.518Z
-duration_s: 83
-session_id: d15287a9-2c52-4757-a1be-9d720b6d507c
+started: 2026-11-26T22:48:37.693Z
+duration_s: 60
+session_id: bdf008cd-9262-499f-b41b-534af8463aa1
 ---
 
 # hard-04: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (31.8s)
+## Submit the record ✓ passed (25.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (46s)
+## Medical content is kept and planted dob is gone ✓ passed (30s)
 md5: 02aab1b37eaac25d117e3f60508f0a30
 Verify that the Result region contains the text '34 y/o veteran'.
 Verify that the Result region contains the text 'nightmares and hypervigilance'.

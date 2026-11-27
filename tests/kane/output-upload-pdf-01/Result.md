@@ -1,24 +1,24 @@
 ---
 test: ../upload-pdf-01_test.md
 status: passed
-started: 2026-11-18T03:38:29.376Z
-duration_s: 232
-session_id: 995ed07f-14f8-439f-9a83-a7ddf9bb7130
+started: 2026-11-26T23:31:18.523Z
+duration_s: 146
+session_id: 13b576ad-58b7-41b4-8bec-86baf63b54ea
 ---
 
 # upload-pdf-01: a PDF file is de-identified, medical content is kept — Result
 
-## Load the sample file ✓ passed (42.5s)
+## Load the sample file ✓ passed (35.7s)
 md5: e9c2c6177a1e643cf355fd950b9c60d4
 Select 'Lab report (PDF)' in the sample file menu and click the Load sample file button.
 Verify that the medical record text box contains the text 'Comprehensive Metabolic Panel'.
 
-## Process it ✓ passed (27.7s)
+## Process it ✓ passed (19.8s)
 md5: 167407626c87811fbdb2115478dd6038
 Click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted identifiers are gone ✓ passed (107.6s)
+## Medical content is kept and planted identifiers are gone ✓ passed (86.6s)
 md5: 4bb876808143c62bacae5145d7f68a17
 Verify that the Result region contains the text 'Comprehensive Metabolic Panel'.
 Verify that the Result region contains the text 'Serum, fasting'.

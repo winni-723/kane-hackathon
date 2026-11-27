@@ -1,19 +1,19 @@
 ---
 test: ../easy-06-dob_test.md
 status: passed
-started: 2026-11-14T04:09:26.847Z
-duration_s: 85
-session_id: 8cfb3582-8890-4321-b46b-71fab8e3776b
+started: 2026-11-26T22:27:56.094Z
+duration_s: 58
+session_id: 30545764-021d-4920-975d-bc941b5f7751
 ---
 
 # easy-06: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (39.9s)
+## Submit the record ✓ passed (23.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (39.9s)
+## Medical content is kept and planted dob is gone ✓ passed (31.2s)
 md5: 09b083ecb8cd51977e529e14208da01c
 Verify that the Result region contains the text 'Major depressive disorder'.
 Verify that the Result region contains the text 'Sertraline 100 mg daily'.

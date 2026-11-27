@@ -1,19 +1,19 @@
 ---
 test: ../medium-102-relative_name_test.md
 status: passed
-started: 2026-11-15T17:57:32.060Z
-duration_s: 67
-session_id: 7084505a-7d33-44c0-9209-4878f95ed5f3
+started: 2026-11-26T23:19:20.451Z
+duration_s: 69
+session_id: b810a8c7-dbfb-4af0-918c-143ac0249cf6
 ---
 
 # medium-102: relative name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (24.8s)
+## Submit the record ✓ passed (26.4s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted relative name is gone ✓ passed (37.8s)
+## Medical content is kept and planted relative name is gone ✓ passed (39.4s)
 md5: de4282c379f435520a51639e1cb873df
 Verify that the Result region contains the text 'post-op day 2'.
 Verify that the Result region contains the text 'right hemicolectomy'.

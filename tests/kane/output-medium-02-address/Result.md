@@ -1,19 +1,19 @@
 ---
 test: ../medium-02-address_test.md
 status: passed
-started: 2026-11-14T04:15:11.674Z
-duration_s: 90
-session_id: 9c70d123-1ea7-4cb0-acfd-58121b2ded8b
+started: 2026-11-26T23:02:17.469Z
+duration_s: 62
+session_id: db335910-f2f4-429f-9e6e-4a0f1a134678
 ---
 
 # medium-02: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (38.8s)
+## Submit the record ✓ passed (24.5s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (46.3s)
+## Medical content is kept and planted address is gone ✓ passed (34.1s)
 md5: fa77d93b0b66fc46c29b7b2862000bad
 Verify that the Result region contains the text '45-year-old man'.
 Verify that the Result region contains the text 'crushing substernal chest pain'.

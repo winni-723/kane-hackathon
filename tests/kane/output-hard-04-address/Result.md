@@ -1,19 +1,19 @@
 ---
 test: ../hard-04-address_test.md
 status: passed
-started: 2026-11-14T04:46:59.906Z
-duration_s: 85
-session_id: 9407edb2-9e58-4947-aadf-205f4523a849
+started: 2026-11-26T23:36:54.354Z
+duration_s: 58
+session_id: f7697bc1-cb12-4c80-b904-56c255dc099e
 ---
 
 # hard-04: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.3s)
+## Submit the record ✓ passed (23s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (43.4s)
+## Medical content is kept and planted address is gone ✓ passed (30.8s)
 md5: 3ee6428a0ad374b9307d0cbf8a2cb230
 Verify that the Result region contains the text '34 y/o veteran'.
 Verify that the Result region contains the text 'nightmares and hypervigilance'.

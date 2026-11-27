@@ -1,19 +1,19 @@
 ---
 test: ../hard-05-phone_test.md
 status: passed
-started: 2026-11-14T04:50:07.976Z
-duration_s: 82
-session_id: 017b2eba-62b1-41f7-bcbf-f532ed513c44
+started: 2026-11-26T22:52:05.050Z
+duration_s: 59
+session_id: e155af30-874b-4718-804c-86c3404af6ff
 ---
 
 # hard-05: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33.6s)
+## Submit the record ✓ passed (21.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (43.8s)
+## Medical content is kept and planted phone is gone ✓ passed (33s)
 md5: 195e1ababe2d9c13e4cfac92c11cb066
 Verify that the Result region contains the text 'Stage 4 chronic kidney disease'.
 Verify that the Result region contains the text 'IgA nephropathy'.

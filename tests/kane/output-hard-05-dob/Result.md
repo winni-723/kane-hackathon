@@ -1,19 +1,19 @@
 ---
 test: ../hard-05-dob_test.md
 status: passed
-started: 2026-11-14T04:12:44.326Z
-duration_s: 86
-session_id: 32181c1d-8389-4578-9498-1225133c1503
+started: 2026-11-26T22:50:52.906Z
+duration_s: 61
+session_id: 65ac7506-fa35-494b-9be0-9a6bba654012
 ---
 
 # hard-05: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33.3s)
+## Submit the record ✓ passed (22.7s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (47.6s)
+## Medical content is kept and planted dob is gone ✓ passed (34.2s)
 md5: 0e675a430d957d3990706d46b74cae3b
 Verify that the Result region contains the text 'Stage 4 chronic kidney disease'.
 Verify that the Result region contains the text 'IgA nephropathy'.

@@ -1,19 +1,19 @@
 ---
 test: ../easy-03-phone_test.md
 status: passed
-started: 2026-11-14T02:32:55.741Z
-duration_s: 92
-session_id: ef695af3-605b-449c-97f2-241fadf8f10f
+started: 2026-11-26T22:22:34.055Z
+duration_s: 63
+session_id: e6fda6a2-4841-4794-be0f-8c219b8230a6
 ---
 
 # easy-03: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (35.6s)
+## Submit the record ✓ passed (24.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (51s)
+## Medical content is kept and planted phone is gone ✓ passed (34.7s)
 md5: 6ad81dcc71a9ffd14f0ec3f5cd417c14
 Verify that the Result region contains the text 'Severe unilateral headache'.
 Verify that the Result region contains the text 'photophobia'.

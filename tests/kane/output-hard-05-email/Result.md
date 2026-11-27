@@ -1,19 +1,19 @@
 ---
 test: ../hard-05-email_test.md
 status: passed
-started: 2026-11-14T03:48:14.822Z
-duration_s: 85
-session_id: e7b42a90-d0f9-4935-a649-44cb5a3827d0
+started: 2026-11-26T22:50:55.595Z
+duration_s: 62
+session_id: 713619b0-5dda-4fdf-a8fc-af0546ec7cf3
 ---
 
 # hard-05: email is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (31s)
+## Submit the record ✓ passed (23.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted email is gone ✓ passed (48.4s)
+## Medical content is kept and planted email is gone ✓ passed (34.8s)
 md5: 9e72b1b2e42cbc6f6bfd0174c96f19d7
 Verify that the Result region contains the text 'Stage 4 chronic kidney disease'.
 Verify that the Result region contains the text 'IgA nephropathy'.

@@ -1,19 +1,19 @@
 ---
 test: ../medium-01-address_test.md
 status: passed
-started: 2026-11-14T04:13:59.039Z
-duration_s: 83
-session_id: dc59abdc-1452-4b28-ab24-e10ca6744e16
+started: 2026-11-26T23:00:11.295Z
+duration_s: 62
+session_id: f760f811-442d-4ff7-a5d6-12d92561d1fc
 ---
 
 # medium-01: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33.9s)
+## Submit the record ✓ passed (25.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (43.8s)
+## Medical content is kept and planted address is gone ✓ passed (32.8s)
 md5: 2d75512dc1f4f6de352f5bbfeb14da7d
 Verify that the Result region contains the text '72-year-old woman'.
 Verify that the Result region contains the text 'atrial fibrillation'.

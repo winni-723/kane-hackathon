@@ -1,19 +1,19 @@
 ---
 test: ../medium-101-name_test.md
 status: passed
-started: 2026-11-15T17:54:00.782Z
+started: 2026-11-26T23:16:11.425Z
 duration_s: 68
-session_id: 9296e2b8-544b-4f99-874d-174559312251
+session_id: eaf7a19d-92ef-4bfa-a997-e1f0a0046bd5
 ---
 
 # medium-101: name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (27.1s)
+## Submit the record ✓ passed (25.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted name is gone ✓ passed (36.4s)
+## Medical content is kept and planted name is gone ✓ passed (38.7s)
 md5: f1d006a81be02b5936ffb0028059f5b9
 Verify that the Result region contains the text '34 weeks gestation'.
 Verify that the Result region contains the text 'BP 162/104'.

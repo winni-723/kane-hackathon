@@ -1,19 +1,19 @@
 ---
 test: ../easy-04-dob_test.md
 status: passed
-started: 2026-11-14T04:07:37.224Z
-duration_s: 84
-session_id: 1ed10acc-c09d-4b4b-abcd-9a5f84945f6f
+started: 2026-11-26T22:23:42.668Z
+duration_s: 55
+session_id: 4782d287-1dcd-463d-a78d-8caffd4c16c9
 ---
 
 # easy-04: dob is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (39.1s)
+## Submit the record ✓ passed (22.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted dob is gone ✓ passed (38.8s)
+## Medical content is kept and planted dob is gone ✓ passed (28s)
 md5: 0581c7a789ab67310f7d40e60ec02042
 Verify that the Result region contains the text 'Resting tremor of the right hand'.
 Verify that the Result region contains the text "Parkinson's disease".

@@ -1,19 +1,19 @@
 ---
 test: ../hard-103-email_test.md
 status: passed
-started: 2026-11-15T17:51:20.244Z
+started: 2026-11-26T22:58:39.620Z
 duration_s: 66
-session_id: fff36e5e-61c4-4984-a113-a9a0cca22f72
+session_id: 08ecbc76-7672-41bc-95e9-d40578e6664c
 ---
 
 # hard-103: email is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (27.7s)
+## Submit the record ✓ passed (27.3s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted email is gone ✓ passed (33.7s)
+## Medical content is kept and planted email is gone ✓ passed (35.5s)
 md5: 9f6409b24a0ebd6217db781fe90b9d96
 Verify that the Result region contains the text 'MMSE 21/30'.
 Verify that the Result region contains the text 'Geriatric Depression Scale 9/15'.

@@ -1,19 +1,19 @@
 ---
 test: ../hard-103-name_test.md
 status: passed
-started: 2026-11-15T17:51:22.394Z
-duration_s: 69
-session_id: 2148bf34-824a-4dd5-9dd0-15cfecb91102
+started: 2026-11-26T22:58:57.378Z
+duration_s: 65
+session_id: 434e8c81-cd7b-4038-9298-fd5c2252b9ed
 ---
 
 # hard-103: name is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (26.3s)
+## Submit the record ✓ passed (20.1s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted name is gone ✓ passed (37.8s)
+## Medical content is kept and planted name is gone ✓ passed (41.7s)
 md5: 2264ac6f6a094a13fec082d250ac16c3
 Verify that the Result region contains the text 'MMSE 21/30'.
 Verify that the Result region contains the text 'Geriatric Depression Scale 9/15'.

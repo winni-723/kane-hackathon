@@ -1,19 +1,19 @@
 ---
 test: ../easy-06-mrn_test.md
 status: passed
-started: 2026-11-14T03:46:46.595Z
-duration_s: 79
-session_id: 998d1c35-457e-49ab-995d-d2a5fec06d2d
+started: 2026-11-26T22:28:12.975Z
+duration_s: 59
+session_id: 8feefc94-0ade-46e8-b9d1-8b96aa4569d8
 ---
 
 # easy-06: mrn is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (33s)
+## Submit the record ✓ passed (23.9s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted mrn is gone ✓ passed (39.4s)
+## Medical content is kept and planted mrn is gone ✓ passed (31.4s)
 md5: f443c760ac730a4a1a443e0ff979ddb9
 Verify that the Result region contains the text 'Major depressive disorder'.
 Verify that the Result region contains the text 'Sertraline 100 mg daily'.

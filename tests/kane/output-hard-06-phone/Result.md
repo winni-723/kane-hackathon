@@ -1,19 +1,19 @@
 ---
 test: ../hard-06-phone_test.md
 status: passed
-started: 2026-11-14T04:51:47.745Z
-duration_s: 83
-session_id: 2a5d1189-6427-41ea-975b-20fad02137fe
+started: 2026-11-26T22:54:14.700Z
+duration_s: 61
+session_id: 6980390b-d4f4-4a3d-ba6b-8e916785e2ba
 ---
 
 # hard-06: phone is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (36.7s)
+## Submit the record ✓ passed (24.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted phone is gone ✓ passed (40.9s)
+## Medical content is kept and planted phone is gone ✓ passed (32.8s)
 md5: 1e0a83306d87c36c9f4df0fbf08d8dde
 Verify that the Result region contains the text 'end-stage COPD'.
 Verify that the Result region contains the text '3 L/min home oxygen'.

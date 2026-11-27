@@ -1,19 +1,19 @@
 ---
 test: ../hard-103-address_test.md
 status: passed
-started: 2026-11-15T17:50:10.449Z
-duration_s: 64
-session_id: b818fe81-f2d1-4fcb-97b9-7d665dff03bc
+started: 2026-11-26T22:57:41.871Z
+duration_s: 67
+session_id: e5264bf1-7582-4dea-9245-1ee1255d5a19
 ---
 
 # hard-103: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (25.6s)
+## Submit the record ✓ passed (29.6s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (33.5s)
+## Medical content is kept and planted address is gone ✓ passed (33.9s)
 md5: 4b230e7ae9dcfd94a6296248aaaa9c4c
 Verify that the Result region contains the text 'MMSE 21/30'.
 Verify that the Result region contains the text 'Geriatric Depression Scale 9/15'.

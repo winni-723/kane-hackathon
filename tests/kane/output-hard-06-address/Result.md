@@ -1,19 +1,19 @@
 ---
 test: ../hard-06-address_test.md
 status: passed
-started: 2026-11-14T04:51:27.558Z
-duration_s: 78
-session_id: 57a82f08-3a25-4a32-b5dd-11723a80a464
+started: 2026-11-26T22:53:11.545Z
+duration_s: 55
+session_id: c5d06b63-59a5-44c4-b12e-839b4ec81cc7
 ---
 
 # hard-06: address is removed, medical content is kept — Result
 
-## Submit the record ✓ passed (34.2s)
+## Submit the record ✓ passed (20s)
 md5: 7ef29b9c7a260041bed51782ba9120f0
 Type {{record}} into the medical record text box and click the Process button.
 Verify that the Result heading is visible.
 
-## Medical content is kept and planted address is gone ✓ passed (39.5s)
+## Medical content is kept and planted address is gone ✓ passed (30.8s)
 md5: 5a819d54bf345abad98f5220c5d1d3cb
 Verify that the Result region contains the text 'end-stage COPD'.
 Verify that the Result region contains the text '3 L/min home oxygen'.
