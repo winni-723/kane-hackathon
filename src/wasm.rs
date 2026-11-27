@@ -56,6 +56,56 @@ pub fn read_file(kind: &str, bytes: &[u8]) -> String {
     }
 }
 
+#[cfg(feature = "ocr")]
+pub use ocr_api::*;
+
+/// Reading scanned PDFs: only in the OCR build (`--features wasm,ocr`), which
+/// the page loads in its own worker when a visitor asks for a scan to be read.
+#[cfg(feature = "ocr")]
+mod ocr_api {
+    use super::error;
+    use crate::ocr;
+    use std::cell::RefCell;
+    use wasm_bindgen::prelude::*;
+
+    thread_local! {
+        /// The OCR models, loaded once by `ocr_load` and kept for every scan.
+        static OCR: RefCell<Option<ocr::Reader>> = const { RefCell::new(None) };
+    }
+
+    /// Loads the OCR models (the page fetches them from its own site only when a
+    /// visitor asks for a scan to be read). `{}`, or `{"error": "..."}`.
+    #[wasm_bindgen]
+    pub fn ocr_load(detection_model: Vec<u8>, recognition_model: Vec<u8>) -> String {
+        match ocr::Reader::new(detection_model, recognition_model) {
+            Ok(reader) => {
+                OCR.with(|r| *r.borrow_mut() = Some(reader));
+                "{}".to_string()
+            }
+            Err(_) => error("The text recognition models could not be loaded."),
+        }
+    }
+
+    /// Whether `ocr_load` has run.
+    #[wasm_bindgen]
+    pub fn ocr_ready() -> bool {
+        OCR.with(|r| r.borrow().is_some())
+    }
+
+    /// Reads a scanned PDF by OCR into one plain-text record, not yet
+    /// de-identified: `{"records": [text]}`, or `{"error": "..."}`.
+    #[wasm_bindgen]
+    pub fn ocr_read(bytes: &[u8]) -> String {
+        OCR.with(|r| match r.borrow().as_ref() {
+            None => error("The text recognition models are not loaded."),
+            Some(reader) => match reader.text_from_scan(bytes) {
+                Ok(text) => serde_json::json!({ "records": [text] }).to_string(),
+                Err(e) => error(&e.to_string()),
+            },
+        })
+    }
+}
+
 fn error(message: &str) -> String {
     serde_json::json!({ "error": message }).to_string()
 }

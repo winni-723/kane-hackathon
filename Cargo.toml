@@ -5,8 +5,11 @@ edition = "2024"
 
 [dependencies]
 axum = { version = "0.8.9", optional = true }
+jpeg-decoder = { version = "0.3.2", default-features = false, optional = true }
+ocrs = { version = "0.14.0", default-features = false, features = ["onnx"], optional = true }
 pdf-extract = "0.12.1"
 regex = "1.13.1"
+rten = { version = "0.28.0", default-features = false, features = ["onnx_format"], optional = true }
 serde = { version = "1.0.229", features = ["derive"] }
 tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net"], optional = true }
 tower-http = { version = "0.7.1", features = ["fs"], optional = true }
@@ -18,10 +21,14 @@ zip = { version = "9.6.1", default-features = false, features = ["deflate"] }
 #   default ("server"): the binary that serves the page's files.
 #   "wasm": the engine compiled to WebAssembly, run by the page in the
 #   visitor's browser (scripts/build-wasm.sh), so records never leave it.
+#   "ocr": reading scanned PDFs (src/ocr.rs). In the browser it is a second,
+#   separate build ("wasm" + "ocr"), fetched only when a visitor asks for a
+#   scan to be read, so the page itself loads no faster or slower.
 [features]
-default = ["server"]
+default = ["server", "ocr"]
 server = ["dep:axum", "dep:tokio", "dep:tower-http"]
 wasm = ["dep:serde_json", "dep:wasm-bindgen"]
+ocr = ["dep:ocrs", "dep:rten", "dep:jpeg-decoder"]
 
 [lib]
 crate-type = ["rlib", "cdylib"]
@@ -37,3 +44,19 @@ serde_json = "1.0.154"
 # pdf-extract with one fix to how it reads font widths; see vendor/README.md.
 [patch.crates-io]
 pdf-extract = { path = "vendor/pdf-extract" }
+
+# OCR runs a neural network; unoptimised, one page takes minutes in tests.
+[profile.dev.package.ocrs]
+opt-level = 3
+[profile.dev.package.rten]
+opt-level = 3
+[profile.dev.package.rten-gemm]
+opt-level = 3
+[profile.dev.package.rten-vecmath]
+opt-level = 3
+[profile.dev.package.rten-simd]
+opt-level = 3
+[profile.dev.package.rten-tensor]
+opt-level = 3
+[profile.dev.package.rten-imageproc]
+opt-level = 3

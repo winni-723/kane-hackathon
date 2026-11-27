@@ -1,4 +1,5 @@
 import { assureRecords, processRecord, readDocument } from "./engine";
+import { readScan } from "./ocr";
 import { SAMPLE_BATCH, SAMPLE_RECORD } from "./samples";
 
 interface Extracted {
@@ -102,6 +103,10 @@ let errorEl: HTMLParagraphElement | null = null;
 function clearError(): void {
   errorEl?.remove();
   errorEl = null;
+  ocrOffer?.remove();
+  ocrOffer = null;
+  ocrNote?.remove();
+  ocrNote = null;
 }
 
 function showError(message: string): void {
@@ -122,6 +127,10 @@ interface LoadedFile {
   kind: "text" | "docx" | "csv" | "pdf" | null;
   records: string[];
   error: string | null;
+  // Kept so a scan can still be read by OCR if the visitor asks.
+  file: File;
+  // The text was read from a scan by OCR.
+  ocr: boolean;
 }
 let loadedFiles: LoadedFile[] = [];
 // Records waiting to be processed together. While this is set, Process
@@ -188,7 +197,7 @@ function renderFileList(files: LoadedFile[]): HTMLElement {
     const info = document.createElement("span");
     info.className = "file-info";
     info.textContent =
-      file.error ?? plural(file.records.length, "record", "records");
+      file.error ?? plural(file.records.length, "record", "records") + (file.ocr ? " · read by OCR" : "");
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "remove";
@@ -198,11 +207,92 @@ function renderFileList(files: LoadedFile[]): HTMLElement {
       setLoadedFiles(loadedFiles.filter((other) => other !== file));
       input.focus();
     });
-    row.append(kind, name, info, remove);
+    row.append(kind, name, info);
+    if (isScan(file)) {
+      const read = document.createElement("button");
+      read.type = "button";
+      read.className = "read-ocr";
+      read.textContent = "Read with OCR";
+      read.setAttribute("aria-label", `Read ${file.name} with OCR`);
+      read.addEventListener("click", async () => {
+        read.disabled = true;
+        remove.disabled = true;
+        row.classList.remove("failed");
+        read.textContent = "Reading…";
+        info.textContent = "Reading the scan with OCR, in this browser. The first scan takes longer.";
+        const done = await ocrFile(file);
+        setLoadedFiles(loadedFiles.map((other) => (other === file ? done : other)));
+      });
+      row.append(read);
+    }
+    row.append(remove);
     list.append(row);
   }
   wrap.append(head, list);
   return wrap;
+}
+
+// --- reading scans by OCR -----------------------------------------------------
+// A scanned PDF has no text, only a picture of the page. It is refused like
+// any file that cannot be read, and the visitor may then choose to have the
+// picture read by OCR, here in the browser. OCR can misread, so the text it
+// gives is the visitor's to check.
+
+const SCAN_MESSAGE = "Scanned documents cannot be read here";
+
+function isScan(file: LoadedFile): boolean {
+  return file.kind === "pdf" && file.error !== null && file.error.includes(SCAN_MESSAGE);
+}
+
+// The file once OCR has read it, or with the reason it could not.
+async function ocrFile(file: LoadedFile): Promise<LoadedFile> {
+  try {
+    const text = await readScan(new Uint8Array(await file.file.arrayBuffer()));
+    return { ...file, records: [text], error: null, ocr: true };
+  } catch (error) {
+    const why = error instanceof Error && error.message ? error.message : "The scan could not be read.";
+    return { ...file, error: `OCR could not read this scan. ${why}` };
+  }
+}
+
+// Offered under the error message when the one file loaded is a scan.
+let ocrOffer: HTMLDivElement | null = null;
+// Shown over the text box when the text in it was read by OCR.
+let ocrNote: HTMLParagraphElement | null = null;
+
+function offerOcr(file: LoadedFile): void {
+  const offer = document.createElement("div");
+  offer.className = "ocr-offer";
+  const text = document.createElement("p");
+  text.textContent =
+    "You can have the picture read by OCR, in this browser. The scan is not sent anywhere. OCR can misread, so check the text before you share the result.";
+  const read = document.createElement("button");
+  read.type = "button";
+  read.textContent = "Read the scan with OCR";
+  read.addEventListener("click", async () => {
+    read.disabled = true;
+    read.textContent = "Reading…";
+    text.textContent = "Reading the scan with OCR, in this browser. The first scan takes longer.";
+    const done = await ocrFile(file);
+    if (done.error !== null) {
+      text.textContent = done.error;
+      read.remove();
+      return;
+    }
+    clearError();
+    clearLoadedFiles();
+    clearRecordBoxes();
+    input.value = done.records[0];
+    ocrNote = document.createElement("p");
+    ocrNote.className = "ocr-note";
+    ocrNote.setAttribute("role", "status");
+    ocrNote.textContent = "This text was read from a scan by OCR. Check it against the scan, then press Process.";
+    input.before(ocrNote);
+    input.focus();
+  });
+  offer.append(text, read);
+  ocrOffer = offer;
+  (errorEl ?? inputPanel.lastElementChild ?? inputPanel).after(offer);
 }
 
 // --- the placeholders the engine writes ---------------------------------------
@@ -662,7 +752,14 @@ sampleDocButton.addEventListener("click", async () => {
 // others are still loaded.
 async function readOne(file: File): Promise<LoadedFile> {
   const kind = fileKind(file);
-  const loaded = (records: string[], error: string | null): LoadedFile => ({ name: file.name, kind, records, error });
+  const loaded = (records: string[], error: string | null): LoadedFile => ({
+    name: file.name,
+    kind,
+    records,
+    error,
+    file,
+    ocr: false,
+  });
   if (kind === null) {
     return loaded([], "Only plain text (.txt), Word (.docx), CSV (.csv) and PDF (.pdf) files can be loaded.");
   }
@@ -689,6 +786,7 @@ async function loadFiles(files: File[]): Promise<void> {
     const [only] = read;
     if (only.error !== null) {
       showError(only.error);
+      if (isScan(only)) offerOcr(only);
       return;
     }
     if (only.records.length === 1) {

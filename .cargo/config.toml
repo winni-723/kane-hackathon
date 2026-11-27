@@ -1,0 +1,4 @@
+# The browser build uses WebAssembly SIMD (every major browser since 2021):
+# OCR of a scanned page runs several times faster with it.
+[target.wasm32-unknown-unknown]
+rustflags = ["-C", "target-feature=+simd128"]

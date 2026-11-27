@@ -1,0 +1,105 @@
+{
+  "record_id": "pdf-06",
+  "scan_of": "pdf-03",
+  "format": "pdf",
+  "difficulty": "hard",
+  "planted_pii": [
+    {
+      "type": "name",
+      "text": "Hollis"
+    },
+    {
+      "type": "name",
+      "text": "Dwayne"
+    },
+    {
+      "type": "dob",
+      "text": "7/3/1949"
+    },
+    {
+      "type": "ssn",
+      "text": "987-65-4331"
+    },
+    {
+      "type": "phone",
+      "text": "541 555 0128"
+    },
+    {
+      "type": "phone",
+      "text": "541-555-0129"
+    },
+    {
+      "type": "address",
+      "text": "77 Juniper Hollow Rd"
+    },
+    {
+      "type": "address",
+      "text": "Pinecrest"
+    },
+    {
+      "type": "address",
+      "text": "97499"
+    },
+    {
+      "type": "insurance_id",
+      "text": "1EG4-TE5-MK72"
+    },
+    {
+      "type": "provider_name",
+      "text": "Miriam Okafor"
+    },
+    {
+      "type": "provider_name",
+      "text": "Lena Okonkwo"
+    },
+    {
+      "type": "facility_name",
+      "text": "Pinecrest Family Practice"
+    },
+    {
+      "type": "facility_name",
+      "text": "Sutter Ridge Cardiology"
+    },
+    {
+      "type": "facility_address",
+      "text": "1580 Timberline Drive"
+    },
+    {
+      "type": "facility_phone",
+      "text": "541-555-0176"
+    },
+    {
+      "type": "facility_phone",
+      "text": "541-555-0177"
+    },
+    {
+      "type": "facility_phone",
+      "text": "541-555-0178"
+    },
+    {
+      "type": "service_date",
+      "text": "11/05/2026"
+    },
+    {
+      "type": "service_date",
+      "text": "11/04/2026"
+    },
+    {
+      "type": "other_id",
+      "text": "1093847562"
+    }
+  ],
+  "must_keep": [
+    "Cardiology",
+    "Urgent",
+    "Exertional chest pain for 3 weeks",
+    "relieved by rest",
+    "new T wave inversions in V4-V6",
+    "Hypertension, hyperlipidemia, former smoker",
+    "(40 pack-years)",
+    "Lisinopril 20 mg daily",
+    "Atorvastatin",
+    "Aspirin 81 mg daily",
+    "evaluate for stress testing"
+  ]
+}

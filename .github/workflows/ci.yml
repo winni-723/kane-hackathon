@@ -40,9 +40,12 @@ jobs:
           cargo test --test extraction_test -- --nocapture scoreboard
           cargo test --test documents_test -- --nocapture scoreboard
           cargo test --test pdf_test -- --nocapture scoreboard
+          cargo test --test ocr_test -- --nocapture scoreboard
       - name: Clippy, the engine built for the browser
         id: clippy-wasm
-        run: cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm -- -D warnings
+        run: |
+          cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm -- -D warnings
+          cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm,ocr -- -D warnings
       - name: The browser engine answers exactly as the native one
         id: wasm-matches-native
         run: |

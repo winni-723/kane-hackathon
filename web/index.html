@@ -636,6 +636,38 @@
         padding-left: 4.8rem;
         color: var(--danger);
       }
+      .file-row .read-ocr {
+        flex: none;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.85rem;
+      }
+      /* --- reading a scan by OCR ------------------------------------------- */
+      .ocr-offer {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin: 0.6rem 0 0;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+      }
+      .ocr-offer p {
+        flex: 1 1 18rem;
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-2);
+      }
+      .ocr-note {
+        margin: 0 0 0.5rem;
+        padding: 0.55rem 0.9rem;
+        border: 1px solid var(--warn-border);
+        border-radius: var(--radius);
+        background: var(--warn-bg);
+        color: var(--warn-text);
+        font-size: 0.9rem;
+      }
       @media (max-width: 600px) {
         .file-row {
           flex-wrap: wrap;

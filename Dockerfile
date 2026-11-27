@@ -11,9 +11,15 @@ RUN version=$(grep -A1 '^name = "wasm-bindgen"$' Cargo.lock | sed -n 's/^version
  && cargo install wasm-bindgen-cli --version "$version" --locked
 # The PDF library, patched; Cargo.toml points pdf-extract here.
 COPY vendor ./vendor
+# Build flags for the browser build (WebAssembly SIMD, for OCR).
+COPY .cargo ./.cargo
 COPY src ./src
 RUN cargo build --release --lib --target wasm32-unknown-unknown --no-default-features --features wasm \
  && wasm-bindgen --target web --out-dir /engine-wasm --out-name engine \
+      target/wasm32-unknown-unknown/release/deid_server.wasm
+# The same engine with OCR, fetched by the page only when a scan is to be read.
+RUN cargo build --release --lib --target wasm32-unknown-unknown --no-default-features --features wasm,ocr \
+ && wasm-bindgen --target web --out-dir /ocr-wasm --out-name ocr \
       target/wasm32-unknown-unknown/release/deid_server.wasm
 
 # --- front end -----------------------------------------------------------------
@@ -23,6 +29,7 @@ COPY web/package.json web/package-lock.json ./
 RUN npm ci
 COPY web/ ./
 COPY --from=engine /engine-wasm ./src/engine-wasm
+COPY --from=engine /ocr-wasm ./src/ocr-wasm
 RUN npm run build
 
 # --- server: serves web/dist and nothing else -------------------------------
@@ -31,7 +38,7 @@ WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
 COPY vendor ./vendor
 COPY src ./src
-RUN cargo build --release --bin deid-server
+RUN cargo build --release --bin deid-server --no-default-features --features server
 
 # --- runtime -----------------------------------------------------------------
 FROM debian:bookworm-slim

@@ -64,6 +64,7 @@ step build    cargo build
 step clippy   cargo clippy --all-targets -- -D warnings
 step test     cargo test
 step clippy-wasm cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm -- -D warnings
+step clippy-ocr-wasm cargo clippy --lib --target wasm32-unknown-unknown --no-default-features --features wasm,ocr -- -D warnings
 step wasm     bash scripts/build-wasm.sh
 step native   sh -c 'cargo run -q --example native_outputs > "$0/native-outputs.json"' "$LOG_DIR"
 step wasm-matches-native node scripts/wasm-matches-native.mjs "$LOG_DIR/native-outputs.json"

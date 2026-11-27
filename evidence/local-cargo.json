@@ -1,11 +1,11 @@
 {
   "format": "deid-test-evidence/1",
-  "generated_at": "2026-11-26T05:32:53.609Z",
+  "generated_at": "2026-11-26T23:49:20.158Z",
   "source": {
-    "commit_at_run": "3aec878cb38cdb99568c25998b0e66b337f7326c",
+    "commit_at_run": "224dfb1726615f61eb58daf86aea23edc485ebde",
     "uncommitted_changes": true,
-    "tracked_files": 638,
-    "tracked_files_sha256": "4ff6be56dc714adc259af0319926d7c68be0eba59f8927c40ed52316d380728b",
+    "tracked_files": 649,
+    "tracked_files_sha256": "e1569d3cc059baa529cf4bbaa8f4b630f1345370a74053b0cee36705521c83a1",
     "check_with": "node scripts/tree-hash.mjs"
   },
   "layer": "1: answer keys, build, clippy, cargo test, browser engine equals native, tsc",
@@ -35,6 +35,10 @@
       "status": "pass"
     },
     {
+      "name": "clippy-ocr-wasm",
+      "status": "pass"
+    },
+    {
       "name": "wasm",
       "status": "pass"
     },
@@ -52,7 +56,7 @@
     }
   ],
   "rust_tests": {
-    "passed": 146,
+    "passed": 153,
     "failed": 0
   }
 }
