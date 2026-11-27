@@ -773,7 +773,8 @@ async function readOne(file: File): Promise<LoadedFile> {
 }
 
 // A single file with one record opens in the text box, as a pasted record
-// would; a single file that cannot be read says why. Anything more joins
+// would; a single file that cannot be read says why and empties the text
+// box, so nothing loaded before it is left to process. Anything more joins
 // the list of loaded files, which Process turns into the research table.
 async function loadFiles(files: File[]): Promise<void> {
   if (files.length === 0) return;
@@ -785,6 +786,10 @@ async function loadFiles(files: File[]): Promise<void> {
   if (loadedFiles.length === 0 && read.length === 1) {
     const [only] = read;
     if (only.error !== null) {
+      // The text of an earlier record must not stay behind, to be processed
+      // as if it came from this file.
+      clearRecordBoxes();
+      input.value = "";
       showError(only.error);
       if (isScan(only)) offerOcr(only);
       return;
