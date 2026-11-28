@@ -4,8 +4,9 @@
 
 Upload medical records as text, Word, CSV or PDF files, or paste one, and get
 them back with the personal identifiers removed and the medical content
-intact; several records become a research table. Download either. The
-engine runs in your browser: records and files are never sent to a server.
+intact; several records become a research table. Download either. A scanned
+PDF can be read by OCR first, at your choice. The engine and the OCR run in
+your browser: records and files are never sent to a server.
 
 Built for the Kane CLI Online Hackathon with Claude Code as the coding agent.
 Every engine change in this repo went through the same loop: the agent edits
@@ -36,11 +37,21 @@ saves every de-identified record in one text file.
 
 No files to hand? Pick a fictional sample in the menu under the upload area
 (a progress note, three records, a clinic note in Word, a patient list in
-CSV, a lab report PDF, or a scanned fax that the site must refuse) and press
-**Load sample file**. A single record can also be pasted under **Or paste one
-record**. More sample records are in `tests/fixtures/` (the `text` field of
-each file); Word documents, CSV exports and PDFs laid out like real ones are
-in `tests/documents/`.
+CSV, a lab report PDF, or a scanned fax) and press **Load sample file**.
+Records can also be pasted under **Or paste records**, one per box. More
+sample records are in `tests/fixtures/` (the `text` field of each file); Word
+documents, CSV exports and PDFs laid out like real ones are in
+`tests/documents/`.
+
+A scanned PDF has no text to read, so the page says so and offers **Read the
+scan with OCR**. The text read goes into the text box with a note to check it
+against the scan, and **Process** then de-identifies it like any other
+record. In a list of several files, a scanned one gets **Read with OCR**. OCR
+can misread a character, so the page never reads a scan without being asked.
+
+Every result comes with **Record details** (what was removed, the research
+columns) and an **Assurance report** (counts of what was replaced, any
+identifier-shaped leftovers, and group sizes for a set of records).
 
 | Record | Age | Sex | Diagnoses | Medications |
 |---|---|---|---|---|
@@ -113,6 +124,11 @@ alike, are read and de-identified there. The server (`src/main.rs`) only hands
 out the page's files and has no route that accepts a record; the browser's
 network panel shows nothing sent when you press Process. After the page has
 loaded it works offline.
+
+OCR is a second WebAssembly build (`--features wasm,ocr`, `web/src/ocr-worker.ts`)
+with its two models in `web/public/models/`, about 20 MB in all. The page
+fetches it from its own site only when a visitor asks for a scan to be read,
+so the page itself loads as before (the engine build is 3.3 MB).
 
 Layer 1 checks that the browser build answers exactly as the native one:
 `scripts/wasm-matches-native.mjs` runs all 102 test inputs (every record, Word
@@ -201,12 +217,15 @@ presses Process, and checks the Result region against the answer key. The
 whole suite is replayed on every run with `--no-adaptive-heal`, so a regression
 fails instead of the test being rewritten to fit.
 
-The suite holds 188 tests: every record and identifier kind in the
+The suite holds 195 tests: every record and identifier kind in the
 development set (110), every held-out hand-written record (56), three of the
-Synthea records (13), five tests of the page itself, and four of file upload.
+Synthea records (13), twelve tests of the page itself, and four of file upload.
 The page tests pick the progress note and the three-record sample from the
-menu, check Record details, open records from the research table and step
-through them with Next, and download the result.
+menu, check Record details and the Assurance report, open records from the
+research table and step through them with Next, paste several records, list
+loaded files, start over, download the result, read the scanned fax with OCR
+and check the Result against its answer key, and check that a scan loaded
+after a sample leaves nothing of the sample to process.
 The upload tests (`scripts/gen-kane-upload-test.mjs`) pick a file from the
 page's sample menu, so it is read the same way as a file the visitor
 chooses: a Word note and a PDF lab report are checked against their
@@ -382,8 +401,34 @@ headed by one. Each rule came with tests of what it must leave alone
 (`Patient: COPD, CHF`, `Sent to Reference Laboratory`, `Specialty:
 Cardiology`). Like the Word set, these five PDFs are a development set, made
 by a script: 100/100 says the loop works on them, not how an unfamiliar
-template will fare. A PDF with no text layer, a scan, is refused with a
-message that says so, never shown as an empty "de-identified" result.
+template will fare. A PDF with no text layer, a scan, is refused by the
+text reader with a message that says so, never shown as an empty
+"de-identified" result; the visitor can then have it read by OCR.
+
+### Scanned PDFs
+
+`src/ocr.rs` takes the largest picture on each page of a scan (JPEG or
+Flate/LZW; gray, RGB, CMYK or 1-bit) and reads it with
+[ocrs](https://github.com/robertknight/ocrs), a Rust OCR library, in the
+browser. The scan in the test set, pdf-06, is the fax pdf-03 printed and
+scanned, so it is scored against pdf-03's answer key
+(`tests/documents/ocr/keys/pdf-06.json`) by `tests/ocr_test.rs`: reading
+must lose nothing the key names, every identifier must go, and every piece of
+medical content must stay.
+
+| | Read | Identifiers removed | Medical content kept |
+|---|---|---|---|
+| First run, OCR text as it came | 21/21 | 18/21 | 11/11 |
+| After the loop | 21/21 | 21/21 | 11/11 |
+
+The three misses were OCR's punctuation, not the engine: a comma read for
+the period of `Dr.`, a period for the comma of `City, ST 12345`, and a lower
+case `l` for the last capital `I` of an ID. `ocr::tidy` restores those three
+forms only, with tests of ordinary text it must leave alone. This is one
+document, and the rules were already tuned on its text, so 21/21 says the
+path works, not how well OCR reads an unfamiliar scan. Reading takes about a
+second per page natively and from a few seconds to half a minute in a
+browser.
 
 ### What Kane caught
 
@@ -396,6 +441,11 @@ message that says so, never shown as an empty "de-identified" result.
   recording whose answer-key checks are not exact.
 - With phone masking switched off as a control, every replayed phone test
   failed. Switched back on, they passed.
+- Loading a sample and then a scan left the sample in the text box, so
+  Process de-identified it as if it came from the scan. The fix empties the
+  text box when a single file cannot be read. Replayed with the fix taken
+  out, the new test fails: *"The Record details panel shows populated
+  clinical fields instead of the required no-identifiers result."*
 
 ## Limits
 
@@ -415,10 +465,11 @@ in 4 of 10: a diagnosis is found when a field or a set phrase introduces
 it, and new documents word it differently. The Synthea layout
 (`MEDICATIONS:` and `CONDITIONS:` sections) is not read at all. Empty
 cells are the designed failure: the table should be missing a value rather
-than holding a wrong one. Files can be plain text, Word (`.docx`), CSV or PDF
-with a text layer. There is no Excel file (save it as CSV), no scanned
-document or photo of paper (that needs OCR, and one misread character lets a
-name through; a scanned PDF is refused), no HL7, FHIR or DICOM,
+than holding a wrong one. Files can be plain text, Word (`.docx`), CSV or PDF.
+A scanned PDF is read by OCR only when the visitor asks, and OCR has been
+measured on one scan: one misread character can let a name through, so the
+text read must be checked against the scan. There is no Excel file (save it
+as CSV), no photo of paper (only scanned PDFs), no HL7, FHIR or DICOM,
 and no batch larger than 200 files or 1000 records. A CSV file comes back as
 the research table and one de-identified record per row, not as a CSV with
 the same columns. Identifiers are replaced with tags, not with realistic
@@ -440,15 +491,18 @@ src/engine.rs          rules for everything except names
 src/names.rs           finding and removing names
 src/extract.rs         the research columns: age, sex, diagnoses, medications
 src/document.rs        reads a Word document, CSV file or PDF into text
+src/ocr.rs             reads a scanned PDF by OCR (feature `ocr`)
 src/wasm.rs            the engine as the page calls it, built to WebAssembly
 src/main.rs            Axum server: serves the page's files, accepts no records
-scripts/build-wasm.sh  builds the browser engine into web/src/engine-wasm/
+scripts/build-wasm.sh  builds the browser engine into web/src/engine-wasm/ and OCR into web/src/ocr-wasm/
 scripts/wasm-matches-native.mjs layer 1: browser engine output equals native output
 examples/native_outputs.rs the native side of that comparison
 tests/documents/       6 Word documents and 2 CSV exports, with answer keys
 tests/documents/pdf/   6 PDFs (one scanned), with answer keys
 tests/documents_test.rs layer 1 tests of the documents
 tests/pdf_test.rs      layer 1 tests of the PDFs
+tests/documents/ocr/   the answer key for the scanned PDF, read by OCR
+tests/ocr_test.rs      layer 1 tests of OCR
 scripts/gen-docx.py    builds the Word documents from tests/documents/source
 scripts/gen-pdf.py     builds the PDFs with Chrome, Word and PyMuPDF
 vendor/pdf-extract/    the PDF library, with one fix (see vendor/README.md)
@@ -458,6 +512,7 @@ tests/extraction_test.rs layer 1 tests of the research table
 tests/kane-live/       Kane test against the deployed site
 web/                   TypeScript + Vite front end; web/src/engine-worker.ts runs the engine
 web/public/samples/    the page's sample files: copies of four test files (checked byte for byte)
+web/public/models/     the OCR models (CC BY-SA 4.0, attribution in its README)
 tests/fixtures/        20 development records with answer keys
 tests/heldout/         10 held-out records with answer keys
 tests/synthea/         58 Synthea records with answer keys

@@ -1,11 +1,11 @@
 {
   "format": "deid-test-evidence/1",
-  "generated_at": "2026-11-27T08:11:49.012Z",
+  "generated_at": "2026-11-28T06:07:13.976Z",
   "source": {
-    "commit_at_run": "4c99e8599594bee42d7ed22ee4d0cfcf5c30e79d",
+    "commit_at_run": "028480b2cd6382a9d5c1b807cbe0b0ca10011196",
     "uncommitted_changes": true,
-    "tracked_files": 651,
-    "tracked_files_sha256": "bd047c48cba8402803d06fa950baadc6e25e373ca22c4d1c6ba4f73abccaee93",
+    "tracked_files": 652,
+    "tracked_files_sha256": "e4fa1d51cd5eb6b0092d3b39670f2a52170161c58b980cd89eebec037437b176",
     "check_with": "node scripts/tree-hash.mjs"
   },
   "layer": "2: Kane CLI replays every saved test against the page in a real browser",
@@ -32,977 +32,977 @@
     {
       "test": "easy-01-address_test.md",
       "status": "passed",
-      "duration_s": 33
+      "duration_s": 44
     },
     {
       "test": "easy-01-dob_test.md",
       "status": "passed",
-      "duration_s": 33
+      "duration_s": 44
     },
     {
       "test": "easy-01-mrn_test.md",
       "status": "passed",
-      "duration_s": 31
+      "duration_s": 42
     },
     {
       "test": "easy-01-name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 9
     },
     {
       "test": "easy-01-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "easy-02-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-02-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-02-email_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-02-name_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-02-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-02-ssn_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-03-address_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "easy-03-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "easy-03-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "easy-03-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "easy-03-relative_name_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "easy-04-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "easy-04-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-04-insurance_id_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-04-mrn_test.md",
       "status": "passed",
-      "duration_s": 7
+      "duration_s": 6
     },
     {
       "test": "easy-04-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-04-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 6
     },
     {
       "test": "easy-05-address_test.md",
       "status": "passed",
-      "duration_s": 12
+      "duration_s": 8
     },
     {
       "test": "easy-05-dob_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 7
     },
     {
       "test": "easy-05-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 6
     },
     {
       "test": "easy-05-phone_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 7
     },
     {
       "test": "easy-05-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "easy-06-address_test.md",
       "status": "passed",
-      "duration_s": 13
+      "duration_s": 8
     },
     {
       "test": "easy-06-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "easy-06-email_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "easy-06-mrn_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "easy-06-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "easy-06-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "easy-06-ssn_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "easy-07-address_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 7
     },
     {
       "test": "easy-07-dob_test.md",
       "status": "passed",
-      "duration_s": 12
+      "duration_s": 8
     },
     {
       "test": "easy-07-name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "easy-07-phone_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "easy-07-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "easy-101-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 6
     },
     {
       "test": "easy-101-dob_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 7
     },
     {
       "test": "easy-101-email_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "easy-101-insurance_id_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 6
     },
     {
       "test": "easy-101-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "easy-101-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-101-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "easy-102-address_test.md",
       "status": "passed",
-      "duration_s": 12
+      "duration_s": 9
     },
     {
       "test": "easy-102-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "easy-102-mrn_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-102-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "easy-102-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "easy-102-ssn_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-103-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-103-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-103-insurance_id_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "easy-103-name_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "easy-103-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "easy-s16-address_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-s16-dob_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-s16-name_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-s16-ssn_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-s17-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-s17-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-s17-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "easy-s17-ssn_test.md",
       "status": "passed",
-      "duration_s": 7
+      "duration_s": 6
     },
     {
       "test": "easy-s22-address_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "easy-s22-dob_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-s22-id_number_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "easy-s22-name_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "easy-s22-ssn_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "hard-01-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-01-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-01-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-01-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-02-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-02-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-02-name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 9
     },
     {
       "test": "hard-02-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "hard-02-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-03-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-03-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-03-mrn_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-03-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-03-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "hard-03-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "hard-04-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-04-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "hard-04-name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "hard-04-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-04-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-04-ssn_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "hard-05-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-05-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-05-email_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 6
     },
     {
       "test": "hard-05-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "hard-05-phone_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "hard-05-relative_name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "hard-06-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-06-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-06-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "hard-06-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "hard-06-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-101-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-101-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-101-name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "hard-101-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "hard-101-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-102-address_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "hard-102-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "hard-102-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "hard-103-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "hard-103-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-103-email_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-103-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "hard-103-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "hard-103-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-01-address_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "medium-01-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-01-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "medium-01-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-01-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-02-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "medium-02-dob_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "medium-02-mrn_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-02-name_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 9
     },
     {
       "test": "medium-02-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "medium-02-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-03-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-03-dob_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "medium-03-email_test.md",
       "status": "passed",
-      "duration_s": 13
+      "duration_s": 11
     },
     {
       "test": "medium-03-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-03-phone_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 19
     },
     {
       "test": "medium-03-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 49
     },
     {
       "test": "medium-04-address_test.md",
       "status": "passed",
-      "duration_s": 12
+      "duration_s": 49
     },
     {
       "test": "medium-04-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 32
     },
     {
       "test": "medium-04-phone_test.md",
       "status": "passed",
-      "duration_s": 14
+      "duration_s": 8
     },
     {
       "test": "medium-04-relative_name_test.md",
       "status": "passed",
-      "duration_s": 16
+      "duration_s": 8
     },
     {
       "test": "medium-04-ssn_test.md",
       "status": "passed",
-      "duration_s": 14
+      "duration_s": 6
     },
     {
       "test": "medium-05-address_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "medium-05-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-05-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-05-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "medium-05-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-06-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-06-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-06-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-06-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-06-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-07-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-07-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-07-email_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-07-mrn_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 7
     },
     {
       "test": "medium-07-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-07-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-07-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-101-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-101-dob_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 8
     },
     {
       "test": "medium-101-mrn_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-101-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-101-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "medium-101-relative_name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "medium-102-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-102-dob_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-102-email_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-102-name_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 9
     },
     {
       "test": "medium-102-phone_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-102-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-103-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-103-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-103-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-103-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-103-ssn_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-104-address_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "medium-104-dob_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-104-email_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "medium-104-insurance_id_test.md",
       "status": "passed",
-      "duration_s": 13
+      "duration_s": 10
     },
     {
       "test": "medium-104-name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "medium-104-phone_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 6
     },
     {
       "test": "medium-104-relative_name_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 7
     },
     {
       "test": "ui-assurance-batch_test.md",
       "status": "passed",
-      "duration_s": 15
+      "duration_s": 14
     },
     {
       "test": "ui-assurance-record_test.md",
       "status": "passed",
-      "duration_s": 12
+      "duration_s": 10
     },
     {
       "test": "ui-batch-view_test.md",
       "status": "passed",
-      "duration_s": 11
+      "duration_s": 10
     },
     {
       "test": "ui-download_test.md",
       "status": "passed",
-      "duration_s": 8
+      "duration_s": 6
     },
     {
       "test": "ui-file-list_test.md",
       "status": "passed",
-      "duration_s": 15
+      "duration_s": 11
     },
     {
       "test": "ui-menu-batch_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 7
     },
     {
       "test": "ui-menu-details_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "ui-menu-record_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "ui-ocr-scan_test.md",
       "status": "passed",
-      "duration_s": 104
+      "duration_s": 102
     },
     {
       "test": "ui-paste-several_test.md",
       "status": "passed",
-      "duration_s": 18
+      "duration_s": 16
     },
     {
       "test": "ui-scan-clears-text_test.md",
       "status": "passed",
-      "duration_s": 9
+      "duration_s": 8
     },
     {
       "test": "ui-start-over_test.md",
       "status": "passed",
-      "duration_s": 10
+      "duration_s": 8
     },
     {
       "test": "upload-csv-01_test.md",
       "status": "passed",
-      "duration_s": 24
+      "duration_s": 18
     },
     {
       "test": "upload-docx-03_test.md",
       "status": "passed",
-      "duration_s": 14
+      "duration_s": 10
     },
     {
       "test": "upload-pdf-01_test.md",
       "status": "passed",
-      "duration_s": 15
+      "duration_s": 11
     },
     {
       "test": "upload-pdf-06_test.md",
       "status": "passed",
-      "duration_s": 17
+      "duration_s": 15
     }
   ]
 }

@@ -1,6 +1,6 @@
 # 病歷去識別化網站（Kane CLI Hackathon）
 
-Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-27（五）13:30 PST**（台灣時間 11/28（六）05:30）。原本是 11/19，主辦於 2026-11-18 延後。截止後不能再推送修正。
+Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-27（五）13:30 PST**（台灣時間 11/28（六）05:30）。原本是 11/19，主辦於 2026-11-18 延後。截止時 GitHub 上的 main 是 `224dfb1`。使用者 2026-11-28 決定：截止後當作個人專案繼續，可以推送到 main。
 
 ## 專案
 
@@ -11,10 +11,11 @@ Kane CLI Online Hackathon 參賽專案。交件截止：**2026-11-27（五）13:
 - **後端**：Rust + Axum，負責去識別化引擎。
 - **前端**：TypeScript + Vite，build 後由 Axum 直接提供靜態檔案。整個專案只部署一個服務。
 - **引擎在瀏覽器裡執行**（2026-11-18 起）：同一份 Rust 引擎以 `--features wasm` 編成 WebAssembly（`src/wasm.rs`、`bash scripts/build-wasm.sh` → `web/src/engine-wasm/`，不進 git），頁面在 Web Worker 裡執行（`web/src/engine-worker.ts`、`web/src/engine.ts`）。伺服器只提供檔案，沒有接收病歷的路由。今天的日期由頁面傳入。需要 `rustup target add wasm32-unknown-unknown` 與版本和 `Cargo.lock` 一致的 `wasm-bindgen-cli`（目前 0.2.130）。第一層的 `scripts/wasm-matches-native.mjs` 要求 102 份測試輸入在瀏覽器版與原生版的輸出完全相同。改了 `src/` 之後，`tsc` 用的是上次建置的 `engine-wasm`；`verify.sh` 會重建。
+- **OCR**（2026-11-26）：`src/ocr.rs`（feature `ocr`，原生預設開啟；`wasm` 不含它）用 ocrs 0.14 讀掃描 PDF 的頁面圖片。瀏覽器有兩份建置：引擎（`--features wasm`，約 3.3 MB）與 OCR（`--features wasm,ocr` → `web/src/ocr-wasm/`，不進 git），OCR 由 `web/src/ocr-worker.ts` 執行，只在使用者按下 OCR 按鈕時才載入。模型在 `web/public/models/`（CC BY-SA 4.0，README 裡有出處，必須保留）。`.cargo/config.toml` 為 wasm 開啟 SIMD。
 - **病歷語言**：英文，美國格式（美國電話號碼、SSN、MM/DD/YYYY 日期、美國地址與 ZIP code、MRN）。引擎規則與測試資料都以此為準。
 - **測試資料**：AI 產生的假病歷，每份附一份答案卷（JSON），放在 `tests/fixtures/`。答案卷列出「應遮蔽的文字」與「應保留的文字」。
 - **Kane 測試**：`tests/kane/*_test.md`，由答案卷產生。commit 測試檔與 `output-<stem>/Result.md`；`.internal/` 錄製留在本機。
-- **頁面功能**（2026-11-19 改為上傳優先）：最上面是上傳區（選檔或拖放 `.txt`、`.docx`、`.csv`、`.pdf`），下面一行說明病歷只在瀏覽器裡處理；接著是唯一的範例選單「Or try a fictional sample」＋「Load sample file」，6 個選項：Progress note (text)、Three records (text)，以及 4 個虛構檔（放在 `web/public/samples/`，與測試檔逐位元組相同，由 `pdf_test.rs` 的 `page_samples_are_the_test_files` 把關，走與選檔相同的上傳流程）；最後是「Or paste one record」與 Process。結果頁有 Result、Download result、Edit original、Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）。多份病歷（Three records、多選檔案或 CSV）產生 Research table：View 打開一份，Previous / Next 切換，Download CSV、Download all records（所有去識別化病歷存成一個 `.txt`）。Load sample record、Load sample batch 兩個按鈕已拿掉。Kane 錄製以角色與名稱找元素，不看位置，所以調整版面不必重錄；改按鈕或標籤名稱則要。
+- **頁面功能**（2026-11-19 改為上傳優先）：最上面是上傳區（選檔或拖放 `.txt`、`.docx`、`.csv`、`.pdf`），下面一行說明病歷只在瀏覽器裡處理；接著是唯一的範例選單「Or try a fictional sample」＋「Load sample file」，6 個選項：Progress note (text)、Three records (text)，以及 4 個虛構檔（放在 `web/public/samples/`，與測試檔逐位元組相同，由 `pdf_test.rs` 的 `page_samples_are_the_test_files` 把關，走與選檔相同的上傳流程）；最後是「Or paste one record」與 Process。結果頁有 Result、Download result、Edit original、Record details（遮蔽摘要與擷取欄位，放在 Result 區之外）。多份病歷（Three records、多選檔案或 CSV）產生 Research table：View 打開一份，Previous / Next 切換，Download CSV、Download all records（所有去識別化病歷存成一個 `.txt`）。Load sample record、Load sample batch 兩個按鈕已拿掉。掃描檔（2026-11-26）：單一掃描 PDF 顯示「Scanned documents cannot be read here」與「Read the scan with OCR」按鈕，讀出的文字放進文字框並附提醒；檔案清單裡的掃描檔有「Read with OCR」。單一檔案讀不出來時，文字框與多出的貼上框會清空（2026-11-27），以免把先前的範例當成這個檔案處理。Kane 錄製以角色與名稱找元素，不看位置，所以調整版面不必重錄；改按鈕或標籤名稱則要。
 
 ## 雙層驗證閉環
 
@@ -72,7 +73,7 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 
 ### 文件上傳（Word，之後是 CSV、PDF）
 
-使用者 2026-11-16 決定：要貼近真實產品，支援 `.docx`、CSV、PDF（有文字層），遮蔽標準採 HIPAA Safe Harbor。掃描檔 OCR、HL7/FHIR、DICOM 不做，寫在 README 的 Limits。
+使用者 2026-11-16 決定：要貼近真實產品，支援 `.docx`、CSV、PDF（有文字層），遮蔽標準採 HIPAA Safe Harbor。HL7/FHIR、DICOM 不做，寫在 README 的 Limits。掃描 PDF 的 OCR 於 2026-11-26 加入（見下面的 OCR 一段），只在使用者要求時執行。
 
 - `src/document.rs` 把上傳的文件讀成純文字（頁首、內文、註腳、頁尾；表格一列一行、儲存格以 tab 分隔），之後走同一個 `engine::process`。檔案在瀏覽器裡由引擎讀取（`read_file`），**不傳檔名、也不傳檔案**。
 - 測試集在 `tests/documents/`：`source/<id>.json`（內容與版面）→ `python scripts/gen-docx.py` → `<id>.docx`；答案卷在 `keys/<id>.json`。測試文件必須有真實版面（抬頭、頁尾重複姓名、表格、簽名區），不可只是既有病歷轉檔。
@@ -82,11 +83,12 @@ hook 回報失敗時，修程式，不要改答案卷或 Kane 測試，也不要
 - CSV（2026-11-16）：`document::records_from_csv` 把每一列轉成一份「`欄位名: 值`」的病歷，值原樣保留（不在讀取時改寫）。答案卷多一個 `table`，列出每一列在研究數據表應顯示的年齡、性別、診斷、用藥；`csv_table_scoreboard` 要求全對。第一次分數：個資 82/82、醫療 31/31、表格 37/40（調校後 40/40），不要覆蓋。`read_file` 回傳 `{ records: [...] }`。
 - 研究數據表在 Word 與 PDF 上的擷取答案卷在 `tests/extraction-documents/`（11 份，使用者 2026-11-23 定案，含說明判斷理由的 `notes`），測試在 `tests/extraction_documents_test.rs`（`GATES` 只增不減）。第一次 25/44（不要覆蓋），調校後 43/44。刻意不修的漏網：pdf-03 的 `Hypertension, hyperlipidemia`（前面沒有引導詞的清單）。看分數：`cargo test --test extraction_documents_test scoreboard -- --nocapture`。
 - 測試資料的 SSN 一律用從未發出的號段（`987-65-43xx`）。`docx-06` 原本誤用 `512-55-0199`，使用者 2026-11-16 指示改為 `987-65-4320`。
-- 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 188 個測試（頁面本身 5 個：ui-download、ui-menu-record、ui-menu-batch、ui-menu-details、ui-batch-view）。
+- 這些是開發集，目前沒有文件的測驗卷。檔案上傳由第一層把關；Kane 的上傳測試（2026-11-18，4 個，`tests/kane/upload-*_test.md`）由 `node scripts/gen-kane-upload-test.mjs <docx-03|csv-01|pdf-01|pdf-06>` 產生，從頁面的「Load sample file」選單選檔（不用檔案選擇器），錄製用 `bash scripts/author-kane-tests.sh upload:<id>`。Kane 套件共 195 個測試（頁面本身 12 個：ui-download、ui-menu-record、ui-menu-batch、ui-menu-details、ui-batch-view、ui-assurance-record、ui-assurance-batch、ui-file-list、ui-paste-several、ui-start-over、ui-ocr-scan、ui-scan-clears-text）。
 - `.testmuai/evidence/` 在 OneDrive 資料夾裡，Kane 結束時改名證據檔偶爾會被鎖住（EPERM），測試全過但沒有 `testrun_done`、exit 1。這不是測試失敗，重跑 `verify.sh` 即可（不扣 credits）。
 - 既有的 88 份病歷、答案卷與 183 個 Kane 測試不因新增格式而修改。
 - PDF（2026-11-17）：測試集在 `tests/documents/pdf/`（`source/` → `python scripts/gen-pdf.py`，需要 Chrome、Word、PyMuPDF；`keys/`）。pdf-01、04 由 Chrome 列印，02、05 由 Word 另存，03 是固定位置的傳真表單，06 是 03 的掃描檔（沒有答案卷，必須回傳 `DocumentError::Scanned`）。答案卷使用者 2026-11-17 同意，不可修改。第一層測試在 `tests/pdf_test.rs`（讀取不可遺漏、醫療資訊全保留、掃描檔被拒），看分數：`cargo test --test pdf_test scoreboard -- --nocapture`。
 - PDF 第一次分數（不要覆蓋）：套件原樣 81/100、讀壞 3、醫療 59/62；修好讀取程式、未改引擎 88/100、醫療 62/62。調校後 100/100、醫療 62/62，`tests/pdf_test.rs` 的 `GATES` 涵蓋所有（類型, 難度），只增不減。
+- OCR（2026-11-26）：pdf-06 讀成文字後以 pdf-03 的答案卷計分，答案卷在 `tests/documents/ocr/keys/pdf-06.json`（pdf-03 原樣加 `scan_of`；不放在 `pdf/keys/`，因為那裡的答案卷都對文字讀取程式的輸出檢查）。第一層測試在 `tests/ocr_test.rs`，看分數：`cargo test --test ocr_test -- --nocapture scoreboard`。第一次分數（不要覆蓋）：讀取 21/21、個資 18/21、醫療 11/11；加上 `ocr::tidy`（只修 OCR 弄錯的三種標點）後 21/21。只有一份掃描檔，是開發集。
 - `vendor/pdf-extract` 是 pdf-extract 0.12.1 加一個修正（字寬表範圍格式讀錯，造成 Chrome PDF 字中間多空格），經 `[patch.crates-io]` 使用，說明在 `vendor/README.md`。
 - 使用者 2026-11-17 指示：規則修正依主題或細項分開 commit，訊息寫清楚改了什麼，不要全部修完一次 commit；每一步開始前先說明打算做什麼。
 
@@ -173,6 +175,10 @@ Kane 測試在 commit 之後即凍結。尚未 commit 的新測試若檢查方�
 - **不同區塊的檢查放在不同步驟。** 同一步驟混合 Result 與 Record details 的檢查時，Kane 找不準區塊（ui-batch-view）。
 - **存檔測試的重播已驗證**（2026-11-14）：3 個測試重播約 40 秒、不扣 credits；暫時關掉電話遮蔽後，三個測試在 `--no-adaptive-heal` 下全部失敗。重播抓得到退步。
 - `tests/kane/output-*/.internal/` 是本機的重播錄製，內含 TestMu 帳號與專案 id，已列入 `.gitignore`。遺失的話重新建立錄製即可，建立一個測試實際約 25–35 credits（2026-11-14 以 12 個測試量得平均 34）。
+- **錄製屬於建立它的帳號（org）**。2026-11-27 換成新帳號（profile `credits`）後，Kane 拒絕重播舊錄製（`this test belongs to org …`，不扣 credits）；195 個測試全部在新帳號重新錄製，約 6,400 credits，測試檔沒有改。舊錄製備份在 `../kane-hackathon-ocr/.kane-logs/old-org-recordings/`，在新帳號下不能用。
+- **測試檔與錄製必須逐位元組相同，包括換行。** repo 設定 `core.autocrlf=true`：新的 worktree、clone 或 merge 寫出的檔案是 CRLF，而錄製時是 LF。Kane 的步驟 md5 含換行，CRLF 會讓每個測試重新撰寫（2026-11-26 一次花掉約 1,820 credits）。跑 Kane 之前先 `sed -i 's/\r$//'` 測試檔與 `Result.md`，再用 `cmp` 和錄製來源比對。
+- OneDrive 偶爾讓 Kane 無法把錄製從 `output-<stem>.staging/` 改名到 `output-<stem>/`。新錄製在 `.staging` 裡（看 `meta.json` 的 `org_id`），把它移過去即可。
+- Windows PowerShell 禁止執行 `kane-cli.ps1`，在 PowerShell 裡要用 `kane-cli.cmd`（Git Bash 不受影響）。
 - 頁面設計配合檢查：輸入區與 Result 區同一時間只顯示一個，錯誤訊息元素只在出錯時才存在。不要加入空白的佔位元素，Kane 曾把空的錯誤訊息元素誤認為 Result 區。
 
 ### Credits

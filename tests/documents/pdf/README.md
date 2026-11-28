@@ -18,7 +18,9 @@ program lays text out differently and a reader has to cope with all of them.
 | `<id>.pdf` | The document, built by `python scripts/gen-pdf.py` (needs Chrome, Word, PyMuPDF) |
 | `keys/<id>.json` | Its answer key, same format and HIPAA Safe Harbor types as `../keys/` |
 
-pdf-06 has no key: nothing can be read from it.
+pdf-06 has no key here: the text reader can read nothing from it, and
+`tests/pdf_test.rs` checks that it is refused. Read by OCR, it is scored
+against pdf-03's key; see `../ocr/`.
 
 ## First run (2026-11-17)
 
